@@ -38,12 +38,12 @@
                 <TextBlock Text="Логин" Style ="{DynamicResource MaterialDesignBody1TextBlock}" Foreground="{DynamicResource AccentGreen}" Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,70" Height="40" VerticalAlignment="Bottom" FontSize="24" FontWeight="SemiBold"/>
                 <TextBlock Text="Пароль" Style ="{DynamicResource MaterialDesignBody1TextBlock}" Foreground="{DynamicResource AccentGreen}" Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,70" Height="40" VerticalAlignment="Bottom" FontSize="24" FontWeight="SemiBold"/>
                 <Border BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="10" Grid.Row="1" HorizontalAlignment="Center"  Margin="0,0,0,10" VerticalAlignment="Bottom">
-                    <TextBox CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource AccentGreen}" Width="336" Height="23" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0"/>
+                    <TextBox CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource AccentGreen}" Width="336" Height="23" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True"/>
                 </Border>
-                <Border BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="10" Grid.Row="2" HorizontalAlignment="Center"  Margin="0,0,0,10" VerticalAlignment="Bottom">
-                    <TextBox CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource AccentGreen}"  Width="336" Height="23" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0"/>
+                <Border BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="10" Grid.Row="2" HorizontalAlignment="Center"  Margin="0,0,0,10" VerticalAlignment="Bottom" AllowDrop="True">
+                    <TextBox CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource AccentGreen}"  Width="336" Height="23" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" AutomationProperties.HelpText="Пароль" IsTabStop="False"/>
                 </Border>
-                <Button Style="{DynamicResource DefaultButton}" Background ="{DynamicResource AccentGreen}" Content="Авторизация" HorizontalAlignment="Center" Height="45" Width="346" Cursor="Hand" Click="Autorization_Click" VerticalAlignment="Center" Grid.Row="3"/>
+                <Button Style="{DynamicResource DefaultButton}" Background ="{DynamicResource AccentGreen}" Content="Авторизация" HorizontalAlignment="Center" Height="45" Width="346" Cursor="Hand" Click="Autorization_Click" VerticalAlignment="Center" Grid.Row="3" FontWeight="SemiBold"/>
             </Grid>
         </Border>
     </Grid>
