@@ -10,31 +10,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LuxCafe
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для MainMenu.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainMenu : Window
     {
-        public MainWindow()
+        public MainMenu()
         {
             InitializeComponent();
+            this.HorizontalAlignment = HorizontalAlignment.Center;
+            this.VerticalAlignment = VerticalAlignment.Center;
         }
+        
 
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void Autorization_Click(object sender, RoutedEventArgs e)
-        {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.Show();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
+
     }
 }
