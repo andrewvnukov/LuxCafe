@@ -24,5 +24,14 @@ namespace LuxCafe
         {
             InitializeComponent();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        private void Autorization_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
