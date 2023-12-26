@@ -10,86 +10,11 @@
         <ResourceDictionary>
             <SolidColorBrush x:Key="PrimaryThemeGrey" Color="#30353F"/>
             <SolidColorBrush x:Key="SecondaryThemeGrey" Color="#24292D"/>
-            <SolidColorBrush x:Key="AccentGreen" Color="#2A9F8F"/>   
+            <SolidColorBrush x:Key="SecondaryAccentGrey" Color="#20202D"/>
+            <SolidColorBrush x:Key="AccentGreen" Color="#2A9F8F"/>
+            <SolidColorBrush x:Key="SecondaryAccentGreen" Color="#1e756a"/>
             <SolidColorBrush x:Key="DefaultText" Color="#FFFFFF"/>   
 
-            
-            
-            <Style x:Key="FocusVisual">
-                <Setter >
-                    <Setter.Value>
-                        <ControlTemplate>
-                            <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueMidBrush}"/>
-
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Cursor" Value="Hand"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
-                <Setter Property="Height" Value="32"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="Padding" Value="16,4,16,4"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid>
-                                <AdornerDecorator CacheMode="{Binding (wpf:ShadowAssist.CacheMode), RelativeSource={RelativeSource Mode=Self}}">
-                                    <Grid>
-                                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20" Effect="{Binding (wpf:ElevationAssist.Elevation), Converter={x:Static converters:ShadowConverter.Instance}, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                                        <ProgressBar x:Name="ProgressBar" Background="{Binding (wpf:ButtonProgressAssist.IndicatorBackground), RelativeSource={RelativeSource Mode=TemplatedParent}}" BorderBrush="{Binding (wpf:ButtonProgressAssist.IndicatorBackground), RelativeSource={RelativeSource Mode=TemplatedParent}}" Foreground="{Binding (wpf:ButtonProgressAssist.IndicatorForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Left" Height="{TemplateBinding Height}" IsIndeterminate="{Binding (wpf:ButtonProgressAssist.IsIndeterminate), RelativeSource={RelativeSource Mode=TemplatedParent}}" Maximum="{Binding (wpf:ButtonProgressAssist.Maximum), RelativeSource={RelativeSource Mode=TemplatedParent}}" Minimum="{Binding (wpf:ButtonProgressAssist.Minimum), RelativeSource={RelativeSource Mode=TemplatedParent}}" Opacity="{Binding (wpf:ButtonProgressAssist.Opacity), RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{DynamicResource MaterialDesignLinearProgressBar}" Value="{Binding (wpf:ButtonProgressAssist.Value), RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Visibility="{Binding (wpf:ButtonProgressAssist.IsIndicatorVisible), Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}, Mode=FindAncestor}}">
-                                            <ProgressBar.Clip>
-                                                <MultiBinding Converter="{StaticResource BorderClipConverter}">
-                                                    <Binding ElementName="border" Path="ActualWidth"/>
-                                                    <Binding ElementName="border" Path="ActualHeight"/>
-                                                    <Binding ElementName="border" Path="CornerRadius"/>
-                                                    <Binding ElementName="border" Path="BorderThickness"/>
-                                                </MultiBinding>
-                                            </ProgressBar.Clip>
-                                        </ProgressBar>
-                                    </Grid>
-                                </AdornerDecorator>
-                                <wpf:Ripple ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-                                    <wpf:Ripple.Clip>
-                                        <MultiBinding Converter="{StaticResource BorderClipConverter}">
-                                            <Binding ElementName="border" Path="ActualWidth"/>
-                                            <Binding ElementName="border" Path="ActualHeight"/>
-                                            <Binding ElementName="border" Path="CornerRadius"/>
-                                            <Binding ElementName="border" Path="BorderThickness"/>
-                                        </MultiBinding>
-                                    </wpf:Ripple.Clip>
-                                </wpf:Ripple>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="wpf:ShadowAssist.Darken" TargetName="border" Value="True"/>
-                                </Trigger>
-                                <Trigger Property="IsKeyboardFocused" Value="true">
-                                    <Setter Property="wpf:ShadowAssist.Darken" TargetName="border" Value="True"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Opacity" Value="0.38"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="TextBlock.FontSize" Value="14"/>
-                <Setter Property="TextBlock.FontWeight" Value="Medium"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="wpf:ButtonAssist.CornerRadius" Value="2"/>
-                <Setter Property="wpf:ButtonProgressAssist.IndicatorBackground" Value="{DynamicResource PrimaryHueMidBrush}"/>
-                <Setter Property="wpf:ButtonProgressAssist.IndicatorForeground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
-                <Setter Property="wpf:ButtonProgressAssist.IsIndicatorVisible" Value="False"/>
-                <Setter Property="wpf:ButtonProgressAssist.Opacity" Value=".4"/>
-                <Setter Property="wpf:ElevationAssist.Elevation" Value="Dp2"/>
-                <Setter Property="wpf:RippleAssist.Feedback" Value="White"/>
-            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
