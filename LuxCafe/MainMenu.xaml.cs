@@ -25,7 +25,7 @@ namespace LuxCafe
             this.HorizontalAlignment = HorizontalAlignment.Center;
             this.VerticalAlignment = VerticalAlignment.Center;
         }
-        
+
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
