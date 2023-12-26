@@ -36,6 +36,25 @@ namespace LuxCafe
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var tappedWindow = e.OriginalSource as Button;
+
+            ActiveWindow.Source = null;
+
+            switch (tappedWindow.Name)
+                {
+                    case "EmployeesButton":
+                        ActiveWindow.Navigate(new Employees()); break;
+                    case "StatisticButton":
+                        ActiveWindow.Navigate(new Statistic()); break;
+                    case "MenuButton":
+                        ActiveWindow.Navigate(new Menu()); break;
+                    case "DishesButton":
+                        ActiveWindow.Navigate(new Dishes()); break;
+                    case "OrderButton":
+                        ActiveWindow.Navigate(new Order()); break;
+                }
+            
+            
 
         }
     }
