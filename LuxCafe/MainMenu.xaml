@@ -136,8 +136,8 @@
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.38"/>
                             </Trigger>
-                            <Trigger Property="IsMouseOver" SourceName="Root" Value="True">
-                                <Setter Property="Visibility" TargetName="MouseOverBorder" Value="Visible"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Border.BorderBrush" Value="AliceBlue"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
@@ -295,27 +295,64 @@
         <Border Grid.Row="0" Margin="10,10,5,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="20">
             <TabControl Grid.Row="0" TabStripPlacement="Left" Style="{DynamicResource TabControlStyle1}" Background="#00000000">
                 
-                <TabItem Width="175" Height="165">
+                <TabItem>
                     <TabItem.Header>
-                        <Border CornerRadius="20">
+                        
                         <StackPanel Orientation="Vertical">
-                            <materialDesign:PackIcon Kind="Human" Width="150" HorizontalAlignment="Center" Height="60"/>
+                            <materialDesign:PackIcon Kind="Human" HorizontalAlignment="Center" Height="115" Width="153"/>
                             <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какой-то еблан" HorizontalAlignment="Center"/>
                             <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какая-то должность" HorizontalAlignment="Center" FontSize="12"/>
                         </StackPanel>
-                        </Border>
                     </TabItem.Header>
                     <TabItem.Content>
-                        <Frame Source="/menu.xaml" />
+                        <Frame Source="/Profile.xaml" />
+                    </TabItem.Content>
+                </TabItem>
+                
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="Статистика" Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Frame Source ="/Statistic.xaml"/>
                     </TabItem.Content>
                 </TabItem>
                 <TabItem>
-                    asdasdasd
+                    <TabItem.Header>
+                        <TextBlock Text="Работники" Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Frame Source ="/Employees.xaml"/>
+                    </TabItem.Content>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="Меню" Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Frame Source ="/Menu.xaml"/>
+                    </TabItem.Content>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <TextBlock Text="Блюда" Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Frame Source ="/Dishes.xaml"/>
+                    </TabItem.Content>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        Заказ
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Frame Source ="/Order.xaml"/>
+                    </TabItem.Content>
                 </TabItem>
 
             </TabControl>
         </Border>
-        <Button Grid.Row="1" Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" >
+        <Button Grid.Row="1" Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" Foreground="{DynamicResource DefaultText}">
             <materialDesign:PackIcon Kind="ArrowLeft"/>
         </Button>
     </Grid>
