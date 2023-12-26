@@ -27,7 +27,6 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Content="{TemplateBinding Content}" />
-                
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -43,9 +42,7 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Margin="10,10,5,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
-            <StackPanel>
-                <Button Style="{DynamicResource MaterialDesignFlatLightButton}" Margin="5">
-                </Button>
+            </Button>
                 <Button Style="{DynamicResource MaterialDesignFlatLightButton}" Margin="5"/>
                 <Button Template ="{DynamicResource InvisibleButton}" Margin="5" Background="Aqua"/>
 
