@@ -102,45 +102,221 @@
             <Setter Property="wpf:ButtonProgressAssist.Opacity" Value=".4"/>
             <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource PrimaryHueMidBrush}"/>
         </Style>
+        <Style x:Key="MaterialDesignNavigationRailTabItem" TargetType="{x:Type TabItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+            <Setter Property="Height" Value="72"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="wpf:DialogHost.RestoreFocusElement" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}, Mode=FindAncestor}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="Root" Cursor="Hand">
+                            <Grid>
+                                <Border x:Name="MouseOverBorder" Background="{TemplateBinding Background}" CornerRadius="{Binding (wpf:NavigationRailAssist.SelectionCornerRadius), RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Opacity=".08" Visibility="Hidden"/>
+                                <wpf:ColorZone x:Name="colorZone" Background="{x:Null}" Cursor="Hand" Foreground="{Binding (wpf:ColorZoneAssist.Foreground), RelativeSource={RelativeSource Mode=TemplatedParent}}" Focusable="False" HorizontalAlignment="Stretch" Mode="{Binding (wpf:ColorZoneAssist.Mode), RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Stretch">
+                                    <wpf:Ripple x:Name="contentPresenter" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentTemplate="{TemplateBinding HeaderTemplate}" ClipToBounds="True" Content="{TemplateBinding Header}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Focusable="False" TextBlock.FontWeight="Medium" TextBlock.FontSize="15" HorizontalContentAlignment="Center" Opacity=".52" Padding="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="Center">
+                                        <wpf:Ripple.Clip>
+                                            <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                                                <Binding ElementName="MouseOverBorder" Path="ActualWidth"/>
+                                                <Binding ElementName="MouseOverBorder" Path="ActualHeight"/>
+                                                <Binding ElementName="MouseOverBorder" Path="CornerRadius"/>
+                                                <Binding ElementName="MouseOverBorder" Path="BorderThickness"/>
+                                            </MultiBinding>
+                                        </wpf:Ripple.Clip>
+                                    </wpf:Ripple>
+                                </wpf:ColorZone>
+                            </Grid>
+                            <Border x:Name="SelectionHighlightBorder" Visibility="Hidden">
+                                <Border x:Name="PART_BackgroundSelection" Background="{TemplateBinding Background}" CornerRadius="{Binding (wpf:NavigationRailAssist.SelectionCornerRadius), RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" IsHitTestVisible="False" Opacity="0.12"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.38"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" SourceName="Root" Value="True">
+                                <Setter Property="Visibility" TargetName="MouseOverBorder" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                <Setter Property="wpf:RippleAssist.IsDisabled" TargetName="contentPresenter" Value="True"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                    <Condition Property="wpf:ColorZoneAssist.Mode" Value="Standard"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                            </MultiTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
+                                    <Condition Binding="{Binding (wpf:NavigationRailAssist.ShowSelectionBackground), RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" TargetName="SelectionHighlightBorder" Value="Visible"/>
+                            </MultiDataTrigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="Standard">
+                                <Setter Property="Background" Value="{DynamicResource MaterialDesignBody}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignBody}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="PrimaryMid">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="PrimaryLight">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightForegroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="PrimaryDark">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkForegroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="SecondaryLight">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryHueLightForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueLightForegroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="SecondaryMid">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryHueMidForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueMidForegroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="SecondaryDark">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryHueDarkForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource SecondaryHueDarkForegroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="Custom">
+                                <Setter Property="Background" Value="{Binding (wpf:ColorZoneAssist.Foreground), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <Setter Property="BorderBrush" Value="{Binding (wpf:ColorZoneAssist.Foreground), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="72"/>
+            <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}"/>
+        </Style>
+        <Style x:Key="TabControlStyle1" TargetType="{x:Type TabControl}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource MaterialDesignNavigationRailTabItem}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="TabStripPlacement" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <DockPanel Background="{TemplateBinding Background}">
+                            <Grid x:Name="TabGrid" DockPanel.Dock="Left" SnapsToDevicePixels="True">
+                                <wpf:Card x:Name="shadowCard" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="{TemplateBinding BorderThickness}" UniformCornerRadius="0" Visibility="Visible"/>
+                                <wpf:ColorZone x:Name="PART_HeaderCard" Background="{Binding (wpf:ColorZoneAssist.Background), RelativeSource={RelativeSource Mode=TemplatedParent}}" Foreground="{Binding (wpf:ColorZoneAssist.Foreground), RelativeSource={RelativeSource Mode=TemplatedParent}}" Focusable="False" Mode="{Binding (wpf:ColorZoneAssist.Mode), RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Stretch">
+                                    <Grid Background="{Binding Background, ElementName=PART_HeaderCard}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <ContentPresenter x:Name="FloatingContentPanel" Grid.Column="0" Content="{Binding (wpf:NavigationRailAssist.FloatingContent), RelativeSource={RelativeSource Mode=TemplatedParent}}" Focusable="False" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center"/>
+                                        <UniformGrid x:Name="HeaderPanel" Columns="1" Grid.Column="0" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsItemsHost="True" Grid.Row="1" Rows="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        <Rectangle x:Name="DividerRect" Fill="{DynamicResource MaterialDesignDivider}" HorizontalAlignment="Right" Height="Auto" Grid.RowSpan="2" Visibility="Collapsed" Width="1"/>
+                                    </Grid>
+                                </wpf:ColorZone>
+                            </Grid>
+                            <wpf:ColorZone x:Name="PART_HeaderCardSelectedContent" Background="{x:Null}" Foreground="{DynamicResource MaterialDesignBody}" HorizontalAlignment="Stretch" Mode="Standard" Padding="{TemplateBinding Padding}" VerticalAlignment="Stretch">
+                                <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" Focusable="False" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </wpf:ColorZone>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="wpf:ElevationAssist.Elevation" Value="Dp0">
+                                <Setter Property="Visibility" TargetName="DividerRect" Value="Visible"/>
+                                <Setter Property="Visibility" TargetName="shadowCard" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="wpf:ColorZoneAssist.Mode" Value="Standard">
+                                <Setter Property="Background" TargetName="PART_HeaderCard" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Top">
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="wpf:ShadowAssist.ShadowEdges" Value="Bottom"/>
+                                <Setter Property="Grid.ColumnSpan" TargetName="DividerRect" Value="2"/>
+                                <Setter Property="Grid.RowSpan" TargetName="DividerRect" Value="1"/>
+                                <Setter Property="Height" TargetName="DividerRect" Value="1"/>
+                                <Setter Property="HorizontalAlignment" TargetName="DividerRect" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" TargetName="DividerRect" Value="Bottom"/>
+                                <Setter Property="Width" TargetName="DividerRect" Value="Auto"/>
+                                <Setter Property="Columns" TargetName="HeaderPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
+                                <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
+                                <Setter Property="Rows" TargetName="HeaderPanel" Value="1"/>
+                                <Setter Property="DockPanel.Dock" TargetName="TabGrid" Value="Top"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Bottom">
+                                <Setter Property="BorderThickness" Value="0,1,0,0"/>
+                                <Setter Property="wpf:ShadowAssist.ShadowEdges" Value="Top"/>
+                                <Setter Property="Grid.ColumnSpan" TargetName="DividerRect" Value="2"/>
+                                <Setter Property="Grid.RowSpan" TargetName="DividerRect" Value="1"/>
+                                <Setter Property="Height" TargetName="DividerRect" Value="1"/>
+                                <Setter Property="HorizontalAlignment" TargetName="DividerRect" Value="Stretch"/>
+                                <Setter Property="VerticalAlignment" TargetName="DividerRect" Value="Top"/>
+                                <Setter Property="Width" TargetName="DividerRect" Value="Auto"/>
+                                <Setter Property="Columns" TargetName="HeaderPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
+                                <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
+                                <Setter Property="Rows" TargetName="HeaderPanel" Value="1"/>
+                                <Setter Property="DockPanel.Dock" TargetName="TabGrid" Value="Bottom"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Right">
+                                <Setter Property="BorderThickness" Value="1,0,0,0"/>
+                                <Setter Property="wpf:ShadowAssist.ShadowEdges" Value="Left"/>
+                                <Setter Property="HorizontalAlignment" TargetName="DividerRect" Value="Left"/>
+                                <Setter Property="DockPanel.Dock" TargetName="TabGrid" Value="Right"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="wpf:ElevationAssist.Elevation" Value="Dp0"/>
+            <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}"/>
+            <Setter Property="wpf:ShadowAssist.ShadowEdges" Value="Right"/>
+        </Style>
     </Window.Resources>
 
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="7*"/>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Margin="10,10,5,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
 
-                <Button Click="Button_Click" Style="{DynamicResource InvisibleButton}" Grid.Row="0" Margin="5" Width="auto" Height="113" VerticalAlignment="Center">
-                    <StackPanel>
-                        <materialDesign:PackIcon Kind="Human" Width="150" HorizontalAlignment="Center" Height="60"/>
-                        <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какой-то еблан" HorizontalAlignment="Center"/>
-                        <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какая-то должность" HorizontalAlignment="Center" FontSize="12"/>
-                    </StackPanel>
-                </Button>
+        <Border Grid.Row="0" Margin="10,10,5,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="20">
+            <TabControl Grid.Row="0" TabStripPlacement="Left" Style="{DynamicResource TabControlStyle1}" Background="#00000000">
+                
+                <TabItem Width="175" Height="165">
+                    <TabItem.Header>
+                        <Border CornerRadius="20">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Human" Width="150" HorizontalAlignment="Center" Height="60"/>
+                            <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какой-то еблан" HorizontalAlignment="Center"/>
+                            <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какая-то должность" HorizontalAlignment="Center" FontSize="12"/>
+                        </StackPanel>
+                        </Border>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Frame Source="/menu.xaml" />
+                    </TabItem.Content>
+                </TabItem>
+                <TabItem>
+                    asdasdasd
+                </TabItem>
 
-                <StackPanel Button.Click="Button_Click" Grid.Row="1" Margin="10,10,10,0" Width="Auto" MinWidth="135" VerticalAlignment="Top">
-                    <Button Name="EmployeesButton" Content="Сотрудники" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
-                    <Button Name="StatisticButton" Content="Статистика" Style="{DynamicResource InvisibleButton}"  Foreground="White"/>
-                    <Button Name="MenuButton" Content="Меню" Style="{DynamicResource InvisibleButton}"  Foreground="White"/>
-                    <Button Name="DishesButton" Content="Блюда" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
-                    <Button Name="OrderButton" Content="Заказ" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
-                </StackPanel>
-
-                <Button Grid.Row="2" Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" >
-                    <materialDesign:PackIcon Kind="ArrowLeft"/>
-                </Button>
-            </Grid>
+            </TabControl>
         </Border>
-        <Border Grid.Column="1" Margin="5,10,10,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
-            <Frame NavigationUIVisibility="Hidden"  Name="ActiveWindow"></Frame>
-        </Border>
+        <Button Grid.Row="1" Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" >
+            <materialDesign:PackIcon Kind="ArrowLeft"/>
+        </Button>
     </Grid>
 </Window>
