@@ -16,7 +16,93 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource PrimaryThemeGrey}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="ItemsControl.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="InvisibleButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="16,4,16,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{Binding (wpf:ButtonAssist.CornerRadius), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            <ProgressBar x:Name="ProgressBar" Background="{Binding (wpf:ButtonProgressAssist.IndicatorBackground), RelativeSource={RelativeSource Mode=TemplatedParent}}" BorderBrush="{Binding (wpf:ButtonProgressAssist.IndicatorBackground), RelativeSource={RelativeSource Mode=TemplatedParent}}" Foreground="{Binding (wpf:ButtonProgressAssist.IndicatorForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Left" Height="{TemplateBinding Height}" IsIndeterminate="{Binding (wpf:ButtonProgressAssist.IsIndeterminate), RelativeSource={RelativeSource Mode=TemplatedParent}}" Maximum="{Binding (wpf:ButtonProgressAssist.Maximum), RelativeSource={RelativeSource Mode=TemplatedParent}}" Minimum="{Binding (wpf:ButtonProgressAssist.Minimum), RelativeSource={RelativeSource Mode=TemplatedParent}}" Opacity="{Binding (wpf:ButtonProgressAssist.Opacity), RelativeSource={RelativeSource Mode=TemplatedParent}}" Style="{DynamicResource MaterialDesignLinearProgressBar}" Value="{Binding (wpf:ButtonProgressAssist.Value), RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Visibility="{Binding (wpf:ButtonProgressAssist.IsIndicatorVisible), Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ButtonBase}, Mode=FindAncestor}}">
+                                <ProgressBar.Clip>
+                                    <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                                        <Binding ElementName="border" Path="ActualWidth"/>
+                                        <Binding ElementName="border" Path="ActualHeight"/>
+                                        <Binding ElementName="border" Path="CornerRadius"/>
+                                        <Binding ElementName="border" Path="BorderThickness"/>
+                                    </MultiBinding>
+                                </ProgressBar.Clip>
+                            </ProgressBar>
+                            <wpf:Ripple ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <wpf:Ripple.Clip>
+                                    <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                                        <Binding ElementName="border" Path="ActualWidth"/>
+                                        <Binding ElementName="border" Path="ActualHeight"/>
+                                        <Binding ElementName="border" Path="CornerRadius"/>
+                                        <Binding ElementName="border" Path="BorderThickness"/>
+                                    </MultiBinding>
+                                </wpf:Ripple.Clip>
+                            </wpf:Ripple>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderThickness" Value="0,1,1,1"/>
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0.1,0.5">
+                                            <GradientStop Color="#24292D" Offset="0"/>
+                                            <GradientStop Color="#2A9F8F" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0.2,0.5" Opacity="0.5">
+                                            <GradientStop Color="#24292D" Offset="0"/>
+                                            <GradientStop Color="#2A9F8F" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" Value="0.38"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextBlock.FontSize" Value="14"/>
+            <Setter Property="TextBlock.FontWeight" Value="Medium"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="wpf:ButtonAssist.CornerRadius" Value="15"/>
+            <Setter Property="wpf:ButtonProgressAssist.IndicatorBackground" Value="Transparent"/>
+            <Setter Property="wpf:ButtonProgressAssist.IndicatorForeground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+            <Setter Property="wpf:ButtonProgressAssist.IsIndicatorVisible" Value="False"/>
+            <Setter Property="wpf:ButtonProgressAssist.Opacity" Value=".4"/>
+            <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource PrimaryHueMidBrush}"/>
+        </Style>
+    </Window.Resources>
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,17 +111,19 @@
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Margin="10,10,5,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
             <Grid>
-                <Button Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="1" Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" >
                     <materialDesign:PackIcon Kind="ArrowLeft"/>
                 </Button>
-                <StackPanel>
-                <Button Style="{DynamicResource MaterialDesignFlatLightButton}" Margin="5"/>
-                <Button Margin="5" Background="Aqua"/>
-            </StackPanel>
+                <StackPanel Grid.Row="1" Margin="10,10,10,0" Width="Auto" MinWidth="135" VerticalAlignment="Top">
+                    <Button Content="Text" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
+                    <Button Content="Text" Style="{DynamicResource InvisibleButton}" Click="Button_Click" Foreground="White"/>
+                </StackPanel>
             </Grid>
         </Border>
-        <Border Grid.Column="1" Margin="5,10,10,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
-
-        </Border>
+        <Border Grid.Column="1" Margin="5,10,10,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15"/>
     </Grid>
 </Window>

@@ -12,10 +12,11 @@
             <SolidColorBrush x:Key="SecondaryThemeGrey" Color="#24292D"/>
             <SolidColorBrush x:Key="AccentGreen" Color="#2A9F8F"/>   
             <SolidColorBrush x:Key="DefaultText" Color="#FFFFFF"/>   
+
             
             
             <Style x:Key="FocusVisual">
-                <Setter>
+                <Setter >
                     <Setter.Value>
                         <ControlTemplate>
                             <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
