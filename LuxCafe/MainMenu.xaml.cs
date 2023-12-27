@@ -38,7 +38,10 @@ namespace LuxCafe
         {
             var tappedWindow = e.OriginalSource as Button;
 
-            ActiveWindow.Source = null;
+            while (ActiveWindow.NavigationService.CanGoBack)
+            {
+                ActiveWindow.NavigationService.RemoveBackEntry();
+            }
 
             switch (tappedWindow.Name)
                 {
