@@ -45,19 +45,21 @@ namespace LuxCafe
 
             switch (tappedWindow.Name)
                 {
-                    case "EmployeesButton":
-                        ActiveWindow.Navigate(new Employees()); break;
-                    case "StatisticButton":
-                        ActiveWindow.Navigate(new Statistic()); break;
-                    case "MenuButton":
-                        ActiveWindow.Navigate(new Menu()); break;
-                    case "DishesButton":
-                        ActiveWindow.Navigate(new Dishes()); break;
-                    case "OrderButton":
-                        ActiveWindow.Navigate(new Order()); break;
-                }
-            
-            
+                default:
+                    ActiveWindow.Source = new Uri("pack://application:,,,/Profile.xaml"); break;
+                case "EmployeesButton":
+                    ActiveWindow.Source = new Uri("pack://application:,,,/Employees.xaml"); break;
+                case "StatisticButton":
+                    ActiveWindow.Source = new Uri("pack://application:,,,/Statistic.xaml"); break;
+                case "MenuButton":
+                    ActiveWindow.Source = new Uri("pack://application:,,,/Menu.xaml"); break;
+                case "DishesButton":
+                    ActiveWindow.Source = new Uri("pack://application:,,,/Dishes.xaml"); break;
+                case "OrderButton":
+                    ActiveWindow.Source = new Uri("pack://application:,,,/Order.xaml"); break;
+            }
+
+
 
         }
     }

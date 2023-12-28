@@ -9,6 +9,22 @@
       Title="Profile">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Foreground="{DynamicResource DefaultText}" Text="Ваш профиль" Style="{DynamicResource MaterialDesignHeadline2TextBlock}" HorizontalAlignment="Center" Height="Auto" VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Column="2" Text="Ваша фотография" Foreground="{DynamicResource DefaultText}" Style="{DynamicResource MaterialDesignHeadline6TextBlock }" />
+
     </Grid>
 </Page>

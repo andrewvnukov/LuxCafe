@@ -5,10 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LuxCafe"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
-        mc:Ignorable="d"
-        
-        Title="MainWindow" Height="600" Width="800" MinHeight="650" MinWidth="500"
+        mc:Ignorable="d"    
+        Title="MainWindow" Height="500" Width="900" MinHeight="650" MinWidth="500"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -17,8 +15,10 @@
         Background="{DynamicResource PrimaryThemeGrey}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
-    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+        
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" WindowStyle="ThreeDBorderWindow">
     <Window.Resources>
+       
         <Style x:Key="FocusVisual">
             <Setter Property="ItemsControl.Template">
                 <Setter.Value>
@@ -104,7 +104,6 @@
         </Style>
     </Window.Resources>
 
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -140,7 +139,7 @@
             </Grid>
         </Border>
         <Border Grid.Column="1" Margin="5,10,10,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
-            <Frame NavigationUIVisibility="Hidden"  Name="ActiveWindow"></Frame>
+            <Frame NavigationUIVisibility="Hidden" Name="ActiveWindow"></Frame>
         </Border>
     </Grid>
 </Window>
