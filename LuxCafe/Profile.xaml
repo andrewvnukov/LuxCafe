@@ -5,26 +5,50 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:LuxCafe"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="700" d:DesignWidth="800"
       Title="Profile">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Foreground="{DynamicResource DefaultText}" Text="Ваш профиль" Style="{DynamicResource MaterialDesignHeadline2TextBlock}" HorizontalAlignment="Center" Height="Auto" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Foreground="{DynamicResource DefaultText}" Text="Ваш профиль" Style="{DynamicResource MaterialDesignHeadline3TextBlock}" HorizontalAlignment="Center" Height="Auto" VerticalAlignment="Center"/>
 
-        <TextBlock Grid.Column="2" Text="Ваша фотография" Foreground="{DynamicResource DefaultText}" Style="{DynamicResource MaterialDesignHeadline6TextBlock }" />
-
+        <Border Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox  Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+        <Border Grid.Column="2"  Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox  Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+    <Border Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox  Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+        <Border Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox   Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+    <Border Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox   Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+        <Border Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox  Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+    <Border Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox  Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
+        <Border Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentGreen}" BorderThickness="2" CornerRadius="15" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox  Style="{DynamicResource MaterialDesignDataGridComboBoxEditableTextBox}" CaretBrush="{DynamicResource AccentGreen}" SelectionBrush="{DynamicResource AccentGreen}" Foreground="{DynamicResource DefaultText}" Width="250" Height="Auto" Margin="5" Cursor="Hand" BorderThickness="0,0,0,0" IsTabStop="False" AllowDrop="True" FontSize="14" HorizontalAlignment="Left"/>
+        </Border>
     </Grid>
 </Page>

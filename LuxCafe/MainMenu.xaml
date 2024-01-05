@@ -18,7 +18,7 @@
         
     xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" WindowStyle="ThreeDBorderWindow">
     <Window.Resources>
-       
+
         <Style x:Key="FocusVisual">
             <Setter Property="ItemsControl.Template">
                 <Setter.Value>
@@ -106,22 +106,29 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*" MinWidth="200" MaxWidth="200"/>
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Margin="10,10,5,10" Background="{DynamicResource SecondaryThemeGrey}" CornerRadius="15">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="3*"/>
+                    <RowDefinition Height="5*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Button Click="Button_Click" Style="{DynamicResource InvisibleButton}" Grid.Row="0" Margin="5" Width="auto" Height="113" VerticalAlignment="Center">
+                <Button MinHeight="150" MinWidth="170" Click="Button_Click" Style="{DynamicResource InvisibleButton}" Grid.Row="0" Margin="5,0,5,0" Width="auto" Height="NaN">
                     <StackPanel>
-                        <materialDesign:PackIcon Kind="Human" Width="150" HorizontalAlignment="Center" Height="60"/>
-                        <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какой-то еблан" HorizontalAlignment="Center"/>
-                        <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какая-то должность" HorizontalAlignment="Center" FontSize="12"/>
+
+
+                        <Image Name="UserImage" Stretch="Fill">
+                            <Image.Clip>
+                                <EllipseGeometry RadiusX="45" RadiusY="45" Center="74,45"/>
+                            </Image.Clip>
+                        </Image>
+
+                        <TextBlock Name="UserName" Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какой-то еблан" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+                        <TextBlock Name="UserRole" Style="{DynamicResource MaterialDesignTextBlock}" Foreground="{DynamicResource DefaultText}" Text="Какая-то должность" HorizontalAlignment="Center" FontSize="12"/>
                     </StackPanel>
                 </Button>
 
@@ -131,6 +138,8 @@
                     <Button Name="MenuButton" Content="Меню" Style="{DynamicResource InvisibleButton}"  Foreground="White"/>
                     <Button Name="DishesButton" Content="Блюда" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
                     <Button Name="OrderButton" Content="Заказ" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
+                    <Button Name="ActiveOrders" Content="Заказы" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
+                    
                 </StackPanel>
 
                 <Button Grid.Row="2" Margin="0,0,0,10" Width="120" HorizontalAlignment="Center" Height="45" VerticalAlignment="Bottom" Click="ExitButton_Click" >

@@ -36,6 +36,12 @@ namespace LuxCafe
 
         }
 
+        ~MainWindow()
+        {
+            
+        }
+        
+
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -79,9 +85,11 @@ namespace LuxCafe
                                         UserId = Convert.ToInt32(reader["id"]);
                                         string inputData = LoginTextBox.Text;
 
-                                        MainMenu window = new MainMenu();
+                                        MainMenu window = new MainMenu(UserId);
                                         window.Show();
+                                        connection.Close();
                                         this.Close();
+                                        
                                     }
                                     else
                                     {

@@ -18,7 +18,7 @@ namespace LuxCafe
     /// <summary>
     /// Логика взаимодействия для Profile.xaml
     /// </summary>
-    public partial class Profile : Page
+    public  partial class Profile : Page
     {
         public Profile()
         {
