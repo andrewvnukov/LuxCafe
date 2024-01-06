@@ -10,6 +10,8 @@
 
     <Grid>
         <TextBlock Text="Блюда" Style="{DynamicResource MaterialDesignHeadline1TextBlock}" Foreground="{DynamicResource DefaultText}"/>
-        <DataGrid />
+        <DataGrid>
+            
+        </DataGrid>
     </Grid>
 </Page>

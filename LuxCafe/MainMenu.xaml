@@ -67,7 +67,7 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="BorderThickness" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" Value="0,1,0,0"/>
                                 <Setter Property="BorderBrush">
                                     <Setter.Value>
                                         <LinearGradientBrush EndPoint="1,0.5" StartPoint="0.1,0.5">
@@ -133,6 +133,7 @@
                 </Button>
 
                 <StackPanel Button.Click="Button_Click" Grid.Row="1" Margin="10,10,10,0" Width="Auto" MinWidth="135" VerticalAlignment="Top">
+          
                     <Button Name="EmployeesButton" Content="Сотрудники" Style="{DynamicResource InvisibleButton}" Foreground="White"/>
                     <Button Name="StatisticButton" Content="Статистика" Style="{DynamicResource InvisibleButton}"  Foreground="White"/>
                     <Button Name="MenuButton" Content="Меню" Style="{DynamicResource InvisibleButton}"  Foreground="White"/>

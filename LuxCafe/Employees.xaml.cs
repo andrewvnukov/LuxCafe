@@ -25,6 +25,11 @@ namespace LuxCafe
         {
             InitializeComponent();
         }
-        
+
+        private void Hire_Click(object sender, RoutedEventArgs e)
+        {
+            Registration window = new Registration();
+            window.ShowDialog();
+        }
     }
 }

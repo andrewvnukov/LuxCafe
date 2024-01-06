@@ -10,5 +10,6 @@
 
     <Grid>
         <TextBlock Text="Сотрудники" Style="{DynamicResource MaterialDesignHeadline1TextBlock}" Foreground="{DynamicResource DefaultText}"/>
+        <Button Content="Нанять сотрудника" Click="Hire_Click"/>
     </Grid>
 </Page>

@@ -80,6 +80,7 @@ namespace LuxCafe
                 Console.WriteLine("Error: " + ex.Message);
             }
             loadImage();
+
         }
 
         void loadImage()

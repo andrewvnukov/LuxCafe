@@ -110,6 +110,8 @@
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
+                
+                
                 <TextBlock Text="Авторизация" Style ="{DynamicResource MaterialDesignHeadline4TextBlock}" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground = "{DynamicResource DefaultText}" Height="56" Width="248" Margin="0,10,0,0"/>
                 <TextBlock Width="250" Text="Логин" Style ="{DynamicResource MaterialDesignHeadline5TextBlock}" Foreground="{DynamicResource DefaultText}" Grid.Row="1" HorizontalAlignment="Center" Margin="10,0,10,57" Height="40" TextAlignment="Left" VerticalAlignment="Bottom"/>
                 <TextBlock Width="250" Text="Пароль" Style ="{DynamicResource MaterialDesignHeadline5TextBlock}" Foreground="{DynamicResource DefaultText}" Grid.Row="2" HorizontalAlignment="Center" Margin="10,0,10,57" Height="40" TextAlignment="Left" VerticalAlignment="Bottom"/>
