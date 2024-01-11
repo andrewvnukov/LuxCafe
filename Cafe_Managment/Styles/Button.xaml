@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
 
     <Style x:Key="DefaultRadioButton" TargetType="RadioButton">
         <Setter Property="HorizontalAlignment"
@@ -100,5 +101,44 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="CloseApp" TargetType="Button">
+
+        <Setter Property="Width" Value="22"/>
+        <Setter Property="Height" Value="22"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Foreground" Value="White"/>
+
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image x:Name="CrossIcon" Source="/Images/Cross.png" Panel.ZIndex="2" Margin="4"/>
+                        <Border x:Name="IconBack" Background="Red" Visibility="Hidden" CornerRadius="3" Opacity="0.3" Panel.ZIndex="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="IconBack" Property="Visibility" Value="Visible"/>
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+
     
 </ResourceDictionary>

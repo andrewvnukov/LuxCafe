@@ -23,5 +23,10 @@ namespace Cafe_Managment
         {
             InitializeComponent();
         }
+
+        public void CloseAppClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

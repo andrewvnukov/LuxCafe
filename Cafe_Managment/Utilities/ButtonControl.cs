@@ -16,4 +16,5 @@ namespace Cafe_Managment.Utilities
                 new FrameworkPropertyMetadata(typeof(ButtonControl)));
         }
     }
+
 }

@@ -3,13 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Cafe_Managment"
+        xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+        xmlns:control="clr-namespace:Cafe_Managment.Controls"
         mc:Ignorable="d"
         Height="450" Width="800"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" Background="Transparent"
         AllowsTransparency="True"
         >
+   
+    <Window.DataContext>
+        <vm:LoginViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </Window.Resources>
+    
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </Window.Visibility>
     <Grid>
         <Border CornerRadius="20" Background="{DynamicResource ThemeColor}"/>
         <Grid>
@@ -26,9 +39,11 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>
-            <TextBox Grid.Row="1" Grid.Column="1"/>
-            <TextBox Grid.Row="2" Grid.Column="1"/>
-            <Button Grid.Column="1" Grid.Row="3"/>
+            <TextBox Text="{Binding Username}" Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" Style="{DynamicResource LoginTextBox}" Cursor="Hand"/>
+            <control:PasswordBoxCustom x:Name="PassBox" Height="40" Grid.Column="1" Grid.Row="2"/>
+            <Button Grid.Column="1" Grid.Row="3" IsTabStop="False"/>
+            
         </Grid>
+        <Button Style="{DynamicResource CloseApp}" Click="CloseApp_Click"/>
     </Grid>
 </Window>

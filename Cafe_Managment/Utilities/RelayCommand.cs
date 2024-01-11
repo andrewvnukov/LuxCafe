@@ -24,6 +24,12 @@ namespace Cafe_Managment.Utilities
             _canExecute = canExecute;
         }
 
+        public RelayCommand(Action<object> execute, Func<object> canExecute)
+        {
+            _execute = execute;
+            _canExecute = CanExecute;
+        }
+
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
         public void Execute(object parameter) => _execute(parameter);
 

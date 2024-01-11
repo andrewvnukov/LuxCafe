@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,12 +21,22 @@ namespace Cafe_Managment
     /// </summary>
     public partial class Autorization : Window
     {
+
         public Autorization()
         {
+
             InitializeComponent();
             MainMenu window = new MainMenu();
-            window.Show();
-            this.Close();
+            
         }
+
+
+
+        private void CloseApp_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        
     }
 }

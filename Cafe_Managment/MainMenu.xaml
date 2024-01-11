@@ -28,10 +28,16 @@
                 <menu:ButtonControl Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding ProfileCommand}">
                 </menu:ButtonControl>
+                <menu:ButtonControl Style="{StaticResource DefaultRadioButton}"
+                    Command="{Binding MenuCommand}">
+                </menu:ButtonControl>
 
             </StackPanel>
+            <Grid Grid.Column="1">
+                <ContentControl x:Name="Pages" Content="{Binding CurrentView}"/>
+            </Grid>
         </Grid>
-
+        <Button Style="{DynamicResource CloseApp}" Click="CloseAppClick"/>
 
     </Grid>
 </Window>
