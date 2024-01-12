@@ -9,9 +9,8 @@
         Height="450" Width="800"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" Background="Transparent"
-        AllowsTransparency="True"
-        >
-   
+        AllowsTransparency="True">
+
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
@@ -41,7 +40,6 @@
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>
             
             <TextBox Text="{Binding Username}" Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" Style="{DynamicResource LoginTextBox}" Cursor="Hand"/>
-            
             
             <control:PasswordBoxCustom x:Name="PassBox" Height="40" Grid.Column="1" Grid.Row="2"/>
             <TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource MiniToastBlock}"  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
