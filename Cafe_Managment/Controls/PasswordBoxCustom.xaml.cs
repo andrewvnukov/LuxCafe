@@ -43,7 +43,7 @@ namespace Cafe_Managment.Controls
             string temp = "";
             for (int i = 0; i < PassBox.Text.Length; i++)
             {
-                temp += '☻';
+                temp += '●';
             }
             PassBox.Text = temp;
             PassBox.SelectionStart = PassBox.Text.Length;

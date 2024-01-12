@@ -37,7 +37,7 @@
                 <ContentControl x:Name="Pages" Content="{Binding CurrentView}"/>
             </Grid>
         </Grid>
-        <Button Style="{DynamicResource CloseApp}" Click="CloseAppClick"/>
+        <Button Style="{DynamicResource CloseApp}" Command="{Binding CloseAppCommand}"/>
 
     </Grid>
 </Window>

@@ -24,6 +24,44 @@
 
     </Style>
 
-  
+    <Style x:Key="MiniToastBlock" TargetType="TextBlock">
+
+        <Setter Property="Text" 
+                Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text}"/>
+        <Setter Property="Foreground" 
+                Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="/Fonts/Montserrat"/>
+        <Setter Property="FontSize" Value="14"/>
+
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="X"
+                                                         To="35" Duration="0:0:0.2"/>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                             From="0" To="1"
+                                             Duration="0:0:0.2"/>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
+                                                          Duration="0:0:1.0">
+                                <DiscreteColorKeyFrame KeyTime="0:0:0.0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
+                                <DiscreteColorKeyFrame KeyTime="0:0:0.2" Value="AntiqueWhite"/>
+                                <DiscreteColorKeyFrame KeyTime="0:0:0.4" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
+                                <DiscreteColorKeyFrame KeyTime="0:0:0.6" Value="AntiqueWhite"/>
+                                <DiscreteColorKeyFrame KeyTime="0:0:0.8" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
+                                <DiscreteColorKeyFrame KeyTime="0:0:1.0" Value="AntiqueWhite"/>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+            </Trigger>
+        </Style.Triggers>
+            
+
+    </Style>
 
 </ResourceDictionary>

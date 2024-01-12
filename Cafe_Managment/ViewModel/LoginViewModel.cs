@@ -12,7 +12,7 @@ namespace Cafe_Managment.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        private string _username;
+        private string _username = "Username";
         private SecureString _password;
         private string _errorMessage;
         private bool _isViewVisible;
@@ -38,9 +38,17 @@ namespace Cafe_Managment.ViewModel
         public ICommand LoginCommand { get; set; }
         public ICommand ShowPasswordCommand { get; set; }
 
+        public ICommand CloseAppCommand { get; set; }
+
         public LoginViewModel()
         {
             LoginCommand = new RelayCommand(ExecuteLoginCommand,CanExecuteLoginCommand);
+            CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
+        }
+
+        private void ExecuteCloseAppCommand(object obj)
+        {
+            System.Windows.Application.Current.Shutdown();
         }
 
         private bool CanExecuteLoginCommand(object arg)

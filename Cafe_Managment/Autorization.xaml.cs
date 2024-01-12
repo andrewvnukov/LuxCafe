@@ -32,10 +32,7 @@ namespace Cafe_Managment
 
 
 
-        private void CloseApp_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Application.Current.Shutdown();
-        }
+
 
         
     }

@@ -26,6 +26,8 @@ namespace Cafe_Managment.ViewModel
         public ICommand ProfileCommand { get; set; }
         public ICommand StatisticCommand { get; set; }
 
+        public ICommand CloseAppCommand { get; set; }
+
         private void Dish(object obj) => CurrentView = new DishVM();
         private void Employee(object obj) => CurrentView = new EmployeeVM();
         private void Kitchen(object obj) => CurrentView = new KitchenVM();
@@ -33,6 +35,8 @@ namespace Cafe_Managment.ViewModel
         private void Profile(object obj) => CurrentView = new ProfileVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Statistic(object obj) => CurrentView = new StatisticVM();
+
+
 
         public NavigationVM()
         {
@@ -44,8 +48,15 @@ namespace Cafe_Managment.ViewModel
             ProfileCommand = new RelayCommand(Profile);
             StatisticCommand = new RelayCommand(Statistic);
             
+            CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
+
+
             CurrentView = new ProfileVM();
         }
 
+        private void ExecuteCloseAppCommand(object obj)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
     }
 }
