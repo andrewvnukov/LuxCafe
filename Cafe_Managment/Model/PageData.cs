@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace Cafe_Managment.Model
 {
     internal class PageData
-    {
+    {    
         //Подкачка данных из БД и вообще все переменные, используемые в программе
+
     }
 }

@@ -12,7 +12,7 @@ namespace Cafe_Managment.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        private string _username = "Username";
+        private string _username;
         private SecureString _password;
         private string _errorMessage;
         private bool _isViewVisible;

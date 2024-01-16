@@ -26,14 +26,14 @@ namespace Cafe_Managment
         {
 
             InitializeComponent();
-            MainMenu window = new MainMenu();
-            
+           
         }
 
-
-
-
-
-        
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu window = new MainMenu();
+            window.Show();
+            this.Close();
+        }
     }
 }

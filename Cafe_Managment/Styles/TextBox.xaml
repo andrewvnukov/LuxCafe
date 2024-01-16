@@ -49,11 +49,10 @@
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="White"/>
                         </Trigger>
-
-
+                        
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-
+                                
                                 <Condition Property="Control.IsFocused" Value="False"/>
                                 <Condition Property="Text" Value="" />
 
@@ -64,13 +63,12 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="HintTransform" 
-Storyboard.TargetProperty="Y"
-            
-To="0" Duration="0:0:0.2"/>
+                                                        Storyboard.TargetProperty="Y"
+                                                        To="0" Duration="0:0:0.2"/>
 
                                         <ColorAnimation Storyboard.TargetName="PART_Hint"
-Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-            To="LightGray" Duration="0:0:0.2"/>
+                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                        To="LightGray" Duration="0:0:0.2"/>
                                         <DoubleAnimation Storyboard.TargetName="PART_Hint"
  Storyboard.TargetProperty="FontSize"
              
@@ -82,15 +80,15 @@ Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
                             <MultiTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HintTransform" 
-             Storyboard.TargetProperty="Y"
-             To="-30" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="HintTransform"
+                                                         Storyboard.TargetProperty="Y"
+                                                         To="-30" Duration="0:0:0.2"/>
                                         <ColorAnimation Storyboard.TargetName="PART_Hint"
-            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-            To="White" Duration="0:0:0.3"/>
+                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                        To="White" Duration="0:0:0.3"/>
                                         <DoubleAnimation Storyboard.TargetName="PART_Hint"
-             Storyboard.TargetProperty="FontSize"
-             To="20" Duration="0:0:0.2"/>
+                                                         Storyboard.TargetProperty="FontSize"
+                                                         To="16" Duration="0:0:0.2"/>
                                     </Storyboard>
 
                                 </BeginStoryboard>
