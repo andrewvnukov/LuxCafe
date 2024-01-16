@@ -35,10 +35,10 @@
             
             <TextBox Text="{Binding Username}" Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 
                      Style="{StaticResource LoginTextBox}" Cursor="Hand"/>
-            
-            <control:PasswordBoxCustom x:Name="PassBox" Height="40" Grid.Column="1" Grid.Row="2"/>
-            
-            
+
+            <control:PasswordBoxCustom Height="40" Grid.Column="1" Grid.Row="2" Tag="Пароль"/>
+
+
             <Button Grid.Column="1" Grid.Row="3" IsTabStop="False" Click="Button_Click"/>
             
         </Grid>
