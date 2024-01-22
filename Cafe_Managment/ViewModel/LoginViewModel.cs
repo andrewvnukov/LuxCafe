@@ -1,10 +1,13 @@
-﻿using Cafe_Managment.Utilities;
+﻿using Cafe_Managment.Repositories;
+using Cafe_Managment.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Security.Policy;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,13 +16,15 @@ namespace Cafe_Managment.ViewModel
     public class LoginViewModel : ViewModelBase
     {
         private string _username;
-        private SecureString _password;
+        private string _password;
         private string _errorMessage;
-        private bool _isViewVisible;
+        private bool _isViewVisible=true;
+
+        protected IUserRepository userRepository;
 
         public string  Username { get { return _username; }
             set { _username = value; OnPropertyChanged(nameof(Username)); } }
-        public SecureString Password { get { return _password; }
+        public string Password { get { return _password; }
             set { _password = value; OnPropertyChanged(nameof(Password)); } }
         public string ErrorMessage
         {
@@ -42,6 +47,7 @@ namespace Cafe_Managment.ViewModel
 
         public LoginViewModel()
         {
+            userRepository = new UserRepository();
             LoginCommand = new RelayCommand(ExecuteLoginCommand,CanExecuteLoginCommand);
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
         }
@@ -65,7 +71,12 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteLoginCommand(object obj)
         {
-            
+            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
+            if (isValidUser)
+            {
+                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Username), null);
+                IsViewVisible = false;
+            }
         }
     }
 }

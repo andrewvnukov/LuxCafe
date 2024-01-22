@@ -14,8 +14,18 @@
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
-    
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        
+    </Window.Resources>
+    
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}" />
+    </Window.Visibility>
+    
+    
+    
     <Grid>
         <Border CornerRadius="20" Background="{DynamicResource ThemeColor}"/>
         <Grid>
@@ -36,7 +46,7 @@
             <TextBox Text="{Binding Username}" Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 
                      Style="{StaticResource LoginTextBox}" Cursor="Hand"/>
 
-            <control:PasswordBoxCustom Height="40" Grid.Column="1" Grid.Row="2" Tag="Пароль"/>
+            <control:BindblePassBox Grid.Column="1" Grid.Row="2"/>
 
 
             <Button Grid.Column="1" Grid.Row="3" IsTabStop="False" Click="Button_Click"/>

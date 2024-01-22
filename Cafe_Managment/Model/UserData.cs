@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Cafe_Managment.Model
 {
-    internal class UserData
+    public class UserData
     {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Post { get; set; }
+        public string Status { get; set; }
     }
 }
