@@ -141,6 +141,81 @@
     </Style>
 
     <Style x:Key="DefaultButton" TargetType="Button">
-        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="border" TargetType="Button">
+                    <Border
+                        CornerRadius="15"
+                            TextBlock.Foreground="{TemplateBinding Foreground}"
+                            x:Name="Border"
+                            BorderThickness="3">
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BorderBackground" Color="{DynamicResource Color_PrimaryThemeColor}"/>
+                            
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush x:Name="BorderColor" Color="Transparent"/>
+                        </Border.BorderBrush>
+                            
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush x:Name="TextColor" Color="LightGray"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal">
+                                    <Storyboard Duration="0:0:0.5">
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                        Storyboard.TargetProperty="Color" 
+                                                        To="{DynamicResource Color_AccentPrimaryThemeColor}" />
+                                        <ColorAnimation Storyboard.TargetName="TextColor"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="White"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Disabled">
+                                    <Storyboard Duration="0:0:0.5">
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="{DynamicResource Color_PrimaryThemeColor}"/>
+                                        <ColorAnimation Storyboard.TargetName="TextColor"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="LightGray"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="MouseOver">
+                                    <Storyboard Duration="0:0:0.5">
+                                        <ColorAnimation Storyboard.TargetName="BorderColor"
+                        Storyboard.TargetProperty="Color"
+                        To="White"/>
+                                        <ColorAnimation Storyboard.TargetName="TextColor"
+                        Storyboard.TargetProperty="Color"
+                        To="White"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Pressed">
+                                    <Storyboard Duration="0:0:0.5">
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+Storyboard.TargetProperty="Color"
+To="{DynamicResource Color_PrimaryThemeColor}"/>
+                                        <ColorAnimation Storyboard.TargetName="TextColor"
+Storyboard.TargetProperty="Color"
+To="White"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
     </Style>
 </ResourceDictionary>

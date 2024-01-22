@@ -72,8 +72,6 @@ namespace LuxCafe
                             if (reader.HasRows && reader.Read())
                             {
                                 string storedPassword = reader["employeepassword"].ToString();
-                                string salt = reader["salt"].ToString();
-                                string userRole = reader["employeerole"].ToString();
                                 string userStatus = reader["status"].ToString();
 
                                 if (userStatus.Equals("Работает", StringComparison.OrdinalIgnoreCase))

@@ -166,5 +166,10 @@ namespace LuxCafe
 
 
         }
+
+        private void EmployeesButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

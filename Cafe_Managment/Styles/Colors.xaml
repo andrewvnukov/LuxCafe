@@ -5,7 +5,10 @@
     <SolidColorBrush x:Key="PrimaryThemeColor" Color="#25343c"/>
     <SolidColorBrush x:Key="AccentPrimaryThemeColor" Color="#344954"/>
 
-
     <SolidColorBrush x:Key="ButtonColor" Color="#3282B8"/>
     <SolidColorBrush x:Key="PressedButtonColor" Color="#BBE1FA"/>
+
+    <Color x:Key="Color_ThemeColor">#1B262C</Color>
+    <Color x:Key="Color_PrimaryThemeColor">#25343c</Color>
+    <Color x:Key="Color_AccentPrimaryThemeColor">#344954</Color>
 </ResourceDictionary>

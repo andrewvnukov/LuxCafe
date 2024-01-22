@@ -11,7 +11,6 @@ namespace Cafe_Managment.Model
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Post { get; set; }
         public string Status { get; set; }
     }
 }

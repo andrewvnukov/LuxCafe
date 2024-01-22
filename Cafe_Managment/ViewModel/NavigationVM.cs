@@ -1,4 +1,6 @@
 ﻿using Cafe_Managment.Utilities;
+using Cafe_Managment.Model;
+using Cafe_Managment.Repositories;
 using Cafe_Managment.View;
 using System;
 using System.Collections.Generic;
@@ -6,16 +8,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Threading;
 
 namespace Cafe_Managment.ViewModel
 {
     class NavigationVM : ViewModelBase
     {
+        private UserAccountData _currentUserAccount;
+        private IUserRepository userRepository;
+
         private object _currentView;
         public object CurrentView
         {
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(); }
+        }
+
+        public UserAccountData CurrentUserAccount
+        {
+            get => _currentUserAccount;
+            set
+            {
+                _currentUserAccount = value;
+                OnPropertyChanged(nameof(CurrentUserAccount));
+            }
         }
 
         public ICommand DishCommand { get; set; }
@@ -40,6 +56,9 @@ namespace Cafe_Managment.ViewModel
 
         public NavigationVM()
         {
+            userRepository = new UserRepository();
+            LoadCurrentUserData();
+
             DishCommand = new RelayCommand(Dish);
             EmployeeCommand = new RelayCommand(Employee);
             KitchenCommand = new RelayCommand(Kitchen);
@@ -52,6 +71,11 @@ namespace Cafe_Managment.ViewModel
 
 
             CurrentView = new ProfileVM();
+        }
+
+        private void LoadCurrentUserData()
+        {
+            var user = userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
         }
 
         private void ExecuteCloseAppCommand(object obj)

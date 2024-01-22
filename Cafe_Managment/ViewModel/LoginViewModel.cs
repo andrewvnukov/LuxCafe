@@ -16,20 +16,35 @@ namespace Cafe_Managment.ViewModel
     public class LoginViewModel : ViewModelBase
     {
         private string _username;
-        private string _password;
-        private string _errorMessage;
+        private SecureString _password;
+        private string _loginerrorMessage;
+        private string _passworderrorMessage;
         private bool _isViewVisible=true;
+        private bool _isEnabled = true;
+        
+        private int _userid;
 
         protected IUserRepository userRepository;
 
+        public int UserID
+        {
+            get { return _userid; }
+            set { _userid = value; OnPropertyChanged(nameof(UserID)); }
+        }
+
         public string  Username { get { return _username; }
             set { _username = value; OnPropertyChanged(nameof(Username)); } }
-        public string Password { get { return _password; }
+        public SecureString Password { get { return _password; }
             set { _password = value; OnPropertyChanged(nameof(Password)); } }
-        public string ErrorMessage
+        public string LoginErrorMessage
         {
-            get { return _errorMessage; }
-            set { _errorMessage = value; OnPropertyChanged(nameof(ErrorMessage)); }
+            get { return _loginerrorMessage; }
+            set { _loginerrorMessage = value; OnPropertyChanged(nameof(LoginErrorMessage)); }
+        }
+        public string PasswordErrorMessage
+        {
+            get { return _passworderrorMessage; }
+            set { _passworderrorMessage = value;OnPropertyChanged(nameof(PasswordErrorMessage)); }
         }
         public bool IsViewVisible
         {
@@ -37,6 +52,14 @@ namespace Cafe_Managment.ViewModel
             set
             {
                 _isViewVisible = value; OnPropertyChanged(nameof(IsViewVisible));
+            }
+        }
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value; OnPropertyChanged(nameof(IsEnabled));
             }
         }
 
@@ -54,6 +77,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteCloseAppCommand(object obj)
         {
+            IsEnabled = false;
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -61,8 +85,8 @@ namespace Cafe_Managment.ViewModel
         {
             bool DataValid;
 
-            if (string.IsNullOrWhiteSpace(Username) || Username.Length <= 3
-                || Password == null || Password.Length <= 3)
+            if (string.IsNullOrWhiteSpace(Username) || Username.Length <= 5 || Username.Length >=45
+                || Password == null || Password.Length <= 5 || Password.Length >= 45)
                 DataValid = false;
             else DataValid= true;
 
@@ -71,11 +95,25 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteLoginCommand(object obj)
         {
-            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
-            if (isValidUser)
+            LoginErrorMessage = "";
+            PasswordErrorMessage = "";
+            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password), out _);
+            switch (isValidUser) 
             {
-                Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Username), null);
-                IsViewVisible = false;
+                case 0:
+                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(UserID.ToString()), null);
+                    IsViewVisible = false;
+                    break;
+                case 1:
+                    LoginErrorMessage = "Сотрудник уволен";
+                    PasswordErrorMessage = "Сотрудник уволен";
+                    break;
+                case 2:
+                    LoginErrorMessage = "Неправильный логин";
+                    break;
+                case 3:
+                    PasswordErrorMessage = "Неправильный пароль";
+                    break;
             }
         }
     }

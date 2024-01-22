@@ -10,7 +10,7 @@ namespace Cafe_Managment.Repositories
 {
     public interface IUserRepository 
     {
-        bool AuthenticateUser(NetworkCredential credential);
+        int AuthenticateUser(NetworkCredential credential, out int OutId);
         void Add(UserData userData);
         void Edit(UserData userData);
         void Delete(int Id);

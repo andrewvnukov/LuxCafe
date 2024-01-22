@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Cafe_Managment.Repositories
 {
@@ -16,23 +18,43 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
-        public bool AuthenticateUser(NetworkCredential credential)
+        public int AuthenticateUser(NetworkCredential credential, out int OutId)
         {
-            bool validUser;
+            int validUser;
+            int Id;
 
             using(var connection  = GetConnection())
             using (var command = new MySqlCommand())
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "select * from employees where [employeeusername]=@employeeusername and [employeepassword]=@employeepassword and [status] = @status";
-                command.Parameters.Add("@status", MySqlDbType.VarChar).Value="Работает";
-                command.Parameters.Add("@employeeusername", MySqlDbType.VarChar).Value=credential.UserName;
-                command.Parameters.Add("@employeepassword", MySqlDbType.VarChar).Value=credential.Password;
-                validUser = command.ExecuteScalar() == null? false : true;
+                command.CommandText = "SELECT employeepassword, employeerole, id, salt, status FROM employees WHERE employeeusername = @Username";
+                command.Parameters.AddWithValue("username", credential.UserName);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        Id = int.Parse(reader["id"].ToString());
+                        string storedPassword = reader["employeepassword"].ToString();
+                        string userStatus = reader["status"].ToString();
+                        if ("Работает" == userStatus)
+                        {
+                            if (BCrypt.Net.BCrypt.Verify(credential.Password, storedPassword))
+                            {
+                                validUser = 0;
+                            }
+                            else { validUser = 3;}
+                        }
+                        else { validUser = 1; }
+                    }
+                    else { validUser = 2; Id = -1; }
+                }
+                connection.Close();
             }
 
-                return validUser;
+            OutId = Id;
+            return validUser;
         }
 
         public void Delete(int Id)
@@ -52,7 +74,38 @@ namespace Cafe_Managment.Repositories
 
         public void GetById(int id)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM employees WHERE id = @userId";
+                command.Parameters.AddWithValue("userId", id);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows && reader.Read())
+                    {
+                        Id = int.Parse(reader["id"].ToString());
+                        string storedPassword = reader["employeepassword"].ToString();
+                        string userStatus = reader["status"].ToString();
+                        if ("Работает" == userStatus)
+                        {
+                            if (BCrypt.Net.BCrypt.Verify(credential.Password, storedPassword))
+                            {
+                                validUser = 0;
+                            }
+                            else { validUser = 3; }
+                        }
+                        else { validUser = 1; }
+                    }
+                    else { validUser = 2; Id = -1; }
+                }
+                connection.Close();
+            }
+
+            OutId = Id;
+            return validUser;
         }
 
         public void GetByUsername(string username)

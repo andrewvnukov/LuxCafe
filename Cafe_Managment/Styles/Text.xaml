@@ -35,29 +35,41 @@
         <Setter Property="FontSize" Value="14"/>
 
         <Style.Triggers>
-            <Trigger Property="Visibility" Value="Visible">
-
+            <Trigger Property="Text" Value="Сотрудник уволен">
+                <Setter Property="Foreground" Value="Red"/>
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="X"
-                                                         To="35" Duration="0:0:0.2"/>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                              From="0" To="1"
                                              Duration="0:0:0.2"/>
-                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
-                                                          Duration="0:0:1.0">
-                                <DiscreteColorKeyFrame KeyTime="0:0:0.0" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
-                                <DiscreteColorKeyFrame KeyTime="0:0:0.2" Value="AntiqueWhite"/>
-                                <DiscreteColorKeyFrame KeyTime="0:0:0.4" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
-                                <DiscreteColorKeyFrame KeyTime="0:0:0.6" Value="AntiqueWhite"/>
-                                <DiscreteColorKeyFrame KeyTime="0:0:0.8" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Foreground}"/>
-                                <DiscreteColorKeyFrame KeyTime="0:0:1.0" Value="AntiqueWhite"/>
-                            </ColorAnimationUsingKeyFrames>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
-
+            </Trigger>
+            <Trigger Property="Text" Value="Неправильный пароль">
+                <Setter Property="Foreground" Value="Red"/>
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0" To="1"
+                                 Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+            <Trigger Property="Text" Value="Неправильный логин">
+                <Setter Property="Foreground" Value="Red"/>
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                     From="0" To="1"
+                     Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
             </Trigger>
         </Style.Triggers>
             
