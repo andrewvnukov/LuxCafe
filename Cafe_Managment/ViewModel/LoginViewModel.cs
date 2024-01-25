@@ -15,22 +15,16 @@ namespace Cafe_Managment.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        private string _username;
+        private string _username = "Дмитрий Ильиных";
         private SecureString _password;
         private string _loginerrorMessage;
         private string _passworderrorMessage;
         private bool _isViewVisible=true;
         private bool _isEnabled = true;
         
-        private int _userid;
+        private int Userid;
 
         protected IUserRepository userRepository;
-
-        public int UserID
-        {
-            get { return _userid; }
-            set { _userid = value; OnPropertyChanged(nameof(UserID)); }
-        }
 
         public string  Username { get { return _username; }
             set { _username = value; OnPropertyChanged(nameof(Username)); } }
@@ -70,6 +64,7 @@ namespace Cafe_Managment.ViewModel
 
         public LoginViewModel()
         {
+
             userRepository = new UserRepository();
             LoginCommand = new RelayCommand(ExecuteLoginCommand,CanExecuteLoginCommand);
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
@@ -97,11 +92,11 @@ namespace Cafe_Managment.ViewModel
         {
             LoginErrorMessage = "";
             PasswordErrorMessage = "";
-            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password), out _);
+            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password), out Userid);
             switch (isValidUser) 
-            {
+            {   
                 case 0:
-                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(UserID.ToString()), null);
+                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Userid.ToString()), null);
                     IsViewVisible = false;
                     break;
                 case 1:

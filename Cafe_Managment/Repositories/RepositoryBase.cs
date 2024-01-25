@@ -14,7 +14,7 @@ namespace Cafe_Managment.Repositories
 
         public RepositoryBase()
         {
-            _connectionString = "server=localhost;user=root;password=12345678Aa;database=cafemanagement;";
+            _connectionString = "server=localhost;user=root;password=1234;database=cafemanagement;";
         }
 
         protected MySqlConnection GetConnection()

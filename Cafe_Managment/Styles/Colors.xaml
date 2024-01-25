@@ -1,14 +1,24 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Background pallete-->
+    <SolidColorBrush x:Key="PrimaryColor1" Color="#222831"/>
+    <SolidColorBrush x:Key="PrimaryColor2" Color="#1F5063"/>
+    <SolidColorBrush x:Key="SecondaryColor1" Color="#393E46"/>
+    <SolidColorBrush x:Key="SecondaryColor2" Color="#00ADB5"/>
 
-    <SolidColorBrush x:Key="ThemeColor" Color="#1B262C"/>
-    <SolidColorBrush x:Key="PrimaryThemeColor" Color="#25343c"/>
-    <SolidColorBrush x:Key="AccentPrimaryThemeColor" Color="#344954"/>
+    <!--Font pallete-->
+    <SolidColorBrush x:Key="HeadLineTextColor1" Color="#00ADB5"/>
+    <SolidColorBrush x:Key="NormalTextColor1" Color="#EEEEEE"/>
+    <Color x:Key="Color_NormalText1">#EEEEEE</Color>
+    
+    <!--Gradient colors-->
+    <Color x:Key="BorderGradientColor1">#EEEEEE</Color>
+    <Color x:Key="BorderGradientColor2">#00ADB5</Color>
+    
+    <!--Button colors-->
+    <Color x:Key="DisableButtonColor1">#8d95a2</Color>
+    <Color x:Key="NormalButtonColor1">#00ADB5</Color>
+    <Color x:Key="NormalButtonColor2">#1F5063</Color>
+    <Color x:Key="PressedButtonColor1">#006267</Color>
 
-    <SolidColorBrush x:Key="ButtonColor" Color="#3282B8"/>
-    <SolidColorBrush x:Key="PressedButtonColor" Color="#BBE1FA"/>
-
-    <Color x:Key="Color_ThemeColor">#1B262C</Color>
-    <Color x:Key="Color_PrimaryThemeColor">#25343c</Color>
-    <Color x:Key="Color_AccentPrimaryThemeColor">#344954</Color>
 </ResourceDictionary>

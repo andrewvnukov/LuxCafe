@@ -14,7 +14,7 @@ namespace Cafe_Managment.Repositories
         void Add(UserData userData);
         void Edit(UserData userData);
         void Delete(int Id);
-        void GetById(int Id);
+        UserAccountData GetById(int Id);
         void GetByUsername(string username);
 
         IEnumerable<UserData> GetByAll();

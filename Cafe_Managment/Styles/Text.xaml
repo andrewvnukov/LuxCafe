@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Microsoft.Win32.SafeHandles;assembly=System.Core">
 
-    
-    <Style x:Key="Text_Headline1" TargetType="TextBlock">
 
+    <Style x:Key="Text_Headline1" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="ExtraBold"/>
         <Setter Property="FontFamily" Value="/Fonts/Montserrat"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{DynamicResource HeadLineTextColor1}"/>
         <Setter Property="FontSize" Value="40"/>
         <Setter Property="Margin" Value="0,0,10,0"/>
     </Style>

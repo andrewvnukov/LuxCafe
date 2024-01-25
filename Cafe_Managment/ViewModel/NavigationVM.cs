@@ -75,7 +75,7 @@ namespace Cafe_Managment.ViewModel
 
         private void LoadCurrentUserData()
         {
-            var user = userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
+            CurrentUserAccount = userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
         }
 
         private void ExecuteCloseAppCommand(object obj)

@@ -21,7 +21,7 @@ namespace Cafe_Managment
     {
         public MainMenu()
         {
-            InitializeComponent();
+            InitializeComponent();    
         }
 
         public void CloseAppClick(object sender, RoutedEventArgs e)

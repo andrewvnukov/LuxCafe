@@ -18,7 +18,7 @@
                             CornerRadius="10"
                             BorderThickness="1"
                             BorderBrush="Transparent"
-                            Background="{DynamicResource PrimaryThemeColor}"
+                            Background="{DynamicResource SecondaryColor1}"
                                 Panel.ZIndex="1"
                             >
                             <ScrollViewer x:Name="PART_ContentHost"
@@ -43,10 +43,18 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource AccentPrimaryThemeColor}"/>
+                            <Setter TargetName="border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource BorderGradientColor2}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            <Setter TargetName="border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource BorderGradientColor1}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                         
                         <MultiTrigger>
@@ -64,7 +72,7 @@
                                                          To="-30" Duration="0:0:0.2"/>
                                         <ColorAnimation Storyboard.TargetName="PART_Hint"
                                                         Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                                                        To="White" Duration="0:0:0.3"/>
+                                                        To="{StaticResource Color_NormalText1}" Duration="0:0:0.3"/>
                                         <DoubleAnimation Storyboard.TargetName="PART_Hint"
                                                          Storyboard.TargetProperty="FontSize"
                                                          To="16" Duration="0:0:0.2"/>
@@ -99,7 +107,7 @@
                         CornerRadius="10"
                         BorderThickness="1"
                         BorderBrush="Transparent"
-                        Background="{DynamicResource PrimaryThemeColor}"
+                        Background="{DynamicResource SecondaryColor1}"
                             Panel.ZIndex="1"
                         >
                             <ScrollViewer x:Name="PART_ContentHost"
@@ -124,10 +132,18 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource AccentPrimaryThemeColor}"/>
+                            <Setter TargetName="border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource BorderGradientColor2}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            <Setter TargetName="border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource BorderGradientColor1}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
 
                         <MultiTrigger>
@@ -145,7 +161,7 @@
                                                      To="-30" Duration="0:0:0.2"/>
                                         <ColorAnimation Storyboard.TargetName="PART_Hint"
                                                     Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                                                    To="White" Duration="0:0:0.3"/>
+                                                    To="{StaticResource Color_NormalText1}" Duration="0:0:0.3"/>
                                         <DoubleAnimation Storyboard.TargetName="PART_Hint"
                                                      Storyboard.TargetProperty="FontSize"
                                                      To="16" Duration="0:0:0.2"/>

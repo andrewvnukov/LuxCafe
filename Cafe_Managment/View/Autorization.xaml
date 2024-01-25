@@ -22,7 +22,7 @@
                                 <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)"
                                                  From="0" To="1"
                                                  AutoReverse="False"
-                                                 Duration="0:0:0.7"/>
+                                                 Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
@@ -50,7 +50,17 @@
 
 
     <Grid>
-        <Border CornerRadius="20" Background="{DynamicResource ThemeColor}"/>
+        <Border CornerRadius="10" BorderThickness="1" Background="{StaticResource PrimaryColor1}">
+            <Border.BorderBrush>
+                
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="0.7">
+                    <GradientStop Color="#EEEEEE" Offset="1"/>
+                    <GradientStop Color="#00ADB5" Offset="0.5"/>
+                    <GradientStop Color="#EEEEEE" Offset="0"/>
+                </LinearGradientBrush>
+                
+            </Border.BorderBrush>
+        </Border>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -66,13 +76,30 @@
 
             <TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>
 
-            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 
-                     Style="{StaticResource LoginTextBox}" Cursor="IBeam"/>
-            <TextBlock Text="{Binding LoginErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MiniToastBlock}" Height="30" Grid.Column="1" Grid.Row="1" Margin="25,0,25,5" VerticalAlignment="Bottom"/>
+            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 
+                     Style="{StaticResource LoginTextBox}" Cursor="IBeam">
+                <TextBox.InputBindings>
+                    <KeyBinding
+                        Key="Enter"
+                        Command="{Binding LoginCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <TextBlock Text="{Binding LoginErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                       Style="{StaticResource MiniToastBlock}" Height="30" 
+                       Grid.Column="1" Grid.Row="1" Margin="25,0,25,5" VerticalAlignment="Bottom"/>
 
 
-            <control:BindblePassBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Cursor="IBeam"/>
-            <TextBlock Text="{Binding PasswordErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MiniToastBlock}" Height="30" Grid.Column="1" Grid.Row="2"  Margin="25,0,25,5" VerticalAlignment="Bottom"/>
+            <control:BindblePassBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Cursor="IBeam">
+                <control:BindblePassBox.InputBindings>
+                    <KeyBinding
+                        Key="Enter"
+                        Command="{Binding LoginCommand}"/>
+                </control:BindblePassBox.InputBindings>
+            </control:BindblePassBox>
+            <TextBlock Text="{Binding PasswordErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                       Style="{StaticResource MiniToastBlock}" Height="30" 
+                       Grid.Column="1" Grid.Row="2"  Margin="25,0,25,5" VerticalAlignment="Bottom"/>
 
 
             <Button Content="Войти" 

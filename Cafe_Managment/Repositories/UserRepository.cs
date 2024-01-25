@@ -72,8 +72,10 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
-        public void GetById(int id)
+        public UserAccountData GetById(int id)
         {
+            UserAccountData CurrentData = new UserAccountData();
+
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
@@ -84,28 +86,11 @@ namespace Cafe_Managment.Repositories
 
                 using (var reader = command.ExecuteReader())
                 {
-                    if (reader.HasRows && reader.Read())
-                    {
-                        Id = int.Parse(reader["id"].ToString());
-                        string storedPassword = reader["employeepassword"].ToString();
-                        string userStatus = reader["status"].ToString();
-                        if ("Работает" == userStatus)
-                        {
-                            if (BCrypt.Net.BCrypt.Verify(credential.Password, storedPassword))
-                            {
-                                validUser = 0;
-                            }
-                            else { validUser = 3; }
-                        }
-                        else { validUser = 1; }
-                    }
-                    else { validUser = 2; Id = -1; }
+                    
                 }
                 connection.Close();
             }
-
-            OutId = Id;
-            return validUser;
+            return CurrentData;
         }
 
         public void GetByUsername(string username)

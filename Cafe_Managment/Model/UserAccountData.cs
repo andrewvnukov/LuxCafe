@@ -8,9 +8,13 @@ namespace Cafe_Managment.Model
 {
     public class UserAccountData
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string FullName { get; set; }
+        public string Post { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public int Age { get; set; }
         public byte[] ProfileImage { get; set; }
-        public string Post {  get; set; }
+        
     }
 }
