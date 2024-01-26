@@ -9,7 +9,10 @@ namespace Cafe_Managment.Model
     public class UserAccountData
     {
         public int Id { get; set; }
-        public string FullName { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronomic { get; set; }
+        public string Adress {  get; set; }
         public string Post { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }

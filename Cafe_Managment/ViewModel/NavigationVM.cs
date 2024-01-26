@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Threading;
+using System.Windows;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -59,18 +60,67 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             LoadCurrentUserData();
 
-            DishCommand = new RelayCommand(Dish);
-            EmployeeCommand = new RelayCommand(Employee);
-            KitchenCommand = new RelayCommand(Kitchen);
-            MenuCommand = new RelayCommand(Menu);
+            MessageBox.Show(CurrentUserAccount.Post);
+
+            DishCommand = new RelayCommand(Dish,CanGoDish);
+            EmployeeCommand = new RelayCommand(Employee, CanGoEmployee);
+            KitchenCommand = new RelayCommand(Kitchen, CanGoKitchen);
+            MenuCommand = new RelayCommand(Menu, CanGoMenu);
             OrderCommand = new RelayCommand(Order);
             ProfileCommand = new RelayCommand(Profile);
-            StatisticCommand = new RelayCommand(Statistic);
+            StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
             
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
 
 
             CurrentView = new ProfileVM();
+        }
+
+        private bool CanGoStatistic(object arg)
+        {
+            bool CanGoStatistic = false;
+            if(CurrentUserAccount.Post == "admin" || 
+                CurrentUserAccount.Post == "manager" ||
+                CurrentUserAccount.Post == "owner") CanGoStatistic = true;
+            return CanGoStatistic;
+        }
+
+        private bool CanGoMenu(object arg)
+        {
+            bool CanGoMenu = false;
+            if (CurrentUserAccount.Post == "admin" ||
+                CurrentUserAccount.Post == "manager" ||
+                CurrentUserAccount.Post == "owner") CanGoMenu = true;
+            return CanGoMenu;
+        }
+
+        private bool CanGoKitchen(object arg)
+        {
+            bool CanGoKitchen = false;
+            if (CurrentUserAccount.Post == "admin" ||
+                CurrentUserAccount.Post == "manager" ||
+                CurrentUserAccount.Post == "owner" ||
+                CurrentUserAccount.Post == "woman") CanGoKitchen = true;
+            return CanGoKitchen;
+        }
+
+        private bool CanGoEmployee(object arg)
+        {
+            bool CanGoEmployee = false;
+            if (//CurrentUserAccount.Post == "admin" ||
+                CurrentUserAccount.Post == "manager" ||
+                CurrentUserAccount.Post == "owner") CanGoEmployee = true;
+            return CanGoEmployee;
+
+        }
+
+        private bool CanGoDish(object arg)
+        {
+            bool CanGoDish = false;
+            if(CurrentUserAccount.Post == "admin" ||
+                CurrentUserAccount.Post == "manager" ||
+                CurrentUserAccount.Post == "owner") CanGoDish=true;
+            return CanGoDish;
         }
 
         private void LoadCurrentUserData()

@@ -8,7 +8,7 @@
         <Setter Property="VerticalAlignment"
          Value="Center" />
         <Setter Property="Margin"
-         Value="0,5,0,0" />
+         Value="0,0,0,0" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -21,7 +21,7 @@
 
                         <Border.Background>
                             <SolidColorBrush x:Name="BorderBackground"
-                                      Color="Transparent" />
+                                      Color="{DynamicResource NormalButtonColor2}" />
                         </Border.Background>
 
                         <Grid>
@@ -31,78 +31,82 @@
                              Width="4"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Center"
-                             Background="#FFFFFF"
-                             Visibility="Collapsed"
-                             CornerRadius="2" />
+                             CornerRadius="2" 
+                             Margin="5,0,0,0">
+                                <Border.Background>
+                                    <SolidColorBrush x:Name="IndicatorColor" Color="Transparent"/>
+                                </Border.Background>
+                            </Border>
 
                             <TextBlock Text="{TemplateBinding Content}"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       HorizontalAlignment="Center"
+                                       MinWidth="100"
+                                       FontSize= "20"
+                                       HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       FontWeight="DemiBold">
+                                       FontWeight="DemiBold"
+                                       Margin="20,0,0,0"
+                                       TextAlignment="Left"
+                                       >
                                 <TextBlock.Foreground>
                                     <SolidColorBrush x:Name="TextColor" Color="{DynamicResource Color_NormalText1}"/>
                                 </TextBlock.Foreground>
                             </TextBlock>
                         </Grid>
 
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="{DynamicResource MouseOverButtonColor1}"
+                                                        Duration="0:0:0.3"/>
+                                        <ColorAnimation Storyboard.TargetName="IndicatorColor"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="SlateGray"
+                                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="{DynamicResource NormalButtonColor2}"
+                                                        Duration="0:0:0.3"/>
+                                        <ColorAnimation Storyboard.TargetName="IndicatorColor"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="Transparent"
+                                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </VisualState>
+                                
+                                
+                            </VisualStateGroup>
+                        
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
 
                     <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver"
-                          Value="True">
-
-                            <Setter Property="Visibility"
-                             TargetName="Indicator"
-                             Value="Visible" />
-
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Indicator" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#EEEEEE"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource CheckedButtonColor1}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
-
-                        <EventTrigger RoutedEvent="Border.MouseEnter"
-                               SourceName="border">
-
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="BorderBackground"
-                                             Storyboard.TargetProperty="Color"
-                                             To="Aqua"
-                                             Duration="0:0:0.3" />
-                                </Storyboard>
-                            </BeginStoryboard>
-
-                        </EventTrigger>
-
-                        <EventTrigger RoutedEvent="Border.MouseLeave"
-                               SourceName="border">
-
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="BorderBackground"
-                                             Storyboard.TargetProperty="Color"
-                                             From="#3E434A"
-                                             To="#272B2F"
-                                             Duration="0:0:0.3" />
-                                </Storyboard>
-                            </BeginStoryboard>
-
-                        </EventTrigger>
-
-                        <Trigger Property="IsChecked"
-                          Value="True">
-
-                            <Setter Property="Background"
-                             TargetName="border"
-                             Value="#212529" />
-
-                            <Setter Property="Visibility"
-                             TargetName="Indicator"
-                             Value="Visible" />
-
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource PressedButtonColor1}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
-
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

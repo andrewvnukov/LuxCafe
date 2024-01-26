@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,23 +75,42 @@ namespace Cafe_Managment.Repositories
 
         public UserAccountData GetById(int id)
         {
-            UserAccountData CurrentData = new UserAccountData();
+            UserAccountData CurrentData;
 
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
-                connection.Open();
-                command.Connection = connection;
-                command.CommandText = "SELECT * FROM employees WHERE id = @userId";
-                command.Parameters.AddWithValue("userId", id);
-
-                using (var reader = command.ExecuteReader())
+                try
                 {
-                    
+                    connection.Open();
+                    command.Connection = connection;
+                    command.CommandText = "SELECT employeerole, employeeemail, employeename, employeesurname, employeepatronomic, employeeadress, employeephonenumber FROM employees WHERE id = @userId";
+                    command.Parameters.AddWithValue("userId", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            CurrentData = new UserAccountData
+                            {
+                                Id = id,
+                                Post = reader["employeerole"].ToString(),
+                                Email = reader["employeeemail"].ToString(),
+                                Name = reader["employeename"].ToString(),
+                                Surname = reader["employeesurname"].ToString(),
+                                Patronomic = reader["employeepatronomic"].ToString(),
+                                PhoneNumber = reader["employeephonenumber"].ToString()
+                            };
+                        }
+                    }
+                    connection.Close();
                 }
-                connection.Close();
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            return CurrentData;
+            return CurrentData = new UserAccountData();
         }
 
         public void GetByUsername(string username)

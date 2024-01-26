@@ -17,12 +17,7 @@
     <Grid>
 
         <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="20" BorderThickness="1">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="{StaticResource BorderGradientColor1}" Offset="0"/>
-                    <GradientStop Color="{StaticResource BorderGradientColor2}" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.BorderBrush>
+
         </Border>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -30,16 +25,37 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="20,0,0,20" Margin="1,1,0,1">
-            <StackPanel Margin="0" >
+                <StackPanel Margin="0"  VerticalAlignment="Center">
 
-                <menu:ButtonControl Style="{StaticResource DefaultRadioButton}"
-                                    Command="{Binding ProfileCommand}">
-                </menu:ButtonControl>
-                <menu:ButtonControl Content="Menu" Style="{StaticResource DefaultRadioButton}"
-                    Command="{Binding MenuCommand}">
-                </menu:ButtonControl>
-
-            </StackPanel>
+                    <menu:ButtonControl Content="Профиль" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding ProfileCommand}">
+                    </menu:ButtonControl>
+                    <menu:ButtonControl Content="Статистика" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding StatisticCommand}">
+                    </menu:ButtonControl>
+                    <menu:ButtonControl Content="Сотрудники" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding EmployeeCommand}">
+                    </menu:ButtonControl>
+                    <menu:ButtonControl Content="Кухня" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding KitchenCommand}">
+                    </menu:ButtonControl>
+                    <menu:ButtonControl Content="Меню" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding MenuCommand}">
+                    </menu:ButtonControl>
+                    <menu:ButtonControl Content="Все блюда" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding DishCommand}">
+                    </menu:ButtonControl>
+                    <menu:ButtonControl Content="Заказ" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding OrderCommand}">
+                    </menu:ButtonControl>
+                </StackPanel>
             </Border>
             <Grid Grid.Column="1">
                 <ContentControl x:Name="Pages" Content="{Binding CurrentView}"/>

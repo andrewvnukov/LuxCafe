@@ -17,6 +17,8 @@
     
     <!--Button colors-->
     <Color x:Key="DisableButtonColor1">#8d95a2</Color>
+    <Color x:Key="MouseOverButtonColor1">#153845</Color>
+    <Color x:Key="CheckedButtonColor1">#222831</Color>
     <Color x:Key="NormalButtonColor1">#00ADB5</Color>
     <Color x:Key="NormalButtonColor2">#1F5063</Color>
     <Color x:Key="PressedButtonColor1">#006267</Color>
