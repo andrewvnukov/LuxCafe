@@ -38,7 +38,8 @@
                                 </Border.Background>
                             </Border>
 
-                            <TextBlock Text="{TemplateBinding Content}"
+                            <TextBlock x:Name="Textblock"
+                                Text="{TemplateBinding Content}"
                                        MinWidth="100"
                                        FontSize= "20"
                                        HorizontalAlignment="Left"
@@ -100,9 +101,15 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
+                            
+                            <Setter TargetName="Textblock" Property="Foreground">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource Color_HiddenText1}"/>
+                                </Setter.Value>
+                            </Setter>
                             <Setter TargetName="border" Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource PressedButtonColor1}"/>
+                                    <SolidColorBrush Color="{DynamicResource MouseOverButtonColor1}"/>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -163,7 +170,7 @@
                             BorderThickness="1.5"
                         >
                         <Border.Background>
-                            <SolidColorBrush x:Name="BorderBackground" Opacity="1" Color="{DynamicResource DisableButtonColor1}"/>
+                            <SolidColorBrush x:Name="BorderBackground" Opacity="0.7" Color="{DynamicResource DisableButtonColor1}"/>
                         </Border.Background>
                         <Border.BorderBrush>
                             <SolidColorBrush x:Name="BorderColor" Opacity="1" Color="Transparent"/>
@@ -184,7 +191,7 @@
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="BorderBackground"
                                                         Storyboard.TargetProperty="Color" 
-                                                        To="{DynamicResource NormalButtonColor1}" 
+                                                        To="{DynamicResource NormalButtonColor2}" 
                                                         Duration="0:0:0.5"/>
                                         
                                         
@@ -205,8 +212,11 @@
                                                         Storyboard.TargetProperty="Color"
                                                         To="LightGray"
                                                         Duration="0:0:0.5"/>
-                                        
-             
+                                        <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0.7"/>
+
+
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState Name="MouseOver">
@@ -219,7 +229,7 @@
                                                         />
                                         <ColorAnimation Storyboard.TargetName="BorderBackground"
                                                         Storyboard.TargetProperty="Color"
-                                                        To="{DynamicResource NormalButtonColor1}"
+                                                        To="{DynamicResource NormalButtonColor2}"
                                                         Duration="0:0:0.5"/>
                                         <ColorAnimation Storyboard.TargetName="TextColor"
                                                         Storyboard.TargetProperty="Color"

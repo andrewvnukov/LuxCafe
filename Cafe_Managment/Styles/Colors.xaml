@@ -10,6 +10,7 @@
     <SolidColorBrush x:Key="HeadLineTextColor1" Color="#00ADB5"/>
     <SolidColorBrush x:Key="NormalTextColor1" Color="#EEEEEE"/>
     <Color x:Key="Color_NormalText1">#EEEEEE</Color>
+    <Color x:Key="Color_HiddenText1">#8d95a2</Color>
     
     <!--Gradient colors-->
     <Color x:Key="BorderGradientColor1">#EEEEEE</Color>

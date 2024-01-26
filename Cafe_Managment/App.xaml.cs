@@ -27,6 +27,7 @@ namespace Cafe_Managment
                     var mainMenu = new MainMenu();
                     mainMenu.Show();
                     loginView.Close();
+                    
                 }
             };
         }

@@ -25,37 +25,43 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="20,0,0,20" Margin="1,1,0,1">
-                <StackPanel Margin="0"  VerticalAlignment="Center">
+                <Grid>
+                    <StackPanel Margin="0,39,0,0"  VerticalAlignment="Top">
 
-                    <menu:ButtonControl Content="Профиль" 
+                        <menu:ButtonControl Content="Профиль" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding ProfileCommand}">
-                    </menu:ButtonControl>
-                    <menu:ButtonControl Content="Статистика" 
+                        </menu:ButtonControl>
+                        <menu:ButtonControl Content="Статистика" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding StatisticCommand}">
-                    </menu:ButtonControl>
-                    <menu:ButtonControl Content="Сотрудники" 
+                        </menu:ButtonControl>
+                        <menu:ButtonControl Content="Сотрудники" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding EmployeeCommand}">
-                    </menu:ButtonControl>
-                    <menu:ButtonControl Content="Кухня" 
+                        </menu:ButtonControl>
+                        <menu:ButtonControl Content="Кухня" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding KitchenCommand}">
-                    </menu:ButtonControl>
-                    <menu:ButtonControl Content="Меню" 
+                        </menu:ButtonControl>
+                        <menu:ButtonControl Content="Меню" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding MenuCommand}">
-                    </menu:ButtonControl>
-                    <menu:ButtonControl Content="Все блюда" 
+                        </menu:ButtonControl>
+                        <menu:ButtonControl Content="Все блюда" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding DishCommand}">
-                    </menu:ButtonControl>
-                    <menu:ButtonControl Content="Заказ" 
+                        </menu:ButtonControl>
+                        <menu:ButtonControl Content="Заказ" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding OrderCommand}">
-                    </menu:ButtonControl>
-                </StackPanel>
+                        </menu:ButtonControl>
+                    </StackPanel>
+                    <Button Style="{DynamicResource DefaultButton}"
+                            Content="Назад" VerticalAlignment="Bottom" 
+                            Height="50" Margin="10,0,10,5"
+                            Command="{Binding ReturnCommand}"/>
+                </Grid>
             </Border>
             <Grid Grid.Column="1">
                 <ContentControl x:Name="Pages" Content="{Binding CurrentView}"/>

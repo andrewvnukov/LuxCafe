@@ -43,6 +43,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand ProfileCommand { get; set; }
         public ICommand StatisticCommand { get; set; }
 
+        public ICommand ReturnCommand { get; set; }
         public ICommand CloseAppCommand { get; set; }
 
         private void Dish(object obj) => CurrentView = new DishVM();
@@ -53,14 +54,10 @@ namespace Cafe_Managment.ViewModel
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Statistic(object obj) => CurrentView = new StatisticVM();
 
-
-
         public NavigationVM()
         {
             userRepository = new UserRepository();
             LoadCurrentUserData();
-
-            MessageBox.Show(CurrentUserAccount.Post);
 
             DishCommand = new RelayCommand(Dish,CanGoDish);
             EmployeeCommand = new RelayCommand(Employee, CanGoEmployee);
@@ -71,10 +68,13 @@ namespace Cafe_Managment.ViewModel
             StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
             
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
+            ReturnCommand = new RelayCommand(ExecuteReturnCommand);
 
 
             CurrentView = new ProfileVM();
         }
+
+       
 
         private bool CanGoStatistic(object arg)
         {
@@ -84,7 +84,6 @@ namespace Cafe_Managment.ViewModel
                 CurrentUserAccount.Post == "owner") CanGoStatistic = true;
             return CanGoStatistic;
         }
-
         private bool CanGoMenu(object arg)
         {
             bool CanGoMenu = false;
@@ -93,7 +92,6 @@ namespace Cafe_Managment.ViewModel
                 CurrentUserAccount.Post == "owner") CanGoMenu = true;
             return CanGoMenu;
         }
-
         private bool CanGoKitchen(object arg)
         {
             bool CanGoKitchen = false;
@@ -103,7 +101,6 @@ namespace Cafe_Managment.ViewModel
                 CurrentUserAccount.Post == "woman") CanGoKitchen = true;
             return CanGoKitchen;
         }
-
         private bool CanGoEmployee(object arg)
         {
             bool CanGoEmployee = false;
@@ -113,7 +110,6 @@ namespace Cafe_Managment.ViewModel
             return CanGoEmployee;
 
         }
-
         private bool CanGoDish(object arg)
         {
             bool CanGoDish = false;
@@ -122,10 +118,15 @@ namespace Cafe_Managment.ViewModel
                 CurrentUserAccount.Post == "owner") CanGoDish=true;
             return CanGoDish;
         }
-
         private void LoadCurrentUserData()
         {
             CurrentUserAccount = userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
+        }
+
+        private void ExecuteReturnCommand(object obj)
+        {
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
 
         private void ExecuteCloseAppCommand(object obj)

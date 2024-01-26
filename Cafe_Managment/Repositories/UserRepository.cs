@@ -24,7 +24,7 @@ namespace Cafe_Managment.Repositories
             int validUser;
             int Id;
 
-            using(var connection  = GetConnection())
+            using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
                 connection.Open();
@@ -45,7 +45,7 @@ namespace Cafe_Managment.Repositories
                             {
                                 validUser = 0;
                             }
-                            else { validUser = 3;}
+                            else { validUser = 3; }
                         }
                         else { validUser = 1; }
                     }
@@ -80,37 +80,34 @@ namespace Cafe_Managment.Repositories
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
-                try
-                {
-                    connection.Open();
-                    command.Connection = connection;
-                    command.CommandText = "SELECT employeerole, employeeemail, employeename, employeesurname, employeepatronomic, employeeadress, employeephonenumber FROM employees WHERE id = @userId";
-                    command.Parameters.AddWithValue("userId", id);
 
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            CurrentData = new UserAccountData
-                            {
-                                Id = id,
-                                Post = reader["employeerole"].ToString(),
-                                Email = reader["employeeemail"].ToString(),
-                                Name = reader["employeename"].ToString(),
-                                Surname = reader["employeesurname"].ToString(),
-                                Patronomic = reader["employeepatronomic"].ToString(),
-                                PhoneNumber = reader["employeephonenumber"].ToString()
-                            };
-                        }
-                    }
-                    connection.Close();
-                }
-                catch(Exception ex)
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT employeerole, employeeemail, employeename, employeesurname, employeepatronomic, employeeadress, employeephonenumber FROM employees WHERE id = @userId";
+                command.Parameters.AddWithValue("userId", id);
+
+                using (var reader = command.ExecuteReader())
                 {
-                    MessageBox.Show(ex.ToString());
+
+                    reader.Read();
+                    
+                        CurrentData = new UserAccountData
+                        {
+                            Id = id,
+                            Post = reader["employeerole"].ToString(),
+                            Email = reader["employeeemail"].ToString(),
+                            Name = reader["employeename"].ToString(),
+                            Surname = reader["employeesurname"].ToString(),
+                            Patronomic = reader["employeepatronomic"].ToString(),
+                            PhoneNumber = reader["employeephonenumber"].ToString()
+
+                        };
+                    
                 }
+                connection.Close();
+
             }
-            return CurrentData = new UserAccountData();
+            return CurrentData;
         }
 
         public void GetByUsername(string username)
