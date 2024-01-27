@@ -11,9 +11,16 @@
         <vn:EmployeeVM/>
     </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="Сотрудники" Style="{DynamicResource Text_Headline1}" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-        <DataGrid x:Name="EmpList" Margin="20,60,20,20" CanUserSortColumns="True" ItemsSource="{Binding}">
-            
+        <TextBlock Text="Сотрудники" 
+                   Style="{DynamicResource Text_Headline1}" 
+                   HorizontalAlignment="Left" 
+                   Margin="20,0,0,0"/>
+        <DataGrid x:Name="EmpList" 
+                  Margin="20,60,20,20" 
+                  CanUserSortColumns="True"
+                  Background="BlanchedAlmond">
+            <DataGrid.Columns>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </UserControl>

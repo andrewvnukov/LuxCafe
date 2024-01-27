@@ -22,7 +22,7 @@
                                 <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)"
                                                  From="0" To="1"
                                                  AutoReverse="False"
-                                                 Duration="0:0:0.5"/>
+                                                 Duration="0:0:0.3"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
@@ -45,7 +45,7 @@
     </Window.Visibility>
 
     <Window.IsEnabled>
-        <Binding Path="IsEnabled" Mode="TwoWay"/>
+        <Binding Path="IsEnabled" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
     </Window.IsEnabled>
 
 
