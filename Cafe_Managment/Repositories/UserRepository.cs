@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -9,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace Cafe_Managment.Repositories
 {
@@ -24,28 +26,33 @@ namespace Cafe_Managment.Repositories
             int validUser;
             int Id;
 
+
             using (var connection = GetConnection())
+
             using (var command = new MySqlCommand())
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT employeepassword, employeerole, id, salt, status FROM employees WHERE employeeusername = @Username";
+                command.CommandText = "SELECT Id, Password, Salt, Status FROM employees WHERE Username = @Username";
                 command.Parameters.AddWithValue("username", credential.UserName);
 
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.HasRows && reader.Read())
                     {
-                        Id = int.Parse(reader["id"].ToString());
-                        string storedPassword = reader["employeepassword"].ToString();
-                        string userStatus = reader["status"].ToString();
-                        if ("Работает" == userStatus)
+                        Id = int.Parse(reader[0].ToString());
+                        string storedPassword = reader[1].ToString();
+                        string salt = reader[2].ToString();
+                        short userStatus = reader.GetInt16("Status");
+
+                        if (userStatus == 1)
                         {
-                            if (BCrypt.Net.BCrypt.Verify(credential.Password, storedPassword))
+                            if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
                             {
                                 validUser = 0;
                             }
                             else { validUser = 3; }
+
                         }
                         else { validUser = 1; }
                     }
@@ -82,27 +89,32 @@ namespace Cafe_Managment.Repositories
             {
 
                 connection.Open();
+                
                 command.Connection = connection;
-                command.CommandText = "SELECT employeerole, employeeemail, employeename, employeesurname, employeepatronomic, employeeadress, employeephonenumber FROM employees WHERE id = @userId";
+                command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, Phonenumber, Email, DateOfBirth, Address, ProfilePicture FROM employees WHERE Id = @userId";
                 command.Parameters.AddWithValue("userId", id);
 
                 using (var reader = command.ExecuteReader())
                 {
 
                     reader.Read();
-                    
-                        CurrentData = new UserAccountData
-                        {
-                            Id = id,
-                            Post = reader["employeerole"].ToString(),
-                            Email = reader["employeeemail"].ToString(),
-                            Name = reader["employeename"].ToString(),
-                            Surname = reader["employeesurname"].ToString(),
-                            Patronomic = reader["employeepatronomic"].ToString(),
-                            PhoneNumber = reader["employeephonenumber"].ToString()
 
-                        };
-                    
+                    CurrentData = new UserAccountData
+                    {
+                        Id = id,
+
+                        RoleId = int.Parse(reader[0].ToString()),
+                        Name = reader[1].ToString(),
+                        Surname = reader[2].ToString(),
+                        Patronomic = reader[3].ToString(),
+                        PhoneNumber = reader[4].ToString(),
+                        Email = reader[5].ToString(),
+                        BirthDay = reader.GetDateTime("DateOfBirth").ToString(),
+                        Address = reader[7].ToString(),
+                        ProfileImage = (byte[])reader[8]
+
+                    };
+
                 }
                 connection.Close();
 
@@ -114,5 +126,7 @@ namespace Cafe_Managment.Repositories
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

@@ -7,8 +7,7 @@
         xmlns:menu="clr-namespace:Cafe_Managment.Utilities"
         
         mc:Ignorable="d"
-        Title="MainMenu" Height="450" Width="800"
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
+        Title="MainMenu" Height="450" Width="800" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" Background="Transparent"
         AllowsTransparency="True">
     <Window.DataContext>
@@ -16,18 +15,17 @@
     </Window.DataContext>
     <Grid>
 
-        <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="20" BorderThickness="1">
 
-        </Border>
+
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="20,0,0,20" Margin="1,1,0,1">
+            <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="10,0,0,10">
                 <Grid>
                     <StackPanel Margin="0,39,0,0"  VerticalAlignment="Top">
-
+       
                         <menu:ButtonControl Content="Профиль" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding ProfileCommand}">
@@ -48,10 +46,7 @@
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding MenuCommand}">
                         </menu:ButtonControl>
-                        <menu:ButtonControl Content="Все блюда" 
-                                        Style="{StaticResource DefaultRadioButton}"
-                                        Command="{Binding DishCommand}">
-                        </menu:ButtonControl>
+                        
                         <menu:ButtonControl Content="Заказ" 
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding OrderCommand}">
@@ -63,11 +58,26 @@
                             Command="{Binding ReturnCommand}"/>
                 </Grid>
             </Border>
+            <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="0,10,10,0" Grid.Column="1">
             <Grid Grid.Column="1">
-                <ContentControl x:Name="Pages" Content="{Binding CurrentView}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Grid.Row="1"/>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal"
+                                FlowDirection="RightToLeft"
+                                Background="Transparent"
+                                MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
+                        <Button Margin="7,7,0,0" Style="{DynamicResource CloseApp}" Command="{Binding CloseAppCommand}"/>
+                    </StackPanel>
+
             </Grid>
+            </Border>
         </Grid>
-        <Button Style="{DynamicResource CloseApp}" Command="{Binding CloseAppCommand}"/>
+        
 
     </Grid>
 </Window>

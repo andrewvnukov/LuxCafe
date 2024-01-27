@@ -15,7 +15,7 @@ namespace Cafe_Managment.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        private string _username = "Дмитрий Ильиных";
+        private string _username;
         private SecureString _password;
         private string _loginerrorMessage;
         private string _passworderrorMessage;
@@ -80,8 +80,8 @@ namespace Cafe_Managment.ViewModel
         {
             bool DataValid;
 
-            if (string.IsNullOrWhiteSpace(Username) || Username.Length <= 5 || Username.Length >=45
-                || Password == null || Password.Length <= 5 || Password.Length >= 45)
+            if (string.IsNullOrWhiteSpace(Username) || Username.Length <= 3 || Username.Length >=45
+                || Password == null || Password.Length <= 3 || Password.Length >= 45)
                 DataValid = false;
             else DataValid= true;
 

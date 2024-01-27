@@ -59,14 +59,14 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             LoadCurrentUserData();
 
-            DishCommand = new RelayCommand(Dish,CanGoDish);
+            DishCommand = new RelayCommand(Dish, CanGoDish);
             EmployeeCommand = new RelayCommand(Employee, CanGoEmployee);
             KitchenCommand = new RelayCommand(Kitchen, CanGoKitchen);
             MenuCommand = new RelayCommand(Menu, CanGoMenu);
             OrderCommand = new RelayCommand(Order);
             ProfileCommand = new RelayCommand(Profile);
             StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
-            
+
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
 
@@ -74,50 +74,52 @@ namespace Cafe_Managment.ViewModel
             CurrentView = new ProfileVM();
         }
 
-       
-
         private bool CanGoStatistic(object arg)
         {
             bool CanGoStatistic = false;
-            if(CurrentUserAccount.Post == "admin" || 
-                CurrentUserAccount.Post == "manager" ||
-                CurrentUserAccount.Post == "owner") CanGoStatistic = true;
+            if(CurrentUserAccount.RoleId == 1 || 
+                CurrentUserAccount.RoleId == 2 ||
+                CurrentUserAccount.RoleId == 3) CanGoStatistic = true;
             return CanGoStatistic;
         }
+
         private bool CanGoMenu(object arg)
         {
             bool CanGoMenu = false;
-            if (CurrentUserAccount.Post == "admin" ||
-                CurrentUserAccount.Post == "manager" ||
-                CurrentUserAccount.Post == "owner") CanGoMenu = true;
+            if (CurrentUserAccount.RoleId == 1 ||
+                CurrentUserAccount.RoleId == 2 ||
+                CurrentUserAccount.RoleId == 3) CanGoMenu = true;
             return CanGoMenu;
         }
+
         private bool CanGoKitchen(object arg)
         {
             bool CanGoKitchen = false;
-            if (CurrentUserAccount.Post == "admin" ||
-                CurrentUserAccount.Post == "manager" ||
-                CurrentUserAccount.Post == "owner" ||
-                CurrentUserAccount.Post == "woman") CanGoKitchen = true;
+            if (CurrentUserAccount.RoleId == 1 ||
+                CurrentUserAccount.RoleId == 2  ||
+                CurrentUserAccount.RoleId == 3 ||
+                CurrentUserAccount.RoleId == 4) CanGoKitchen = true;
             return CanGoKitchen;
         }
+
         private bool CanGoEmployee(object arg)
         {
             bool CanGoEmployee = false;
-            if (//CurrentUserAccount.Post == "admin" ||
-                CurrentUserAccount.Post == "manager" ||
-                CurrentUserAccount.Post == "owner") CanGoEmployee = true;
+            if (CurrentUserAccount.RoleId == 1 ||
+                CurrentUserAccount.RoleId == 2 ||
+                CurrentUserAccount.RoleId == 3) CanGoEmployee = true;
             return CanGoEmployee;
-
         }
+
         private bool CanGoDish(object arg)
         {
             bool CanGoDish = false;
-            if(CurrentUserAccount.Post == "admin" ||
-                CurrentUserAccount.Post == "manager" ||
-                CurrentUserAccount.Post == "owner") CanGoDish=true;
+            if(CurrentUserAccount.RoleId == 1 ||
+                CurrentUserAccount.RoleId == 2 ||
+                CurrentUserAccount.RoleId == 3) CanGoDish=true;
             return CanGoDish;
         }
+
         private void LoadCurrentUserData()
         {
             CurrentUserAccount = userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
@@ -131,7 +133,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteCloseAppCommand(object obj)
         {
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
     }
 }
