@@ -120,11 +120,10 @@
     </Compile>
     <Compile Include="Model\EmpData.cs" />
     <Compile Include="Model\RoleModel.cs" />
-    <Compile Include="Model\UserAccountData.cs" />
+    <Compile Include="Model\UserData.cs" />
     <Compile Include="View\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\UserData.cs" />
     <Compile Include="Model\IUserRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -161,6 +160,10 @@
     <Compile Include="View\Statistic.xaml.cs">
       <DependentUpon>Statistic.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Autorization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -270,9 +273,6 @@
   <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Cross.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\PressedCross.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

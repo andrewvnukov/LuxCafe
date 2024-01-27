@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -75,21 +76,26 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
+        public void FireEmployee(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<UserData> GetByAll()
         {
             throw new NotImplementedException();
         }
 
-        public UserAccountData GetById(int id)
+        public UserData GetById(int id)
         {
-            UserAccountData CurrentData;
+            UserData CurrentData;
 
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
 
                 connection.Open();
-                
+
                 command.Connection = connection;
                 command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, Phonenumber, Email, DateOfBirth, Address, ProfilePicture FROM employees WHERE Id = @userId";
                 command.Parameters.AddWithValue("userId", id);
@@ -99,7 +105,7 @@ namespace Cafe_Managment.Repositories
 
                     reader.Read();
 
-                    CurrentData = new UserAccountData
+                    CurrentData = new UserData
                     {
                         Id = id,
 
@@ -109,12 +115,11 @@ namespace Cafe_Managment.Repositories
                         Patronomic = reader[3].ToString(),
                         PhoneNumber = reader[4].ToString(),
                         Email = reader[5].ToString(),
-                        BirthDay = reader.GetDateTime("DateOfBirth").ToString(),
+                        BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10),
                         Address = reader[7].ToString(),
                         ProfileImage = (byte[])reader[8]
 
                     };
-
                 }
                 connection.Close();
 
@@ -122,11 +127,26 @@ namespace Cafe_Managment.Repositories
             return CurrentData;
         }
 
-        public void GetByUsername(string username)
+        public void RememberUser(int Id)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+
+                var MacAddress = (from nic in NetworkInterface.GetAllNetworkInterfaces()
+                              where nic.OperationalStatus == OperationalStatus.Up
+                              select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+                
+                
+                command.Connection = connection;
+                command.CommandText = "INSERT IGNORE INTO autorizeddevices VALUES (@Mac, @UserId)";
+                command.Parameters.AddWithValue("Mac", MacAddress);
+                command.Parameters.AddWithValue("UserId", Id);
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
         }
-
-
     }
 }

@@ -30,14 +30,14 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-    
+
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
-        
+
     </Window.Resources>
 
     <Window.Visibility>
@@ -52,13 +52,13 @@
     <Grid>
         <Border CornerRadius="10" BorderThickness="1" Background="{StaticResource PrimaryColor1}">
             <Border.BorderBrush>
-                
+
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="0.7">
                     <GradientStop Color="#EEEEEE" Offset="1"/>
                     <GradientStop Color="#00ADB5" Offset="0.5"/>
                     <GradientStop Color="#EEEEEE" Offset="0"/>
                 </LinearGradientBrush>
-                
+
             </Border.BorderBrush>
         </Border>
         <Grid>
@@ -102,12 +102,16 @@
                        Grid.Column="1" Grid.Row="2"  Margin="25,0,25,5" VerticalAlignment="Bottom"/>
 
 
-            <Button Content="Войти" 
-                    Height="60" Margin="30,0,30,0" 
+            <Button Content="Войти" Margin="30,10,30,0" 
                     Style="{StaticResource DefaultButton}" 
                     Grid.Column="1" Grid.Row="3" 
-                    IsTabStop="False" Command="{Binding LoginCommand}"/>
-
+                    IsTabStop="False" Command="{Binding LoginCommand}" Height="60" VerticalAlignment="Top"/>
+            <CheckBox Grid.Row="3" Grid.Column="1"
+                      Style="{DynamicResource AwesomeCheckBox}"
+                      HorizontalAlignment="Left"
+                      Margin="30,74,0,0"
+                      Tag="Запомнить меня" Height="26" VerticalAlignment="Top"
+                      IsChecked="{Binding IsRemember, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Button Style="{StaticResource CloseApp}" Command="{Binding CloseAppCommand}"/>
     </Grid>

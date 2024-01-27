@@ -15,8 +15,10 @@ namespace Cafe_Managment.ViewModel
 {
     class NavigationVM : ViewModelBase
     {
-        private UserAccountData _currentUserAccount;
+        private UserData _currentUserAccount;
         private IUserRepository userRepository;
+        private bool _isVisible = true;
+        private bool _isEnabled = true;
 
         private object _currentView;
         public object CurrentView
@@ -25,7 +27,7 @@ namespace Cafe_Managment.ViewModel
             set { _currentView = value; OnPropertyChanged(); }
         }
 
-        public UserAccountData CurrentUserAccount
+        public UserData CurrentUserAccount
         {
             get => _currentUserAccount;
             set
@@ -33,6 +35,17 @@ namespace Cafe_Managment.ViewModel
                 _currentUserAccount = value;
                 OnPropertyChanged(nameof(CurrentUserAccount));
             }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set { _isVisible = value; OnPropertyChanged(nameof(IsVisible)); }
+        }
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set { _isEnabled = value; OnPropertyChanged(nameof(IsEnabled)); }
         }
 
         public ICommand DishCommand { get; set; }
@@ -127,12 +140,12 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteReturnCommand(object obj)
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
+            IsVisible = false;
         }
 
         private void ExecuteCloseAppCommand(object obj)
         {
+            IsEnabled= false;
             Application.Current.Shutdown();
         }
     }

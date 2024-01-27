@@ -19,8 +19,9 @@ namespace Cafe_Managment.ViewModel
         private SecureString _password;
         private string _loginerrorMessage;
         private string _passworderrorMessage;
-        private bool _isViewVisible=true;
+        private bool _isViewVisible = true;
         private bool _isEnabled = true;
+        private bool _isRemember = true;
         
         private int Userid;
 
@@ -56,6 +57,13 @@ namespace Cafe_Managment.ViewModel
                 _isEnabled = value; OnPropertyChanged(nameof(IsEnabled));
             }
         }
+
+        public bool IsRemember
+        {
+            get { return _isRemember; }
+            set { _isRemember = value; OnPropertyChanged(nameof(IsRemember)); }
+        }
+
 
         public ICommand LoginCommand { get; set; }
         public ICommand ShowPasswordCommand { get; set; }
@@ -93,9 +101,14 @@ namespace Cafe_Managment.ViewModel
             LoginErrorMessage = "";
             PasswordErrorMessage = "";
             var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password), out Userid);
+            
             switch (isValidUser) 
-            {   
+            {
                 case 0:
+                    if (IsRemember)
+                    {
+                        userRepository.RememberUser(Userid);
+                    }
                     Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Userid.ToString()), null);
                     IsViewVisible = false;
                     break;

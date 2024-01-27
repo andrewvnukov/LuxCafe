@@ -10,6 +10,6 @@ namespace Cafe_Managment.ViewModel
 {
     internal class EmployeeVM : ViewModelBase
     {
-        
+       
     }
 }

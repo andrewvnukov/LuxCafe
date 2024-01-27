@@ -10,9 +10,40 @@
         Title="MainMenu" Height="450" Width="800" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" Background="Transparent"
         AllowsTransparency="True">
+    <Window.Style>
+        <Style>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Window.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)"
+                                             From="0" To="1"
+                                             AutoReverse="False"
+                                             Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
     <Window.DataContext>
         <vm:NavigationVM/>
     </Window.DataContext>
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </Window.Resources>
+
+    <Window.Visibility>
+        <Binding Path="IsVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}" />
+    </Window.Visibility>
+
+    <Window.IsEnabled>
+        <Binding Path="IsEnabled" Mode="TwoWay"/>
+    </Window.IsEnabled>
+
     <Grid>
 
 
