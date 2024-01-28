@@ -1,4 +1,5 @@
 ﻿using Cafe_Managment.Model;
+using Cafe_Managment.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,14 +10,14 @@ using System.Windows.Media.Imaging;
 
 namespace Cafe_Managment.ViewModel
 {
-    internal class ProfileVM
+    internal class ProfileVM : ViewModelBase
     {
         private BitmapImage _profilePicture;
 
         public BitmapImage ProfilePicture
         {
             get { return _profilePicture; }
-            set { _profilePicture = value; }
+            set { _profilePicture = value; OnPropertyChanged(nameof(ProfilePicture)); }
         }
 
 

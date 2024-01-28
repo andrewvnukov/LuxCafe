@@ -11,6 +11,7 @@
     <UserControl.DataContext>
         <vm:ProfileVM/>
     </UserControl.DataContext>
+
     <Grid>
         <TextBlock Text="Profile" Style="{DynamicResource Text_Headline1}" 
                    HorizontalAlignment="Left" Margin="10"/>
@@ -18,13 +19,17 @@
                       VerticalScrollBarVisibility="Hidden">
             <Grid Height="auto">
                 <StackPanel Orientation="Vertical">
+                    <Border Background="Transparent" 
+                            BorderBrush="White" BorderThickness="1"
+                             Width="150" Height="150">
                     <Image
-                        Stretch="Fill"
-                   Width="150" Height="150"
-                   Source="{Binding ProfilePicture}"
+                  Stretch="Fill"
+                   Source="{Binding ProfilePicture, Mode=OneWay}"
+                   
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top">
                     </Image>
+                    </Border>
                 <TextBlock Text="Имя тд тп"
                            HorizontalAlignment="Center"
                            Style="{DynamicResource Default_Text}"/>

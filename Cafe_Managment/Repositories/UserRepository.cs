@@ -14,7 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace Cafe_Managment.Repositories
 {
@@ -142,10 +144,12 @@ namespace Cafe_Managment.Repositories
                     UserData.BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10);
                     UserData.Address = reader[7].ToString();
 
-                    byte[] imageData = (byte[])reader[8];
+                    if (reader[8] != DBNull.Value )
+                    {
+                        byte[] imageData = (byte[])reader[8];
+                        UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
 
-                    UserData.ProfileImage = new BitmapImage(); 
-                    UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
+                    }else UserData.ProfileImage = null;
 
 
 
@@ -187,6 +191,7 @@ namespace Cafe_Managment.Repositories
                     image.BeginInit();
                     image.StreamSource = stream;
                     image.CacheOption = BitmapCacheOption.OnLoad;
+
                     image.EndInit();
                     return image;
                 }
@@ -196,6 +201,15 @@ namespace Cafe_Managment.Repositories
                 MessageBox.Show("Error converting byte array to BitmapImage: " + ex.Message);
                 return null;
             }
+        }
+        private string ArrayToString(byte[] byteArray)
+        {
+            string temp = string.Empty;
+            for (int i = 0; i < byteArray.Length; i++)
+            {
+                temp += byteArray[i].ToString() + ' ';
+            }
+            return temp;
         }
     }
 }
