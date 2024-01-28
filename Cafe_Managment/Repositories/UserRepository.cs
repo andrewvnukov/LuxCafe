@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -81,10 +82,30 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<UserData> GetByAll()
+        public DataTable GetByAll()
         {
-            throw new NotImplementedException();
+            DataTable dataTable = new DataTable();
+
+            using (var connection = GetConnection())
+
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT ID AS IDD FROM employees";
+
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                
+                connection.Close();
+            }
+
+            
+            return dataTable;
         }
+
+    
 
         public UserData GetById(int id)
         {

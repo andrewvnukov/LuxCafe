@@ -1,6 +1,7 @@
 ﻿using Cafe_Managment.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Cafe_Managment.Repositories
         void FireEmployee(int Id);
         void RememberUser(int Id);
         UserData GetById(int Id);
-        IEnumerable<UserData> GetByAll();
+        DataTable GetByAll();
 
     }
 }

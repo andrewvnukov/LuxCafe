@@ -12,15 +12,24 @@
     </UserControl.DataContext>
     <Grid>
         <TextBlock Text="Сотрудники" 
-                   Style="{DynamicResource Text_Headline1}" 
-                   HorizontalAlignment="Left" 
-                   Margin="20,0,0,0"/>
-        <DataGrid x:Name="EmpList" 
-                  Margin="20,60,20,20" 
-                  CanUserSortColumns="True"
-                  Background="BlanchedAlmond">
-            <DataGrid.Columns>
-            </DataGrid.Columns>
-        </DataGrid>
+           Style="{DynamicResource Text_Headline1}" 
+           HorizontalAlignment="Left" 
+           Margin="20,0,0,0"/>
+        <ScrollViewer x:Name="Viewer"
+                      Margin="20,60,20,20"
+                      >
+            
+            <Grid Height="500">
+                <DataGrid
+                  Margin="20" 
+                  CanUserSortColumns="False"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  ItemsSource="{Binding Employees, Mode=OneWay}" 
+                  CanUserReorderColumns="False" 
+                  CanUserResizeColumns="False"/>
+                <Button Style="{DynamicResource DefaultButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="100" Margin="0"/>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>
