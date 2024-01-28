@@ -17,7 +17,7 @@ namespace Cafe_Managment.Repositories
         void Delete(int Id);
         void FireEmployee(int Id);
         void RememberUser(int Id);
-        UserData GetById(int Id);
+        void GetById(int Id);
         DataTable GetByAll();
 
     }

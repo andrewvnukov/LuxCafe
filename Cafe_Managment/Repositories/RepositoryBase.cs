@@ -14,7 +14,7 @@ namespace Cafe_Managment.Repositories
 
         public RepositoryBase()
         {
-            _connectionString = "server=sql11.freemysqlhosting.net;user=sql11680178;password=2RsC6gIPXP;database=sql11680178;";
+            _connectionString = "server=sql11.freemysqlhosting.net;user=sql11680178;password=2RsC6gIPXP;database=sql11680178;charset=utf8;";
         }
 
         protected MySqlConnection GetConnection()

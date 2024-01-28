@@ -15,21 +15,53 @@
            Style="{DynamicResource Text_Headline1}" 
            HorizontalAlignment="Left" 
            Margin="20,0,0,0"/>
+        <Border Margin="20,60,20,20"
+                CornerRadius="10" 
+                Background="{DynamicResource SecondaryColor1}"
+                >
         <ScrollViewer x:Name="Viewer"
-                      Margin="20,60,20,20"
+                      
+                      VerticalScrollBarVisibility="Hidden"
                       >
             
-            <Grid Height="500">
+            <Grid Height="1000">
+                <TextBlock Text="Все сотрудники" 
+                           Style="{DynamicResource Text_Headline2}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"/>
+                    <StackPanel>
                 <DataGrid
-                  Margin="20" 
+                    Width="auto"
+                    Height="auto"
+                  Margin="20,40,20,0" 
+                  VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
                   CanUserSortColumns="False"
                   Background="Transparent"
                   BorderThickness="0"
                   ItemsSource="{Binding Employees, Mode=OneWay}" 
                   CanUserReorderColumns="False" 
-                  CanUserResizeColumns="False"/>
-                <Button Style="{DynamicResource DefaultButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40" Width="100" Margin="0"/>
-            </Grid>
+                  CanUserResizeColumns="False"
+                  RowBackground="Aquamarine" AutomationProperties.IsRowHeader="False"
+                  >
+                    
+                </DataGrid>
+                <StackPanel Margin="20" FlowDirection="LeftToRight" Orientation="Horizontal">
+                    <Button Content="Нанять"
+                            Style="{DynamicResource DefaultButton}"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                            Height="40" Width="100" 
+                            Margin="0"/>
+                    <Button Content="Уволить" 
+                            Command="{Binding HireCommand}"
+                            Style="{DynamicResource DefaultButton}"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                            Height="40" Width="100" 
+                            Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
         </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

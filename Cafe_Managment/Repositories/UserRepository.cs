@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -13,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media.Imaging;
 
 namespace Cafe_Managment.Repositories
 {
@@ -92,7 +94,10 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT ID AS IDD FROM employees";
+                command.CommandText = "SELECT ID, RoleId AS 'Роль', Name AS 'Имя', Surname AS 'Фамилия', " +
+                    "Patronomic AS 'Отчество', PhoneNumber AS 'Номер телефона', " +
+                    "Email AS 'Почта', DateOfBirth AS 'День рождения', " +
+                    "Address AS 'Адрес' FROM employees";
 
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
@@ -107,10 +112,8 @@ namespace Cafe_Managment.Repositories
 
     
 
-        public UserData GetById(int id)
+        public void GetById(int id)
         {
-            UserData CurrentData;
-
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
@@ -118,7 +121,8 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, Phonenumber, Email, DateOfBirth, Address, ProfilePicture FROM employees WHERE Id = @userId";
+                command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, " +
+                    "Phonenumber, Email, DateOfBirth, Address, ProfilePicture FROM employees WHERE Id = @userId";
                 command.Parameters.AddWithValue("userId", id);
 
                 using (var reader = command.ExecuteReader())
@@ -126,26 +130,29 @@ namespace Cafe_Managment.Repositories
 
                     reader.Read();
 
-                    CurrentData = new UserData
-                    {
-                        Id = id,
 
-                        RoleId = int.Parse(reader[0].ToString()),
-                        Name = reader[1].ToString(),
-                        Surname = reader[2].ToString(),
-                        Patronomic = reader[3].ToString(),
-                        PhoneNumber = reader[4].ToString(),
-                        Email = reader[5].ToString(),
-                        BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10),
-                        Address = reader[7].ToString(),
-                        ProfileImage = (byte[])reader[8]
+                    UserData.Id = id;
 
-                    };
+                    UserData.RoleId = int.Parse(reader[0].ToString());
+                    UserData.Name = reader[1].ToString();
+                    UserData.Surname = reader[2].ToString();
+                    UserData.Patronomic = reader[3].ToString();
+                    UserData.PhoneNumber = reader[4].ToString();
+                    UserData.Email = reader[5].ToString();
+                    UserData.BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10);
+                    UserData.Address = reader[7].ToString();
+
+                    byte[] imageData = (byte[])reader[8];
+
+                    UserData.ProfileImage = new BitmapImage(); 
+                    UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
+
+
+
                 }
                 connection.Close();
 
             }
-            return CurrentData;
         }
 
         public void RememberUser(int Id)
@@ -169,5 +176,27 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
         }
+
+        private BitmapImage ConvertByteArrayToBitmapImage(byte[] byteArray)
+        {
+            try
+            {
+                using (MemoryStream stream = new MemoryStream(byteArray))
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = stream;
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.EndInit();
+                    return image;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error converting byte array to BitmapImage: " + ex.Message);
+                return null;
+            }
+        }
     }
 }
+

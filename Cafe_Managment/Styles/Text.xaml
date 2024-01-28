@@ -11,13 +11,21 @@
         <Setter Property="Foreground" Value="{DynamicResource HeadLineTextColor1}"/>
         <Setter Property="FontSize" Value="30"/>
     </Style>
+    <Style x:Key="Text_Headline2" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontFamily" Value="/Fonts/Montserrat"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource HeadLineTextColor1}"/>
+        <Setter Property="FontSize" Value="26"/>
+    </Style>
 
     <Style x:Key="Default_Text" TargetType="TextBlock">
 
         <Setter Property="FontFamily" Value="/Fonts/Montserrat"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{DynamicResource NormalTextColor1}"/>
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="Margin" Value="20,0,0,0"/>
 

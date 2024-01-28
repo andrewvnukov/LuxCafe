@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Cafe_Managment.Model
 {
-    public class UserData
+    public abstract class UserData
     {
-        public int Id { get; set; }
-        public int RoleId { get; set; }
-        public string Status { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Patronomic { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string BirthDay { get; set; }
-        public string Address {  get; set; }
-        public byte[] ProfileImage { get; set; }
-        
+        public static int Id { get; set; }
+        public static int RoleId { get; set; }
+        public static string Status { get; set; }
+        public static string Name { get; set; }
+        public static string Surname { get; set; }
+        public static string Patronomic { get; set; }
+        public static string PhoneNumber { get; set; }
+        public static string Email { get; set; }
+        public static string BirthDay { get; set; }
+        public static string Address {  get; set; }
+        public static BitmapImage ProfileImage { get; set; }
     }
 }

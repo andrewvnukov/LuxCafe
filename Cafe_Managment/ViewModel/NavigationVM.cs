@@ -15,7 +15,6 @@ namespace Cafe_Managment.ViewModel
 {
     class NavigationVM : ViewModelBase
     {
-        private UserData _currentUserAccount;
         private IUserRepository userRepository;
         private bool _isVisible = true;
         private bool _isEnabled = true;
@@ -25,16 +24,6 @@ namespace Cafe_Managment.ViewModel
         {
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(); }
-        }
-
-        public UserData CurrentUserAccount
-        {
-            get => _currentUserAccount;
-            set
-            {
-                _currentUserAccount = value;
-                OnPropertyChanged(nameof(CurrentUserAccount));
-            }
         }
 
         public bool IsVisible
@@ -90,52 +79,52 @@ namespace Cafe_Managment.ViewModel
         private bool CanGoStatistic(object arg)
         {
             bool CanGoStatistic = false;
-            if(CurrentUserAccount.RoleId == 1 || 
-                CurrentUserAccount.RoleId == 2 ||
-                CurrentUserAccount.RoleId == 3) CanGoStatistic = true;
+            if(UserData.RoleId == 1 || 
+                UserData.RoleId == 2 ||
+                UserData.RoleId == 3) CanGoStatistic = true;
             return CanGoStatistic;
         }
 
         private bool CanGoMenu(object arg)
         {
             bool CanGoMenu = false;
-            if (CurrentUserAccount.RoleId == 1 ||
-                CurrentUserAccount.RoleId == 2 ||
-                CurrentUserAccount.RoleId == 3) CanGoMenu = true;
+            if (UserData.RoleId == 1 ||
+                UserData.RoleId == 2 ||
+                UserData.RoleId == 3) CanGoMenu = true;
             return CanGoMenu;
         }
 
         private bool CanGoKitchen(object arg)
         {
             bool CanGoKitchen = false;
-            if (CurrentUserAccount.RoleId == 1 ||
-                CurrentUserAccount.RoleId == 2  ||
-                CurrentUserAccount.RoleId == 3 ||
-                CurrentUserAccount.RoleId == 4) CanGoKitchen = true;
+            if (UserData.RoleId == 1 ||
+                UserData.RoleId == 2  ||
+                UserData.RoleId == 3 ||
+                UserData.RoleId == 4) CanGoKitchen = true;
             return CanGoKitchen;
         }
 
         private bool CanGoEmployee(object arg)
         {
             bool CanGoEmployee = false;
-            if (CurrentUserAccount.RoleId == 1 ||
-                CurrentUserAccount.RoleId == 2 ||
-                CurrentUserAccount.RoleId == 3) CanGoEmployee = true;
+            if (UserData.RoleId == 1 ||
+                UserData.RoleId == 2 ||
+                UserData.RoleId == 3) CanGoEmployee = true;
             return CanGoEmployee;
         }
 
         private bool CanGoDish(object arg)
         {
             bool CanGoDish = false;
-            if(CurrentUserAccount.RoleId == 1 ||
-                CurrentUserAccount.RoleId == 2 ||
-                CurrentUserAccount.RoleId == 3) CanGoDish=true;
+            if(UserData.RoleId == 1 ||
+                UserData.RoleId == 2 ||
+                UserData.RoleId == 3) CanGoDish=true;
             return CanGoDish;
         }
 
         private void LoadCurrentUserData()
         {
-            CurrentUserAccount = userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
+            userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
         }
 
         private void ExecuteReturnCommand(object obj)
