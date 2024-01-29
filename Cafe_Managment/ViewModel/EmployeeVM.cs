@@ -19,9 +19,6 @@ namespace Cafe_Managment.ViewModel
 
         public ICommand HireCommand {  get; set; }
 
-
-
-
         public DataTable Employees
         {
             get { return _employees; }

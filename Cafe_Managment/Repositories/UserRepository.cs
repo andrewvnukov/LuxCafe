@@ -155,7 +155,6 @@ namespace Cafe_Managment.Repositories
 
                 }
                 connection.Close();
-
             }
         }
 
