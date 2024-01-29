@@ -118,7 +118,6 @@
     <Compile Include="Controls\BindblePassBox.xaml.cs">
       <DependentUpon>BindblePassBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\EmpData.cs" />
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="View\MainMenu.xaml.cs">

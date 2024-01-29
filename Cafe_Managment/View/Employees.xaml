@@ -42,7 +42,7 @@
                   ItemsSource="{Binding Employees, Mode=OneWay}" 
                   CanUserReorderColumns="False" 
                   CanUserResizeColumns="False"
-                  RowBackground="Aquamarine" AutomationProperties.IsRowHeader="False"
+                  RowBackground="DarkViolet" AutomationProperties.IsRowHeader="False"
                   >
                     
                 </DataGrid>

@@ -50,7 +50,6 @@ namespace Cafe_Managment
                     else IsAutorized=false;
                     connection.Close();
                 }
-
                 
             }
             if (IsAutorized)
