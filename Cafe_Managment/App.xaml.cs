@@ -75,7 +75,6 @@ namespace Cafe_Managment
                             command.Connection = connection;
                             command.CommandText = "DELETE FROM autorizeddevices WHERE DeviceMac=@Mac";
                             command.Parameters.AddWithValue("Mac", MacAddress);
-                            MessageBox.Show(command.ExecuteNonQuery().ToString());
                             connection.Close();
                         }
                         System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
