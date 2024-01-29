@@ -44,6 +44,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand OrderCommand { get; set; }
         public ICommand ProfileCommand { get; set; }
         public ICommand StatisticCommand { get; set; }
+        public ICommand BarCommand { get; set; }
 
         public ICommand ReturnCommand { get; set; }
         public ICommand CloseAppCommand { get; set; }
@@ -55,6 +56,7 @@ namespace Cafe_Managment.ViewModel
         private void Profile(object obj) => CurrentView = new ProfileVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Statistic(object obj) => CurrentView = new StatisticVM();
+        private void Bar(object obj) => CurrentView = new BarVM();
 
         public NavigationVM()
         {
@@ -68,12 +70,22 @@ namespace Cafe_Managment.ViewModel
             OrderCommand = new RelayCommand(Order);
             ProfileCommand = new RelayCommand(Profile);
             StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
+            BarCommand = new RelayCommand(Bar);
 
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
 
 
             CurrentView = new ProfileVM();
+        }
+
+        private bool CanGoBar(object arg)
+        {
+            bool CanGoBar = false;
+            if (UserData.RoleId == 1 ||
+                UserData.RoleId == 2 ||
+                UserData.RoleId == 3) CanGoBar = true;
+            return CanGoBar;
         }
 
         private bool CanGoStatistic(object arg)

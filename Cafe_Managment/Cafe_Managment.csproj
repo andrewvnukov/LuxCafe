@@ -121,6 +121,10 @@
     <Compile Include="Model\EmpData.cs" />
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserData.cs" />
+    <Compile Include="ViewModel\BarVM.cs" />
+    <Compile Include="View\Bar.xaml.cs">
+      <DependentUpon>Bar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
@@ -177,6 +181,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\BindblePassBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Bar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

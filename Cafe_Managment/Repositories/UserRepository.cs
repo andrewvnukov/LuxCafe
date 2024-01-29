@@ -151,8 +151,6 @@ namespace Cafe_Managment.Repositories
 
                     }else UserData.ProfileImage = null;
 
-
-
                 }
                 connection.Close();
             }

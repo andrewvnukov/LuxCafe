@@ -31,4 +31,8 @@
         <view:Statistic/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:BarVM}">
+        <view:Bar/>
+    </DataTemplate>
+
 </ResourceDictionary>

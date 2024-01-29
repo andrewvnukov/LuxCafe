@@ -82,6 +82,11 @@
                                         Style="{StaticResource DefaultRadioButton}"
                                         Command="{Binding OrderCommand}">
                         </menu:ButtonControl>
+
+                        <menu:ButtonControl Content="Бар" 
+                                        Style="{StaticResource DefaultRadioButton}"
+                                        Command="{Binding BarCommand}">
+                        </menu:ButtonControl>
                     </StackPanel>
                     <Button Style="{DynamicResource DefaultButton}"
                             Content="Назад" VerticalAlignment="Bottom" 
