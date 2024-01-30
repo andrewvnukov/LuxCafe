@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Cafe_Managment.View.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:control="clr-namespace:Cafe_Managment.Controls"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:LoginVM/>
+    </UserControl.DataContext>
+    <Grid>
+        <Border CornerRadius="10" BorderThickness="1" Background="{StaticResource PrimaryColor1}">
+            <Border.BorderBrush>
+
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="0.7">
+                    <GradientStop Color="#EEEEEE" Offset="1"/>
+                    <GradientStop Color="#00ADB5" Offset="0.5"/>
+                    <GradientStop Color="#EEEEEE" Offset="0"/>
+                </LinearGradientBrush>
+
+            </Border.BorderBrush>
+        </Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>
+
+            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                   Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 
+                   Style="{StaticResource LoginTextBox}" Cursor="IBeam">
+                <TextBox.InputBindings>
+                    <KeyBinding
+                      Key="Enter"
+                      Command="{Binding LoginCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <TextBlock Text="{Binding LoginErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MiniToastBlock}" Height="30" 
+                     Grid.Column="1" Grid.Row="1" Margin="25,0,25,5" VerticalAlignment="Bottom"/>
+
+
+            <control:BindblePassBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Cursor="IBeam">
+                <control:BindblePassBox.InputBindings>
+                    <KeyBinding
+                      Key="Enter"
+                      Command="{Binding LoginCommand}"/>
+                </control:BindblePassBox.InputBindings>
+            </control:BindblePassBox>
+            <TextBlock Text="{Binding PasswordErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MiniToastBlock}" Height="30" 
+                     Grid.Column="1" Grid.Row="2"  Margin="25,0,25,5" VerticalAlignment="Bottom"/>
+
+
+            <Button Content="Войти" Margin="30,10,30,0" 
+                  Style="{StaticResource DefaultButton}" 
+                  Grid.Column="1" Grid.Row="3" 
+                  IsTabStop="False" Command="{Binding LoginCommand}" Height="60" VerticalAlignment="Top"/>
+            <CheckBox Grid.Row="3" Grid.Column="1"
+                    Style="{DynamicResource AwesomeCheckBox}"
+                    HorizontalAlignment="Left"
+                    Margin="30,74,0,0"
+                    Tag="Запомнить меня" Height="26" VerticalAlignment="Top"
+                    IsChecked="{Binding IsRemember, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Button Style="{StaticResource CloseApp}" Command="{Binding CloseAppCommand}"/>
+    </Grid>
+</UserControl>

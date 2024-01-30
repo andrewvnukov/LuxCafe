@@ -35,4 +35,8 @@
         <view:Bar/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:LoginVM}">
+        <view:Login/>
+    </DataTemplate>
+
 </ResourceDictionary>
