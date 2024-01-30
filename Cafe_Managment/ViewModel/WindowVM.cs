@@ -18,9 +18,11 @@ namespace Cafe_Managment.ViewModel
         }
 
         public WindowVM() { 
-            ActiveWindow = new LoginVM();
+            LoginVM LoginWindow = new LoginVM();
+            ActiveWindow = LoginWindow;
+ 
 
-            ActiveWindow
+           
         }
 
         

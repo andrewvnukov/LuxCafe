@@ -20,12 +20,19 @@ namespace Cafe_Managment.ViewModel
         private string _passworderrorMessage;
 
         private bool _isRemember = true;
+        private bool _isAutorized = false;
 
         private int Userid;
 
         protected IUserRepository userRepository;
 
-        public bool IsAutorized;
+        public bool IsAutorized
+        {
+            get { return _isAutorized; }
+            set { _isAutorized = value; OnPropertyChanged(nameof(IsAutorized)); }
+        }
+
+
         public string Username
         {
             get { return _username; }
@@ -64,6 +71,7 @@ namespace Cafe_Managment.ViewModel
         {
 
             userRepository = new UserRepository();
+
             LoginCommand = new RelayCommand(ExecuteLoginCommand, CanExecuteLoginCommand);
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
         }
