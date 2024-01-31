@@ -20,16 +20,14 @@ namespace Cafe_Managment.ViewModel
         private string _passworderrorMessage;
 
         private bool _isRemember = true;
-        private bool _isAutorized = false;
-
-        private int Userid;
+        private bool _isViewVisible = true;
 
         protected IUserRepository userRepository;
 
-        public bool IsAutorized
+        public bool IsViewVisible
         {
-            get { return _isAutorized; }
-            set { _isAutorized = value; OnPropertyChanged(nameof(IsAutorized)); }
+            get { return _isViewVisible; }
+            set { _isViewVisible = value; OnPropertyChanged(nameof(IsViewVisible)); }
         }
 
 
@@ -97,16 +95,16 @@ namespace Cafe_Managment.ViewModel
         {
             LoginErrorMessage = "";
             PasswordErrorMessage = "";
-            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password), out Userid);
+            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
 
             switch (isValidUser)
             {
                 case 0:
                     if (IsRemember)
                     {
-                        userRepository.RememberUser(Userid);
+                        userRepository.RememberUser();
                     }
-                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(Userid.ToString()), null);
+                    IsViewVisible = false;
                     break;
                 case 1:
                     LoginErrorMessage = "Сотрудник уволен";

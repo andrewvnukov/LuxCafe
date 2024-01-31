@@ -7,10 +7,21 @@
              xmlns:control="clr-namespace:Cafe_Managment.Controls"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
     <UserControl.DataContext>
         <vm:LoginVM/>
     </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+
+
+    <UserControl.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}" />
+    </UserControl.Visibility>
+
     <Grid>
         <Border CornerRadius="10" BorderThickness="1" Background="{StaticResource PrimaryColor1}">
             <Border.BorderBrush>
@@ -75,6 +86,5 @@
                     Tag="Запомнить меня" Height="26" VerticalAlignment="Top"
                     IsChecked="{Binding IsRemember, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Button Style="{StaticResource CloseApp}" Command="{Binding CloseAppCommand}"/>
     </Grid>
 </UserControl>

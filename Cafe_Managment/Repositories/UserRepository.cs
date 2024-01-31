@@ -22,16 +22,14 @@ namespace Cafe_Managment.Repositories
 {
     internal class UserRepository : RepositoryBase, IUserRepository
     {
-        public void Add(UserData userData)
+        public void Add()
         {
             throw new NotImplementedException();
         }
 
-        public int AuthenticateUser(NetworkCredential credential, out int OutId)
+        public int AuthenticateUser(NetworkCredential credential)
         {
             int validUser;
-            int Id;
-
 
             using (var connection = GetConnection())
 
@@ -46,7 +44,7 @@ namespace Cafe_Managment.Repositories
                 {
                     if (reader.HasRows && reader.Read())
                     {
-                        Id = int.Parse(reader[0].ToString());
+                       
                         string storedPassword = reader[1].ToString();
                         string salt = reader[2].ToString();
                         short userStatus = reader.GetInt16("Status");
@@ -55,19 +53,17 @@ namespace Cafe_Managment.Repositories
                         {
                             if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
                             {
+                                UserData.Id = int.Parse(reader[0].ToString());
                                 validUser = 0;
                             }
                             else { validUser = 3; }
-
                         }
                         else { validUser = 1; }
                     }
-                    else { validUser = 2; Id = -1; }
+                    else { validUser = 2; }
                 }
                 connection.Close();
             }
-
-            OutId = Id;
             return validUser;
         }
 
@@ -76,7 +72,7 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
-        public void Edit(UserData userData)
+        public void Edit()
         {
             throw new NotImplementedException();
         }
@@ -114,7 +110,7 @@ namespace Cafe_Managment.Repositories
 
     
 
-        public void GetById(int id)
+        public void GetById()
         {
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
@@ -125,15 +121,12 @@ namespace Cafe_Managment.Repositories
                 command.Connection = connection;
                 command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, " +
                     "Phonenumber, Email, DateOfBirth, Address, ProfilePicture FROM employees WHERE Id = @userId";
-                command.Parameters.AddWithValue("userId", id);
+                command.Parameters.AddWithValue("userId", UserData.Id);
 
                 using (var reader = command.ExecuteReader())
                 {
 
                     reader.Read();
-
-
-                    UserData.Id = id;
 
                     UserData.RoleId = int.Parse(reader[0].ToString());
                     UserData.Name = reader[1].ToString();
@@ -156,7 +149,7 @@ namespace Cafe_Managment.Repositories
             }
         }
 
-        public void RememberUser(int Id)
+        public void RememberUser()
         {
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
@@ -172,7 +165,7 @@ namespace Cafe_Managment.Repositories
                 command.Connection = connection;
                 command.CommandText = "INSERT IGNORE INTO autorizeddevices VALUES (@Mac, @UserId)";
                 command.Parameters.AddWithValue("Mac", MacAddress);
-                command.Parameters.AddWithValue("UserId", Id);
+                command.Parameters.AddWithValue("UserId", UserData.Id);
                 command.ExecuteNonQuery();
                 connection.Close();
             }
@@ -207,6 +200,11 @@ namespace Cafe_Managment.Repositories
                 temp += byteArray[i].ToString() + ' ';
             }
             return temp;
+        }
+
+        public void GetByMac(string Mac)
+        {
+            throw new NotImplementedException();
         }
     }
 }

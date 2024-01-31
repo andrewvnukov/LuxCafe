@@ -107,7 +107,6 @@
                                 FlowDirection="RightToLeft"
                                 Background="Transparent"
                                 MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
-                        <Button Margin="7,7,0,0" Style="{DynamicResource CloseApp}" Command="{Binding CloseAppCommand}"/>
                     </StackPanel>
 
             </Grid>

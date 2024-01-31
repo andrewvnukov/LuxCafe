@@ -16,7 +16,7 @@ namespace Cafe_Managment.ViewModel
     class NavigationVM : ViewModelBase
     {
         private IUserRepository userRepository;
-        private bool _isVisible = true;
+        private bool _isViewVisible = true;
         private bool _isEnabled = true;
 
         private object _currentView;
@@ -26,10 +26,10 @@ namespace Cafe_Managment.ViewModel
             set { _currentView = value; OnPropertyChanged(); }
         }
 
-        public bool IsVisible
+        public bool IsViewVisible
         {
-            get => _isVisible;
-            set { _isVisible = value; OnPropertyChanged(nameof(IsVisible)); }
+            get => _isViewVisible;
+            set { _isViewVisible = value; OnPropertyChanged(nameof(IsViewVisible)); }
         }
         public bool IsEnabled
         {
@@ -56,7 +56,7 @@ namespace Cafe_Managment.ViewModel
         private void Profile(object obj) => CurrentView = new ProfileVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Statistic(object obj) => CurrentView = new StatisticVM();
-        private void Bar(object obj) => CurrentView = new BarVM();
+        private void Bar(object obj) => CurrentView = new BarVM(); 
 
         public NavigationVM()
         {
@@ -72,7 +72,6 @@ namespace Cafe_Managment.ViewModel
             StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
             BarCommand = new RelayCommand(Bar);
 
-            CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
 
 
@@ -136,18 +135,12 @@ namespace Cafe_Managment.ViewModel
 
         private void LoadCurrentUserData()
         {
-            userRepository.GetById(int.Parse(Thread.CurrentPrincipal.Identity.Name));
+            userRepository.GetById();
         }
 
         private void ExecuteReturnCommand(object obj)
         {
-            IsVisible = false;
-        }
-
-        private void ExecuteCloseAppCommand(object obj)
-        {
-            IsEnabled= false;
-            Application.Current.Shutdown();
+            IsViewVisible = false;
         }
     }
 }
