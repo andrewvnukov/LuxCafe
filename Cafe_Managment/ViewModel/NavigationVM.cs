@@ -23,7 +23,7 @@ namespace Cafe_Managment.ViewModel
         public object CurrentView
         {
             get { return _currentView; }
-            set { _currentView = value; OnPropertyChanged(); }
+            set { _currentView = value; OnPropertyChanged(nameof(CurrentView)); }
         }
 
         public bool IsViewVisible

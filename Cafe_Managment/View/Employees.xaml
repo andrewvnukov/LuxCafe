@@ -17,8 +17,11 @@
            Margin="20,0,0,0"/>
         <Border Margin="20,60,20,20"
                 CornerRadius="10" 
-                Background="{DynamicResource SecondaryColor1}"
+                
                 >
+            <Border.Background>
+                <SolidColorBrush Color="#CDA434" Opacity="0.3"/>
+            </Border.Background>
         <ScrollViewer x:Name="Viewer"
                       
                       VerticalScrollBarVisibility="Hidden"

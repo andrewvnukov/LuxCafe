@@ -14,7 +14,7 @@
 
     <Grid>
         <TextBlock Text="Profile" Style="{DynamicResource Text_Headline1}" 
-                   HorizontalAlignment="Left" Margin="10"/>
+                   HorizontalAlignment="Left" Margin="0"/>
         <ScrollViewer Margin="10,40,10,10" 
                       VerticalScrollBarVisibility="Hidden">
             <Grid Height="auto">

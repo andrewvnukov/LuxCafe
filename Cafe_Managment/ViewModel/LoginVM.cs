@@ -102,7 +102,7 @@ namespace Cafe_Managment.ViewModel
                 case 0:
                     if (IsRemember)
                     {
-                        userRepository.RememberUser();
+                        userRepository.RememberCurrentUser();
                     }
                     IsViewVisible = false;
                     break;

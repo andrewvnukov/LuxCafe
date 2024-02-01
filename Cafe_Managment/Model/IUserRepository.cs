@@ -17,10 +17,11 @@ namespace Cafe_Managment.Repositories
         void Edit();
         void Delete(int Id);
         void FireEmployee(int Id);
-        void RememberUser();
+        void RememberCurrentUser();
+        void ForgetCurrentUser();
         void GetById();
         DataTable GetByAll();
-        void GetByMac(string Mac);
+        bool GetByMac();
 
     }
 }

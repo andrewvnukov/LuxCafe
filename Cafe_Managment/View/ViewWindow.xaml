@@ -13,14 +13,33 @@
     <Window.DataContext>
         <vm:ViewWindowVM/>
     </Window.DataContext>
-    
+
+    <Window.WindowState>
+        <Binding Path="WindowSt" Mode="TwoWay"/>
+    </Window.WindowState>    
+        
     <Grid>
         <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown"
                     VerticalAlignment="Top" Height="30" 
                     Panel.ZIndex="1"
-                    Background="Transparent">
-            <Button Margin="7,7,0,0" Style="{DynamicResource CloseApp}"
-        Command="{Binding CloseAppCommand}"/>
+                    Background="Transparent"
+                    Orientation="Horizontal"
+                    FlowDirection="RightToLeft"
+                    Margin="0,5,5,0">
+            <Button 
+                Style="{DynamicResource CloseApp}"
+                    Margin="0,0,2.5,0"
+                    Command="{Binding CloseAppCommand}" Width="30" Height="30"/>
+            <Button Width="30" Height="30"
+                    Style="{DynamicResource MaximizeApp}"
+                    Margin="0,0,2.5,0"
+                    Command="{Binding MaximizeCommand}"/>
+            <Button Style="{DynamicResource MinimizeApp}"
+                Width="30" Height="30"
+                    Margin="0,0,2.5,0"
+                    Command="{Binding MinimizeCommand}"/>
+            
+
         </StackPanel>
         <ContentControl Panel.ZIndex="0" x:Name="MainViewer" Content="{Binding ActiveWindow}"/>
     </Grid>

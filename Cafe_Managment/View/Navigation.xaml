@@ -73,15 +73,11 @@
                 </Grid>
             </Border>
             <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="0,10,10,0" Grid.Column="1">
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                
                     
-                    <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Grid.Row="1"/>
+                    <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Margin="0,35,0,0"/>
 
-                </Grid>
+                
             </Border>
         </Grid>
 

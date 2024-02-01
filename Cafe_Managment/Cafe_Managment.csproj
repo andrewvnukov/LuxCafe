@@ -293,9 +293,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Square.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Minus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

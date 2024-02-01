@@ -149,7 +149,7 @@ namespace Cafe_Managment.Repositories
             }
         }
 
-        public void RememberUser()
+        public void RememberCurrentUser()
         {
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
@@ -192,17 +192,47 @@ namespace Cafe_Managment.Repositories
                 return null;
             }
         }
-        private string ArrayToString(byte[] byteArray)
+
+        public bool GetByMac()
         {
-            string temp = string.Empty;
-            for (int i = 0; i < byteArray.Length; i++)
+            var mac = (from nic in NetworkInterface.GetAllNetworkInterfaces()
+                      where nic.OperationalStatus == OperationalStatus.Up
+                      select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
             {
-                temp += byteArray[i].ToString() + ' ';
+
+                connection.Open();
+
+                var MacAddress = (from nic in NetworkInterface.GetAllNetworkInterfaces()
+                                  where nic.OperationalStatus == OperationalStatus.Up
+                                  select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+
+
+                command.Connection = connection;
+                command.CommandText = "SELECT ProfileId FROM autorizeddevices WHERE DeviceMac=@Mac";
+                command.Parameters.AddWithValue("Mac", mac);
+                
+                using(var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        UserData.Id = int.Parse(reader[0].ToString());
+                        connection.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        connection.Close();
+                        return false;
+                    }
+                }
+
+                
             }
-            return temp;
         }
 
-        public void GetByMac(string Mac)
+        public void ForgetCurrentUser()
         {
             throw new NotImplementedException();
         }

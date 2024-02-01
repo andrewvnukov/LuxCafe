@@ -121,8 +121,6 @@
 
     <Style x:Key="CloseApp" TargetType="Button">
 
-        <Setter Property="Width" Value="22"/>
-        <Setter Property="Height" Value="22"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Margin" Value="10"/>
@@ -135,12 +133,12 @@
 
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Image x:Name="CrossIcon" Source="/Images/Cross.png" Panel.ZIndex="2" Margin="4"/>
-                        <Border x:Name="IconBack" Background="Red" Visibility="Hidden" CornerRadius="3" Opacity="0.3" Panel.ZIndex="1"/>
+                        <Image x:Name="CrossIcon" Source="/Images/Cross.png" Panel.ZIndex="2" Margin="8"/>
+                        <Border x:Name="IconBack" Background="Red" Visibility="Hidden" CornerRadius="2" Opacity="0.3" Panel.ZIndex="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger Property="Control.IsMouseOver" Value="True">
 
                             <Setter TargetName="IconBack" Property="Visibility" Value="Visible"/>
 
@@ -155,6 +153,74 @@
 
         </Setter>
 
+    </Style>
+
+    <Style x:Key="MaximizeApp" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Foreground" Value="White"/>
+
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image x:Name="SquarIcon" Source="/Images/Square.png" Panel.ZIndex="2" Margin="7"/>
+                        <Border x:Name="IconBack" Background="White" Visibility="Hidden" CornerRadius="2" Opacity="0.3" Panel.ZIndex="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+
+                            <Setter TargetName="IconBack" Property="Visibility" Value="Visible"/>
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+
+
+            </Setter.Value>
+
+        </Setter>
+    </Style>
+
+    <Style x:Key="MinimizeApp" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Foreground" Value="White"/>
+
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image x:Name="CrossIcon" Source="/Images/Minus.png" Panel.ZIndex="2" Margin="6"/>
+                        <Border x:Name="IconBack" Background="White" Visibility="Hidden" CornerRadius="2" Opacity="0.3" Panel.ZIndex="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+
+                            <Setter TargetName="IconBack" Property="Visibility" Value="Visible"/>
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+
+
+            </Setter.Value>
+
+        </Setter>
     </Style>
 
     <Style x:Key="DefaultButton" TargetType="Button">
