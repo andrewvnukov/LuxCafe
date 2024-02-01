@@ -21,6 +21,7 @@
 
                         <Border.Background>
                             <SolidColorBrush x:Name="BorderBackground"
+                                      Opacity="0.3"
                                       Color="{DynamicResource NormalButtonColor2}" />
                         </Border.Background>
 

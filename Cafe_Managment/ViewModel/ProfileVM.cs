@@ -1,4 +1,5 @@
 ﻿using Cafe_Managment.Model;
+using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,32 @@ namespace Cafe_Managment.ViewModel
 {
     internal class ProfileVM : ViewModelBase
     {
-        private BitmapImage _profilePicture;
 
-        public BitmapImage ProfilePicture
+        private EmpData _currentData;
+
+        public EmpData CurrentData
         {
-            get { return _profilePicture; }
-            set { _profilePicture = value; OnPropertyChanged(nameof(ProfilePicture)); }
+            get { return _currentData; }
+            set { _currentData = value; OnPropertyChanged(); }
         }
+        
 
 
         public ProfileVM()
         {
-            ProfilePicture = UserData.ProfileImage;
+            UserRepository userRepository = new UserRepository();
+
+            CurrentData = new EmpData
+            {
+                Role = userRepository.GetRoleById(UserData.RoleId),
+                Status = "Работает",
+                FullName = $"{UserData.Surname} {UserData.Name} {UserData.Patronomic}",
+                PhoneNumber = UserData.PhoneNumber,
+                Email = UserData.Email,
+                BirthDay = UserData.BirthDay,
+                Address = UserData.Address,
+                ProfileImage = UserData.ProfileImage
+            };
         }
     }
 }

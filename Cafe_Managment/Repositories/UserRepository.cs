@@ -204,11 +204,6 @@ namespace Cafe_Managment.Repositories
 
                 connection.Open();
 
-                var MacAddress = (from nic in NetworkInterface.GetAllNetworkInterfaces()
-                                  where nic.OperationalStatus == OperationalStatus.Up
-                                  select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
-
-
                 command.Connection = connection;
                 command.CommandText = "SELECT ProfileId FROM autorizeddevices WHERE DeviceMac=@Mac";
                 command.Parameters.AddWithValue("Mac", mac);
@@ -235,6 +230,29 @@ namespace Cafe_Managment.Repositories
         public void ForgetCurrentUser()
         {
             throw new NotImplementedException();
+        }
+
+        public string GetRoleById(int RoleId)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = "SELECT Role FROM roles WHERE Id=@RoleId";
+                command.Parameters.AddWithValue("RoleId", RoleId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    reader.Read();
+
+                    return reader[0].ToString();
+                }
+
+
+            }
         }
     }
 }

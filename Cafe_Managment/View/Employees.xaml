@@ -20,7 +20,7 @@
                 
                 >
             <Border.Background>
-                <SolidColorBrush Color="#CDA434" Opacity="0.3"/>
+                <SolidColorBrush Color="LightGray" Opacity="0.2"/>
             </Border.Background>
         <ScrollViewer x:Name="Viewer"
                       

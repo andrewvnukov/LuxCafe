@@ -14,14 +14,14 @@
     
     <!--Gradient colors-->
     <Color x:Key="BorderGradientColor1">#EEEEEE</Color>
-    <Color x:Key="BorderGradientColor2">#00ADB5</Color>
+    <Color x:Key="BorderGradientColor2">#7896D6</Color>
     
     <!--Button colors-->
     <Color x:Key="DisableButtonColor1">#8d95a2</Color>
-    <Color x:Key="MouseOverButtonColor1">#153845</Color>
+    <Color x:Key="MouseOverButtonColor1">#000000</Color>
     <Color x:Key="CheckedButtonColor1">#44435F</Color>
     <Color x:Key="NormalButtonColor1">#7396D1</Color>
     <Color x:Key="NormalButtonColor2">#505F99</Color>
-    <Color x:Key="PressedButtonColor1">#006267</Color>
+    <Color x:Key="PressedButtonColor1">#404D89</Color>
 
 </ResourceDictionary>

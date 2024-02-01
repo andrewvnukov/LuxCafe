@@ -95,6 +95,7 @@ namespace Cafe_Managment.ViewModel
         {
             LoginErrorMessage = "";
             PasswordErrorMessage = "";
+
             var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
 
             switch (isValidUser)
@@ -102,7 +103,8 @@ namespace Cafe_Managment.ViewModel
                 case 0:
                     if (IsRemember)
                     {
-                        userRepository.RememberCurrentUser();
+                        Task RememberCurrentUserAsync = new Task(userRepository.RememberCurrentUser);
+                        RememberCurrentUserAsync.Start();
                     }
                     IsViewVisible = false;
                     break;

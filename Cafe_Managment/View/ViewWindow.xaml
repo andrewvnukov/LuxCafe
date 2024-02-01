@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Cafe_Managment.View"
         xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         WindowStyle="None"
         Background="Transparent"    
