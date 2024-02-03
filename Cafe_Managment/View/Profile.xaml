@@ -18,7 +18,8 @@
         <ScrollViewer Margin="10,40,10,10"
                       VerticalScrollBarVisibility="Hidden">
             <Grid Height="auto">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical"
+                            >
                     
                     <Image
                    Height="150"
@@ -31,7 +32,7 @@
                     </Image>
                     
                     
-                    <StackPanel Margin="5,0,0,0"
+                    <StackPanel Margin="10,0,0,0"
                                 Orientation="Horizontal"
                                 FlowDirection="LeftToRight">
                         <TextBlock Text="ФИО:" 
@@ -39,11 +40,82 @@
                                    VerticalAlignment="Bottom"/>
                         <TextBlock Margin="5,0,0,0"
                                    VerticalAlignment="Bottom"
-                            Text="{Binding CurrentData.FullName}"
+                            Text="{Binding CurrentData.Name}"
                            Style="{DynamicResource Default_Text}"
                            />
                     </StackPanel>
-                 
+                    <StackPanel Margin="10,0,0,0"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Номер телефона:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.PhoneNumber}"
+       Style="{DynamicResource Default_Text}"
+       />
+                    </StackPanel>
+                    <StackPanel Margin="10,0,0,0"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Адрес:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.Address}"
+       Style="{DynamicResource Default_Text}"
+       />
+                    </StackPanel>
+                    <StackPanel Margin="10,0,0,0"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Статус:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.Status}"
+       Style="{DynamicResource Default_Text}"
+       />
+                    </StackPanel>
+                    <StackPanel Margin="10,0,0,0"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Должность:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.Role}"
+       Style="{DynamicResource Default_Text}"
+       />
+                    </StackPanel>
+                    <StackPanel Margin="10,0,0,0"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Дата рождения:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.BirthDay}"
+       Style="{DynamicResource Default_Text}"
+       />
+                    </StackPanel>
+                    <StackPanel Margin="10,0,0,0"
+     Orientation="Horizontal"
+     FlowDirection="LeftToRight">
+                        <TextBlock Text="Электронная почта:" 
+        Style="{DynamicResource Text_Headline3}"
+        VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0,0,0"
+        VerticalAlignment="Bottom"
+ Text="{Binding CurrentData.Email}"
+Style="{DynamicResource Default_Text}"
+/>
+                    </StackPanel>
                 </StackPanel>
 
             </Grid>

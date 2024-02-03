@@ -122,6 +122,7 @@
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="ViewModel\BarVM.cs" />
+    <Compile Include="ViewModel\HelloPageVM.cs" />
     <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewWindowVM.cs" />
@@ -311,6 +312,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\AssHurt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

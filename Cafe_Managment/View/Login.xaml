@@ -47,7 +47,16 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>
+            <!--<TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>-->
+
+            <Image Grid.Column="1" Source="/Images/MainLogo.png"/>
+            <TextBlock Text="Manage the flavor of success without forgetting the flavor of business!"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Foreground="#EEEEEE"
+                       HorizontalAlignment="Center"
+                       FontFamily="/Fonts/Montserrat"/>
+
 
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 

@@ -10,38 +10,47 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Background="Transparent"    
-        Title="ViewWindow" Height="450" Width="800">
+        Icon="/Images/Icon.png"
+        Title="Staffee" Height="600" Width="1000">
     <Window.DataContext>
         <vm:ViewWindowVM/>
     </Window.DataContext>
 
     <Window.WindowState>
         <Binding Path="WindowSt" Mode="TwoWay"/>
-    </Window.WindowState>    
-        
+    </Window.WindowState>
+
     <Grid>
-        <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown"
-                    VerticalAlignment="Top" Height="30" 
-                    Panel.ZIndex="1"
-                    Background="Transparent"
+        <Border VerticalAlignment="Top"
+                CornerRadius="10,10,0,0"
+                Panel.ZIndex="1"
+                >
+            <Border.Background>
+                <SolidColorBrush Color="DarkGray" Opacity="0.8"/>
+            </Border.Background>
+            <StackPanel
+            MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" 
+                    
                     Orientation="Horizontal"
                     FlowDirection="RightToLeft"
-                    Margin="0,5,5,0">
-            <Button 
+                    Background="Transparent"
+                    Margin="0,5,5,5">
+                <Button 
                 Style="{DynamicResource CloseApp}"
                     Margin="0,0,2.5,0"
                     Command="{Binding CloseAppCommand}" Width="30" Height="30"/>
-            <Button Width="30" Height="30"
+                <Button Width="30" Height="30"
                     Style="{DynamicResource MaximizeApp}"
                     Margin="0,0,2.5,0"
                     Command="{Binding MaximizeCommand}"/>
-            <Button Style="{DynamicResource MinimizeApp}"
+                <Button Style="{DynamicResource MinimizeApp}"
                 Width="30" Height="30"
                     Margin="0,0,2.5,0"
                     Command="{Binding MinimizeCommand}"/>
-            
 
-        </StackPanel>
+
+            </StackPanel>
+        </Border>
         <ContentControl Panel.ZIndex="0" x:Name="MainViewer" Content="{Binding ActiveWindow}"/>
     </Grid>
 </Window>

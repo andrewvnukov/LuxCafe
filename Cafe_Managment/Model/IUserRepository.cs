@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Cafe_Managment.Repositories
 {
-    public interface IUserRepository 
+    public interface IUserRepository
     {
         int AuthenticateUser(NetworkCredential credential);
-        void Add();
+        void Add(EmpData empData);
         void Edit();
         void Delete(int Id);
         void FireEmployee(int Id);

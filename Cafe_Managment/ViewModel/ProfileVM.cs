@@ -16,6 +16,8 @@ namespace Cafe_Managment.ViewModel
 
         private EmpData _currentData;
 
+        public string Fullname;
+
         public EmpData CurrentData
         {
             get { return _currentData; }
@@ -32,7 +34,7 @@ namespace Cafe_Managment.ViewModel
             {
                 Role = userRepository.GetRoleById(UserData.RoleId),
                 Status = "Работает",
-                FullName = $"{UserData.Surname} {UserData.Name} {UserData.Patronomic}",
+                Patronomic = UserData.Patronomic,
                 PhoneNumber = UserData.PhoneNumber,
                 Email = UserData.Email,
                 BirthDay = UserData.BirthDay,

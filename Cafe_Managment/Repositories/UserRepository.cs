@@ -253,6 +253,11 @@ namespace Cafe_Managment.Repositories
 
             }
         }
+
+        public void Add(EmpData empData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
