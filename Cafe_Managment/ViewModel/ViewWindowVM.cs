@@ -1,4 +1,5 @@
-﻿using Cafe_Managment.Repositories;
+﻿using Cafe_Managment.Model;
+using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
 using Cafe_Managment.View;
 using Mysqlx.Session;
@@ -17,12 +18,14 @@ namespace Cafe_Managment.ViewModel
     {
         private object _activeWindow;
         private WindowState _windowSt;
-        
+
+        UserRepository repositoryBase;
 
         Login login;
         Navigation navigation;
+        Loading loading = new Loading();
 
-        
+
 
         public object ActiveWindow
         {
@@ -47,12 +50,12 @@ namespace Cafe_Managment.ViewModel
             MaximizeCommand = new RelayCommand(MaxWindow);
             MinimizeCommand = new RelayCommand(MinWindow);
 
-            UserRepository repositoryBase = new UserRepository();
+            repositoryBase = new UserRepository();
 
 
             if (repositoryBase.GetByMac())
             {
-                RememberedUser();
+                RememberedUserAsync();
             }
             else
             {
@@ -62,8 +65,8 @@ namespace Cafe_Managment.ViewModel
         }
 
         private void MinWindow(object obj)
-        {   
-                WindowSt = WindowState.Minimized;
+        {
+            WindowSt = WindowState.Minimized;
         }
 
         private void MaxWindow(object obj)
@@ -73,7 +76,7 @@ namespace Cafe_Managment.ViewModel
                 WindowSt = WindowState.Maximized;
             }
             else WindowSt = WindowState.Normal;
-        
+
         }
 
         private void CloseApp(object obj)
@@ -81,25 +84,22 @@ namespace Cafe_Managment.ViewModel
             System.Windows.Application.Current.Shutdown();
         }
 
-        private void RememberedUser()
+        private void RememberedUserAsync()
         {
+            ActiveWindow = loading;
+
+            repositoryBase.GetById();
+
             navigation = new Navigation();
             ActiveWindow = navigation;
             navigation.IsVisibleChanged += (s1, ev1) =>
             {
-                if (navigation.IsLoaded && !navigation.IsVisible)
+                if (!navigation.IsVisible && navigation.IsLoaded)
                 {
-                    login = new Login();
-                    ActiveWindow = login;
-                    login.IsVisibleChanged += (s, ev) =>
-                    {
-                        if (!login.IsVisible && login.IsLoaded)
-                        {
-                            RememberedUser();
-                        };
-                    };
+                    AuthUser();
                 }
             };
+
         }
 
         private void AuthUser()
@@ -110,25 +110,15 @@ namespace Cafe_Managment.ViewModel
             {
                 if (!login.IsVisible && login.IsLoaded)
                 {
-                    navigation = new Navigation();
-                    ActiveWindow = navigation;
-
-                    navigation.IsVisibleChanged += (s1, ev1) =>
-                    {
-                        if (!navigation.IsVisible && navigation.IsLoaded)
-                        {
-                            AuthUser();
-                        }
-                    };
-
+                    RememberedUserAsync();
                 }
             };
         }
     }
 
-        
 
-    }
+
+}
 
 
 

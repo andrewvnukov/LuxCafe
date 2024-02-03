@@ -60,8 +60,6 @@ namespace Cafe_Managment.ViewModel
 
         public NavigationVM()
         {
-            userRepository = new UserRepository();
-            LoadCurrentUserData();
 
             DishCommand = new RelayCommand(Dish, CanGoDish);
             EmployeeCommand = new RelayCommand(Employee, CanGoEmployee);
@@ -75,7 +73,12 @@ namespace Cafe_Managment.ViewModel
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
 
 
-            CurrentView = new ProfileVM();
+            CurrentView = new HelloPage();
+        }
+
+        private void LoadCurrentUserData()
+        {
+            userRepository.GetById();
         }
 
         private bool CanGoBar(object arg)
@@ -133,10 +136,7 @@ namespace Cafe_Managment.ViewModel
             return CanGoDish;
         }
 
-        private void LoadCurrentUserData()
-        {
-            userRepository.GetById();
-        }
+        
 
         private void ExecuteReturnCommand(object obj)
         {

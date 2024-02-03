@@ -35,7 +35,7 @@
                                 Orientation="Horizontal"
                                 FlowDirection="LeftToRight">
                         <TextBlock Text="ФИО:" 
-                                   Style="{DynamicResource Text_Headline2}"
+                                   Style="{DynamicResource Text_Headline3}"
                                    VerticalAlignment="Bottom"/>
                         <TextBlock Margin="5,0,0,0"
                                    VerticalAlignment="Bottom"
@@ -43,22 +43,7 @@
                            Style="{DynamicResource Default_Text}"
                            />
                     </StackPanel>
-                <TextBlock Text="{Binding CurrentData.Address}"
-           HorizontalAlignment="Center"
-           Style="{DynamicResource Default_Text}"
-           />
-                    <TextBlock Text="{Binding CurrentData.Email}"
-           HorizontalAlignment="Center"
-           Style="{DynamicResource Default_Text}"
-           />
-                    <TextBlock Text="{Binding CurrentData.PhoneNumber}"
-           HorizontalAlignment="Center"
-           Style="{DynamicResource Default_Text}"
-           />
-                    <TextBlock Text="{Binding CurrentData.BirthDay}"
-           HorizontalAlignment="Center"
-           Style="{DynamicResource Default_Text}"
-           />
+                 
                 </StackPanel>
 
             </Grid>

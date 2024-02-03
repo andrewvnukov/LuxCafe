@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Cafe_Managment.View.Loading"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Border Background="{DynamicResource PrimaryColor1}"
+                CornerRadius="10">
+        
+            <Image
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                
+                Name="MyImage" Source="/Images/AssHurt.png" 
+                Width="200" >
+            <Image.LayoutTransform>
+                <RotateTransform x:Name="RotateImage" CenterX="0" CenterY="0"/>
+
+            </Image.LayoutTransform>
+                
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Rectangle.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                Storyboard.TargetName="RotateImage"
+                                Storyboard.TargetProperty="Angle"
+                                From="0" To="360" Duration="0:0:0.8"
+                                RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+        </Border>
+    </Grid>
+</UserControl>

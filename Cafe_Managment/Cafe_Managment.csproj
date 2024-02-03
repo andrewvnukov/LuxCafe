@@ -122,11 +122,17 @@
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="ViewModel\BarVM.cs" />
+    <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewWindowVM.cs" />
-    <Compile Include="ViewModel\WindowVM.cs" />
     <Compile Include="View\Bar.xaml.cs">
       <DependentUpon>Bar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HelloPage.xaml.cs">
+      <DependentUpon>HelloPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -185,6 +191,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Bar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HelloPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Loading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -294,6 +308,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AssHurt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

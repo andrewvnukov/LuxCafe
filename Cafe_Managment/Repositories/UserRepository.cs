@@ -141,7 +141,6 @@ namespace Cafe_Managment.Repositories
                     {
                         byte[] imageData = (byte[])reader[8];
                         UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
-
                     }else UserData.ProfileImage = null;
 
                 }
