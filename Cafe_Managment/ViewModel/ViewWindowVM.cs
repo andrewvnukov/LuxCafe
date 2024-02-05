@@ -86,8 +86,6 @@ namespace Cafe_Managment.ViewModel
 
         private void RememberedUserAsync()
         {
-            ActiveWindow = loading;
-
             repositoryBase.GetById();
 
             navigation = new Navigation();

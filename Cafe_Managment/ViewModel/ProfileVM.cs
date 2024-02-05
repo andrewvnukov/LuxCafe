@@ -16,7 +16,7 @@ namespace Cafe_Managment.ViewModel
 
         private EmpData _currentData;
 
-        public string Fullname;
+        private string _fullname;
 
         public EmpData CurrentData
         {
@@ -24,6 +24,11 @@ namespace Cafe_Managment.ViewModel
             set { _currentData = value; OnPropertyChanged(); }
         }
         
+        public string Fullname
+        {
+            get { return _fullname; }
+            set { _fullname = value; OnPropertyChanged(); }
+        }
 
 
         public ProfileVM()
@@ -34,6 +39,8 @@ namespace Cafe_Managment.ViewModel
             {
                 Role = userRepository.GetRoleById(UserData.RoleId),
                 Status = "Работает",
+                Name = UserData.Name,
+                Surname = UserData.Surname,
                 Patronomic = UserData.Patronomic,
                 PhoneNumber = UserData.PhoneNumber,
                 Email = UserData.Email,
@@ -41,6 +48,8 @@ namespace Cafe_Managment.ViewModel
                 Address = UserData.Address,
                 ProfileImage = UserData.ProfileImage
             };
+
+            Fullname = $"{CurrentData.Surname} {CurrentData.Name} {CurrentData.Patronomic}";
         }
     }
 }

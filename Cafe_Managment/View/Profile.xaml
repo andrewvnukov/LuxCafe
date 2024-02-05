@@ -40,8 +40,8 @@
                                    VerticalAlignment="Bottom"/>
                         <TextBlock Margin="5,0,0,0"
                                    VerticalAlignment="Bottom"
-                            Text="{Binding CurrentData.Name}"
-                           Style="{DynamicResource Default_Text}"
+                                   Text="{Binding Fullname, Mode=TwoWay}"
+                                   Style="{DynamicResource Default_Text}"
                            />
                     </StackPanel>
                     <StackPanel Margin="10,0,0,0"
