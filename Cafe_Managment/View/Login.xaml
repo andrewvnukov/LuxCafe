@@ -50,7 +50,7 @@
             <!--<TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>-->
 
             <Image Grid.Column="1" Source="/Images/MainLogo.png"/>
-            <TextBlock Text="Manage the flavor of success without forgetting the flavor of business!"
+            <TextBlock Text="Деньги не пахнут, я пахну."
                        Grid.Column="1"
                        Grid.Row="1"
                        Foreground="#EEEEEE"

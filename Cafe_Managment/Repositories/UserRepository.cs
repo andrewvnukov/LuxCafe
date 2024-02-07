@@ -24,41 +24,43 @@ namespace Cafe_Managment.Repositories
     {
         public void Add()
         {
-            using (var connection = GetConnection())
+            throw new NotImplementedException();
 
-            using (var command = new MySqlCommand())
-            {
-                connection.Open();
-                command.Connection = connection;
-                command.CommandText = "INSERT INTO employees VALUES Username = @username, Password = @password, Name = @name," +
-                    "Surname = @surname, Patronomic = @patronomic, DateOfBirth = @birthday, Passport = @passport";
-                command.Parameters.AddWithValue("username", credential.UserName);
+            //using (var connection = GetConnection())
 
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows && reader.Read())
-                    {
+            //using (var command = new MySqlCommand())
+            //{
+            //    connection.Open();
+            //    command.Connection = connection;
+            //    command.CommandText = "INSERT INTO employees VALUES Username = @username, Password = @password, Name = @name," +
+            //        "Surname = @surname, Patronomic = @patronomic, DateOfBirth = @birthday, Passport = @passport";
+            //    command.Parameters.AddWithValue("username", credential.UserName);
 
-                        string storedPassword = reader[1].ToString();
-                        string salt = reader[2].ToString();
-                        short userStatus = reader.GetInt16("Status");
+            //    using (var reader = command.ExecuteReader())
+            //    {
+            //        if (reader.HasRows && reader.Read())
+            //        {
 
-                        if (userStatus == 1)
-                        {
-                            if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
-                            {
-                                UserData.Id = int.Parse(reader[0].ToString());
-                                validUser = 0;
-                            }
-                            else { validUser = 3; }
-                        }
-                        else { validUser = 1; }
-                    }
-                    else { validUser = 2; }
-                }
-                connection.Close();
-            }
-            return validUser;
+            //            string storedPassword = reader[1].ToString();
+            //            string salt = reader[2].ToString();
+            //            short userStatus = reader.GetInt16("Status");
+
+            //            if (userStatus == 1)
+            //            {
+            //                if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
+            //                {
+            //                    UserData.Id = int.Parse(reader[0].ToString());
+            //                    validUser = 0;
+            //                }
+            //                else { validUser = 3; }
+            //            }
+            //            else { validUser = 1; }
+            //        }
+            //        else { validUser = 2; }
+            //    }
+            //    connection.Close();
+            //}
+            //return validUser;
         }
 
         public int AuthenticateUser(NetworkCredential credential)

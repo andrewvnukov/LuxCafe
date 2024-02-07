@@ -52,7 +52,6 @@ namespace Cafe_Managment.ViewModel
 
             repositoryBase = new UserRepository();
 
-
             if (repositoryBase.GetByMac())
             {
                 RememberedUserAsync();

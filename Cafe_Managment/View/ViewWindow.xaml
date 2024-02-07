@@ -26,7 +26,7 @@
                 Panel.ZIndex="1"
                 >
             <Border.Background>
-                <SolidColorBrush Color="DarkGray" Opacity="0.8"/>
+                <SolidColorBrush Color="Transparent" Opacity="0.8"/>
             </Border.Background>
             <StackPanel
             MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" 
