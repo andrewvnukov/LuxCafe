@@ -85,8 +85,6 @@ namespace Cafe_Managment.ViewModel
 
         private void RememberedUserAsync()
         {
-            repositoryBase.GetById();
-
             navigation = new Navigation();
             ActiveWindow = navigation;
             navigation.IsVisibleChanged += (s1, ev1) =>

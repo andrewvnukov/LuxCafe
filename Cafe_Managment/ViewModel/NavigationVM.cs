@@ -60,6 +60,8 @@ namespace Cafe_Managment.ViewModel
 
         public NavigationVM()
         {
+            userRepository = new UserRepository();
+            LoadCurrentUserData();
 
             DishCommand = new RelayCommand(Dish, CanGoDish);
             EmployeeCommand = new RelayCommand(Employee, CanGoEmployee);

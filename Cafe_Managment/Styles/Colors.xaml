@@ -23,5 +23,13 @@
     <Color x:Key="NormalButtonColor1">#7396D1</Color>
     <Color x:Key="NormalButtonColor2">#505F99</Color>
     <Color x:Key="PressedButtonColor1">#404D89</Color>
+    
+    <!--UpPanel colors-->
+
+    <SolidColorBrush x:Key="AuthPanelBack" Color="Transparent"/>
+    <LinearGradientBrush x:Key="MainPanelBack" StartPoint="0.5,1" EndPoint="0.5,0">
+        <GradientStop Offset ="0" Color="#404D89"/>
+        <GradientStop Offset ="1" Color="#505F99"/>
+    </LinearGradientBrush>
 
 </ResourceDictionary>

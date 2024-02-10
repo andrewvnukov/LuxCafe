@@ -191,6 +191,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\UpPanelStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Bar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -318,6 +322,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Notification.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Statistic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Employees.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Kitchen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Order.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Bar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

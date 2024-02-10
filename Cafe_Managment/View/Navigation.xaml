@@ -28,40 +28,49 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="180"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="10,0,0,10">
+            <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="0,0,0,10">
                 <Grid>
                     <StackPanel Margin="0,39,0,0"  VerticalAlignment="Top">
 
-                        <menu:ButtonControl Content="Профиль" 
+                        <menu:ButtonControl Content="Профиль"
+                                            Tag="/Images/Profile.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding ProfileCommand}">
+                            
                         </menu:ButtonControl>
+
                         <menu:ButtonControl Content="Статистика" 
+                                            Tag="/Images/Statistic.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding StatisticCommand}">
                         </menu:ButtonControl>
                         <menu:ButtonControl Content="Сотрудники" 
+                                            Tag="/Images/Employees.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding EmployeeCommand}">
                         </menu:ButtonControl>
                         <menu:ButtonControl Content="Кухня" 
+                                            Tag="/Images/Kitchen.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding KitchenCommand}">
                         </menu:ButtonControl>
                         <menu:ButtonControl Content="Меню" 
+                                            Tag="/Images/Menu.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding MenuCommand}">
                         </menu:ButtonControl>
 
                         <menu:ButtonControl Content="Заказ" 
+                                            Tag="/Images/Order.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding OrderCommand}">
                         </menu:ButtonControl>
 
                         <menu:ButtonControl Content="Бар" 
+                                            Tag="/Images/Bar.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding BarCommand}">
                         </menu:ButtonControl>
@@ -72,7 +81,7 @@
                         Command="{Binding ReturnCommand}"/>
                 </Grid>
             </Border>
-            <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="0,10,10,0" Grid.Column="1">
+            <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="0,0,10,0" Grid.Column="1">
                 
                     
                     <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Margin="0,35,0,0"/>

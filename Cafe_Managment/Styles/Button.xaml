@@ -39,20 +39,29 @@
                                 </Border.Background>
                             </Border>
 
-                            <TextBlock x:Name="Textblock"
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="10,0,0,0">
+
+                                <Image Height="25" 
+                                       DataContext="{TemplateBinding Tag}" 
+                                       Source="{Binding}"
+                                       Margin="10,0,0,0"/>
+
+                                <TextBlock x:Name="Textblock"
                                 Text="{TemplateBinding Content}"
                                        MinWidth="100"
                                        FontSize= "20"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        FontWeight="DemiBold"
-                                       Margin="20,0,0,0"
+                                       Margin="10,0,0,0"
                                        TextAlignment="Left"
                                        >
                                 <TextBlock.Foreground>
                                     <SolidColorBrush x:Name="TextColor" Color="{DynamicResource Color_NormalText1}"/>
                                 </TextBlock.Foreground>
                             </TextBlock>
+                            </StackPanel>
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>

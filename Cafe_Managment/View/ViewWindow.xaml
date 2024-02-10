@@ -21,19 +21,20 @@
     </Window.WindowState>
 
     <Grid>
-        <Border VerticalAlignment="Top"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border  Grid.Row="0"
+            VerticalAlignment="Top"
                 CornerRadius="10,10,0,0"
                 Panel.ZIndex="1"
+                Background="{DynamicResource MainPanelBack}"
+                MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" 
                 >
-            <Border.Background>
-                <SolidColorBrush Color="Transparent" Opacity="0.8"/>
-            </Border.Background>
             <StackPanel
-            MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" 
-                    
                     Orientation="Horizontal"
                     FlowDirection="RightToLeft"
-                    Background="Transparent"
                     Margin="0,5,5,5">
                 <Button 
                 Style="{DynamicResource CloseApp}"
@@ -51,6 +52,9 @@
 
             </StackPanel>
         </Border>
-        <ContentControl Panel.ZIndex="0" x:Name="MainViewer" Content="{Binding ActiveWindow}"/>
+        <ContentControl Grid.Row="1"
+            Panel.ZIndex="0" 
+                        x:Name="MainViewer" 
+                        Content="{Binding ActiveWindow}"/>
     </Grid>
 </Window>
