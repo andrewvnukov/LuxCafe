@@ -11,7 +11,9 @@
         WindowStyle="None"
         Background="Transparent"    
         Icon="/Images/Icon.png"
-        Title="Staffee" Height="600" Width="1000">
+        Title="Staffee" 
+        Height="{Binding WindowHeight, Mode=TwoWay}" 
+        Width="{Binding WindowWidth, Mode=TwoWay}">
     <Window.DataContext>
         <vm:ViewWindowVM/>
     </Window.DataContext>
@@ -29,7 +31,7 @@
             VerticalAlignment="Top"
                 CornerRadius="10,10,0,0"
                 Panel.ZIndex="1"
-                Background="{DynamicResource MainPanelBack}"
+                Background="{Binding PanelBack}"
                 MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" 
                 >
             <StackPanel

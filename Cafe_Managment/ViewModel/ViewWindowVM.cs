@@ -1,16 +1,9 @@
-﻿using Cafe_Managment.Model;
-using Cafe_Managment.Repositories;
+﻿using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
 using Cafe_Managment.View;
-using Mysqlx.Session;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -18,6 +11,9 @@ namespace Cafe_Managment.ViewModel
     {
         private object _activeWindow;
         private WindowState _windowSt;
+        private int _windowWidth = 1000;
+        private int _windowHeight = 1000;
+        private Brush _panelBack;
 
         UserRepository repositoryBase;
 
@@ -38,6 +34,24 @@ namespace Cafe_Managment.ViewModel
         {
             get { return _windowSt; }
             set { _windowSt = value; OnPropertyChanged(nameof(WindowSt)); }
+        }
+
+        public Brush PanelBack
+        {
+            get { return _panelBack; }
+            set { _panelBack = value; OnPropertyChanged(); }
+        }
+
+        public int WindowWidth
+        {
+            get { return _windowWidth; }
+            set { _windowWidth = value; OnPropertyChanged(); }
+        }
+
+        public int WindowHeight
+        {
+            get { return _windowHeight; }
+            set { _windowHeight = value; OnPropertyChanged(); }
         }
 
         public ICommand CloseAppCommand { get; set; }
@@ -80,11 +94,15 @@ namespace Cafe_Managment.ViewModel
 
         private void CloseApp(object obj)
         {
-            System.Windows.Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();  
         }
 
         private void RememberedUserAsync()
         {
+            PanelBack = Application.Current.TryFindResource("MainPanelBack") as Brush;
+            WindowHeight = 600;
+            WindowWidth = 1000;
+            
             navigation = new Navigation();
             ActiveWindow = navigation;
             navigation.IsVisibleChanged += (s1, ev1) =>
@@ -99,6 +117,10 @@ namespace Cafe_Managment.ViewModel
 
         private void AuthUser()
         {
+            PanelBack = (Brush)Application.Current.Resources["AuthPanelBack"];
+            WindowHeight = 600;
+            WindowWidth = 500;
+
             login = new Login();
             ActiveWindow = login;
             login.IsVisibleChanged += (s, ev) =>
