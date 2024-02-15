@@ -21,8 +21,6 @@ namespace Cafe_Managment.ViewModel
         Navigation navigation;
         Loading loading = new Loading();
 
-
-
         public object ActiveWindow
         {
             get { return _activeWindow; }
@@ -99,12 +97,13 @@ namespace Cafe_Managment.ViewModel
 
         private void RememberedUserAsync()
         {
-            PanelBack = Application.Current.TryFindResource("MainPanelBack") as Brush;
-            WindowHeight = 600;
-            WindowWidth = 1000;
+            
             
             navigation = new Navigation();
             ActiveWindow = navigation;
+            PanelBack = Application.Current.TryFindResource("MainPanelBack") as Brush;
+            WindowHeight = 600;
+            WindowWidth = 1000;
             navigation.IsVisibleChanged += (s1, ev1) =>
             {
                 if (!navigation.IsVisible && navigation.IsLoaded)
@@ -117,12 +116,13 @@ namespace Cafe_Managment.ViewModel
 
         private void AuthUser()
         {
-            PanelBack = (Brush)Application.Current.Resources["AuthPanelBack"];
-            WindowHeight = 600;
-            WindowWidth = 500;
+            
 
             login = new Login();
             ActiveWindow = login;
+            PanelBack = (Brush)Application.Current.Resources["AuthPanelBack"];
+            WindowHeight = 600;
+            WindowWidth = 500;
             login.IsVisibleChanged += (s, ev) =>
             {
                 if (!login.IsVisible && login.IsLoaded)

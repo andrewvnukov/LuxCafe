@@ -118,16 +118,27 @@
     <Compile Include="Controls\BindblePassBox.xaml.cs">
       <DependentUpon>BindblePassBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GridLengthAnimation.cs" />
     <Compile Include="Model\EmpData.cs" />
     <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="ViewModel\BarVM.cs" />
+    <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\HelloPageVM.cs" />
     <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewWindowVM.cs" />
     <Compile Include="View\Bar.xaml.cs">
       <DependentUpon>Bar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\RegisterForms\RegisterFirst.xaml.cs">
+      <DependentUpon>RegisterFirst.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\RegisterForms\RegisterSecond.xaml.cs">
+      <DependentUpon>RegisterSecond.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HelloPage.xaml.cs">
       <DependentUpon>HelloPage.xaml</DependentUpon>
@@ -195,7 +206,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Bar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\RegisterForms\RegisterFirst.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\RegisterForms\RegisterSecond.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -347,5 +374,12 @@
   <ItemGroup>
     <Resource Include="Images\Bar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TabBtn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Back.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

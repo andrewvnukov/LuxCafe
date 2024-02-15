@@ -7,8 +7,6 @@
          Value="Center" />
         <Setter Property="VerticalAlignment"
          Value="Center" />
-        <Setter Property="Margin"
-         Value="0,0,0,0" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -119,10 +117,32 @@
                             </Setter>
                             <Setter TargetName="border" Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource MouseOverButtonColor1}"/>
+                                    <SolidColorBrush Opacity="0.5" Color="{DynamicResource MouseOverButtonColor1}"/>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
+                        <DataTrigger Binding="{Binding IsMenuHidden}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Textblock"
+                                            Storyboard.TargetProperty="Opacity"
+                             From="1" To="0"
+                             Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Textblock"
+                                            Storyboard.TargetProperty="Opacity"
+                             From="0" To="1"
+                             Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -133,7 +153,7 @@
 
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="Foreground" Value="White"/>
 
 
@@ -143,7 +163,7 @@
 
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Image x:Name="CrossIcon" Source="/Images/Cross.png" Panel.ZIndex="2" Margin="8"/>
+                        <Image x:Name="CrossIcon" Source="/Images/Cross.png" Panel.ZIndex="2" Margin="7"/>
                         <Border x:Name="IconBack" Background="Red" Visibility="Hidden" CornerRadius="2" Opacity="0.3" Panel.ZIndex="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -341,5 +361,140 @@
             </Setter.Value>
         </Setter>
 
+    </Style>
+
+    <Style x:Key="BackButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                            CornerRadius="5"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
+                                x:Name="Border"
+                                BorderThickness="1.5"
+                            >       
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BorderBackground" Opacity="0.2" Color="{DynamicResource DisableButtonColor1}"/>
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush x:Name="BorderColor" Opacity="0.2" Color="Transparent"/>
+                        </Border.BorderBrush>
+                        <Grid>
+                            <Image Stretch="Uniform"
+                                Margin="7"
+                                Source="/Images/Back.png"
+                                   Visibility="Collapsed"
+                                   x:Name="BtnImage"/>
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       x:Name="BtnText"
+                                   FontSize="18"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontWeight="DemiBold">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush x:Name="TextColor" Color="LightGray"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                                        Storyboard.TargetProperty="Color" 
+                                                        To="{DynamicResource NormalButtonColor2}" 
+                                                        Duration="0:0:0.1"/>
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="MouseOver">
+                                    <Storyboard Duration="0:0:0.1">
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                Storyboard.TargetProperty="Color"
+                                To="{DynamicResource MouseOverButtonColor2}"
+                                Duration="0:0:0.1"/>
+                                        <ColorAnimation Storyboard.TargetName="TextColor"
+                                Storyboard.TargetProperty="Color"
+                                To="{DynamicResource Color_NormalText1}"
+                                Duration="0:0:0.1"/>
+
+                                    </Storyboard>
+
+                                </VisualState>
+                                <VisualState Name="Pressed">
+                                    <Storyboard Duration="0:0:0.1">
+                                        <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                Storyboard.TargetProperty="Color"
+                                To="{DynamicResource PressedButtonColor2}"
+                                Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsMenuHidden}"
+                                     Value="True">
+                            <Setter TargetName="BtnImage"
+                                    Property="Visibility"
+                                    Value="Visible"/>
+                            <Setter TargetName="BtnText"
+                                    Property="Visibility"
+                                    Value="Collapsed"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TabButton" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                        CornerRadius="5">
+                        <Border.Background>
+                            <SolidColorBrush x:Name="ButtonBack" Opacity="0.5" Color="Transparent"/>
+                        </Border.Background>
+                        <Image
+                            Margin="7"
+                            DataContext="{TemplateBinding Tag}" 
+                            Source="{Binding}"
+                            Stretch="Fill"/>
+                        
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="ButtonBack"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="{DynamicResource MouseOverButtonColor2}"
+                                                        Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Normal">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="ButtonBack"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="Transparent"
+                                                        Duration="0:0:0.1"/>
+                                </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="ButtonBack"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="{DynamicResource PressedButtonColor2}"
+                                                        Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

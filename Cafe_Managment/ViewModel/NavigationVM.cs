@@ -18,6 +18,7 @@ namespace Cafe_Managment.ViewModel
         private IUserRepository userRepository;
         private bool _isViewVisible = true;
         private bool _isEnabled = true;
+        private bool _isMenuHidden = false;
 
         private object _currentView;
         public object CurrentView
@@ -37,6 +38,15 @@ namespace Cafe_Managment.ViewModel
             set { _isEnabled = value; OnPropertyChanged(nameof(IsEnabled)); }
         }
 
+        public bool IsMenuHidden
+        {
+            get=> _isMenuHidden;
+            set
+            {
+                _isMenuHidden = value; OnPropertyChanged(nameof(IsMenuHidden));
+            }
+        }
+
         public ICommand DishCommand { get; set; }
         public ICommand EmployeeCommand { get; set; }
         public ICommand KitchenCommand { get; set; }
@@ -46,8 +56,8 @@ namespace Cafe_Managment.ViewModel
         public ICommand StatisticCommand { get; set; }
         public ICommand BarCommand { get; set; }
 
+        public ICommand CloseTabCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
-        public ICommand CloseAppCommand { get; set; }
 
         private void Dish(object obj) => CurrentView = new DishVM();
         private void Employee(object obj) => CurrentView = new EmployeeVM();
@@ -73,9 +83,15 @@ namespace Cafe_Managment.ViewModel
             BarCommand = new RelayCommand(Bar);
 
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
+            CloseTabCommand = new RelayCommand(ExecuteCloseTabCommand);
 
 
             CurrentView = new HelloPage();
+        }
+
+        private void ExecuteCloseTabCommand(object obj)
+        {
+            IsMenuHidden = IsMenuHidden == false;
         }
 
         private void LoadCurrentUserData()

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:menu="clr-namespace:Cafe_Managment.Utilities"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+             xmlns:control="clr-namespace:Cafe_Managment.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -28,12 +29,86 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180"/>
+                <ColumnDefinition x:Name="MenuGrid" Width="180">
+                    <ColumnDefinition.Style>
+                        <Style>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMenuHidden, Mode=OneWay}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <control:GridLengthAnimation Storyboard.TargetProperty="Width"
+                                                         From ="180" To="65" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <control:GridLengthAnimation Storyboard.TargetProperty="Width"
+                                                         From ="65" To="180" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ColumnDefinition.Style>
+                </ColumnDefinition>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="{DynamicResource PrimaryColor2}" CornerRadius="0,0,0,10">
+            <Border Grid.Column="0" 
+                    Background="{DynamicResource PrimaryColor2}" 
+                    CornerRadius="0,0,0,10">
+                
                 <Grid>
-                    <StackPanel Margin="0,39,0,0"  VerticalAlignment="Top">
+                    <StackPanel Margin="0,20,0,0"  
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center">
+
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="15,0,0,30">
+                            <Button Width="40"
+                                    Height="35"
+                                Style="{DynamicResource TabButton}"
+                                    Command="{Binding CloseTabCommand}"
+                                    Tag="/Images/TabBtn.png">
+                            </Button>
+                            <TextBlock x:Name="text"
+                                       Text="Staffee"
+                                       Margin="10,0,0,0"
+                                       Foreground="{DynamicResource NormalTextColor1}"
+                                       FontSize="30">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMenuHidden}" Value="True">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                             From="1" To="0"
+                                                                             Duration="0:0:0.1"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                             From="0" To="1"
+                                                                             Duration="0:0:0.1"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                       
+                            </TextBlock>
+                        </StackPanel>
 
                         <menu:ButtonControl Content="Профиль"
                                             Tag="/Images/Profile.png"
@@ -75,18 +150,18 @@
                                     Command="{Binding BarCommand}">
                         </menu:ButtonControl>
                     </StackPanel>
-                    <Button Style="{DynamicResource DefaultButton}"
-                        Content="Назад" VerticalAlignment="Bottom" 
-                        Height="50" Margin="10,0,10,5"
+                    <Button Style="{DynamicResource BackButton}"
+                        Content="Назад" 
+                        VerticalAlignment="Bottom" 
+                        Height="40"
+                        Margin="10,0,10,5"
                         Command="{Binding ReturnCommand}"/>
                 </Grid>
             </Border>
-            <Border Background="{DynamicResource PrimaryColor1}" CornerRadius="0,0,10,0" Grid.Column="1">
-                
-                    
-                    <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Margin="0,35,0,0"/>
-
-                
+            <Border Background="{DynamicResource PrimaryColor1}" 
+                    CornerRadius="0,0,10,0" 
+                    Grid.Column="1">
+                <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Margin="0,35,0,0"/>
             </Border>
         </Grid>
 

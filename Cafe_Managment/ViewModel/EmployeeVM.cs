@@ -1,6 +1,7 @@
 ﻿using Cafe_Managment.Model;
 using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
+using Cafe_Managment.View.DialogWindows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,7 +46,13 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteHireCommand(object obj)
         {
-            MessageBox.Show("Нанимаем");
+            Registration registration = new Registration();
+            registration.ShowDialog();
+            registration.IsVisibleChanged += (s, ev) =>
+            {
+                registration.Close();
+            };
         }
     }
+    
 }
