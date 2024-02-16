@@ -4,9 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows.RegisterForms"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
-            
+        <StackPanel
+            Margin="70,0,70,0"
+            VerticalAlignment="Center"
+            >
+            <TextBox Tag="Имя"
+                     Text="{Binding Empdata.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource LoginTextBox}"
+                     Margin="0,20,0,20"/>
+            <TextBox Tag="Фамилия" 
+                     Text="{Binding Empdata.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource LoginTextBox}"
+                     Margin="0,20,0,20"/>
+            <TextBox Tag="Отчество" 
+                     Text="{Binding Empdata.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource LoginTextBox}"
+                     Margin="0,20,0,20"/>
+            <TextBox Tag="Номер телефона"
+                     Text="{Binding Empdata.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource LoginTextBox}"
+                     Margin="0,20,0,20"/>
+            <TextBox Tag="Почта"
+                     Text="{Binding Empdata.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{DynamicResource LoginTextBox}"
+                     Margin="0,20,0,20"/>
+        </StackPanel>
     </Grid>
 </UserControl>

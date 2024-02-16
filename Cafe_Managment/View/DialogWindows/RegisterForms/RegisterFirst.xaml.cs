@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafe_Managment.ViewModel.DialogWindowsVM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace Cafe_Managment.View.DialogWindows.RegisterForms
     /// </summary>
     public partial class RegisterFirst : UserControl
     {
+
         public RegisterFirst()
         {
             InitializeComponent();
+
         }
     }
 }

@@ -3,7 +3,10 @@
                     xmlns:view="clr-namespace:Cafe_Managment.View"
                     xmlns:dialogview="clr-namespace:Cafe_Managment.View.DialogWindows"
                     xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
-                    xmlns:dialogvm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM">
+                    xmlns:dialogvm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM"
+                    xmlns:regview="clr-namespace:Cafe_Managment.View.DialogWindows.RegisterForms"
+                    xmlns:regvm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM">
+    
     
 
     <DataTemplate DataType="{x:Type vm:DishVM}">
