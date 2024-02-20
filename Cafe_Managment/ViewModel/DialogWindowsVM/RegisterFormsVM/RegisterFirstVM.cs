@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,10 +16,6 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM
     {
         private bool _isVisible = true;
         private EmpData _regData;
-
-        public delegate void EventDelegate(bool s);
-        public event EventDelegate IfFinished=null;
-
         public EmpData RegData
         {
             get { return _regData; }
@@ -30,25 +27,21 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM
             set { _isVisible = value; OnPropertyChanged(); }
         }
 
+        public event Action RegistrationCompleted;
+
         public ICommand GoNextCommand { get; set; }
 
-        public RegisterFirstVM() 
+        public RegisterFirstVM()
         {
             GoNextCommand = new RelayCommand(ExecuteGoNextCommand);
-
-        }
-        public RegisterFirstVM(ref EmpData tempData) 
-        {
-            RegData = tempData;
-            GoNextCommand = new RelayCommand(ExecuteGoNextCommand);
-
         }
 
         private void ExecuteGoNextCommand(object obj)
         {
-            IfFinished.Invoke(true);
+            RegistrationCompleted?.Invoke();
+            SystemSounds.Beep.Play();
         }
 
-        
+
     }
 }

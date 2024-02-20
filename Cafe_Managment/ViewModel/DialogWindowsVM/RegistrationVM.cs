@@ -4,9 +4,11 @@ using Cafe_Managment.View.DialogWindows.RegisterForms;
 using Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 using System.Windows;
 using System.Windows.Input;
 
@@ -20,6 +22,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         RegisterFirstVM firstPage;
         RegisterSecondVM secondPage;
 
+        public ICommand NavigateToPageCommand { get; }
 
         public bool IsViewVisible
         {
@@ -41,23 +44,23 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 
         public RegistrationVM() 
         {
-            firstPage = new RegisterFirstVM(ref empData);
-            secondPage = new RegisterSecondVM();
+            NavigateToPageCommand = new RelayCommand(NavigateToPage);
 
-            ActivePage = firstPage;
-
-            firstPage.IfFinished += (s) =>
-            {
-                MessageBox.Show("work!");
-            };
-            
+            ActivePage = new RegisterFirst();
 
             CloseWindowCommand = new RelayCommand(ExecuteCloseWindowCommand);
+        }
+
+        private void NavigateToPage(object obj)
+        {
+            ActivePage = obj;
         }
 
         private void ExecuteCloseWindowCommand(object obj)
         {
             IsViewVisible = false;
         }
+
+
     }
 }

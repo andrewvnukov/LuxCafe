@@ -4,22 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows.RegisterForms"
-             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <UserControl.DataContext>
-        <vm:RegisterFirstVM/>
-    </UserControl.DataContext>
-
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
-    </UserControl.Resources>
-    
-    <UserControl.Visibility>
-        <Binding Path="IsVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
-    </UserControl.Visibility>
-    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="213*"/>
@@ -29,6 +17,7 @@
             Margin="70,0,70,0"
             VerticalAlignment="Center" Grid.ColumnSpan="2"
             >
+            <!--
             <TextBox Tag="Имя"
                      Text="{Binding RegData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
@@ -45,11 +34,12 @@
                      Text="{Binding RegData.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
-
+-->
         </StackPanel>
         <Button Content="Далее"
                 Style="{DynamicResource DefaultButton}"
-                Command="{Binding GoNextCommand}"
+                Command="{Binding NavigateToPageCommand}"
+                CommandParameter="{x:Type local:RegisterSecond}"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
                 Width="100"
