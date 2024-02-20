@@ -8,9 +8,10 @@
         mc:Ignorable="d"
         Title="Registration"
         Style="{DynamicResource DialogWindow1}"
-        Height="620" Width="500"
+        Height="500" Width="400"
         WindowStartupLocation="CenterOwner"
         MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+    
     <Window.DataContext>
         <vm:RegistrationVM/>
     </Window.DataContext>
@@ -29,22 +30,8 @@
                    Style="{DynamicResource Text_Headline1}"/>
 
         <ContentControl Content="{Binding ActivePage}"
-                        Height="500"
+                        MinHeight="400"
                         VerticalAlignment="Top"
-                        Margin="0,40,0,60"/>
-        <Button Content="Далее"
-                Style="{DynamicResource DefaultButton}"
-                                VerticalAlignment="Bottom"
-                Command="{Binding GoNextCommand}"
-                HorizontalAlignment="Right"
-                Width="100" Margin="0,0,10,10" Height="40"
-                />
-        <Button Content="Назад" 
-                Style="{DynamicResource DefaultButton}"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Height="40"
-                Width="100"
-                Margin="0,0,120,10"/>
+                        Margin="0,40,0,0"/>
     </Grid>
 </Window>

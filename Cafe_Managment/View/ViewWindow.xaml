@@ -12,8 +12,10 @@
         Background="Transparent"    
         Icon="/Images/Icon.png"
         Title="Staffee" 
+        ResizeMode="{Binding ResizeMode}"
         Height="{Binding WindowHeight, Mode=TwoWay}" 
         Width="{Binding WindowWidth, Mode=TwoWay}">
+    
     <Window.DataContext>
         <vm:ViewWindowVM/>
     </Window.DataContext>
@@ -44,6 +46,7 @@
                     Command="{Binding CloseAppCommand}" Width="30" Height="30"/>
                 <Button Width="30" Height="30"
                     Style="{DynamicResource MaximizeApp}"
+                    IsEnabled="{Binding CanResize}"
                     Margin="0,0,2.5,0"
                     Command="{Binding MaximizeCommand}"/>
                 <Button Style="{DynamicResource MinimizeApp}"

@@ -1,6 +1,7 @@
 ﻿using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
 using Cafe_Managment.View;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -14,6 +15,8 @@ namespace Cafe_Managment.ViewModel
         private int _windowWidth = 1000;
         private int _windowHeight = 1000;
         private Brush _panelBack;
+        private ResizeMode _resizeMode;
+        private bool _canResize;
 
         UserRepository repositoryBase;
 
@@ -50,6 +53,17 @@ namespace Cafe_Managment.ViewModel
         {
             get { return _windowHeight; }
             set { _windowHeight = value; OnPropertyChanged(); }
+        }
+
+        public ResizeMode ResizeMode
+        { get { return _resizeMode; }
+            set { _resizeMode = value; OnPropertyChanged(); }
+        }
+
+        public bool CanResize
+        {
+            get { return _canResize; }
+            set { _canResize = value; OnPropertyChanged(); }
         }
 
         public ICommand CloseAppCommand { get; set; }
@@ -101,6 +115,8 @@ namespace Cafe_Managment.ViewModel
             
             navigation = new Navigation();
             ActiveWindow = navigation;
+            ResizeMode = ResizeMode.CanResize;
+            CanResize = true;
             PanelBack = Application.Current.TryFindResource("MainPanelBack") as Brush;
             WindowHeight = 600;
             WindowWidth = 1000;
@@ -120,6 +136,8 @@ namespace Cafe_Managment.ViewModel
 
             login = new Login();
             ActiveWindow = login;
+            ResizeMode = ResizeMode.CanMinimize;
+            CanResize = false;
             PanelBack = (Brush)Application.Current.Resources["AuthPanelBack"];
             WindowHeight = 600;
             WindowWidth = 500;

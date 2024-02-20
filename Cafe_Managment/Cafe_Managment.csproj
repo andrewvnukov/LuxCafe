@@ -124,6 +124,7 @@
     <Compile Include="Model\UserData.cs" />
     <Compile Include="ViewModel\BarVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegisterFormsVM\RegisterFirstVM.cs" />
+    <Compile Include="ViewModel\DialogWindowsVM\RegisterFormsVM\RegisterSecondVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\HelloPageVM.cs" />
     <Compile Include="ViewModel\LoadingVM.cs" />

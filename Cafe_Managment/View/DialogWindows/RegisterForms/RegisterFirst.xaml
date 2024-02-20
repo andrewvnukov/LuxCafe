@@ -8,31 +8,53 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.DataContext>
+        <vm:RegisterFirstVM/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    
+    <UserControl.Visibility>
+        <Binding Path="IsVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </UserControl.Visibility>
+    
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="213*"/>
+            <ColumnDefinition Width="187*"/>
+        </Grid.ColumnDefinitions>
         <StackPanel
             Margin="70,0,70,0"
-            VerticalAlignment="Center"
+            VerticalAlignment="Center" Grid.ColumnSpan="2"
             >
             <TextBox Tag="Имя"
-                     Text="{Binding Empdata.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding RegData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
-            <TextBox Tag="Фамилия" 
-                     Text="{Binding Empdata.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Tag="Фамилия"
+                     Text="{Binding RegData.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
-            <TextBox Tag="Отчество" 
-                     Text="{Binding Empdata.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Tag="Отчество"
+                     Text="{Binding RegData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
-            <TextBox Tag="Номер телефона"
-                     Text="{Binding Empdata.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Tag="Дата рождения"
+                     Text="{Binding RegData.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
-            <TextBox Tag="Почта"
-                     Text="{Binding Empdata.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource LoginTextBox}"
-                     Margin="0,20,0,20"/>
+
         </StackPanel>
+        <Button Content="Далее"
+                Style="{DynamicResource DefaultButton}"
+                Command="{Binding GoNextCommand}"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Width="100"
+                Height="40"
+                Margin="0,0,70,10" Grid.Column="1"
+                />
     </Grid>
 </UserControl>
