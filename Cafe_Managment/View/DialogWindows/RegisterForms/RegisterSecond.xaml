@@ -7,6 +7,43 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Second"/>
+        <StackPanel
+    Margin="70,0,70,0"
+    VerticalAlignment="Center" Grid.ColumnSpan="2"
+    >
+
+            <TextBox Tag="Логин"
+             Text="{Binding NewEmp.Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Style="{DynamicResource LoginTextBox}"
+             Margin="0,20,0,20"/>
+            <TextBox Tag="Пароль"
+             Text="{Binding NewEmp.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Style="{DynamicResource LoginTextBox}"
+             Margin="0,20,0,20"/>
+            <TextBox Tag="Пасспорт"
+             Text="{Binding NewEmp.Passport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             Style="{DynamicResource LoginTextBox}"
+             Margin="0,20,0,20"/>
+            <ComboBox ItemsSource="{Binding RoleTable}"
+                      />
+        </StackPanel>
+        <Button Content="Назад"
+        Style="{DynamicResource DefaultButton}"
+        Command="{Binding PreviousPageCommand}"
+        VerticalAlignment="Bottom"
+        HorizontalAlignment="Left"
+        Width="100"
+        Height="40"
+        Margin="70,0,70,10" Grid.Column="1"
+        />
+        <Button Content="Регистрация"
+        Style="{DynamicResource DefaultButton}"
+        Command="{Binding RegisterCommand}"
+        VerticalAlignment="Bottom"
+        HorizontalAlignment="Right"
+        Width="150"
+        Height="40"
+        Margin="70,0,70,10" Grid.Column="1"
+        />
     </Grid>
 </UserControl>

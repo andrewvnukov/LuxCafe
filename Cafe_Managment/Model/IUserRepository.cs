@@ -20,8 +20,10 @@ namespace Cafe_Managment.Repositories
         void RememberCurrentUser();
         void ForgetCurrentUser();
         void GetById();
+
         bool GetByMac();
         string GetRoleById(int RoleId);
+        DataTable GetRoles();
         DataTable GetByAll();
         
 

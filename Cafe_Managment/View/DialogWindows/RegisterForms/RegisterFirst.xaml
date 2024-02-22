@@ -4,42 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows.RegisterForms"
-             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM" 
+             d:DataContext="{d:DesignInstance Type=vm:RegistrationVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="213*"/>
-            <ColumnDefinition Width="187*"/>
-        </Grid.ColumnDefinitions>
         <StackPanel
             Margin="70,0,70,0"
             VerticalAlignment="Center" Grid.ColumnSpan="2"
             >
-            <!--
+            
             <TextBox Tag="Имя"
-                     Text="{Binding RegData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding NewEmp.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
             <TextBox Tag="Фамилия"
-                     Text="{Binding RegData.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding NewEmp.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
             <TextBox Tag="Отчество"
-                     Text="{Binding RegData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding NewEmp.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
             <TextBox Tag="Дата рождения"
-                     Text="{Binding RegData.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding NewEmp.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
                      Margin="0,20,0,20"/>
--->
         </StackPanel>
         <Button Content="Далее"
                 Style="{DynamicResource DefaultButton}"
-                Command="{Binding NavigateToPageCommand}"
-                CommandParameter="{x:Type local:RegisterSecond}"
+                Command="{Binding NextPageCommand}"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
                 Width="100"

@@ -53,12 +53,4 @@
         <dialogview:Registration/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type regvm:RegisterFirstVM}">
-        <regview:RegisterFirst/>
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type regvm:RegisterSecondVM}">
-        <regview:RegisterSecond/>
-    </DataTemplate>
-
 </ResourceDictionary>

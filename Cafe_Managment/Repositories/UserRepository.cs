@@ -1,8 +1,10 @@
 ﻿using Cafe_Managment.Model;
+using Microsoft.SqlServer.Server;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,7 +14,9 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Security;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -293,6 +297,29 @@ namespace Cafe_Managment.Repositories
         public void Add(EmpData empData)
         {
             throw new NotImplementedException();
+        }
+
+        public DataTable GetRoles()
+        {
+            DataTable dt = new DataTable();
+            DataGridCell zonecb= new DataGridCell();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = "SELECT Role FROM roles";
+                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                adapter.Fill(dt);
+                //foreach (DataGridCell cell in dt)
+                //{   
+                //    zonecb.add(cell.Value)
+                //}
+                connection.Close();
+                return dt;
+            }
         }
     }
 }
