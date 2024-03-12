@@ -25,7 +25,7 @@
              Style="{DynamicResource LoginTextBox}"
              Margin="0,20,0,20"/>
             <ComboBox ItemsSource="{Binding RoleTable}"
-                      />
+                      SelectedValue="Выберите роль"/>
         </StackPanel>
         <Button Content="Назад"
         Style="{DynamicResource DefaultButton}"

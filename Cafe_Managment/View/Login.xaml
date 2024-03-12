@@ -61,7 +61,7 @@
             </TextBox>
             <TextBlock Text="{Binding LoginErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Style="{StaticResource MiniToastBlock}" Height="30" 
-                     Grid.Column="1" Grid.Row="1" Margin="25,0,25,5" VerticalAlignment="Bottom"/>
+                     Grid.Column="1" Grid.Row="1" Margin="25,0,25,0" VerticalAlignment="Bottom"/>
 
 
             <control:BindblePassBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Cursor="IBeam">
@@ -73,7 +73,7 @@
             </control:BindblePassBox>
             <TextBlock Text="{Binding PasswordErrorMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      Style="{StaticResource MiniToastBlock}" Height="30" 
-                     Grid.Column="1" Grid.Row="2"  Margin="25,0,25,5" VerticalAlignment="Bottom"/>
+                     Grid.Column="1" Grid.Row="2"  Margin="25,0,25,0" VerticalAlignment="Bottom"/>
 
 
             <Button Content="Войти" Margin="30,10,30,0" 

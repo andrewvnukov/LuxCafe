@@ -24,7 +24,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         private object FirstPage = new RegisterFirst();
         private object SecondPage = new RegisterSecond();
 
-        public ComboBoxItem RoleTable { get; set; }
+        public List<string> RoleTable { get; set; }
 
 
         public bool IsViewVisible
@@ -67,7 +67,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         public RegistrationVM() 
         {
             UserRepository userRepository = new UserRepository();
-            RoleTable = "asdad";
+            RoleTable = userRepository.GetRoles();
 
             NewEmp = new EmpData();
 
@@ -77,8 +77,6 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             NextPageCommand = new RelayCommand(ExecuteNextPageCommand);
             PreviousPageCommand = new RelayCommand(ExecutePreviousPageCommand);
             RegisterCommand = new RelayCommand(ExecuteRegisterCommand);
-
-
         }
 
         

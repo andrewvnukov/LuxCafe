@@ -42,10 +42,14 @@ namespace Cafe_Managment.ViewModel
                 Name = UserData.Name,
                 Surname = UserData.Surname,
                 Patronomic = UserData.Patronomic,
+
                 PhoneNumber = UserData.PhoneNumber,
+
                 Email = UserData.Email,
                 BirthDay = UserData.BirthDay,
+
                 Address = UserData.Address,
+
                 ProfileImage = UserData.ProfileImage
             };
 

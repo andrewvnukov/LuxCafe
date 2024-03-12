@@ -1,4 +1,5 @@
 ﻿using Cafe_Managment.Model;
+using Cafe_Managment;
 using Microsoft.SqlServer.Server;
 using MySql.Data.MySqlClient;
 using System;
@@ -28,8 +29,6 @@ namespace Cafe_Managment.Repositories
     {
         public void Add()
         {
-            throw new NotImplementedException();
-
             //using (var connection = GetConnection())
 
             //using (var command = new MySqlCommand())
@@ -77,7 +76,7 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT Id, Password, Salt, Status FROM employees WHERE Username = @Username";
+                command.CommandText = "SELECT Id, Password, Salt, Status FROM Employees WHERE Login = @Username";
                 command.Parameters.AddWithValue("username", credential.UserName);
 
                 using (var reader = command.ExecuteReader())
@@ -93,6 +92,7 @@ namespace Cafe_Managment.Repositories
                         {
                             if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
                             {
+                                
                                 UserData.Id = int.Parse(reader[0].ToString());
                                 validUser = 0;
                             }
@@ -134,8 +134,8 @@ namespace Cafe_Managment.Repositories
                 command.Connection = connection;
                 command.CommandText = "SELECT ID, RoleId AS 'Роль', Name AS 'Имя', Surname AS 'Фамилия', " +
                     "Patronomic AS 'Отчество', PhoneNumber AS 'Номер телефона', " +
-                    "Email AS 'Почта', DateOfBirth AS 'День рождения', " +
-                    "Address AS 'Адрес' FROM employees";
+                    "Email AS 'Почта', BirthDay AS 'День рождения', " +
+                    "Address AS 'Адрес' FROM Employees";
 
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
@@ -160,7 +160,7 @@ namespace Cafe_Managment.Repositories
 
                 command.Connection = connection;
                 command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, " +
-                    "Phonenumber, Email, DateOfBirth, Address, ProfilePicture FROM employees WHERE Id = @userId";
+                    "Phonenumber, Email, BirthDay, Address, ProfileImage FROM Employees WHERE Id = @userId";
                 command.Parameters.AddWithValue("userId", UserData.Id);
 
                 using (var reader = command.ExecuteReader())
@@ -172,16 +172,16 @@ namespace Cafe_Managment.Repositories
                     UserData.Name = reader[1].ToString();
                     UserData.Surname = reader[2].ToString();
                     UserData.Patronomic = reader[3].ToString();
-                    UserData.PhoneNumber = reader[4].ToString();
-                    UserData.Email = reader[5].ToString();
+                    UserData.PhoneNumber = reader[4].ToString() != null ? reader[4].ToString() : "Не введен";
+                    UserData.Email = reader[5].ToString() != null ? reader[5].ToString() : "Не введен"; ;
                     UserData.BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10);
-                    UserData.Address = reader[7].ToString();
+                    UserData.Address = reader[7].ToString() != null ? reader[7].ToString() : "Не введен"; ;
 
                     if (reader[8] != DBNull.Value )
                     {
                         byte[] imageData = (byte[])reader[8];
                         UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
-                    }else UserData.ProfileImage = null;
+                    }else UserData.ProfileImage = new BitmapImage(new Uri("/Images/EmptyImage.jpg", UriKind.Relative)); ;
 
                 }
                 connection.Close();
@@ -201,8 +201,8 @@ namespace Cafe_Managment.Repositories
                               select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
                 
                 
-                command.Connection = connection;
-                command.CommandText = "INSERT IGNORE INTO autorizeddevices VALUES (@Mac, @UserId)";
+                command.Connection = connection; 
+                command.CommandText = "INSERT IGNORE INTO AutorizedDevices VALUES (@Mac, @UserId)";
                 command.Parameters.AddWithValue("Mac", MacAddress);
                 command.Parameters.AddWithValue("UserId", UserData.Id);
                 command.ExecuteNonQuery();
@@ -244,7 +244,7 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = "SELECT ProfileId FROM autorizeddevices WHERE DeviceMac=@Mac";
+                command.CommandText = "SELECT EmployeeId FROM AutorizedDevices WHERE DeviceMac=@Mac";
                 command.Parameters.AddWithValue("Mac", mac);
                 
                 using(var reader = command.ExecuteReader())
@@ -280,7 +280,7 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = "SELECT Role FROM roles WHERE Id=@RoleId";
+                command.CommandText = "SELECT Title FROM Roles WHERE Id=@RoleId";
                 command.Parameters.AddWithValue("RoleId", RoleId);
 
                 using (var reader = command.ExecuteReader())
@@ -299,26 +299,28 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
-        public DataTable GetRoles()
+        public List<string> GetRoles()
         {
-            DataTable dt = new DataTable();
-            DataGridCell zonecb= new DataGridCell();
+            List<string> roles = new List<string>();
+            
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
-
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = "SELECT Role FROM roles";
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                adapter.Fill(dt);
-                //foreach (DataGridCell cell in dt)
-                //{   
-                //    zonecb.add(cell.Value)
-                //}
+                command.CommandText = "SELECT Title FROM roles";
+                
+                using(var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        roles.Add(reader["Title"].ToString());
+                    }
+                }
                 connection.Close();
-                return dt;
+                return roles;
+
             }
         }
     }

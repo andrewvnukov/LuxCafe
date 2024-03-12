@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Cafe_Managment.Repositories
 {
@@ -23,7 +24,7 @@ namespace Cafe_Managment.Repositories
 
         bool GetByMac();
         string GetRoleById(int RoleId);
-        DataTable GetRoles();
+        List<string> GetRoles();
         DataTable GetByAll();
         
 
