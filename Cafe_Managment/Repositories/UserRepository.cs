@@ -82,7 +82,19 @@ namespace Cafe_Managment.Repositories
 
         public void FireEmployee(int Id)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE employees SET status = 0 WHERE Id=@id";
+                command.Parameters.AddWithValue("id", Id);
+
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
         }
 
         public DataTable GetByAll()

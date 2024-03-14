@@ -16,9 +16,24 @@ namespace Cafe_Managment.ViewModel
 {
     internal class EmployeeVM : ViewModelBase
     {
+        UserRepository userRepository;
         private DataTable _employees;
+        private int _selectedEmployee;
+
+
 
         public ICommand HireCommand {  get; set; }
+        public ICommand FireCommand { get; set; }
+
+        public int SelectedEmployee
+        {
+            get { return _selectedEmployee; } 
+            set 
+            {
+                _selectedEmployee = value;
+                OnPropertyChanged(nameof(SelectedEmployee));
+            } 
+        }
 
         public DataTable Employees
         {
@@ -28,10 +43,32 @@ namespace Cafe_Managment.ViewModel
 
         public EmployeeVM()
         {
-            UserRepository userRepository = new UserRepository();
+            userRepository = new UserRepository();
             Employees = userRepository.GetByAll();
-                
+
             HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
+            FireCommand = new RelayCommand(ExecuteFireCommand);
+        }
+
+        private void ExecuteFireCommand(object obj)
+        {
+            int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
+
+
+            if (MessageBoxResult.Yes== MessageBox.Show("Вы уверены что хотите уволить сотрудника?",
+                "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
+            {
+                if (temp == UserData.Id)
+                {
+                    MessageBox.Show("Извините, но вы не можете уволить себя","Ошибка");
+                }
+                else
+                {
+                    userRepository.FireEmployee(temp);
+                    MessageBox.Show("Сотрудник уволен!","Кто-то остался без чая...");
+                }
+            }
+            
         }
 
         private bool CanExecuteHireCommand(object arg)

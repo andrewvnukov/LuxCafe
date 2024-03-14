@@ -18,7 +18,7 @@
         <ScrollViewer Margin="10,40,10,10"
                       VerticalScrollBarVisibility="Hidden">
             <Grid Height="auto">
-                <StackPanel Orientation="Vertical"
+                <StackPanel Orientation="Horizontal"
                             >
                     
                     <Image
@@ -30,9 +30,9 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top">
                     </Image>
-                    
-                    
-                    <StackPanel Margin="10,0,0,0"
+
+                    <StackPanel Orientation="Vertical">
+                    <StackPanel Margin="10,0,0,10"
                                 Orientation="Horizontal"
                                 FlowDirection="LeftToRight">
                         <TextBlock Text="ФИО:" 
@@ -44,7 +44,7 @@
                                    Style="{DynamicResource Default_Text}"
                            />
                     </StackPanel>
-                    <StackPanel Margin="10,0,0,0"
+                    <StackPanel Margin="10,10,0,10"
             Orientation="Horizontal"
             FlowDirection="LeftToRight">
                         <TextBlock Text="Номер телефона:" 
@@ -56,7 +56,7 @@
        Style="{DynamicResource Default_Text}"
        />
                     </StackPanel>
-                    <StackPanel Margin="10,0,0,0"
+                    <StackPanel Margin="10,10,0,10"
             Orientation="Horizontal"
             FlowDirection="LeftToRight">
                         <TextBlock Text="Адрес:" 
@@ -68,7 +68,7 @@
        Style="{DynamicResource Default_Text}"
        />
                     </StackPanel>
-                    <StackPanel Margin="10,0,0,0"
+                    <StackPanel Margin="10,10,0,10"
             Orientation="Horizontal"
             FlowDirection="LeftToRight">
                         <TextBlock Text="Статус:" 
@@ -80,7 +80,7 @@
        Style="{DynamicResource Default_Text}"
        />
                     </StackPanel>
-                    <StackPanel Margin="10,0,0,0"
+                    <StackPanel Margin="10,10,0,10"
             Orientation="Horizontal"
             FlowDirection="LeftToRight">
                         <TextBlock Text="Должность:" 
@@ -92,7 +92,7 @@
        Style="{DynamicResource Default_Text}"
        />
                     </StackPanel>
-                    <StackPanel Margin="10,0,0,0"
+                    <StackPanel Margin="10,10,0,10"
             Orientation="Horizontal"
             FlowDirection="LeftToRight">
                         <TextBlock Text="Дата рождения:" 
@@ -104,7 +104,7 @@
        Style="{DynamicResource Default_Text}"
        />
                     </StackPanel>
-                    <StackPanel Margin="10,0,0,0"
+                    <StackPanel Margin="10,10,0,10"
      Orientation="Horizontal"
      FlowDirection="LeftToRight">
                         <TextBlock Text="Электронная почта:" 
@@ -117,7 +117,7 @@ Style="{DynamicResource Default_Text}"
 />
                     </StackPanel>
                 </StackPanel>
-
+                </StackPanel>
             </Grid>
         </ScrollViewer>
     </Grid>

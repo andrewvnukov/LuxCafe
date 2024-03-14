@@ -123,7 +123,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             else
             {
                 userRepository.Add(NewEmp);
-                //MessageBox.Show($"Новый пользователь с логином {NewEmp.Login} был добавлен!");
+                MessageBox.Show($"Новый пользователь с логином {NewEmp.Login} был добавлен!");
             }
         }
         private bool CanExecuteRegisterCommand(object arg)
@@ -133,11 +133,13 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
                 && _newEmp.Password.Length > 0 
                 && _newEmp.Role != RoleTable.Count-1
                 && _newEmp.Branch != BranchTable.Count - 1;
+
         }
 
         private void ExecutePreviousPageCommand(object obj)
         {
             ActivePage = FirstPage;
+
         }
         private void ExecuteNextPageCommand(object obj)
         {

@@ -18,7 +18,7 @@ namespace Cafe_Managment.ViewModel
 
         private string _fullname;
 
-        public string Role;
+        public string Role {get; set;}
         public EmpData CurrentData
         {
             get { return _currentData; }

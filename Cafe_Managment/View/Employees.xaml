@@ -95,7 +95,9 @@
                                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                                   CellStyle="{DynamicResource DataGridCellStyle1}" 
                                   Style="{DynamicResource DataGridStyle1}"
-                                  ItemsSource="{Binding Employees}">
+                                  ItemsSource="{Binding Employees}"
+                                  
+                                  SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn CanUserReorder="False" Width="auto">
                                     <DataGridCheckBoxColumn.HeaderTemplate>
@@ -171,12 +173,13 @@
 
                         <StackPanel Margin="20" FlowDirection="LeftToRight" Orientation="Horizontal">
                             <Button Content="Нанять"
+                                    Command="{Binding HireCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Left" VerticalAlignment="Bottom"
                             Height="40" Width="100" 
                             Margin="0"/>
                             <Button Content="Уволить" 
-                            Command="{Binding HireCommand}"
+                            Command="{Binding FireCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Left" VerticalAlignment="Bottom"
                             Height="40" Width="100" 
