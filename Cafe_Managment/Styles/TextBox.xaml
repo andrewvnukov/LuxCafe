@@ -56,26 +56,42 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                
-                                <Condition Property="Control.IsFocused" Value="False"/>
 
+                                <Condition Property="Control.IsFocused" Value="False"/>
+                                <Condition Property="Text" Value=""/>
                             </MultiTrigger.Conditions>
 
-                            <MultiTrigger.ExitActions>
+                            <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="HintTransform"
                                                          Storyboard.TargetProperty="Y"
-                                                         To="-30" Duration="0:0:0.2"/>
+                                                         To="0" Duration="0:0:0.2"/>
                                         <ColorAnimation Storyboard.TargetName="PART_Hint"
                                                         Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                                                        To="{StaticResource Color_NormalText1}" Duration="0:0:0.3"/>
+                                                        To="LightGray" Duration="0:0:0.3"/>
                                         <DoubleAnimation Storyboard.TargetName="PART_Hint"
                                                          Storyboard.TargetProperty="FontSize"
-                                                         To="16" Duration="0:0:0.2"/>
+                                                         To="14" Duration="0:0:0.2"/>
+                                    </Storyboard>
+
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HintTransform"
+          Storyboard.TargetProperty="Y"
+          To="-30" Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="PART_Hint"
+         Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+         To="{StaticResource Color_NormalText1}" Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Hint"
+          Storyboard.TargetProperty="FontSize"
+          To="16" Duration="0:0:0.2"/>
                                     </Storyboard>
 
                                 </BeginStoryboard>
@@ -88,7 +104,6 @@
         </Setter>
 
     </Style>
-
     <Style x:Key="LoginPasswordBox" TargetType="PasswordBox">
         <Setter Property="Margin" Value="10,0,10,0"/>
         <Setter Property="Padding" Value="10"/>

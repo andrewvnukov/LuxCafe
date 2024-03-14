@@ -453,7 +453,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TabButton" TargetType="Button">
+    <Style x:Key="MenuButton" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

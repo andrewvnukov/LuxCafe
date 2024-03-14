@@ -158,7 +158,9 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteReturnCommand(object obj)
         {
-            IsViewVisible = false;
+            userRepository.ForgetCurrentUser();
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
     }
 }

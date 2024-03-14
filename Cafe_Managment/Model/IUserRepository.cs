@@ -15,6 +15,7 @@ namespace Cafe_Managment.Repositories
     {
         int AuthenticateUser(NetworkCredential credential);
         void Add(EmpData empData);
+        bool IfUserExists(string Username);
         void Edit();
         void Delete(int Id);
         void FireEmployee(int Id);
@@ -25,6 +26,7 @@ namespace Cafe_Managment.Repositories
         bool GetByMac();
         string GetRoleById(int RoleId);
         List<string> GetRoles();
+        List<string> GetBranches();
         DataTable GetByAll();
         
 

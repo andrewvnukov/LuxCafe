@@ -11,7 +11,8 @@ namespace Cafe_Managment.Model
 {
     public class EmpData
     {
-        public string Role { get; set; }
+        public int Branch { get; set; }
+        public int Role { get; set; }
         public string Status { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
@@ -22,7 +23,6 @@ namespace Cafe_Managment.Model
         public string Email { get; set; }
         public string BirthDay { get; set; }
         public string Address { get; set; }
-        public string Passport { get; set; }
         public BitmapImage ProfileImage { get; set; }
     }
 }

@@ -22,50 +22,13 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
+using ExCSS;
+using System.Xml.Linq;
 
 namespace Cafe_Managment.Repositories
 {
     internal class UserRepository : RepositoryBase, IUserRepository
     {
-        public void Add()
-        {
-            //using (var connection = GetConnection())
-
-            //using (var command = new MySqlCommand())
-            //{
-            //    connection.Open();
-            //    command.Connection = connection;
-            //    command.CommandText = "INSERT INTO employees VALUES Username = @username, Password = @password, Name = @name," +
-            //        "Surname = @surname, Patronomic = @patronomic, DateOfBirth = @birthday, Passport = @passport";
-            //    command.Parameters.AddWithValue("username", credential.UserName);
-
-            //    using (var reader = command.ExecuteReader())
-            //    {
-            //        if (reader.HasRows && reader.Read())
-            //        {
-
-            //            string storedPassword = reader[1].ToString();
-            //            string salt = reader[2].ToString();
-            //            short userStatus = reader.GetInt16("Status");
-
-            //            if (userStatus == 1)
-            //            {
-            //                if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
-            //                {
-            //                    UserData.Id = int.Parse(reader[0].ToString());
-            //                    validUser = 0;
-            //                }
-            //                else { validUser = 3; }
-            //            }
-            //            else { validUser = 1; }
-            //        }
-            //        else { validUser = 2; }
-            //    }
-            //    connection.Close();
-            //}
-            //return validUser;
-        }
-
         public int AuthenticateUser(NetworkCredential credential)
         {
             int validUser;
@@ -83,7 +46,7 @@ namespace Cafe_Managment.Repositories
                 {
                     if (reader.HasRows && reader.Read())
                     {
-                       
+
                         string storedPassword = reader[1].ToString();
                         string salt = reader[2].ToString();
                         short userStatus = reader.GetInt16("Status");
@@ -92,7 +55,7 @@ namespace Cafe_Managment.Repositories
                         {
                             if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
                             {
-                                
+
                                 UserData.Id = int.Parse(reader[0].ToString());
                                 validUser = 0;
                             }
@@ -140,15 +103,13 @@ namespace Cafe_Managment.Repositories
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 adapter.Fill(dataTable);
-                
+
                 connection.Close();
             }
 
-            
+
             return dataTable;
         }
-
-    
 
         public void GetById()
         {
@@ -177,11 +138,12 @@ namespace Cafe_Managment.Repositories
                     UserData.BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10);
                     UserData.Address = reader[7].ToString() != null ? reader[7].ToString() : "Не введен"; ;
 
-                    if (reader[8] != DBNull.Value )
+                    if (reader[8] != DBNull.Value)
                     {
                         byte[] imageData = (byte[])reader[8];
                         UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
-                    }else UserData.ProfileImage = new BitmapImage(new Uri("/Images/EmptyImage.jpg", UriKind.Relative)); ;
+                    }
+                    else UserData.ProfileImage = new BitmapImage(new Uri("/Images/EmptyImage.jpg", UriKind.Relative)); ;
 
                 }
                 connection.Close();
@@ -197,11 +159,11 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 var MacAddress = (from nic in NetworkInterface.GetAllNetworkInterfaces()
-                              where nic.OperationalStatus == OperationalStatus.Up
-                              select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
-                
-                
-                command.Connection = connection; 
+                                  where nic.OperationalStatus == OperationalStatus.Up
+                                  select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+
+
+                command.Connection = connection;
                 command.CommandText = "INSERT IGNORE INTO AutorizedDevices VALUES (@Mac, @UserId)";
                 command.Parameters.AddWithValue("Mac", MacAddress);
                 command.Parameters.AddWithValue("UserId", UserData.Id);
@@ -235,8 +197,8 @@ namespace Cafe_Managment.Repositories
         public bool GetByMac()
         {
             var mac = (from nic in NetworkInterface.GetAllNetworkInterfaces()
-                      where nic.OperationalStatus == OperationalStatus.Up
-                      select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+                       where nic.OperationalStatus == OperationalStatus.Up
+                       select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
@@ -246,8 +208,8 @@ namespace Cafe_Managment.Repositories
                 command.Connection = connection;
                 command.CommandText = "SELECT EmployeeId FROM AutorizedDevices WHERE DeviceMac=@Mac";
                 command.Parameters.AddWithValue("Mac", mac);
-                
-                using(var reader = command.ExecuteReader())
+
+                using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -262,13 +224,24 @@ namespace Cafe_Managment.Repositories
                     }
                 }
 
-                
+
             }
         }
 
         public void ForgetCurrentUser()
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = "DELETE IGNORE FROM autorizeddevices WHERE EmployeeId = @EmpId";
+                command.Parameters.AddWithValue("EmpId", UserData.Id);
+
+                command.ExecuteNonQuery();
+            }
         }
 
         public string GetRoleById(int RoleId)
@@ -296,13 +269,74 @@ namespace Cafe_Managment.Repositories
 
         public void Add(EmpData empData)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+
+                command.CommandText = "INSERT INTO employees (RoleId, BranchId, Login, Password, Salt, Name, Surname, " +
+                    "Patronomic, PhoneNumber, BirthDay, CreatedAt, Status) "
+                    +"VALUES(@role, @branch, @username, @password, @Salt, @name, @surname, " +
+                    "@patronomic, @number, @birthday, @NowDate, @status)";
+                command.Parameters.AddWithValue("role", empData.Role+1);
+                command.Parameters.AddWithValue("branch", empData.Branch+1);
+                command.Parameters.AddWithValue("username", empData.Login);
+                string salt = BCrypt.Net.BCrypt.GenerateSalt();
+                command.Parameters.AddWithValue("password", BCrypt.Net.BCrypt.HashPassword(empData.Password, salt));
+                command.Parameters.AddWithValue("Salt", salt);
+                command.Parameters.AddWithValue("name", empData.Name);
+                command.Parameters.AddWithValue("surname", empData.Surname);
+                command.Parameters.AddWithValue("patronomic", empData.Patronomic);
+                command.Parameters.AddWithValue("birthday", empData.BirthDay);
+                command.Parameters.AddWithValue("NowDate", DateTime.Now);
+                command.Parameters.AddWithValue("status", 1);
+                command.Parameters.AddWithValue("number", "123123");
+
+
+                
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при передачи в БД: {ex.Message}");
+                    Console.WriteLine(ex.ToString());
+                }
+
+                connection.Close();
+            }
+        }
+
+        public bool IfUserExists(string Username)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM employees WHERE Login=@Username";
+                command.Parameters.AddWithValue("Username", Username);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+            }
         }
 
         public List<string> GetRoles()
         {
             List<string> roles = new List<string>();
-            
+
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
@@ -310,8 +344,8 @@ namespace Cafe_Managment.Repositories
 
                 command.Connection = connection;
                 command.CommandText = "SELECT Title FROM roles";
-                
-                using(var reader = command.ExecuteReader())
+
+                using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -321,6 +355,30 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
                 return roles;
 
+            }
+        }
+
+        public List<string> GetBranches()
+        {
+            List<string> branches = new List<string>();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = "SELECT address FROM branches";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        branches.Add(reader["address"].ToString());
+                    }
+                }
+                connection.Close();
+                return branches;
             }
         }
     }

@@ -59,6 +59,18 @@
         <Setter Property="FontSize" Value="14"/>
 
         <Style.Triggers>
+            <Trigger Property="Text" Value="Данный пользователь уже существует">
+                <Setter Property="Foreground" Value="Red"/>
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                 From="0" To="1"
+                                 Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
             <Trigger Property="Text" Value="Сотрудник уволен">
                 <Setter Property="Foreground" Value="Red"/>
                 <Trigger.EnterActions>

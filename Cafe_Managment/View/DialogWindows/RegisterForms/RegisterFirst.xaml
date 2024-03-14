@@ -11,8 +11,8 @@
 
     <Grid>
         <StackPanel
-            Margin="70,0,70,0"
-            VerticalAlignment="Center" Grid.ColumnSpan="2"
+            Margin="70,20,70,0"
+            VerticalAlignment="Top" Grid.ColumnSpan="2"
             >
             
             <TextBox Tag="Имя"
@@ -30,7 +30,10 @@
             <TextBox Tag="Дата рождения"
                      Text="{Binding NewEmp.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{DynamicResource LoginTextBox}"
-                     Margin="0,20,0,20"/>
+                     Margin="0,20,0,0"/>
+            <TextBlock Text="{Binding BirthErrorMessage}"
+                       Style="{StaticResource MiniToastBlock}"
+                       Foreground="Red"/>
         </StackPanel>
         <Button Content="Далее"
                 Style="{DynamicResource DefaultButton}"
