@@ -25,7 +25,7 @@
                    Height="150"
                    Width="Auto"
                    Stretch="Uniform"
-                        
+                        Margin="0,70,0,0"
                    Source="{Binding CurrentData.ProfileImage, Mode=OneWay}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top">

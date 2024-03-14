@@ -46,15 +46,22 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             Employees = userRepository.GetByAll();
 
+            SelectedEmployee = -1;
+
             HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
-            FireCommand = new RelayCommand(ExecuteFireCommand);
+            FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
+        }
+
+        private bool CanExecuteFireCommand(object arg)
+        {
+            return !(SelectedEmployee == -1);
         }
 
         private void ExecuteFireCommand(object obj)
         {
             int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
 
-
+            
             if (MessageBoxResult.Yes== MessageBox.Show("Вы уверены что хотите уволить сотрудника?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
