@@ -125,12 +125,11 @@
                                     </DataGridTemplateColumn.CellTemplate>
 
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Имя пользователя" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Должность" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Email" IsReadOnly="True" Width="*"/>
+                                <DataGridTextColumn Header="Роль" IsReadOnly="True" Width="*"/>
+                                <DataGridTextColumn Header="Имя" IsReadOnly="True" Width="*"/>
+                                <DataGridTextColumn Header="Фамилия" IsReadOnly="True" Width="*"/>
+                                <DataGridTextColumn Header="Отчество" IsReadOnly="True" Width="*"/>
                                 <DataGridTextColumn Header="Номер телефона" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Статус" IsReadOnly="True" Width="*"/>
-
                             </DataGrid.Columns>
                         </DataGrid>
 
