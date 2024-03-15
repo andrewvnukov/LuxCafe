@@ -107,7 +107,8 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT ID, RoleId AS 'Роль', Name AS 'Имя', Surname AS 'Фамилия', " +
+                command.CommandText = "SELECT ID, BranchId AS 'Филиал', RoleId AS 'Роль', " +
+                    "Name AS 'Имя', Surname AS 'Фамилия', " +
                     "Patronomic AS 'Отчество', PhoneNumber AS 'Номер телефона', " +
                     "Email AS 'Почта', BirthDay AS 'День рождения', " +
                     "Address AS 'Адрес' FROM Employees";

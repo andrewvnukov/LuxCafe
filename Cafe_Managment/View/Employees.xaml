@@ -18,16 +18,7 @@
         <vn:EmployeeVM/>
     </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="Сотрудники" 
-           Style="{DynamicResource Text_Headline1}" 
-           HorizontalAlignment="Left" 
-           Margin="20,0,0,0"/>
-        <Border Margin="20,60,20,20"
-                CornerRadius="10" 
-                Background="{DynamicResource SecondaryColor1}"
-                >
-            <ScrollViewer x:Name="Viewer"
-                      
+        <ScrollViewer x:Name="Viewer" 
                       VerticalScrollBarVisibility="Hidden"
                       >
 
@@ -95,9 +86,9 @@
                                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                                   CellStyle="{DynamicResource DataGridCellStyle1}" 
                                   Style="{DynamicResource DataGridStyle1}"
-                                  ItemsSource="{Binding Employees}"
+                                  ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   
-                                  SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                  SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CanUserReorderColumns="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn CanUserReorder="False" Width="auto">
                                     <DataGridCheckBoxColumn.HeaderTemplate>
@@ -125,11 +116,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
 
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Роль" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Имя" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Фамилия" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Отчество" IsReadOnly="True" Width="*"/>
-                                <DataGridTextColumn Header="Номер телефона" IsReadOnly="True" Width="*"/>
+                                
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -187,6 +174,6 @@
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
-        </Border>
+        
     </Grid>
 </UserControl>

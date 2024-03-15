@@ -95,6 +95,7 @@ namespace Cafe_Managment.ViewModel
             registration.IsVisibleChanged += (s, ev) =>
             {
                 registration.Close();
+                Employees = userRepository.GetByAll();
             };
         }
     }
