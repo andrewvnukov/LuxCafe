@@ -54,7 +54,7 @@ namespace Cafe_Managment.ViewModel
 
         private bool CanExecuteFireCommand(object arg)
         {
-            return !(SelectedEmployee == -1);
+            return !(SelectedEmployee == -1 || SelectedEmployee >= Employees.Rows.Count);
         }
 
         private void ExecuteFireCommand(object obj)

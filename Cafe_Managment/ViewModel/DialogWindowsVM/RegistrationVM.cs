@@ -124,6 +124,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             {
                 userRepository.Add(NewEmp);
                 MessageBox.Show($"Новый пользователь с логином {NewEmp.Login} был добавлен!");
+                IsViewVisible = false;
             }
         }
         private bool CanExecuteRegisterCommand(object arg)
