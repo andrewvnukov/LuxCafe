@@ -21,11 +21,12 @@ namespace Cafe_Managment.Repositories
         void FireEmployee(int Id);
         void RememberCurrentUser();
         void ForgetCurrentUser();
+        string GetRoleById(int RoleId);
+        List<string> GetRoles();
         void GetById();
 
         bool GetByMac();
-        string GetRoleById(int RoleId);
-        List<string> GetRoles();
+        
         List<string> GetBranches();
         DataTable GetByAll();
         

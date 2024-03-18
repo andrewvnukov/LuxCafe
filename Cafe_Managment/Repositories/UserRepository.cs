@@ -102,17 +102,18 @@ namespace Cafe_Managment.Repositories
             DataTable dataTable = new DataTable();
 
             using (var connection = GetConnection())
-
             using (var command = new MySqlCommand())
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT ID, BranchId AS 'Филиал', RoleId AS 'Роль', " +
-                    "Name AS 'Имя', Surname AS 'Фамилия', " +
-                    "Patronomic AS 'Отчество', PhoneNumber AS 'Номер телефона', " +
-                    "Email AS 'Почта', BirthDay AS 'День рождения', " +
-                    "Address AS 'Адрес' FROM Employees";
-
+                command.CommandText = @"SELECT ROW_NUMBER() OVER(ORDER BY e.Id) AS '№', 
+                                        e.BranchId AS 'Филиал', r.Title AS 'Роль', 
+                                        e.Name AS 'Имя', e.Surname AS 'Фамилия', 
+                                        e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
+                                        e.Email AS 'Почта', e.BirthDay AS 'Дата рождения', 
+                                        e.Address AS 'Адрес' 
+                                FROM Employees e 
+                                INNER JOIN Roles r ON e.RoleId = r.Id";
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 adapter.Fill(dataTable);
@@ -120,9 +121,9 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
 
-
             return dataTable;
         }
+
 
         public void GetById()
         {
@@ -236,7 +237,6 @@ namespace Cafe_Managment.Repositories
                         return false;
                     }
                 }
-
 
             }
         }
