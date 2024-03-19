@@ -24,9 +24,7 @@ namespace Cafe_Managment.Repositories
         string GetRoleById(int RoleId);
         List<string> GetRoles();
         void GetById();
-
-        bool GetByMac();
-        
+        bool GetByMac();   
         List<string> GetBranches();
         DataTable GetByAll();
         

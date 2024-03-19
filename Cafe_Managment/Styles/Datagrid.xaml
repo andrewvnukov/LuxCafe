@@ -135,12 +135,16 @@
     <!-- Стиль для GridRemoveButton -->
 
     <Style x:Key="GridRemoveButton" TargetType="Button" BasedOn="{StaticResource GridEditButton}">
-        <Setter Property="Background" Value="Green"/>
-        <Setter Property="BorderBrush" Value="Green"/>
+        <Setter Property="Background" Value="#29AB87"/>
+        <Setter Property="BorderBrush" Value="#29AB87"/>
+        <Setter Property="Visibility" Value="Visible"/>
 
         <Style.Triggers>
+            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="DarkGreen"/>
+                <Setter Property="Background" Value="#006633"/>
             </Trigger>
         </Style.Triggers>
 
@@ -246,12 +250,12 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#7396D1"/>
+                <Setter Property="Background" Value="{DynamicResource SecondaryColor2}"/>
                 <Setter Property="Foreground" Value="white"/>
             </Trigger>
 
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#7396D1"/>
+                <Setter Property="Background" Value="{DynamicResource PrimaryColor2}"/>
                 <Setter Property="Foreground" Value="white"/>
             </Trigger>
             <MultiTrigger>
@@ -259,7 +263,13 @@
                     <Condition Property="IsSelected" Value="true"/>
                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="#dfdfdf"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#dfdfdf" Opacity="0.7">
+                            
+                        </SolidColorBrush>
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="Foreground" Value="Black"/>
 
             </MultiTrigger>
@@ -376,7 +386,6 @@
         <Setter Property="CanUserResizeColumns" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Center" />
 
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
@@ -421,7 +430,7 @@
                     <Condition Property="IsGrouping" Value="true"/>
                     <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
             </MultiTrigger>
         </Style.Triggers>
     </Style>

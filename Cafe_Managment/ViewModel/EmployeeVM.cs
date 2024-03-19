@@ -24,6 +24,8 @@ namespace Cafe_Managment.ViewModel
 
         public ICommand HireCommand {  get; set; }
         public ICommand FireCommand { get; set; }
+        public ICommand EditCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         public int SelectedEmployee
         {
@@ -50,7 +52,36 @@ namespace Cafe_Managment.ViewModel
 
             HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
             FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
+            EditCommand = new RelayCommand(Edit);
+            SaveCommand = new RelayCommand(Save);
         }
+
+        private void Edit(object parameter)
+        {
+            // Включить режим редактирования
+            IsEditing = true;
+        }
+
+        private void Save(object parameter)
+        {
+            // Сохранить изменения в базу данных
+            // Здесь должна быть логика для сохранения изменений
+            IsEditing = false;
+        }
+        private bool isEditing;
+        public bool IsEditing
+        {
+            get { return isEditing; }
+            set
+            {
+                isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+                OnPropertyChanged(nameof(IsNotEditing));
+            }
+        }
+
+        public bool IsNotEditing => !IsEditing;
+
 
         private bool CanExecuteFireCommand(object arg)
         {

@@ -307,7 +307,6 @@ namespace Cafe_Managment.Repositories
                 command.Parameters.AddWithValue("status", 1);
                 command.Parameters.AddWithValue("number", "123123");
 
-
                 
                 try
                 {
