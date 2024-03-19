@@ -110,7 +110,7 @@ namespace Cafe_Managment.Repositories
                                         e.BranchId AS 'Филиал', r.Title AS 'Роль', 
                                         e.Name AS 'Имя', e.Surname AS 'Фамилия', 
                                         e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
-                                        e.Email AS 'Почта', e.BirthDay AS 'Дата рождения', 
+                                        e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения', 
                                         e.Address AS 'Адрес' 
                                 FROM Employees e 
                                 INNER JOIN Roles r ON e.RoleId = r.Id";
@@ -149,7 +149,7 @@ namespace Cafe_Managment.Repositories
                     UserData.Patronomic = reader[3].ToString();
                     UserData.PhoneNumber = reader[4].ToString() != null ? reader[4].ToString() : "Не введен";
                     UserData.Email = reader[5].ToString() != null ? reader[5].ToString() : "Не введен"; ;
-                    UserData.BirthDay = reader.GetDateTime(6).ToString().Substring(0, 10);
+                    UserData.BirthDay = reader.GetDateTime(6).ToString("yyyy-MM-dd");
                     UserData.Address = reader[7].ToString() != null ? reader[7].ToString() : "Не введен"; ;
 
                     if (reader[8] != DBNull.Value)

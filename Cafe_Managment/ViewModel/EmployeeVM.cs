@@ -26,6 +26,8 @@ namespace Cafe_Managment.ViewModel
         public ICommand FireCommand { get; set; }
         public ICommand EditCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+        public ICommand InfoCommand { get; set; }
+
 
         public int SelectedEmployee
         {
@@ -54,6 +56,13 @@ namespace Cafe_Managment.ViewModel
             FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
             EditCommand = new RelayCommand(Edit);
             SaveCommand = new RelayCommand(Save);
+            InfoCommand = new RelayCommand(ExecuteInfoCommand);
+        }
+
+        private void ExecuteInfoCommand(object obj)
+        {
+            MessageBox.Show("Изменению подлежат только следующие поля:\n Имя, Фамилия, Отчество, Почта, Номер телефона.\n Остальные данные изменению не подлежат!!!", "Внимание!!!");
+
         }
 
         private void Edit(object parameter)

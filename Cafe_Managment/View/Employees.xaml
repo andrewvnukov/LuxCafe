@@ -32,7 +32,7 @@
 
                         <!--Members Datagrid -->
 
-                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="5 40 5 0" RowStyle="{DynamicResource DataGridRowStyle1}" 
+                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="5 40 5 0" RowStyle="{DynamicResource DataGridRowStyle1}"                            
                                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                                   CellStyle="{DynamicResource DataGridCellStyle1}" 
                                   Style="{DynamicResource DataGridStyle1}"
@@ -45,15 +45,18 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource GridEditButton}" Command="{Binding EditCommand}" Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Button Style="{StaticResource GridEditButton}"  Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                     <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                                 </Button>
 
                                                 <Button Style="{StaticResource GridRemoveButton}">
                                                     <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                                 </Button>
+                                            <Button Style="{StaticResource GridInfoButton}">
+                                                <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
 
-                                            </StackPanel>
+                                        </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
 

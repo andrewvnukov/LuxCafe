@@ -132,6 +132,30 @@
 
     </Style>
 
+    <Style x:Key="GridInfoButton" TargetType="Button">
+        <Setter Property="Background" Value="#2271B3"/>
+        <Setter Property="BorderBrush" Value="#2271B3"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Command" Value="{Binding InfoCommand}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#122FAA"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- Стиль для GridRemoveButton бомбовый нереально ужасно-->
 
     <Style x:Key="GridRemoveButton" TargetType="Button" BasedOn="{StaticResource GridEditButton}">
