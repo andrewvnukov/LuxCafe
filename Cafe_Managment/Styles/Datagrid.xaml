@@ -132,7 +132,7 @@
 
     </Style>
 
-    <!-- Стиль для GridRemoveButton -->
+    <!-- Стиль для GridRemoveButton бомбовый -->
 
     <Style x:Key="GridRemoveButton" TargetType="Button" BasedOn="{StaticResource GridEditButton}">
         <Setter Property="Background" Value="#29AB87"/>
