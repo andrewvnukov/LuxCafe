@@ -32,27 +32,39 @@
 
                         <!--Members Datagrid -->
 
-                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="5 40 5 0" RowStyle="{DynamicResource DataGridRowStyle1}"                            
-                                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
-                                  CellStyle="{DynamicResource DataGridCellStyle1}" 
-                                  Style="{DynamicResource DataGridStyle1}"
-                                  ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  
-                                  SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CanUserReorderColumns="False" IsReadOnly="True">
+                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="5 40 5 0" 
+                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                              CellStyle="{DynamicResource DataGridCellStyle1}" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              CanUserReorderColumns="False" 
+                              IsReadOnly="{Binding IsEditing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             
                                 <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource GridEditButton}"  Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                    <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                                </Button>
+                                            <Button Style="{StaticResource GridEditButton}"  
+                                                        Command="{Binding EditCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
 
-                                                <Button Style="{StaticResource GridRemoveButton}">
-                                                    <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            <Button Style="{StaticResource GridRemoveButton}" Command="{Binding SaveCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                                 </Button>
-                                            <Button Style="{StaticResource GridInfoButton}">
+                                            <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
 

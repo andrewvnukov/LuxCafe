@@ -19,6 +19,7 @@ namespace Cafe_Managment.ViewModel
         UserRepository userRepository;
         private DataTable _employees;
         private int _selectedEmployee;
+        private bool isEditing;
 
 
 
@@ -28,6 +29,15 @@ namespace Cafe_Managment.ViewModel
         public ICommand SaveCommand { get; private set; }
         public ICommand InfoCommand { get; set; }
 
+        public bool IsEditing
+        {
+            get { return isEditing; }
+            set
+            {
+                isEditing = value;
+                OnPropertyChanged(nameof(IsEditing));
+            }
+        }
 
         public int SelectedEmployee
         {
@@ -50,47 +60,33 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             Employees = userRepository.GetByAll();
 
+
             SelectedEmployee = -1;
 
             HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
             FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
-            EditCommand = new RelayCommand(Edit);
-            SaveCommand = new RelayCommand(Save);
+            EditCommand = new RelayCommand(ExecuteEditCommand);
+            SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
+        }
+
+        private void ExecuteSaveCommand(object obj)
+        {
+            IsEditing = !IsEditing;
+        }
+
+        private void ExecuteEditCommand(object obj)
+        {
+            IsEditing = false;
         }
 
         private void ExecuteInfoCommand(object obj)
         {
-            MessageBox.Show("Изменению подлежат только следующие поля:\n Имя, Фамилия, Отчество, Почта, Номер телефона.\n Остальные данные изменению не подлежат!!!", "Внимание!!!");
-
+            MessageBox.Show("Изменению подлежат только следующие поля:\n" +
+                "Имя, Фамилия, Отчество, Почта, Номер телефона.\n" +
+                "Остальные данные изменению не подлежат!!!",
+                "Внимание!!!", MessageBoxButton.YesNoCancel);
         }
-
-        private void Edit(object parameter)
-        {
-            // Включить режим редактирования
-            IsEditing = true;
-        }
-
-        private void Save(object parameter)
-        {
-            // Сохранить изменения в базу данных
-            // Здесь должна быть логика для сохранения изменений
-            IsEditing = false;
-        }
-        private bool isEditing;
-        public bool IsEditing
-        {
-            get { return isEditing; }
-            set
-            {
-                isEditing = value;
-                OnPropertyChanged(nameof(IsEditing));
-                OnPropertyChanged(nameof(IsNotEditing));
-            }
-        }
-
-        public bool IsNotEditing => !IsEditing;
-
 
         private bool CanExecuteFireCommand(object arg)
         {
