@@ -13,38 +13,40 @@
     </UserControl.DataContext>
 
     <Grid>
-        <TextBlock Text="Profile" Style="{DynamicResource Text_Headline1}" 
-                   HorizontalAlignment="Left" Margin="10,0,0,0"/>
+        <TextBlock Text="Личный кабинет" Style="{DynamicResource Text_Headline1}" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top" Margin="0,0,0,0"/>
         <ScrollViewer Margin="10,40,10,10"
                       VerticalScrollBarVisibility="Hidden">
             <Grid Height="auto">
-                <StackPanel Orientation="Horizontal"
-                            >
-                    
-                    <Image
-                   Height="150"
-                   Width="Auto"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical">
+                    <Image Grid.Column="0"
+                   Height="200"
+                   Width="auto"
                    Stretch="Uniform"
-                        Margin="0,70,0,0"
+                        Margin="0,0,0,0"
                    Source="{Binding CurrentData.ProfileImage, Mode=OneWay}"
                    HorizontalAlignment="Center"
-                   VerticalAlignment="Top">
-                    </Image>
-
-                    <StackPanel Orientation="Vertical">
-                    <StackPanel Margin="10,0,0,10"
-                                Orientation="Horizontal"
-                                FlowDirection="LeftToRight">
-                        <TextBlock Text="ФИО:" 
-                                   Style="{DynamicResource Text_Headline3}"
-                                   VerticalAlignment="Bottom"/>
+                   VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        />
+                    <Button Style="{StaticResource Text_Button}"
+                            Foreground="AntiqueWhite"
+                            Width="160"
+                            Margin="10"
+                            Tag="Изменить фотографию"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical"
+                                Grid.Column="1">
                         <TextBlock Margin="5,0,0,0"
-                                   VerticalAlignment="Bottom"
                                    Text="{Binding Fullname, Mode=TwoWay}"
-                                   Style="{DynamicResource Default_Text}"
-                           />
-                    </StackPanel>
-                    <StackPanel Margin="10,10,0,10"
+                                   Style="{DynamicResource Text_Headline2}"/>
+
+                        <StackPanel Margin="10,10,0,10"
             Orientation="Horizontal"
             FlowDirection="LeftToRight">
                         <TextBlock Text="Номер телефона:" 
@@ -116,7 +118,6 @@
 Style="{DynamicResource Default_Text}"
 />
                     </StackPanel>
-                </StackPanel>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

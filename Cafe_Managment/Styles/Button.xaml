@@ -501,4 +501,64 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="Text_Button" TargetType="Button">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border CornerRadius="7">
+                        <Border.Background>
+                            <SolidColorBrush x:Name="Border_Color" Color="Transparent" Opacity="0.4"/>
+                        </Border.Background>
+
+                        <TextBlock Text="{TemplateBinding Tag}"
+                                   HorizontalAlignment="Center"
+                               Name="TextBtn">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="LightGray" x:Name="Text_Color"/>
+                            </TextBlock.Foreground>
+                            <TextBlock.Triggers>
+
+                            </TextBlock.Triggers>
+                        </TextBlock>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Text_Color"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#EEEEEE"
+                                                        Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="Border_Color"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="LightGray"
+                                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Text_Color"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="LightGray"
+                                                        Duration="0:0:0.2"/>
+                                        <ColorAnimation Storyboard.TargetName="Border_Color"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="Transparent"
+                                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+                
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
