@@ -33,14 +33,17 @@
                         <!--Members Datagrid -->
 
                     <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="5 40 5 0" 
+                              
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
                               Style="{DynamicResource DataGridStyle1}"
                               ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False" 
-                              IsReadOnly="{Binding IsEditing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                              >
+                        
                         <DataGrid.Columns>
                             
                                 <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
@@ -48,14 +51,15 @@
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource GridEditButton}"  
-                                                        Command="{Binding EditCommand}">
+                                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
 
-                                            <Button Style="{StaticResource GridRemoveButton}" Command="{Binding SaveCommand}">
+                                            <Button Style="{StaticResource GridRemoveButton}" 
+                                                    Command="{Binding SaveCommand}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>

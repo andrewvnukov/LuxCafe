@@ -19,23 +19,23 @@ namespace Cafe_Managment.ViewModel
         UserRepository userRepository;
         private DataTable _employees;
         private int _selectedEmployee;
-        private bool isEditing;
+        private bool _isReadOnly;
 
 
 
         public ICommand HireCommand {  get; set; }
         public ICommand FireCommand { get; set; }
-        public ICommand EditCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
+        public ICommand EditCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
         public ICommand InfoCommand { get; set; }
 
-        public bool IsEditing
+        public bool IsReadOnly
         {
-            get { return isEditing; }
+            get { return _isReadOnly; }
             set
             {
-                isEditing = value;
-                OnPropertyChanged(nameof(IsEditing));
+                _isReadOnly = value;
+                OnPropertyChanged(nameof(IsReadOnly));
             }
         }
 
@@ -60,6 +60,7 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             Employees = userRepository.GetByAll();
 
+            IsReadOnly = false;
 
             SelectedEmployee = -1;
 
@@ -72,12 +73,13 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteSaveCommand(object obj)
         {
-            IsEditing = !IsEditing;
+            IsReadOnly = true;
+
         }
 
         private void ExecuteEditCommand(object obj)
         {
-            IsEditing = false;
+            IsReadOnly = !IsReadOnly;
         }
 
         private void ExecuteInfoCommand(object obj)
@@ -98,7 +100,7 @@ namespace Cafe_Managment.ViewModel
             int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
 
             
-            if (MessageBoxResult.Yes== MessageBox.Show("Вы уверены что хотите уволить сотрудника?",
+            if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp}?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
                 if (temp == UserData.Id)
@@ -126,13 +128,15 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteHireCommand(object obj)
         {
-            Registration registration = new Registration();
-            registration.ShowDialog();
-            registration.IsVisibleChanged += (s, ev) =>
-            {
-                registration.Close();
-                Employees = userRepository.GetByAll();
-            };
+            //Registration registration = new Registration();
+            //registration.ShowDialog();
+            //registration.IsVisibleChanged += (s, ev) =>
+            //{
+            //    registration.Close();
+            //    Employees = userRepository.GetByAll();
+            //};
+            IsReadOnly = !IsReadOnly;
+
         }
     }
     

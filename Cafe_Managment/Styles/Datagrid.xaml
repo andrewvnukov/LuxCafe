@@ -31,14 +31,19 @@
                             CornerRadius="10"/>
                         <Track Name="PART_Track" 
                            Grid.Column="0"
-                           IsDirectionReversed="False">
+                           IsDirectionReversed="False"
+                           >
                             <Track.Thumb>
                                 <Thumb Style="{DynamicResource MinimalisticThumbStyle}"
+                                       Name="thumb"
                                    Background="LightGray"
                                    Width="30"
                                    Height="10"
                                    BorderThickness="1"
-                                   BorderBrush="DarkGray"/>
+                                   BorderBrush="DarkGray"
+                                   >
+
+                                </Thumb>
                             </Track.Thumb>
                         </Track>
                     </Grid>
@@ -346,7 +351,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-
+        <Setter Property="IsEditing" Value="False"/>
         <Setter Property="Margin" Value="5 0"/>
         <Setter Property="Template">
             <Setter.Value>

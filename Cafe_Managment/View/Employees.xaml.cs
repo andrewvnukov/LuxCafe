@@ -26,6 +26,9 @@ namespace Cafe_Managment.View
             InitializeComponent();
         }
 
-        
+        private void MembersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
