@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     >
 
     <Style x:Key="DefaultRadioButton" TargetType="RadioButton">
@@ -558,6 +559,64 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
                 
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="Edit_Button" TargetType="CheckBox">
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="#7396D1"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border Background="Transparent">
+                    <Icon:PackIconMaterial Kind="PencilBoxOutline"
+                                           Name="BtnIcon"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Height="{TemplateBinding Height}"
+                                           Width="{TemplateBinding Width}"
+                                           Margin="0"
+                                           >
+                    </Icon:PackIconMaterial>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="BtnIcon"
+                                    Property="Kind"
+                                    Value="PencilBox"/>
+                            <Setter Property="Foreground"
+                                    Value="#EEEEEE"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(CheckBox.Foreground).(SolidColorBrush.Color)"
+                             To="#EEEEEE"
+                             Duration="0:0:0.2"/>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(CheckBox.Foreground).(SolidColorBrush.Color)"
+                             To="#7396D1"
+                             Duration="0:0:0.2"/>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

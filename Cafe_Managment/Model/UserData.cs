@@ -12,6 +12,9 @@ namespace Cafe_Managment.Model
     {
         public static int Id { get; set; }
         public static int RoleId { get; set; }
+        public static int BranchId { get; set; }
+        public static DateTime CreatedAt { get; set; }
+        public static DateTime DeletedAt { get; set; }
         public static string Status { get; set; }
         public static string Name { get; set; }
         public static string Surname { get; set; }

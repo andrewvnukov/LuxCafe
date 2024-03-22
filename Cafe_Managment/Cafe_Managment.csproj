@@ -133,7 +133,6 @@
     </Compile>
     <Compile Include="Controls\GridLengthAnimation.cs" />
     <Compile Include="Model\EmpData.cs" />
-    <Compile Include="Model\RoleModel.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
     <Compile Include="ViewModel\BarVM.cs" />

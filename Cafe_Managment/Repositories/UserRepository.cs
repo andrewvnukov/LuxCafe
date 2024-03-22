@@ -134,7 +134,7 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = "SELECT RoleId, Name, Surname, Patronomic, " +
+                command.CommandText = "SELECT RoleId, BranchId, CreatedAt, Name, Surname, Patronomic, " +
                     "Phonenumber, Email, BirthDay, Address, ProfileImage FROM Employees WHERE Id = @userId";
                 command.Parameters.AddWithValue("userId", UserData.Id);
 
@@ -144,15 +144,17 @@ namespace Cafe_Managment.Repositories
                     reader.Read();
 
                     UserData.RoleId = int.Parse(reader[0].ToString());
-                    UserData.Name = reader[1].ToString();
-                    UserData.Surname = reader[2].ToString();
-                    UserData.Patronomic = reader[3].ToString();
-                    UserData.PhoneNumber = reader[4].ToString() != null ? reader[4].ToString() : "Не введен";
-                    UserData.Email = reader[5].ToString() != null ? reader[5].ToString() : "Не введен"; ;
-                    UserData.BirthDay = reader.GetDateTime(6).ToString("yyyy-MM-dd");
-                    UserData.Address = reader[7].ToString() != null ? reader[7].ToString() : "Не введен"; ;
+                    UserData.BranchId = int.Parse(reader[1].ToString());
+                    UserData.CreatedAt = DateTime.Parse(reader[2].ToString());
+                    UserData.Name = reader[3].ToString();
+                    UserData.Surname = reader[4].ToString();
+                    UserData.Patronomic = reader[5].ToString();
+                    UserData.PhoneNumber = reader[6].ToString() != null ? reader[6].ToString() : "Не введен";
+                    UserData.Email = reader[7].ToString() != null ? reader[7].ToString() : "Не введен"; ;
+                    UserData.BirthDay = reader.GetDateTime(8).ToString("yyyy-MM-dd");
+                    UserData.Address = reader[9].ToString() != null ? reader[9].ToString() : "Не введен"; ;
 
-                    if (reader[8] != DBNull.Value)
+                    if (reader[10] != DBNull.Value)
                     {
                         byte[] imageData = (byte[])reader[8];
                         UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
@@ -305,7 +307,7 @@ namespace Cafe_Managment.Repositories
                 command.Parameters.AddWithValue("birthday", empData.BirthDay);
                 command.Parameters.AddWithValue("NowDate", DateTime.Now);
                 command.Parameters.AddWithValue("status", 1);
-                command.Parameters.AddWithValue("number", "123123");
+                command.Parameters.AddWithValue("number", "1234");
 
                 
                 try

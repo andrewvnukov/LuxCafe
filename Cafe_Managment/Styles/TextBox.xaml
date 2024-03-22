@@ -192,5 +192,45 @@
         </Setter>
 
     </Style>
-    <
+    <Style x:Key="Textbox_Outer1" TargetType="TextBox">
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="Template">
+            
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border CornerRadius="8"
+                            Padding="5"
+                            BorderThickness="0.5"
+                            Width="auto">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource BorderColor1}"/>
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource MouseOverButtonColor2}" Opacity="0.1"/>
+                        </Border.Background>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="{TemplateBinding Tag}"
+                                       Style="{StaticResource Text_Headline3}"
+                                       VerticalAlignment="Bottom"/>
+                            <TextBox Text="{TemplateBinding Text}"
+                                     Margin="5 0 0 1"
+                                     x:Name="PART_TextHolder"
+                                     Background="Transparent"
+                                     VerticalAlignment="Bottom"
+                                     BorderThickness="0"
+                                     CaretBrush="White"
+                                     FontSize="18">
+                                <TextBox.Foreground>
+                                    <SolidColorBrush Color="{DynamicResource Color_NormalText1}" x:Name="Text_Foreground"/>
+                                </TextBox.Foreground>
+                            </TextBox>
+                        </StackPanel>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
