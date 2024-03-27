@@ -3,10 +3,166 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vn="clr-namespace:Cafe_Managment.ViewModel"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Cafe_Managment.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="MyCollectionViewSource" Source="{Binding Menu}"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <vn:MenuVM/>
+    </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="Menu" Style="{DynamicResource Text_Headline1}"/>
+        <ScrollViewer x:Name="Viewer" 
+                      
+                      >
+
+            <Grid Height="1000">
+                <TextBlock Text="Архив блюд" 
+                           Style="{DynamicResource Text_Headline2}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"/>
+                <StackPanel>
+
+                    <!--Members Datagrid -->
+
+                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="5 40 5 20" 
+                              
+                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                              CellStyle="{DynamicResource DataGridCellStyle1}" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding Menu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding IsReadOnly}"
+                              CanUserReorderColumns="False"
+                              MaxHeight="350"
+                              VerticalScrollBarVisibility="Hidden"
+                              >
+
+                        <DataGrid.Columns>
+
+                            <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource GridPlusButton}"  
+                                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+
+                                            <Button Style="{StaticResource GridDeleteButton}" 
+                                                    Command="{Binding SaveCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="Transfer" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
+                        </DataGrid.Resources>
+                    </DataGrid>
+
+                    <TextBlock Text="Меню" 
+                           Style="{DynamicResource Text_Headline2}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"/>
+
+                    <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" Margin="5 15 5 0" 
+                              
+                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                              CellStyle="{DynamicResource DataGridCellStyle1}" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding ActiveMenu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding IsReadOnly}"
+                              CanUserReorderColumns="False"
+                              MaxHeight="350"
+                              VerticalScrollBarVisibility="Hidden"
+                              >
+
+                        <DataGrid.Columns>
+
+                            <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Width="50">
+                                            
+
+                                            <Button Style="{StaticResource GridDeleteButton}" 
+                                                    Command="{Binding SaveCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource GridEditButton}" Command="{Binding InfoCommand}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
+                        </DataGrid.Resources>
+                    </DataGrid>
+
+                    <!--<StackPanel Margin="20" FlowDirection="LeftToRight" Orientation="Horizontal">
+                        <Button Content="Нанять"
+                                    Command="{Binding HireCommand}"
+                            Style="{DynamicResource DefaultButton}"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                            Height="40" Width="100" 
+                            Margin="0"/>
+                        <Button Content="Уволить" 
+                            Command="{Binding FireCommand}"
+                            Style="{DynamicResource DefaultButton}"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                            Height="40" Width="100" 
+                            Margin="10,0,0,0"/>
+                    </StackPanel>-->
+
+
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+
     </Grid>
+    
+    
 </UserControl>
+  
+    

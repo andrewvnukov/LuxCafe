@@ -37,8 +37,8 @@
                                 <Thumb Style="{DynamicResource MinimalisticThumbStyle}"
                                        Name="thumb"
                                    Background="LightGray"
-                                   Width="30"
-                                   Height="10"
+                                   Width="200"
+                                   Height="6.5"
                                    BorderThickness="1"
                                    BorderBrush="DarkGray"
                                    >
@@ -137,6 +137,56 @@
 
     </Style>
 
+    <Style x:Key="GridDeleteButton" TargetType="Button">
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="BorderBrush" Value="Red"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="DarkRed"/>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+
+    <Style x:Key="GridPlusButton" TargetType="Button">
+        <Setter Property="Background" Value="#29AB87"/>
+        <Setter Property="BorderBrush" Value="#29AB87"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#006633"/>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+
     <Style x:Key="GridInfoButton" TargetType="Button">
         <Setter Property="Background" Value="#2271B3"/>
         <Setter Property="BorderBrush" Value="#2271B3"/>
@@ -174,6 +224,21 @@
         </Style.Triggers>
 
     </Style>
+
+
+
+    <Style x:Key="GridPlussButton" TargetType="Button" BasedOn="{StaticResource GridPlusButton}">
+        <Setter Property="Background" Value="#29AB87"/>
+        <Setter Property="BorderBrush" Value="#29AB87"/>
+        <Setter Property="Visibility" Value="Visible"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#006633"/>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style> 
 
 
     <Style x:Key="gridButtonIcon" TargetType="Icon:PackIconMaterial">

@@ -132,8 +132,11 @@
       <DependentUpon>BindblePassBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GridLengthAnimation.cs" />
+    <Compile Include="Model\DishData.cs" />
     <Compile Include="Model\EmpData.cs" />
+    <Compile Include="Model\IDishesRepository.cs" />
     <Compile Include="Model\UserData.cs" />
+    <Compile Include="Repositories\DishesRepository.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
     <Compile Include="ViewModel\BarVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
