@@ -73,8 +73,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteSaveCommand(object obj)
         {
-            IsReadOnly = true;
-
+                MessageBox.Show(SelectedEmployee.ToString());
         }
 
         private void ExecuteEditCommand(object obj)
@@ -99,7 +98,8 @@ namespace Cafe_Managment.ViewModel
         {
             int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
 
-            
+            MessageBox.Show(SelectedEmployee.ToString());
+
             if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp}?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
@@ -128,14 +128,14 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteHireCommand(object obj)
         {
-            //Registration registration = new Registration();
-            //registration.ShowDialog();
-            //registration.IsVisibleChanged += (s, ev) =>
-            //{
-            //    registration.Close();
-            //    Employees = userRepository.GetByAll();
-            //};
-            IsReadOnly = !IsReadOnly;
+            Registration registration = new Registration();
+            registration.ShowDialog();
+            registration.IsVisibleChanged += (s, ev) =>
+            {
+                registration.Close();
+                Employees = userRepository.GetByAll();
+            };
+
 
         }
     }

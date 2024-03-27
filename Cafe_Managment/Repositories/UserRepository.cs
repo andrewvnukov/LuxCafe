@@ -106,7 +106,7 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = @"SELECT ROW_NUMBER() OVER(ORDER BY e.Id) AS '№', 
+                command.CommandText = @"SELECT e.Id AS '№',
                                         e.BranchId AS 'Филиал', r.Title AS 'Роль', 
                                         e.Name AS 'Имя', e.Surname AS 'Фамилия', 
                                         e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 

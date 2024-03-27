@@ -58,13 +58,14 @@
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
 
-                                            <Button Style="{StaticResource GridRemoveButton}" 
-                                                    Command="{Binding SaveCommand}">
+                                            <Button Style="{StaticResource GridRemoveButton}"
+                                                    Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
-                                                </Button>
+                                            </Button>
+                                                
                                             <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
