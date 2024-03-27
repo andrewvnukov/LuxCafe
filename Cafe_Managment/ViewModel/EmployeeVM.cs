@@ -20,7 +20,7 @@ namespace Cafe_Managment.ViewModel
         private DataTable _employees;
         private int _selectedEmployee;
         private bool _isReadOnly;
-
+        DataTable temp = new DataTable();
 
 
         public ICommand HireCommand {  get; set; }
@@ -58,7 +58,13 @@ namespace Cafe_Managment.ViewModel
         public EmployeeVM()
         {
             userRepository = new UserRepository();
-            Employees = userRepository.GetByAll();
+
+            
+            temp = userRepository.GetByAll();
+
+            Employees = temp.Copy();
+
+            Employees.Columns.Remove("Id");
 
             IsReadOnly = false;
 
@@ -73,7 +79,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteSaveCommand(object obj)
         {
-                MessageBox.Show(SelectedEmployee.ToString());
+                MessageBox.Show(temp.Rows[SelectedEmployee][1].ToString());
         }
 
         private void ExecuteEditCommand(object obj)

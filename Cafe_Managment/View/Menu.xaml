@@ -24,15 +24,16 @@
                       >
 
             <Grid Height="1000">
-                <TextBlock Text="Архив блюд" 
-                           Style="{DynamicResource Text_Headline2}"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Center"/>
+                
                 <StackPanel>
 
+                    <TextBlock Text="Архив блюд" 
+                               Style="{DynamicResource Text_Headline2}"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Center"/>
                     <!--Members Datagrid -->
 
-                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="5 40 5 20" 
+                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="5 20 5 20" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -52,10 +53,9 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource GridPlusButton}"  
-                                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                            <Button Style="{StaticResource GridPlusButton}">
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
@@ -63,13 +63,13 @@
                                             <Button Style="{StaticResource GridDeleteButton}" 
                                                     Command="{Binding SaveCommand}">
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="Transfer" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
