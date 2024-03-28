@@ -26,6 +26,8 @@ namespace Cafe_Managment.ViewModel
 
         public ICommand EditRowCommand { get; set; }
         public ICommand SaveRowCommand { get; set; }
+        public ICommand DeleteRowCommand { get; set; }
+        public ICommand TransferRowCommand { get; set; }
 
 
         public bool IsReadOnly
@@ -103,8 +105,18 @@ namespace Cafe_Managment.ViewModel
 
             SaveRowCommand = new RelayCommand(ExecuteSaveRowCommand);
             EditRowCommand = new RelayCommand(ExecuteEditRowCommand);
+            //DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand);
+            //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
 
             
+        }
+        private void ExecuteDeleteRowCommand()
+        {
+            throw new NotImplementedException();
+        }
+        private void ExecuteTransferRowCommand()
+        {
+            throw new NotImplementedException();
         }
         private void ExecuteSaveRowCommand(object obj)
         {

@@ -24,14 +24,12 @@
                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
             </ScrollViewer.Resources>
 
-
             <Grid Height="1000">
                 <TextBlock Text="Архив блюд" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
                 <StackPanel>
-
 
                     <!--ArchiveDataGrid-->
 
@@ -54,7 +52,7 @@
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="74">
+                                        <StackPanel Orientation="Horizontal" Width="95">
                                             <Button Style="{StaticResource GridEditButton}"
                                                         Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
@@ -62,16 +60,23 @@
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
+                                            <Button Style="{StaticResource GridRemoveButton}"
+                                                    Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
-                                                        Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                        Command="{Binding DataContext.ExecuteDeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridInfoButton}"
-                                                    >
+                                             Command="{Binding DataContext.ExecuteTransferRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -89,20 +94,22 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
-                    <!--<StackPanel Margin="5 0 10 0" FlowDirection="LeftToRight" Orientation="Horizontal">
+                    <StackPanel Margin="5 0 10 0" FlowDirection="LeftToRight" Orientation="Horizontal">
                         <Button Content="Добавить блюдо"
-                                    Command="{Binding HireCommand}"
+                                    Command="{Binding AddDishCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Right" VerticalAlignment="Bottom"
                             Height="40" Width="200" 
                             Margin="0"/>
 
-                    </StackPanel>-->
+                    </StackPanel>
 
                     <TextBlock Text="Меню" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
+
+                    <!--ActiveMenuDataGrid-->
 
                     <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" Margin="10 15 0 0" 
                               
@@ -123,23 +130,29 @@
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="50">
+                                        <StackPanel Orientation="Horizontal" Width="75">
 
-
-                                            <Button Style="{StaticResource GridDeleteButton}" 
-                                             Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-
-                                                <Button.DataContext>
-                                                    <vn:MenuVM/>
-                                                </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
                                             <Button Style="{StaticResource GridEditButton}"
                                              Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+                                            <Button Style="{StaticResource GridRemoveButton}"
+                                                    Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                <Button.DataContext>
+                                                    <vn:EmployeeVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
+                                            </Button>
+
+                                            <Button Style="{StaticResource GridDeleteButton}" 
+                                             Command="{Binding DataContext.ExecuteDeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                <Button.DataContext>
+                                                    <vn:MenuVM/>
+                                                </Button.DataContext>
+                                                <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
 
                                         </StackPanel>
