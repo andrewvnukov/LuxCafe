@@ -52,6 +52,34 @@
         </Setter>
     </Style>
 
+    <Style x:Key="CustomVerticalScrollBarStyle" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                        CornerRadius="10"/>
+                        <Track Name="PART_Track" 
+                           Grid.Row="0"
+                           IsDirectionReversed="True">
+                            <Track.Thumb>
+                                <Thumb Style="{DynamicResource MinimalisticThumbStyle}"
+                                   Name="thumb"
+                                   Background="LightGray"
+                                   Width="6.5"
+                                   Height="200"
+                                   BorderThickness="1"
+                                   BorderBrush="DarkGray">
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <!-- Стиль для TabButton в гриде -->

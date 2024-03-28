@@ -19,13 +19,17 @@
         <vn:MenuVM/>
     </UserControl.DataContext>
     <Grid>
-        <ScrollViewer x:Name="Viewer" 
-                      
-                      >
+        <ScrollViewer x:Name="Viewer" >
+            <ScrollViewer.Resources>
+                <!-- Применяем стиль к вертикальному скроллбару -->
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
+            </ScrollViewer.Resources>
+
 
             <Grid Height="1000">
                 
                 <StackPanel>
+                    
 
                     <TextBlock Text="Архив блюд" 
                                Style="{DynamicResource Text_Headline2}"
@@ -33,7 +37,11 @@
                                HorizontalAlignment="Center"/>
                     <!--Members Datagrid -->
 
+<<<<<<< Updated upstream
                     <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="5 20 5 20" 
+=======
+                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 40 0 10" 
+>>>>>>> Stashed changes
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -43,7 +51,7 @@
                               SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False"
-                              MaxHeight="350"
+                              MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
                               >
 
@@ -52,6 +60,7 @@
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
+<<<<<<< Updated upstream
                                         <StackPanel Orientation="Horizontal">
                                             <Button Style="{StaticResource GridPlusButton}">
                                                 <Button.DataContext>
@@ -59,6 +68,10 @@
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
+=======
+                                        <StackPanel Orientation="Horizontal" Width="49">
+                                            
+>>>>>>> Stashed changes
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
                                                     Command="{Binding SaveCommand}">
@@ -85,13 +98,22 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
+                    <StackPanel Margin="5 0 10 0" FlowDirection="LeftToRight" Orientation="Horizontal">
+                        <Button Content="Добавить блюдо"
+                                    Command="{Binding HireCommand}"
+                            Style="{DynamicResource DefaultButton}"
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                            Height="40" Width="200" 
+                            Margin="0"/>
+                        
+                    </StackPanel>
 
                     <TextBlock Text="Меню" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
 
-                    <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" Margin="5 15 5 0" 
+                    <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" Margin="10 15 0 0" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -101,7 +123,7 @@
                               SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False"
-                              MaxHeight="350"
+                              MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
                               >
 
