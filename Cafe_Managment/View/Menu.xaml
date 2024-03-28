@@ -21,27 +21,21 @@
     <Grid>
         <ScrollViewer x:Name="Viewer" >
             <ScrollViewer.Resources>
-                <!-- Применяем стиль к вертикальному скроллбару -->
                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
             </ScrollViewer.Resources>
 
 
             <Grid Height="1000">
-                
+                <TextBlock Text="Архив блюд" 
+                           Style="{DynamicResource Text_Headline2}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"/>
                 <StackPanel>
-                    
 
-                    <TextBlock Text="Архив блюд" 
-                               Style="{DynamicResource Text_Headline2}"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Center"/>
-                    <!--Members Datagrid -->
 
-<<<<<<< Updated upstream
-                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="5 20 5 20" 
-=======
+                    <!--ArchiveDataGrid-->
+
                     <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 40 0 10" 
->>>>>>> Stashed changes
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -60,27 +54,24 @@
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-<<<<<<< Updated upstream
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{StaticResource GridPlusButton}">
+                                        <StackPanel Orientation="Horizontal" Width="74">
+                                            <Button Style="{StaticResource GridEditButton}"
+                                                        Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource gridButtonIcon}"/>
+                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-=======
-                                        <StackPanel Orientation="Horizontal" Width="49">
-                                            
->>>>>>> Stashed changes
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
-                                                    Command="{Binding SaveCommand}">
+                                                        Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-                                            <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
+                                            <Button Style="{StaticResource GridInfoButton}"
+                                                    >
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -98,15 +89,15 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
-                    <StackPanel Margin="5 0 10 0" FlowDirection="LeftToRight" Orientation="Horizontal">
+                    <!--<StackPanel Margin="5 0 10 0" FlowDirection="LeftToRight" Orientation="Horizontal">
                         <Button Content="Добавить блюдо"
                                     Command="{Binding HireCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Right" VerticalAlignment="Bottom"
                             Height="40" Width="200" 
                             Margin="0"/>
-                        
-                    </StackPanel>
+
+                    </StackPanel>-->
 
                     <TextBlock Text="Меню" 
                            Style="{DynamicResource Text_Headline2}"
@@ -133,18 +124,20 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" Width="50">
-                                            
+
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
-                                                    Command="{Binding SaveCommand}">
+                                             Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-                                            <Button Style="{StaticResource GridEditButton}" Command="{Binding InfoCommand}">
+                                            <Button Style="{StaticResource GridEditButton}"
+                                             Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
@@ -160,31 +153,10 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
-
-                    <!--<StackPanel Margin="20" FlowDirection="LeftToRight" Orientation="Horizontal">
-                        <Button Content="Нанять"
-                                    Command="{Binding HireCommand}"
-                            Style="{DynamicResource DefaultButton}"
-                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                            Height="40" Width="100" 
-                            Margin="0"/>
-                        <Button Content="Уволить" 
-                            Command="{Binding FireCommand}"
-                            Style="{DynamicResource DefaultButton}"
-                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                            Height="40" Width="100" 
-                            Margin="10,0,0,0"/>
-                    </StackPanel>-->
-
-
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-
-
     </Grid>
-    
-    
 </UserControl>
   
     

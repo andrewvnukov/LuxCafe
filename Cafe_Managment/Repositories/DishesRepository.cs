@@ -38,7 +38,8 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = @"SELECT ROW_NUMBER() OVER(ORDER BY d.Id) AS '№', 
+                command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
+                                      d.Id,
                                       c.Title AS 'Раздел', 
                                       d.Title AS 'Название', 
                                       d.Description AS 'Описание', 
