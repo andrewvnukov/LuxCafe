@@ -63,7 +63,7 @@
                                             <Button Style="{StaticResource GridRemoveButton}"
                                                     Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
@@ -142,7 +142,7 @@
                                             <Button Style="{StaticResource GridRemoveButton}"
                                                     Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
-                                                    <vn:EmployeeVM/>
+                                                    <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>

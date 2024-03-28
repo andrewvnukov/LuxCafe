@@ -32,7 +32,7 @@
 
                         <!--Members Datagrid -->
 
-                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="5 40 5 0" 
+                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="10 40 10 0" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -65,14 +65,13 @@
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-                                                
+
                                             <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-
                                         </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

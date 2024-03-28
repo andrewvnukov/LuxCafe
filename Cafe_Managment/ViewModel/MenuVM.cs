@@ -107,8 +107,7 @@ namespace Cafe_Managment.ViewModel
             EditRowCommand = new RelayCommand(ExecuteEditRowCommand);
             //DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand);
             //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
-
-            
+            //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
         }
         private void ExecuteDeleteRowCommand()
         {
