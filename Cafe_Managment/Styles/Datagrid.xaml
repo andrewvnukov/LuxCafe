@@ -458,8 +458,8 @@
     </Style>
 
     <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
-        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#222528"/>
+        <Setter Property="Padding" Value="5"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
@@ -479,11 +479,19 @@
         <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="CanUserResizeColumns" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="#935776" Opacity="0.3"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True"
+                            CornerRadius="10">
                         <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">

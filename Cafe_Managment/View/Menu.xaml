@@ -8,12 +8,6 @@
              xmlns:local="clr-namespace:Cafe_Managment.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="MyCollectionViewSource" Source="{Binding Menu}"/>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
-    </UserControl.Resources>
 
     <UserControl.DataContext>
         <vn:MenuVM/>
@@ -47,6 +41,9 @@
                               VerticalScrollBarVisibility="Hidden"
                               >
 
+                        <DataGrid.DataContext>
+                            <vn:MenuVM/>
+                        </DataGrid.DataContext>
                         <DataGrid.Columns>
 
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
@@ -54,14 +51,14 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" Width="95">
                                             <Button Style="{StaticResource GridEditButton}"
-                                                        Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                        Command="{Binding DataContext.EditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridRemoveButton}"
-                                                    Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                    Command="{Binding DataContext.SaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -69,7 +66,7 @@
                                             </Button>
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
-                                                        Command="{Binding DataContext.ExecuteDeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                        Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -96,12 +93,11 @@
                     </DataGrid>
                     <StackPanel Margin="5 0 10 0" FlowDirection="LeftToRight" Orientation="Horizontal">
                         <Button Content="Добавить блюдо"
-                                    Command="{Binding AddDishCommand}"
+                            Command="{Binding AddDishToArchiveCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Right" VerticalAlignment="Bottom"
                             Height="40" Width="200" 
                             Margin="0"/>
-
                     </StackPanel>
 
                     <TextBlock Text="Меню" 
@@ -111,8 +107,8 @@
 
                     <!--ActiveMenuDataGrid-->
 
-                    <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" Margin="10 15 0 0" 
-                              
+                    <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" 
+                              Margin="10 15 0 0" 
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
@@ -124,7 +120,9 @@
                               MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
                               >
-
+                        <DataGrid.DataContext>
+                            <vn:MenuVM/>
+                        </DataGrid.DataContext>
                         <DataGrid.Columns>
 
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
@@ -133,14 +131,15 @@
                                         <StackPanel Orientation="Horizontal" Width="75">
 
                                             <Button Style="{StaticResource GridEditButton}"
-                                             Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                    
+                         Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridRemoveButton}"
-                                                    Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -148,7 +147,7 @@
                                             </Button>
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
-                                             Command="{Binding DataContext.ExecuteDeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                         Command="{Binding DataContext.ExecuteDeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>

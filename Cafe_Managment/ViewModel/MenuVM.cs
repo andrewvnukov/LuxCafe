@@ -21,10 +21,12 @@ namespace Cafe_Managment.ViewModel
         private bool _isReadOnly;
         private int _selectedDish;
         DataTable tempArchvie = new DataTable();
+        DataTable tempMenu = new DataTable();
         private DataTable _menu;
         private DataTable _activemenu;
 
         public ICommand EditRowCommand { get; set; }
+        public ICommand AddDishToArchiveCommand { get; set; }
         public ICommand SaveRowCommand { get; set; }
         public ICommand DeleteRowCommand { get; set; }
         public ICommand TransferRowCommand { get; set; }
@@ -75,25 +77,31 @@ namespace Cafe_Managment.ViewModel
 
         public DataTable ActiveMenu
         {
-            get { return _menu; }
-            set { _menu = value; }
+            get { return _activemenu; }
+            set { _activemenu = value;
+                OnPropertyChanged(nameof(ActiveMenu));
+            }
         }
         public DataTable Menu
         {
-            get { return _activemenu; }
-            set { _activemenu = value; }
+            get { return _menu; }
+            set { _menu = value;
+                OnPropertyChanged(nameof(Menu));
+            }
         }
         public MenuVM()
         {
             dishesRepository = new DishesRepository();
             Menu = dishesRepository.GetAllDishesFromArchive();
-            IsReadOnly = false;
-            ActiveMenu = dishesRepository.GetAllDishesFromMenu();
+            IsReadOnly = true;
+
+            tempMenu = dishesRepository.GetAllDishesFromMenu();
+            ActiveMenu = tempMenu.Copy();
+            ActiveMenu.Columns.Remove("Id");
+
 
             tempArchvie = dishesRepository.GetAllDishesFromArchive();
-
             Menu = tempArchvie.Copy();
-
             Menu.Columns.Remove("Id");
 
             IsReadOnly = false;
@@ -101,14 +109,18 @@ namespace Cafe_Managment.ViewModel
 
             //EditRowCommand = new RelayCommand(EditRow);
 
-
-
             SaveRowCommand = new RelayCommand(ExecuteSaveRowCommand);
             EditRowCommand = new RelayCommand(ExecuteEditRowCommand);
+            AddDishToArchiveCommand = new RelayCommand(ExecuteAddDishToArchiveCommand);
             //DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand);
             //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
-            //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
         }
+
+        private void ExecuteAddDishToArchiveCommand(object obj)
+        {
+            MessageBox.Show("Added");
+        }
+
         private void ExecuteDeleteRowCommand()
         {
             throw new NotImplementedException();
@@ -119,7 +131,7 @@ namespace Cafe_Managment.ViewModel
         }
         private void ExecuteSaveRowCommand(object obj)
         {
-            MessageBox.Show(tempArchvie.Rows[SelectedDish][1].ToString());
+            MessageBox.Show(SelectedDish.ToString());
         }
 
         private void ExecuteEditRowCommand(object obj)
