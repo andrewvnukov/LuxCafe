@@ -23,7 +23,7 @@ namespace Cafe_Managment.ViewModel
         DataTable temp = new DataTable();
 
 
-        public ICommand HireCommand {  get; set; }
+        public ICommand HireCommand { get; set; }
         public ICommand FireCommand { get; set; }
         public ICommand EditCommand { get; set; }
         public ICommand SaveCommand { get; set; }
@@ -79,7 +79,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteSaveCommand(object obj)
         {
-                MessageBox.Show(temp.Rows[SelectedEmployee][1].ToString());
+           MessageBox.Show(temp.Rows[SelectedEmployee][1].ToString());
         }
 
         private void ExecuteEditCommand(object obj)
@@ -91,7 +91,7 @@ namespace Cafe_Managment.ViewModel
         {
             MessageBox.Show("Изменению подлежат только следующие поля:\n" +
                 "Имя, Фамилия, Отчество, Почта, Номер телефона.\n" +
-                "Остальные данные изменению не подлежат!!!",
+                "Остальные данные изменены не будут!!!",
                 "Внимание!!!", MessageBoxButton.YesNoCancel);
         }
 

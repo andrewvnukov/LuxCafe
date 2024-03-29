@@ -5,6 +5,7 @@ using Cafe_Managment.View.DialogWindows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,14 @@ namespace Cafe_Managment.ViewModel
         DishesRepository dishesRepository;
         private bool _isReadOnly;
         private int _selectedDish;
+        DataTable tempArchvie = new DataTable();
+        private DataTable _menu;
+        private DataTable _activemenu;
+
+        public ICommand EditRowCommand { get; set; }
+        public ICommand SaveRowCommand { get; set; }
+        public ICommand DeleteRowCommand { get; set; }
+        public ICommand TransferRowCommand { get; set; }
 
 
         public bool IsReadOnly
@@ -41,9 +50,28 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        private DataTable _menu;
-        private DataTable _activemenu;
+        //private void EditRow(object parameter)
+        //{
+        //    // Получаем выбранный элемент (предполагается, что элемент содержит свойство IsEditable)
+        //    var selectedItem = parameter as SelectedRow;
 
+        //    if (selectedItem != null)
+        //    {
+        //        // Устанавливаем редактируемость только для выбранного элемента
+        //        selectedItem.IsEditable = true;
+
+        //        // Вызываем событие PropertyChanged для обновления интерфейса
+        //        OnPropertyChanged(nameof(ActiveMenu));
+        //    }
+        //}
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //protected virtual void OnPropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}   
+
+      
 
         public DataTable ActiveMenu
         {
@@ -62,9 +90,41 @@ namespace Cafe_Managment.ViewModel
             IsReadOnly = false;
             ActiveMenu = dishesRepository.GetAllDishesFromMenu();
 
+            tempArchvie = dishesRepository.GetAllDishesFromArchive();
 
-            //HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
-            //FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
+            Menu = tempArchvie.Copy();
+
+            Menu.Columns.Remove("Id");
+
+            IsReadOnly = false;
+            SelectedDish = -1;
+
+            //EditRowCommand = new RelayCommand(EditRow);
+
+
+
+            SaveRowCommand = new RelayCommand(ExecuteSaveRowCommand);
+            EditRowCommand = new RelayCommand(ExecuteEditRowCommand);
+            //DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand);
+            //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
+            //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
+        }
+        private void ExecuteDeleteRowCommand()
+        {
+            throw new NotImplementedException();
+        }
+        private void ExecuteTransferRowCommand()
+        {
+            throw new NotImplementedException();
+        }
+        private void ExecuteSaveRowCommand(object obj)
+        {
+            MessageBox.Show(tempArchvie.Rows[SelectedDish][1].ToString());
+        }
+
+        private void ExecuteEditRowCommand(object obj)
+        {
+            IsReadOnly = !IsReadOnly;
         }
     }
 }
