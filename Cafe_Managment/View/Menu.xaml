@@ -27,16 +27,21 @@
 
 
             <Grid Height="1000">
-                <TextBlock Text="Архив блюд" 
-                           Style="{DynamicResource Text_Headline2}"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Center"/>
+                
                 <StackPanel>
+                    
 
-
+                    <TextBlock Text="Архив блюд" 
+                               Style="{DynamicResource Text_Headline2}"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Center"/>
                     <!--Members Datagrid -->
 
+<<<<<<< Updated upstream
+                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="5 20 5 20" 
+=======
                     <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 40 0 10" 
+>>>>>>> Stashed changes
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -55,14 +60,18 @@
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="74">
-                                            <Button Style="{StaticResource GridEditButton}" 
-                                                    Command="{Binding EditRowCommand}" CommandParameter="{Binding}">
+<<<<<<< Updated upstream
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource GridPlusButton}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                                <Icon:PackIconMaterial Kind="Plus" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
+=======
+                                        <StackPanel Orientation="Horizontal" Width="49">
+                                            
+>>>>>>> Stashed changes
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
                                                     Command="{Binding SaveCommand}">
@@ -96,7 +105,7 @@
                             HorizontalAlignment="Right" VerticalAlignment="Bottom"
                             Height="40" Width="200" 
                             Margin="0"/>
-
+                        
                     </StackPanel>
 
                     <TextBlock Text="Меню" 
@@ -124,18 +133,18 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" Width="50">
-
+                                            
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
                                                     Command="{Binding SaveCommand}">
                                                 <Button.DataContext>
-                                                    <vn:MenuVM/>
+                                                    <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridEditButton}" Command="{Binding InfoCommand}">
                                                 <Button.DataContext>
-                                                    <vn:MenuVM/>
+                                                    <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
@@ -174,6 +183,8 @@
 
 
     </Grid>
-
-
+    
+    
 </UserControl>
+  
+    

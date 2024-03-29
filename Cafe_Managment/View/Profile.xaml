@@ -45,97 +45,91 @@
                         <TextBlock Margin="5,0,0,0"
                                    Text="{Binding Fullname, Mode=TwoWay}"
                                    Style="{DynamicResource Text_Headline2}"/>
-                    <StackPanel Orientation="Horizontal"
-                                Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
+                    <StackPanel Orientation="Horizontal">
+                    <TextBox Style="{DynamicResource Textbox_Outer1}"
                              Width="auto"
                              HorizontalAlignment="Center"
-                             Tag="ФИО"
+                             Tag="Почта"
                              Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-                                Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
-                                 Width="auto"
-                                 HorizontalAlignment="Center"
-                                 Tag="Адрес"
-                                 Text="{Binding CurrentData.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Style="{DynamicResource Edit_Button}"
-                                    Margin="5 0 0 0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Height="20"
-                                    Width="auto"/>
+                                Margin="5 0 0 0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Height="20"
+                                Width="auto"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-            Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
-             Width="auto"
-             HorizontalAlignment="Center"
-             Tag="Почта"
-             Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Style="{DynamicResource Edit_Button}"
-                Margin="5 0 0 0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Height="20"
-                Width="auto"/>
+                    <StackPanel Margin="10,10,0,10"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                            
+                        <TextBlock Text="Номер телефона:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.PhoneNumber}"
+       Style="{DynamicResource Default_Text}"
+       />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-            Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
-             Width="auto"
-             HorizontalAlignment="Center"
-             Tag="Почта"
-             Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Style="{DynamicResource Edit_Button}"
-                Margin="5 0 0 0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Height="20"
-                Width="auto"/>
+                    <StackPanel Margin="10,10,0,10"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Адрес:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.Address}"
+       Style="{DynamicResource Default_Text}"
+       />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-            Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
-             Width="auto"
-             HorizontalAlignment="Center"
-             Tag="Почта"
-             Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Style="{DynamicResource Edit_Button}"
-                Margin="5 0 0 0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Height="20"
-                Width="auto"/>
+                    <StackPanel Margin="10,10,0,10"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Статус:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.Status}"
+       Style="{DynamicResource Default_Text}"
+       />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-            Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
-             Width="auto"
-             HorizontalAlignment="Center"
-             Tag="Почта"
-             Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Style="{DynamicResource Edit_Button}"
-                Margin="5 0 0 0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Height="20"
-                Width="auto"/>
+                    <StackPanel Margin="10,10,0,10"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Должность:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding Role}"
+       Style="{DynamicResource Default_Text}"
+       />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
-            Margin="10">
-                        <TextBox Style="{DynamicResource Textbox_Outer1}"
-             Width="auto"
-             HorizontalAlignment="Center"
-             Tag="Почта"
-             Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Style="{DynamicResource Edit_Button}"
-                Margin="5 0 0 0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Height="20"
-                Width="auto"/>
+                    <StackPanel Margin="10,10,0,10"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight">
+                        <TextBlock Text="Дата рождения:" 
+               Style="{DynamicResource Text_Headline3}"
+               VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="5,0,0,0"
+               VerticalAlignment="Bottom"
+        Text="{Binding CurrentData.BirthDay}"
+       Style="{DynamicResource Default_Text}"
+       />
+                    </StackPanel>
+                    <StackPanel Margin="10,10,0,10"
+     Orientation="Horizontal"
+     FlowDirection="LeftToRight">
+                        <TextBlock Text="Электронная почта:" 
+        Style="{DynamicResource Text_Headline3}"
+        VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0,0,0"
+        VerticalAlignment="Bottom"
+ Text="{Binding CurrentData.Email}"
+Style="{DynamicResource Default_Text}"
+/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
