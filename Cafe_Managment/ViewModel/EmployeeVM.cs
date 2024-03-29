@@ -66,7 +66,7 @@ namespace Cafe_Managment.ViewModel
 
             Employees.Columns.Remove("Id");
 
-            IsReadOnly = false;
+            IsReadOnly = true;
 
             SelectedEmployee = -1;
 
