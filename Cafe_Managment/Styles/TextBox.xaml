@@ -213,6 +213,7 @@
                                     HorizontalAlignment="Center">
                             <TextBlock Text="{TemplateBinding Tag}"
                                        Style="{StaticResource Text_Headline3}"
+                                       Foreground="{DynamicResource AccientColor1}"
                                        VerticalAlignment="Bottom"/>
                             <TextBox Text="{TemplateBinding Text}"
                                      Margin="5 0 0 1"

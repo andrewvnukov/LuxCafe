@@ -147,7 +147,7 @@ namespace Cafe_Managment.Repositories
 
                     UserData.RoleId = int.Parse(reader[0].ToString());
                     UserData.BranchId = int.Parse(reader[1].ToString());
-                    UserData.CreatedAt = DateTime.Parse(reader[2].ToString());
+                    UserData.CreatedAt = reader.GetDateTime(2).ToString("yyyy-MM-dd");
                     UserData.Name = reader[3].ToString();
                     UserData.Surname = reader[4].ToString();
                     UserData.Patronomic = reader[5].ToString();
@@ -395,6 +395,31 @@ namespace Cafe_Managment.Repositories
                 }
                 connection.Close();
                 return branches;
+            }
+        }
+
+        public string GetBranchById(int BranchId)
+        {
+            using(var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = "SELECT address FROM branches WHERE Id = @Branchid";
+
+                command.Parameters.AddWithValue("Branchid", BranchId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        
+                        return reader[0].ToString();
+                    }
+                    else return "";
+                }
+                
             }
         }
     }

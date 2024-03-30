@@ -21,6 +21,7 @@ namespace Cafe_Managment.Repositories
         void RememberCurrentUser();
         void ForgetCurrentUser();
         string GetRoleById(int RoleId);
+        string GetBranchById(int BranchId);
         List<string> GetRoles();
         void GetById();
         bool GetByMac();   

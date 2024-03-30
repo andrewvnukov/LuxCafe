@@ -23,6 +23,7 @@ namespace Cafe_Managment.Model
         public string Email { get; set; }
         public string BirthDay { get; set; }
         public string Address { get; set; }
+        public string CreatedAt { get; set; }
         public BitmapImage ProfileImage { get; set; }
     }
 }
