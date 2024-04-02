@@ -87,6 +87,37 @@ namespace Cafe_Managment.Repositories
             return dataTable;
         }
 
+        public void UpdateDish(DishData dish)
+        {
+            using (var connection = GetConnection()) 
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = @"UPDATE disharchive 
+                                SET 
+                                    CategoryId = @CategoryId,
+                                    Title = @Title,
+                                    Description = @Description,
+                                    Composition = @Composition,
+                                    UpdatedAt = NOW() 
+                                WHERE 
+                                    Id = @Id";
+
+                command.Parameters.AddWithValue("@CategoryId", dish.CategoryId);
+                command.Parameters.AddWithValue("@Title", dish.Title);
+                command.Parameters.AddWithValue("@Description", dish.Description);
+                command.Parameters.AddWithValue("@Composition", dish.Composition);
+                command.Parameters.AddWithValue("@Id", dish.Id);
+
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
+
 
     }
 }
