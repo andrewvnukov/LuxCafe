@@ -52,6 +52,8 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        
+
         //private void EditRow(object parameter)
         //{
         //    // Получаем выбранный элемент (предполагается, что элемент содержит свойство IsEditable)
@@ -73,7 +75,7 @@ namespace Cafe_Managment.ViewModel
         //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         //}   
 
-      
+
 
         public DataTable ActiveMenu
         {
@@ -116,9 +118,27 @@ namespace Cafe_Managment.ViewModel
             //TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
         }
 
+        public void ExecuteSaveRowCommand(object parameter)
+        {
+            // Получаем информацию о выбранной строке
+            DishData dish = parameter as DishData;
+
+            if (dish != null)
+            {
+                // Выполняем операции обновления данных в базе данных
+                // Например, вызываем метод вашего репозитория, который обновляет данные в БД
+                dishesRepository.UpdateDish(dish);
+
+                // После обновления данных в базе данных можно выполнить какие-то дополнительные действия, если это необходимо
+
+                // Например, можно обновить интерфейс, чтобы отобразить изменения
+                OnPropertyChanged(nameof(tempArchvie));
+            }
+        }
+
         private void ExecuteAddDishToArchiveCommand(object obj)
         {
-            MessageBox.Show("Added");
+            MessageBox.Show("Блюдо успешно добавлено!");
         }
 
         private void ExecuteDeleteRowCommand()
@@ -129,10 +149,10 @@ namespace Cafe_Managment.ViewModel
         {
             throw new NotImplementedException();
         }
-        private void ExecuteSaveRowCommand(object obj)
-        {
-            MessageBox.Show(SelectedDish.ToString());
-        }
+        //private void ExecuteSaveRowCommand(object obj)
+        //{
+        //    MessageBox.Show(SelectedDish.ToString());
+        //}
 
         private void ExecuteEditRowCommand(object obj)
         {
