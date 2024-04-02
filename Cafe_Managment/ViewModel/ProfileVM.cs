@@ -15,8 +15,9 @@ namespace Cafe_Managment.ViewModel
 {
     internal class ProfileVM : ViewModelBase
     {
+        UserRepository userRepository;
 
-        private EmpData _currentData;
+        private EmpData _currentData = new EmpData();
         private string _fullname;
         private bool _isAdressReadOnly;
         private bool _isEmailReadOnly;
@@ -58,11 +59,11 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        public EmpData CurrentData
-        {
-            get { return _currentData; }
-            set { _currentData = value; OnPropertyChanged(); }
+        public EmpData CurrentData { get { return _currentData; }
+            set { _currentData = value; OnPropertyChanged(nameof(CurrentData)); }
         }
+
+        
         
         public string Fullname
         {
@@ -73,46 +74,37 @@ namespace Cafe_Managment.ViewModel
 
         public ProfileVM()
         {
-            UserRepository userRepository = new UserRepository();
+            userRepository = new UserRepository();
 
-            _isAdressReadOnly = true;
+            _isAdressReadOnly=false;
             _isEmailReadOnly=true;
             _isNumberReadOnly=true;
+
+            CurrentData = new EmpData();
 
             EditAdress = new RelayCommand(ExecuteEditAdress);
             EditEmail = new RelayCommand(ExecuteEditEmail); 
             EditNumber = new RelayCommand(ExecuteEditNumber);
             EditPicture = new RelayCommand(ExexuteEditPicture);
             
-            CurrentData = new EmpData
-            {
-                Status = "Работает",
-                Name = UserData.Name,
-                Surname = UserData.Surname,
-                Patronomic = UserData.Patronomic,
-                PhoneNumber = UserData.PhoneNumber,
-                Email = UserData.Email,
-                BirthDay = UserData.BirthDay,
-                Address = UserData.Address,
-                CreatedAt = UserData.CreatedAt,
-                ProfileImage = UserData.ProfileImage
-            };
             Role = userRepository.GetRoleById(UserData.RoleId);
             Branch = userRepository.GetBranchById(UserData.BranchId);
-            Fullname = $"{CurrentData.Surname} {CurrentData.Name} {CurrentData.Patronomic}";
+            Fullname = $"{UserData.Surname} {UserData.Name} {UserData.Patronomic}";
         }
 
         private void ExecuteEditAdress(object obj)
         {
-            if (IsAdressReadOnly)
-            {
-                IsAdressReadOnly = !IsAdressReadOnly;
-            }
-            else
-            {
-                MessageBox.Show(nameof(CurrentData.Address));
-                IsAdressReadOnly = !IsAdressReadOnly;
-            }
+            //if (IsAdressReadOnly)
+            //{
+            //    IsAdressReadOnly = !IsAdressReadOnly;
+            //}
+            //else
+            //{
+            //userRepository.EditCurrentUser(nameof(EmpData.Address), UserData.Address);
+            
+               MessageBox.Show(CurrentData.Address);
+            //    IsAdressReadOnly = !IsAdressReadOnly;
+            //}
         
         }
 

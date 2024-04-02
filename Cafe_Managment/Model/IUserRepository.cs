@@ -15,7 +15,7 @@ namespace Cafe_Managment.Repositories
         int AuthenticateUser(NetworkCredential credential);
         void Add(EmpData empData);
         bool IfUserExists(string Username);
-        void Edit();
+        void EditCurrentUser(string NameOfProp, string Value);
         void Delete(int Id);
         void FireEmployee(int Id);
         void RememberCurrentUser();

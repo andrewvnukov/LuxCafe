@@ -75,9 +75,28 @@ namespace Cafe_Managment.Repositories
             throw new NotImplementedException();
         }
 
-        public void Edit()
+        public void EditCurrentUser(string NameOfProp, string Value)
         {
-            throw new NotImplementedException();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = $"UPDATE employees SET {NameOfProp} = @value, UpdatedAt = NOW()" +
+                    $"WHERE Id = {UserData.Id}";
+                command.Parameters.AddWithValue("value", Value);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         public void FireEmployee(int Id)
@@ -422,6 +441,8 @@ namespace Cafe_Managment.Repositories
                 
             }
         }
+
+        
     }
 }
 
