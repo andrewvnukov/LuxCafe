@@ -333,6 +333,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="Margin" Value="0 4 0 0"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Focusable" Value="False"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         <Setter Property="ValidationErrorTemplate">
             

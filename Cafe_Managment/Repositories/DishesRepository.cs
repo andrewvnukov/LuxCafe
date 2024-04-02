@@ -40,8 +40,8 @@ namespace Cafe_Managment.Repositories
                 command.Connection = connection;
                 command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
                                       d.Id,
-                                      c.Title AS 'Раздел', 
-                                      d.Title AS 'Название', 
+                                      c.Title AS 'Раздел',
+                                      d.Title AS 'Название',
                                       d.Description AS 'Описание', 
                                       d.Composition AS 'Состав',
                                       d.CreatedAt AS 'Дата добавления', 
@@ -93,27 +93,31 @@ namespace Cafe_Managment.Repositories
             using (var command = new MySqlCommand())
             {
                 connection.Open();
-
-                command.Connection = connection;
-                command.CommandText = @"UPDATE disharchive 
+                try
+                {
+                    command.Connection = connection;
+                    command.CommandText = @"UPDATE disharchive 
                                 SET 
-                                    CategoryId = @CategoryId,
                                     Title = @Title,
                                     Description = @Description,
                                     Composition = @Composition,
                                     UpdatedAt = NOW() 
                                 WHERE 
                                     Id = @Id";
+                    command.Parameters.AddWithValue("@Id", dish.Id);
+                    command.Parameters.AddWithValue("@Title", dish.Title);
+                    command.Parameters.AddWithValue("@Description", dish.Description);
+                    command.Parameters.AddWithValue("@Composition", dish.Composition);
+                    
 
-                command.Parameters.AddWithValue("@CategoryId", dish.CategoryId);
-                command.Parameters.AddWithValue("@Title", dish.Title);
-                command.Parameters.AddWithValue("@Description", dish.Description);
-                command.Parameters.AddWithValue("@Composition", dish.Composition);
-                command.Parameters.AddWithValue("@Id", dish.Id);
-
-                command.ExecuteNonQuery();
-
-                connection.Close();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                
             }
         }
 

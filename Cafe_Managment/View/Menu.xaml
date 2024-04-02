@@ -36,6 +36,7 @@
                               ItemsSource="{Binding Menu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
+                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               CanUserReorderColumns="False"
                               MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
@@ -58,6 +59,7 @@
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridRemoveButton}"
+                                                    Click="Button_Click"
                                                     Command="{Binding DataContext.SaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>

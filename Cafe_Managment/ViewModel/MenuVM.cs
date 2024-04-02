@@ -19,7 +19,9 @@ namespace Cafe_Managment.ViewModel
     {
         DishesRepository dishesRepository;
         private bool _isReadOnly;
+        private bool _isEnabled;
         private int _selectedDish;
+        private object _selectedItem;
         DataTable tempArchvie = new DataTable();
         DataTable tempMenu = new DataTable();
         private DataTable _menu;
@@ -31,6 +33,11 @@ namespace Cafe_Managment.ViewModel
         public ICommand DeleteRowCommand { get; set; }
         public ICommand TransferRowCommand { get; set; }
 
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { _isEnabled = value; OnPropertyChanged(nameof(IsEnabled)); } 
+        }
 
         public bool IsReadOnly
         {
@@ -52,30 +59,15 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        
-
-        //private void EditRow(object parameter)
-        //{
-        //    // Получаем выбранный элемент (предполагается, что элемент содержит свойство IsEditable)
-        //    var selectedItem = parameter as SelectedRow;
-
-        //    if (selectedItem != null)
-        //    {
-        //        // Устанавливаем редактируемость только для выбранного элемента
-        //        selectedItem.IsEditable = true;
-
-        //        // Вызываем событие PropertyChanged для обновления интерфейса
-        //        OnPropertyChanged(nameof(ActiveMenu));
-        //    }
-        //}
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //protected virtual void OnPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}   
-
-
+        public object SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
 
         public DataTable ActiveMenu
         {
@@ -106,6 +98,7 @@ namespace Cafe_Managment.ViewModel
             Menu = tempArchvie.Copy();
             Menu.Columns.Remove("Id");
 
+            IsEnabled = false;
             IsReadOnly = false;
             SelectedDish = -1;
 
@@ -120,20 +113,35 @@ namespace Cafe_Managment.ViewModel
 
         public void ExecuteSaveRowCommand(object parameter)
         {
-            // Получаем информацию о выбранной строке
-            DishData dish = parameter as DishData;
+            int temp = SelectedDish;
 
-            if (dish != null)
+            
+            DataRowView dataRowView = SelectedItem as DataRowView;
+
+            Menu.AcceptChanges();
+            //Получаем информацию о выбранной строке
+            DishData dish = new DishData
             {
-                // Выполняем операции обновления данных в базе данных
-                // Например, вызываем метод вашего репозитория, который обновляет данные в БД
-                dishesRepository.UpdateDish(dish);
+               Id = int.Parse(tempArchvie.Rows[int.Parse(dataRowView.Row[0].ToString())-1][1].ToString()),
+               Title = dataRowView.Row[2].ToString(),
+               Description = dataRowView.Row[3].ToString(),
+               Composition = dataRowView.Row[4].ToString(),
+            };
+            
+            MessageBox.Show($"{dish.Id.ToString()}\n{dish.Title}");
+            //if (dish != null)
+            //{
 
-                // После обновления данных в базе данных можно выполнить какие-то дополнительные действия, если это необходимо
+            //    // Выполняем операции обновления данных в базе данных
+            //    // Например, вызываем метод вашего репозитория, который обновляет данные в БД
+            //    dishesRepository.UpdateDish(dish);
 
-                // Например, можно обновить интерфейс, чтобы отобразить изменения
-                OnPropertyChanged(nameof(tempArchvie));
-            }
+            //    // После обновления данных в базе данных можно выполнить какие-то дополнительные действия, если это необходимо
+
+            //    // Например, можно обновить интерфейс, чтобы отобразить изменения
+            //    OnPropertyChanged(nameof(tempArchvie));
+
+            //}
         }
 
         private void ExecuteAddDishToArchiveCommand(object obj)
@@ -156,6 +164,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteEditRowCommand(object obj)
         {
+            Menu.AcceptChanges();
             IsReadOnly = !IsReadOnly;
         }
     }

@@ -585,7 +585,7 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="BtnIcon"
                                     Property="Kind"
-                                    Value="CheckUnderline"/>
+                                    Value="CheckOutline"/>
                             <Setter Property="Foreground"
                                     Value="#EEEEEE"/>
                         </Trigger>
