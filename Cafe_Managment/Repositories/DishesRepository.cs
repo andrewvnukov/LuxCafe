@@ -120,7 +120,49 @@ namespace Cafe_Managment.Repositories
                 
             }
         }
+        public void DeleteDish(DishData dish)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
 
+                // Удаление всех связанных строк в activemenu
+                command.Connection = connection;
+                command.CommandText = "DELETE FROM activemenu WHERE DishId = @DishId";
+                command.Parameters.AddWithValue("@DishId", dish.Id);
+                command.ExecuteNonQuery();
+
+                // Удаление блюда из disharchive
+                command.CommandText = "DELETE FROM disharchive WHERE Id = @Id";
+                command.Parameters.Clear(); // Очистка параметров перед добавлением новых
+                command.Parameters.AddWithValue("@Id", dish.Id);
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
+        public void MoveDishToActiveMenu(DishData dish)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = @"INSERT INTO activemenu (CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt, BranchId, Price) 
+                                SELECT CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt, BranchId, Price
+                                FROM disharchive 
+                                WHERE Id = @Id";
+
+                command.Parameters.AddWithValue("@Id", dish.Id);    
+
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
 
 
     }
