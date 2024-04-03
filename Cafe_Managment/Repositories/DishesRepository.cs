@@ -73,6 +73,7 @@ namespace Cafe_Managment.Repositories
                                       da.Title AS 'Название', 
                                       da.Description AS 'Описание', 
                                       da.Composition AS 'Состав',
+                                      am.Price AS 'Стоимость',
                                       am.TransferedAt AS 'Дата добавления' 
                                 FROM activemenu am
                                 INNER JOIN disharchive da ON am.DishId = da.Id
@@ -127,23 +128,32 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
 
-                // Удаление всех связанных строк в activemenu
+                // Временно отключаем проверку ограничения внешнего ключа в таблице deleted_dishes
                 command.Connection = connection;
-                command.CommandText = "DELETE FROM activemenu WHERE DishId = @DishId";
-                command.Parameters.AddWithValue("@DishId", dish.Id);
+                command.CommandText = "SET foreign_key_checks = 0";
+                command.ExecuteNonQuery();
+
+                // Перемещение информации о блюде в таблицу deleted_dishes
+                command.CommandText = @"INSERT INTO deleted_dishes (Id, CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt, DeletedAt) 
+                            SELECT Id, CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt, NOW() as DeletedAt
+                            FROM disharchive 
+                            WHERE Id = @Id";
+                command.Parameters.AddWithValue("@Id", dish.Id);
                 command.ExecuteNonQuery();
 
                 // Удаление блюда из disharchive
                 command.CommandText = "DELETE FROM disharchive WHERE Id = @Id";
-                command.Parameters.Clear(); // Очистка параметров перед добавлением новых
-                command.Parameters.AddWithValue("@Id", dish.Id);
+                command.ExecuteNonQuery();
+
+                // Включаем проверку ограничения внешнего ключа обратно
+                command.CommandText = "SET foreign_key_checks = 1";
                 command.ExecuteNonQuery();
 
                 connection.Close();
             }
         }
 
-        public void MoveDishToActiveMenu(DishData dish)
+        public void TransferDishToActiveMenu(DishData dish)
         {
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
@@ -163,7 +173,5 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
         }
-
-
     }
 }

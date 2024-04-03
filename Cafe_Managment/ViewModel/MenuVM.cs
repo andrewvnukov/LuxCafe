@@ -271,7 +271,7 @@ namespace Cafe_Managment.ViewModel
                     };
 
                     // Перемещаем блюдо в активное меню
-                    dishesRepository.MoveDishToActiveMenu(dishToMove);
+                    dishesRepository.TransferDishToActiveMenu(dishToMove);
 
                     // Обновляем интерфейс, если необходимо
                     OnPropertyChanged(nameof(tempArchvie));
