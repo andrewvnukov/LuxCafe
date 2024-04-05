@@ -17,7 +17,7 @@ namespace Cafe_Managment.ViewModel
     {
         UserRepository userRepository;
 
-        private EmpData _currentData = new EmpData();
+        private EmpData _currentData;
         private string _fullname;
         private bool _isAdressReadOnly;
         private bool _isEmailReadOnly;
@@ -80,7 +80,12 @@ namespace Cafe_Managment.ViewModel
             _isEmailReadOnly=true;
             _isNumberReadOnly=true;
 
-            CurrentData = new EmpData();
+            CurrentData = new EmpData
+            {
+                Address = UserData.Address,
+                BirthDay = UserData.BirthDay,
+                PhoneNumber = UserData.PhoneNumber,
+            };
 
             EditAdress = new RelayCommand(ExecuteEditAdress);
             EditEmail = new RelayCommand(ExecuteEditEmail); 
@@ -101,7 +106,7 @@ namespace Cafe_Managment.ViewModel
             //else
             //{
             //userRepository.EditCurrentUser(nameof(EmpData.Address), UserData.Address);
-            
+            CurrentData.OnPropertyChanged(nameof(CurrentData));
                MessageBox.Show(CurrentData.Address);
             //    IsAdressReadOnly = !IsAdressReadOnly;
             //}

@@ -404,5 +404,8 @@
   <ItemGroup>
     <Resource Include="Images\EmptyImage.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Deleted.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

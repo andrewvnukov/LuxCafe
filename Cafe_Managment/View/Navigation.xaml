@@ -144,8 +144,8 @@
                                     Command="{Binding OrderCommand}">
                         </menu:ButtonControl>
 
-                        <menu:ButtonControl Content="Бар" 
-                                            Tag="/Images/Bar.png"
+                        <menu:ButtonControl Content="Удаленное" 
+                                            Tag="/Images/Deleted.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding BarCommand}">
                         </menu:ButtonControl>
