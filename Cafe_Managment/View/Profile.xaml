@@ -95,7 +95,7 @@
                                  Width="auto"
                                  HorizontalAlignment="Center"
                                  Tag="Адрес"
-                                 Text="{Binding CurrentData.Address, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
+                                 Text="{Binding CurrentData.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Style="{DynamicResource Edit_Button}"
                                   Command="{Binding EditAdress}"
                                     Margin="5 0 0 0"
@@ -115,6 +115,7 @@
                                     Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Style="{DynamicResource Edit_Button}"
                                    Margin="5 0 0 0"
+                                  Command="{Binding EditEmail}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Height="20"

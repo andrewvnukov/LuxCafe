@@ -63,12 +63,12 @@ namespace Cafe_Managment.ViewModel
             set { _currentData = value; OnPropertyChanged(nameof(CurrentData)); }
         }
 
-        
-        
+
+
         public string Fullname
         {
             get { return _fullname; }
-            set { _fullname = value; OnPropertyChanged(); }
+            set { _fullname = value; OnPropertyChanged(nameof(Fullname)); }
         }
 
 
@@ -77,14 +77,17 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
 
             _isAdressReadOnly=false;
-            _isEmailReadOnly=true;
+            _isEmailReadOnly=false;
             _isNumberReadOnly=true;
 
             CurrentData = new EmpData
             {
                 Address = UserData.Address,
+                Email = UserData.Email,
                 BirthDay = UserData.BirthDay,
                 PhoneNumber = UserData.PhoneNumber,
+                CreatedAt = UserData.CreatedAt,
+                ProfileImage = UserData.ProfileImage,
             };
 
             EditAdress = new RelayCommand(ExecuteEditAdress);
@@ -106,7 +109,6 @@ namespace Cafe_Managment.ViewModel
             //else
             //{
             //userRepository.EditCurrentUser(nameof(EmpData.Address), UserData.Address);
-            CurrentData.OnPropertyChanged(nameof(CurrentData));
                MessageBox.Show(CurrentData.Address);
             //    IsAdressReadOnly = !IsAdressReadOnly;
             //}
@@ -115,7 +117,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteEditEmail(object obj)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(CurrentData.Email);
         }
 
         private void ExecuteEditNumber(object obj)

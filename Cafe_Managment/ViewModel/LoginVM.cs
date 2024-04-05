@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -95,6 +96,8 @@ namespace Cafe_Managment.ViewModel
         {
             LoginErrorMessage = "";
             PasswordErrorMessage = "";
+
+            MessageBox.Show(Username);
 
             var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
 

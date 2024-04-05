@@ -194,7 +194,6 @@
     </Style>
     <Style x:Key="Textbox_Outer1" TargetType="TextBox">
         <Setter Property="Width" Value="auto"/>
-        <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="Template">
             
             <Setter.Value>
@@ -215,7 +214,7 @@
                                        Style="{StaticResource Text_Headline3}"
                                        Foreground="{DynamicResource AccientColor1}"
                                        VerticalAlignment="Bottom"/>
-                            <TextBox Text="{TemplateBinding Text}"
+                            <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
                                      Margin="5 0 0 1"
                                      x:Name="PART_TextHolder"
                                      Background="Transparent"
