@@ -81,6 +81,7 @@ namespace Cafe_Managment.Model
                 }
             }
         }
+        public string Salt;
 
         private string _name;
         public string Name
@@ -193,6 +194,8 @@ namespace Cafe_Managment.Model
                 }
             }
         }
+        public string UpdatedAt { get; set; }
+        public string DeletedAt { get; set; }
 
         private BitmapImage _profileImage;
         public BitmapImage ProfileImage
@@ -207,5 +210,6 @@ namespace Cafe_Managment.Model
                 }
             }
         }
+
     }
 }

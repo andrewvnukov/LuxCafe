@@ -70,7 +70,7 @@ namespace Cafe_Managment.Repositories
                 command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
                                       am.Id,
                                       c.Title AS 'Раздел', 
-                                      da.Title AS 'Название', 
+                                      da.Title AS 'Название',
                                       da.Description AS 'Описание', 
                                       da.Composition AS 'Состав',
                                       am.Price AS 'Стоимость',
@@ -159,15 +159,21 @@ namespace Cafe_Managment.Repositories
             using (var command = new MySqlCommand())
             {
                 connection.Open();
-
                 command.Connection = connection;
-                command.CommandText = @"INSERT INTO activemenu (CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt, BranchId, Price) 
-                                SELECT CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt, BranchId, Price
-                                FROM disharchive 
-                                WHERE Id = @Id";
 
-                command.Parameters.AddWithValue("@Id", dish.Id);    
+                command.CommandText = "SET foreign_key_checks = 0";
+                command.ExecuteNonQuery();
 
+                
+                command.CommandText = @"INSERT INTO activemenu (DishId, BranchId, Price, TransferedAt)
+                                VALUES (@Id, @branchId, 100, NOW())";
+
+                command.Parameters.AddWithValue("@Id", dish.Id); 
+                command.Parameters.AddWithValue("@branchId", UserData.BranchId); 
+
+                command.ExecuteNonQuery();
+
+                command.CommandText = "SET foreign_key_checks = 1";
                 command.ExecuteNonQuery();
 
                 connection.Close();

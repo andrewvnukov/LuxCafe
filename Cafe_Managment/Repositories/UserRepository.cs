@@ -92,7 +92,7 @@ namespace Cafe_Managment.Repositories
                 {
                     command.ExecuteNonQuery();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
@@ -105,14 +105,31 @@ namespace Cafe_Managment.Repositories
 
             using (var command = new MySqlCommand())
             {
+                
                 connection.Open();
-                command.Connection = connection;
-                command.CommandText = "UPDATE employees SET status = 0 WHERE Id=@id";
-                command.Parameters.AddWithValue("id", Id);
 
+                command.Connection = connection;
+                command.CommandText = "SET foreign_key_checks = 0";
+                command.ExecuteNonQuery();
+
+                command.CommandText = @"INSERT INTO dismissed_employees (BranchId, RoleId, CreatedAt, UpdatedAt, DeletedAt, " +
+                            "Login, Password, Salt, Name, Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage) "+
+                            "SELECT BranchId, RoleId, CreatedAt, UpdatedAt, NOW() as DeletedAt, Login, Password, Salt, Name, " + 
+                            "Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage " +
+                            "FROM employees " +
+                            "WHERE Id = @Id";
+
+                command.Parameters.AddWithValue("@Id", Id);
+                command.ExecuteNonQuery();
+
+                command.CommandText = "DELETE FROM employees WHERE Id = @Id";
+                command.ExecuteNonQuery();
+
+                command.CommandText = "SET foreign_key_checks = 1";
                 command.ExecuteNonQuery();
 
                 connection.Close();
+
             }
         }
 
@@ -314,10 +331,10 @@ namespace Cafe_Managment.Repositories
 
                 command.CommandText = "INSERT INTO employees (RoleId, BranchId, Login, Password, Salt, Name, Surname, " +
                     "Patronomic, PhoneNumber, BirthDay, CreatedAt, Status) "
-                    +"VALUES(@role, @branch, @username, @password, @Salt, @name, @surname, " +
+                    + "VALUES(@role, @branch, @username, @password, @Salt, @name, @surname, " +
                     "@patronomic, @number, @birthday, @NowDate, @status)";
-                command.Parameters.AddWithValue("role", empData.Role+1);
-                command.Parameters.AddWithValue("branch", empData.Branch+1);
+                command.Parameters.AddWithValue("role", empData.Role + 1);
+                command.Parameters.AddWithValue("branch", empData.Branch + 1);
                 command.Parameters.AddWithValue("username", empData.Login);
                 string salt = BCrypt.Net.BCrypt.GenerateSalt();
                 command.Parameters.AddWithValue("password", BCrypt.Net.BCrypt.HashPassword(empData.Password, salt));
@@ -330,7 +347,7 @@ namespace Cafe_Managment.Repositories
                 command.Parameters.AddWithValue("status", 1);
                 command.Parameters.AddWithValue("number", "1234");
 
-                
+
                 try
                 {
                     command.ExecuteNonQuery();
@@ -419,7 +436,7 @@ namespace Cafe_Managment.Repositories
 
         public string GetBranchById(int BranchId)
         {
-            using(var connection = GetConnection())
+            using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
                 connection.Open();
@@ -433,16 +450,16 @@ namespace Cafe_Managment.Repositories
                 {
                     if (reader.Read())
                     {
-                        
+
                         return reader[0].ToString();
                     }
                     else return "";
                 }
-                
+
             }
         }
 
-        
+
     }
 }
 

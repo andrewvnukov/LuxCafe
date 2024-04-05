@@ -149,7 +149,6 @@ namespace Cafe_Managment.ViewModel
         {
             int temp = SelectedDish;
 
-
             DataRowView dataRowView = SelectedItem as DataRowView;
 
             Menu.AcceptChanges();
@@ -200,21 +199,12 @@ namespace Cafe_Managment.ViewModel
                Description = dataRowView.Row[3].ToString(),
                Composition = dataRowView.Row[4].ToString(),
             };
-            
-            MessageBox.Show($"{dish.Id.ToString()}\n{dish.Title}");
-            //if (dish != null)
-            //{
 
-            //    // Выполняем операции обновления данных в базе данных
-            //    // Например, вызываем метод вашего репозитория, который обновляет данные в БД
-            //    dishesRepository.UpdateDish(dish);
-
-            //    // После обновления данных в базе данных можно выполнить какие-то дополнительные действия, если это необходимо
-
-            //    // Например, можно обновить интерфейс, чтобы отобразить изменения
-            //    OnPropertyChanged(nameof(tempArchvie));
-
-            //}
+            if (dish != null)
+            {
+                dishesRepository.UpdateDish(dish);
+                OnPropertyChanged(nameof(tempArchvie));
+            }
         }
 
         private void ExecuteAddDishToArchiveCommand(object obj)

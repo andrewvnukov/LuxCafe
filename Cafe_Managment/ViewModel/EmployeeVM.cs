@@ -104,8 +104,6 @@ namespace Cafe_Managment.ViewModel
         {
             int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
 
-            MessageBox.Show(SelectedEmployee.ToString());
-
             if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp}?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
