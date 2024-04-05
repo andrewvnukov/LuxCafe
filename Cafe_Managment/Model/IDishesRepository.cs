@@ -14,6 +14,9 @@ namespace Cafe_Managment.Model
     {
         DataTable GetAllDishesFromArchive();
         DataTable GetAllDishesFromMenu();
+        void UpdateDish(DishData dish);
+        void DeleteDish(DishData dish);
+        void TransferDishToActiveMenu(DishData dish);
 
     }
 }

@@ -75,7 +75,7 @@
                                                 <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridInfoButton}"
-                                             Command="{Binding DataContext.ExecuteTransferRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                             Command="{Binding DataContext.TransferRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -134,14 +134,14 @@
 
                                             <Button Style="{StaticResource GridEditButton}"
                                                     
-                         Command="{Binding DataContext.ExecuteEditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                         Command="{Binding DataContext.EditRowCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridRemoveButton}"
-                                Command="{Binding DataContext.ExecuteSaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                Command="{Binding DataContext.SaveRowCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
@@ -149,7 +149,7 @@
                                             </Button>
 
                                             <Button Style="{StaticResource GridDeleteButton}" 
-                         Command="{Binding DataContext.ExecuteDeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                         Command="{Binding DataContext.DeleteRowCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
