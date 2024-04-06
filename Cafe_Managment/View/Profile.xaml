@@ -115,7 +115,7 @@
                                     Text="{Binding CurrentData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Style="{DynamicResource Edit_Button}"
                                    Margin="5 0 0 0"
-                                  Command="{Binding EditEmail}"
+                                   Command="{Binding EditEmail}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Height="20"
@@ -130,6 +130,7 @@
                                 Tag="Номер телефона"
                                 Text="{Binding CurrentData.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Style="{DynamicResource Edit_Button}"
+                                  Command="{Binding EditNumber}"
                                    Margin="5 0 0 0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"

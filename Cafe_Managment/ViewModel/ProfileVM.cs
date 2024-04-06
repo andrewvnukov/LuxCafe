@@ -76,8 +76,8 @@ namespace Cafe_Managment.ViewModel
         {
             userRepository = new UserRepository();
 
-            _isAdressReadOnly=false;
-            _isEmailReadOnly=false;
+            _isAdressReadOnly=true;
+            _isEmailReadOnly=true;
             _isNumberReadOnly=true;
 
             CurrentData = new EmpData
@@ -93,7 +93,7 @@ namespace Cafe_Managment.ViewModel
             EditAdress = new RelayCommand(ExecuteEditAdress);
             EditEmail = new RelayCommand(ExecuteEditEmail); 
             EditNumber = new RelayCommand(ExecuteEditNumber);
-            EditPicture = new RelayCommand(ExexuteEditPicture);
+            EditPicture = new RelayCommand(ExecuteEditPicture);
             
             Role = userRepository.GetRoleById(UserData.RoleId);
             Branch = userRepository.GetBranchById(UserData.BranchId);
@@ -102,30 +102,44 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteEditAdress(object obj)
         {
-            //if (IsAdressReadOnly)
-            //{
-            //    IsAdressReadOnly = !IsAdressReadOnly;
-            //}
-            //else
-            //{
-            //userRepository.EditCurrentUser(nameof(EmpData.Address), UserData.Address);
-               MessageBox.Show(CurrentData.Address);
-            //    IsAdressReadOnly = !IsAdressReadOnly;
-            //}
-        
+            if (IsAdressReadOnly)
+            {
+                IsAdressReadOnly = !IsAdressReadOnly;
+            }
+            else
+            {
+                userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
+                IsAdressReadOnly = !IsAdressReadOnly;
+            }
         }
 
         private void ExecuteEditEmail(object obj)
         {
-            MessageBox.Show(CurrentData.Email);
+            if (IsEmailReadOnly)
+            {
+                IsEmailReadOnly = !IsEmailReadOnly;
+            }
+            else
+            {
+                userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
+                IsEmailReadOnly = !IsEmailReadOnly;
+            }
         }
 
         private void ExecuteEditNumber(object obj)
         {
-            throw new NotImplementedException();
+            if (IsNumberReadOnly)
+            {
+                IsNumberReadOnly = !IsNumberReadOnly;
+            }
+            else
+            {
+                userRepository.EditCurrentUser(nameof(EmpData.PhoneNumber), CurrentData.PhoneNumber);
+                IsNumberReadOnly = !IsNumberReadOnly;
+            }
         }
 
-        private void ExexuteEditPicture(object obj)
+        private void ExecuteEditPicture(object obj)
         {
             throw new NotImplementedException();
         }
