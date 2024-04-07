@@ -73,8 +73,9 @@ namespace Cafe_Managment.Repositories
                                       da.Title AS 'Название',
                                       da.Description AS 'Описание', 
                                       da.Composition AS 'Состав',
-                                      am.Price AS 'Стоимость',
-                                      am.TransferedAt AS 'Дата добавления' 
+                                      am.Price AS 'Стоимость',                                     
+                                      am.TransferedAt AS 'Дата добавления',
+                                      am.UpdatedAt AS 'Дата обновления цены'
                                 FROM activemenu am
                                 INNER JOIN disharchive da ON am.DishId = da.Id
                                 INNER JOIN categories c ON da.CategoryId = c.Id";
@@ -121,6 +122,36 @@ namespace Cafe_Managment.Repositories
                 
             }
         }
+
+        public void UpdateDishPrice(DishData dish)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                try
+                {
+                    command.Connection = connection;
+                    command.CommandText = @"UPDATE activemenu 
+                                SET 
+                                    Price = @Price,                                   
+                                    UpdatedAt = NOW() 
+                                WHERE 
+                                    Id = @Id";
+                    command.Parameters.AddWithValue("@Id", dish.Id);
+                    command.Parameters.AddWithValue("@Price", dish.Price);
+                    
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
+        }
+
         public void DeleteDish(DishData dish)
         {
             using (var connection = GetConnection())
@@ -152,6 +183,32 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
         }
+
+        public void DeleteDishMenu(DishData dish)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                // Временно отключаем проверку ограничения внешнего ключа в таблице deleted_dishes
+                command.Connection = connection;
+                command.CommandText = "SET foreign_key_checks = 0";
+                command.ExecuteNonQuery();
+              
+                // Удаление блюда из disharchive
+                command.CommandText = "DELETE FROM activemenu WHERE Id = @Id";
+                command.Parameters.AddWithValue("@Id", dish.Id);
+                command.ExecuteNonQuery();
+
+                // Включаем проверку ограничения внешнего ключа обратно
+                command.CommandText = "SET foreign_key_checks = 1";
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
 
         public void TransferDishToActiveMenu(DishData dish)
         {

@@ -18,9 +18,9 @@ namespace Cafe_Managment.View
     /// <summary>
     /// Логика взаимодействия для Bar.xaml
     /// </summary>
-    public partial class Bar : UserControl
+    public partial class DeletedData : UserControl
     {
-        public Bar()
+        public DeletedData()
         {
             InitializeComponent();
         }

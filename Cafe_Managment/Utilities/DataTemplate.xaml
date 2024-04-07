@@ -7,7 +7,6 @@
                     xmlns:regview="clr-namespace:Cafe_Managment.View.DialogWindows.RegisterForms"
                     xmlns:regvm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM.RegisterFormsVM">
     
-    
 
     <DataTemplate DataType="{x:Type vm:DishVM}">
         <view:Dishes/>
@@ -37,8 +36,8 @@
         <view:Statistic/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:BarVM}">
-        <view:Bar/>
+    <DataTemplate DataType="{x:Type vm:DeletedDataVM}">
+        <view:DeletedData/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type vm:LoginVM}">

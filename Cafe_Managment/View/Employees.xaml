@@ -23,14 +23,20 @@
                       VerticalScrollBarVisibility="Hidden"
                       >
 
-                <Grid Height="1000">
-                    <TextBlock Text="Cотрудники" 
+            <Grid Height="1000">
+                <TextBlock Text="Cотрудники" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
                 <StackPanel>
 
-                        <!--Members Datagrid -->
+                    <!--Members Datagrid -->
+                    <Button Width="25" Margin="0 45 730 0" Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
+                        <Button.DataContext>
+                            <vn:EmployeeVM/>
+                        </Button.DataContext>
+                        <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
+                    </Button>
 
                     <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="10 40 10 0" 
                               
@@ -43,13 +49,13 @@
                               IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False" 
                               >
-                        
+
                         <DataGrid.Columns>
-                            
-                                <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
+
+                            <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Width="49" Margin="4 0 0 0">
                                             <Button Style="{StaticResource GridEditButton}"  
                                                         Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
@@ -66,70 +72,34 @@
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
 
-                                            <Button Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
-                                                <Button.DataContext>
-                                                    <vn:EmployeeVM/>
-                                                </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
                                         </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
 
-                                </DataGridTemplateColumn>
-                                
+                            </DataGridTemplateColumn>
+
                         </DataGrid.Columns>
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
 
-
-                        <!--Pagination section -->
-                        <!--<Border Grid.Row="6" HorizontalAlignment="Right" BorderBrush="White" BorderThickness="1"
-                                    CornerRadius="5" Padding="5" Background="White" Margin="0 10 10 10">
-                            <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource PagingButton}">
-                                    <Icon:PackIconMaterial Kind="ChevronLeft" Style="{StaticResource PagingButtonIcon}"/>
-                                </Button>
-                                <Rectangle Width="1" Fill="White" Margin="3 7"/>
-                                <Button Style="{StaticResource PagingButton}" Content="1"/>
-                                <Button Style="{StaticResource PagingButton}" Content="2" Background="Purple" Foreground="White"/>
-                                <Button Style="{StaticResource PagingButton}" Content="3"/>
-
-                                <TextBlock Text="..." Foreground="Gray" VerticalAlignment="Center" FontSize="15" Margin="10 0"/>
-
-                                <Button Style="{StaticResource PagingButton}" Content="7"/>
-                                <Button Style="{StaticResource PagingButton}" Content="8"/>
-                                <Button Style="{StaticResource PagingButton}" Content="9"/>
-
-                                <Rectangle Width="1" Fill="White" Margin="3 7"/>
-
-                                <Button Style="{StaticResource PagingButton}">
-                                    <Icon:PackIconMaterial Kind="ChevronRight" Style="{StaticResource PagingButtonIcon}"/>
-                                </Button>
-
-                            </StackPanel>                       
-                        </Border>-->
-                 
-                        <StackPanel Margin="20" FlowDirection="LeftToRight" Orientation="Horizontal">
-                            <Button Content="Нанять"
+                    <StackPanel Margin="20" FlowDirection="LeftToRight" Orientation="Horizontal">
+                        <Button Content="Нанять"
                                     Command="{Binding HireCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Left" VerticalAlignment="Bottom"
                             Height="40" Width="100" 
                             Margin="0"/>
-                            <Button Content="Уволить" 
+                        <Button Content="Уволить" 
                             Command="{Binding FireCommand}"
                             Style="{DynamicResource DefaultButton}"
                             HorizontalAlignment="Left" VerticalAlignment="Bottom"
                             Height="40" Width="100" 
                             Margin="10,0,0,0"/>
-                        </StackPanel>
                     </StackPanel>
-                </Grid>
-            </ScrollViewer>
-        
-        
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

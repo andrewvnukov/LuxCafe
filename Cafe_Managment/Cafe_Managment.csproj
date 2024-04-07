@@ -134,18 +134,20 @@
     <Compile Include="Controls\GridLengthAnimation.cs" />
     <Compile Include="Model\DishData.cs" />
     <Compile Include="Model\EmpData.cs" />
+    <Compile Include="Model\IDeletedDataRepository.cs" />
     <Compile Include="Model\IDishesRepository.cs" />
     <Compile Include="Model\UserData.cs" />
+    <Compile Include="Repositories\DeletedDataRepository.cs" />
     <Compile Include="Repositories\DishesRepository.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
-    <Compile Include="ViewModel\BarVM.cs" />
+    <Compile Include="ViewModel\DeletedDataVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\HelloPageVM.cs" />
     <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewWindowVM.cs" />
-    <Compile Include="View\Bar.xaml.cs">
-      <DependentUpon>Bar.xaml</DependentUpon>
+    <Compile Include="View\DeletedData.xaml.cs">
+      <DependentUpon>DeletedData.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\RegisterForms\RegisterFirst.xaml.cs">
       <DependentUpon>RegisterFirst.xaml</DependentUpon>
@@ -233,7 +235,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Bar.xaml">
+    <Page Include="View\DeletedData.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

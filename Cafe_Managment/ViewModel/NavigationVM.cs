@@ -54,8 +54,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand OrderCommand { get; set; }
         public ICommand ProfileCommand { get; set; }
         public ICommand StatisticCommand { get; set; }
-        public ICommand BarCommand { get; set; }
-
+        public ICommand DeletedDataCommand { get; set; }
         public ICommand CloseTabCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
 
@@ -66,7 +65,7 @@ namespace Cafe_Managment.ViewModel
         private void Profile(object obj) => CurrentView = new ProfileVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Statistic(object obj) => CurrentView = new StatisticVM();
-        private void Bar(object obj) => CurrentView = new BarVM(); 
+        private void DeletedData(object obj) => CurrentView = new DeletedDataVM(); 
 
         public NavigationVM()
         {
@@ -80,7 +79,7 @@ namespace Cafe_Managment.ViewModel
             OrderCommand = new RelayCommand(Order);
             ProfileCommand = new RelayCommand(Profile);
             StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
-            BarCommand = new RelayCommand(Bar);
+            DeletedDataCommand = new RelayCommand(DeletedData);
 
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
             CloseTabCommand = new RelayCommand(ExecuteCloseTabCommand);

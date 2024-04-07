@@ -22,6 +22,7 @@ namespace Cafe_Managment.ViewModel
         private bool _isEnabled;
         private int _selectedDish;
         private object _selectedItem;
+        private object _selectedItemMenu;
         DataTable tempArchvie = new DataTable();
         DataTable tempMenu = new DataTable();
         private DataTable _menu;
@@ -35,6 +36,8 @@ namespace Cafe_Managment.ViewModel
         public ICommand DeleteRowCommand { get; set; }
         public ICommand DeleteRowCommandMenu { get; set; }
         public ICommand TransferRowCommand { get; set; }
+        public ICommand InfoCommandArchive { get; set; }
+        public ICommand InfoCommandMenu { get; set; }
 
         public bool IsEnabled
         {
@@ -69,6 +72,15 @@ namespace Cafe_Managment.ViewModel
             {
                 _selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+        public object SelectedItemMenu
+        {
+            get { return _selectedItemMenu; }
+            set
+            {
+                _selectedItemMenu = value;
+                OnPropertyChanged(nameof(SelectedItemMenu));
             }
         }
 
@@ -116,11 +128,15 @@ namespace Cafe_Managment.ViewModel
             DeleteRowCommandMenu = new RelayCommand(ExecuteDeleteRowCommandMenu);
             SaveRowCommandMenu = new RelayCommand(ExecuteSaveRowCommandMenu);
             EditRowCommandMenu = new RelayCommand(ExecuteEditRowCommandMenu);
+
+            InfoCommandArchive = new RelayCommand(ExecuteInfoCommandArchive);
+            InfoCommandMenu = new RelayCommand(ExecuteInfoCommandMenu);
+
         }
 
         private void ExecuteDeleteRowCommandMenu(object obj)
         {
-            DataRowView dataRowView = SelectedItem as DataRowView;
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
 
             // Получаем ID выбранного блюда
             int dishId = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
@@ -138,7 +154,7 @@ namespace Cafe_Managment.ViewModel
                 };
 
                 // Удаляем блюдо
-                dishesRepository.DeleteDish(dishToDelete);
+                dishesRepository.DeleteDishMenu(dishToDelete);
 
                 // Обновляем интерфейс, если необходимо
                 OnPropertyChanged(nameof(tempMenu));
@@ -149,32 +165,22 @@ namespace Cafe_Managment.ViewModel
         {
             int temp = SelectedDish;
 
-            DataRowView dataRowView = SelectedItem as DataRowView;
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
 
-            Menu.AcceptChanges();
+            ActiveMenu.AcceptChanges();
             //Получаем информацию о выбранной строке
             DishData dish = new DishData
             {
                 Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
-                Title = dataRowView.Row[2].ToString(),
-                Description = dataRowView.Row[3].ToString(),
-                Composition = dataRowView.Row[4].ToString(),
+                Price = dataRowView.Row[5].ToString()
             };
 
-            MessageBox.Show($"{dish.Id.ToString()}\n{dish.Title}");
-            //if (dish != null)
-            //{
-
-            //    // Выполняем операции обновления данных в базе данных
-            //    // Например, вызываем метод вашего репозитория, который обновляет данные в БД
-            //    dishesRepository.UpdateDish(dish);
-
-            //    // После обновления данных в базе данных можно выполнить какие-то дополнительные действия, если это необходимо
-
-            //    // Например, можно обновить интерфейс, чтобы отобразить изменения
-            //    OnPropertyChanged(nameof(tempMenu));
-
-            //}
+            //MessageBox.Show($"{dish.Id.ToString()}\n{dish.Price}");
+            if (dish != null)
+            {
+                dishesRepository.UpdateDishPrice(dish);
+                OnPropertyChanged(nameof(tempMenu));
+            }
         }
 
         private void ExecuteEditRowCommandMenu(object obj)
@@ -274,6 +280,20 @@ namespace Cafe_Managment.ViewModel
         {
             Menu.AcceptChanges();
             IsReadOnly = !IsReadOnly;
+        }
+
+        private void ExecuteInfoCommandArchive(object obj)
+        {
+            MessageBox.Show("Поля №, Раздел, Дата изменения цены и Дата обновления \n" +
+                "изменению  НЕ ПОДЛЕЖАТ!",
+                "Внимание!!!", MessageBoxButton.YesNoCancel);
+        }
+        private void ExecuteInfoCommandMenu(object obj)
+        {
+            
+            MessageBox.Show("Изменению подлежит только стоимость блюда\n" +
+                "Остальные данные изменены не будут!!!",
+                "Внимание!!!", MessageBoxButton.YesNoCancel);
         }
     }
 }
