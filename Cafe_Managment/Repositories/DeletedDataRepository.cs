@@ -59,6 +59,37 @@ namespace Cafe_Managment.Repositories
             return dataTable;
         }
 
+        public DataTable GetAllDeletedDishes()
+        {
+            DataTable dataTable = new DataTable();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
+                                      d.Id,
+                                      c.Title AS 'Раздел',
+                                      d.Title AS 'Название',
+                                      d.Description AS 'Описание', 
+                                      d.Composition AS 'Состав',
+                                      d.CreatedAt AS 'Дата добавления', 
+                                      d.UpdatedAt AS 'Дата последнего обновления',
+                                      d.DeletedAt AS 'Дата удаления' 
+                                FROM deleted_dishes d
+                                INNER JOIN categories c ON d.CategoryId = c.Id";
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                adapter.Fill(dataTable);
+
+                connection.Close();
+            }
+
+            return dataTable;
+        }
+
+
     }
  
 }

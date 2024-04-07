@@ -12,5 +12,6 @@ namespace Cafe_Managment.Model
     public interface IDeletedDataRepository
     {
         DataTable GetDismissedEmployees();
+        DataTable GetAllDeletedDishes();
     }
 }

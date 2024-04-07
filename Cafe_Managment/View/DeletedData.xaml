@@ -15,6 +15,7 @@
     <Grid>
         <ScrollViewer x:Name="Viewer" >
             <ScrollViewer.Resources>
+                <CollectionViewSource x:Key="MyCollectionViewSource" Source="{Binding DismissedEmployees}"/>
                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
             </ScrollViewer.Resources>
 
@@ -42,10 +43,8 @@
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
                               Style="{DynamicResource DataGridStyle1}"
-                              ItemsSource="{Binding Menu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding DeletedDishes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
-                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               CanUserReorderColumns="False"
                               MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
@@ -55,17 +54,6 @@
                             <vn:DeletedDataVM/>
                         </DataGrid.DataContext>
                         <DataGrid.Columns>
-
-                            <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="95">
-                                          
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-
-                            </DataGridTemplateColumn>
 
                         </DataGrid.Columns>
                         <DataGrid.Resources>
@@ -105,17 +93,6 @@
                             <vn:DeletedDataVM/>
                         </DataGrid.DataContext>
                         <DataGrid.Columns>
-
-                            <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="75">
-
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-
-                            </DataGridTemplateColumn>
 
                         </DataGrid.Columns>
                         <DataGrid.Resources>

@@ -23,10 +23,18 @@ namespace Cafe_Managment.ViewModel
 
         private DataTable _dismissedEmployees;
 
+        private DataTable _deletedDishes;
+
+
         public DataTable DismissedEmployees
         {
             get { return _dismissedEmployees; }
             set { _dismissedEmployees = value; }
+        }
+        public DataTable DeletedDishes
+        {
+            get { return _deletedDishes; }
+            set { _deletedDishes = value; }
         }
         public bool IsReadOnly
         {
@@ -42,7 +50,9 @@ namespace Cafe_Managment.ViewModel
         {
             deletedDataRepository = new DeletedDataRepository();
 
-            deletedDataRepository.GetDismissedEmployees();
+            DismissedEmployees = deletedDataRepository.GetDismissedEmployees();
+
+            DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
 
             IsReadOnly = false;
 
