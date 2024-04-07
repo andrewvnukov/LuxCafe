@@ -1,0 +1,23 @@
+﻿<Window x:Class="Cafe_Managment.View.DialogWindows.UpdatePrice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        Title="UpdatePrice" Height="150" Width="300"
+        Style="{DynamicResource DialogWindow1}">
+    <Border Background="{DynamicResource PrimaryColor1}"
+            CornerRadius="10">
+        <StackPanel Orientation="Vertical"
+                    Margin="0 20 0 0">
+            <TextBlock Text="Обновление цены"
+                       Style="{DynamicResource Text_Headline2}"/>
+            <TextBox Style="{DynamicResource LoginTextBox}"
+                     Margin="10 20 10 0"/>
+        </StackPanel>
+    </Border>
+</Window>

@@ -156,6 +156,9 @@
     <Compile Include="View\DialogWindows\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DialogWindows\UpdatePrice.xaml.cs">
+      <DependentUpon>UpdatePrice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HelloPage.xaml.cs">
       <DependentUpon>HelloPage.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\Registration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\UpdatePrice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
