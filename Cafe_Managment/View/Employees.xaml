@@ -23,22 +23,24 @@
                       VerticalScrollBarVisibility="Hidden"
                       >
 
-            <Grid Height="1000">
+            <Grid Height="auto">
                 <TextBlock Text="Cотрудники" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
-                <StackPanel>
+                <StackPanel Margin="10 20 10 20" >
 
                     <!--Members Datagrid -->
-                    <Button Width="25" Margin="0 45 730 0" Style="{StaticResource GridInfoButton}" Command="{Binding InfoCommand}">
-                        <Button.DataContext>
-                            <vn:EmployeeVM/>
-                        </Button.DataContext>
+                    <Button Width="25"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="10 10 0 10"
+                            Style="{StaticResource GridInfoButton}" 
+                            Command="{Binding InfoCommand}">
                         <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
                     </Button>
 
-                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid" Margin="10 40 10 0" 
+                    <DataGrid Grid.Row="6" x:Name="MembersDataGrid"
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 

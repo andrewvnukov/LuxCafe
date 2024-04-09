@@ -1,6 +1,7 @@
 ﻿using Cafe_Managment.Model;
 using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -110,6 +111,7 @@ namespace Cafe_Managment.ViewModel
             {
                 userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
                 IsAdressReadOnly = !IsAdressReadOnly;
+                userRepository.GetById();
             }
         }
 
@@ -121,8 +123,9 @@ namespace Cafe_Managment.ViewModel
             }
             else
             {
-                userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
+                userRepository.EditCurrentUser(nameof(EmpData.Email), CurrentData.Email);
                 IsEmailReadOnly = !IsEmailReadOnly;
+                userRepository.GetById();
             }
         }
 
@@ -136,12 +139,22 @@ namespace Cafe_Managment.ViewModel
             {
                 userRepository.EditCurrentUser(nameof(EmpData.PhoneNumber), CurrentData.PhoneNumber);
                 IsNumberReadOnly = !IsNumberReadOnly;
+                userRepository.GetById();
             }
         }
 
         private void ExecuteEditPicture(object obj)
         {
-            throw new NotImplementedException();
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Image files (*.BMP, *.JPG, *.GIF, *.TIF, *.PNG, *.ICO, *.EMF, *.WMF)|*.bmp;*.jpg;*.gif; *.tif; *.png; *.ico; *.emf; *.wmf";
+            if (fileDialog.ShowDialog() == true)
+            {
+                string fileName = fileDialog.FileName;
+                CurrentData.ProfileImage = new BitmapImage(new Uri(fileName));
+                byte[] photoData = File.ReadAllBytes(fileDialog.FileName);
+                userRepository.UpdateCurrentUserPicture(photoData);
+                userRepository.GetById();
+            }
         }
     }
 }

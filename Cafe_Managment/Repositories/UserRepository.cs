@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using ExCSS;
 using System.Xml.Linq;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Cafe_Managment.Repositories
 {
@@ -39,20 +40,16 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT Id, Password, Salt, Status FROM Employees WHERE Login = @Username";
+                command.CommandText = "SELECT Id, Password, Salt FROM Employees WHERE Login = @Username";
                 command.Parameters.AddWithValue("username", credential.UserName);
 
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.HasRows && reader.Read())
                     {
-
                         string storedPassword = reader[1].ToString();
                         string salt = reader[2].ToString();
-                        short userStatus = reader.GetInt16("Status");
 
-                        if (userStatus == 1)
-                        {
                             if (BCrypt.Net.BCrypt.HashPassword(credential.Password, salt) == storedPassword)
                             {
 
@@ -60,8 +57,6 @@ namespace Cafe_Managment.Repositories
                                 validUser = 0;
                             }
                             else { validUser = 3; }
-                        }
-                        else { validUser = 1; }
                     }
                     else { validUser = 2; }
                 }
@@ -84,7 +79,7 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = $"UPDATE employees SET {NameOfProp} = @value, UpdatedAt = NOW()" +
+                command.CommandText = $"UPDATE employees SET {NameOfProp} = @value, UpdatedAt = NOW() " +
                     $"WHERE Id = {UserData.Id}";
                 command.Parameters.AddWithValue("value", Value);
 
@@ -194,7 +189,7 @@ namespace Cafe_Managment.Repositories
 
                     if (reader[10] != DBNull.Value)
                     {
-                        byte[] imageData = (byte[])reader[8];
+                        byte[] imageData = (byte[])reader[10];
                         UserData.ProfileImage = ConvertByteArrayToBitmapImage(imageData);
                     }
                     else UserData.ProfileImage = new BitmapImage(new Uri("/Images/EmptyImage.jpg", UriKind.Relative)); ;
@@ -330,9 +325,9 @@ namespace Cafe_Managment.Repositories
                 command.Connection = connection;
 
                 command.CommandText = "INSERT INTO employees (RoleId, BranchId, Login, Password, Salt, Name, Surname, " +
-                    "Patronomic, PhoneNumber, BirthDay, CreatedAt, Status) "
+                    "Patronomic, BirthDay, CreatedAt) "
                     + "VALUES(@role, @branch, @username, @password, @Salt, @name, @surname, " +
-                    "@patronomic, @number, @birthday, @NowDate, @status)";
+                    "@patronomic, @birthday, @NowDate)";
                 command.Parameters.AddWithValue("role", empData.Role + 1);
                 command.Parameters.AddWithValue("branch", empData.Branch + 1);
                 command.Parameters.AddWithValue("username", empData.Login);
@@ -344,8 +339,6 @@ namespace Cafe_Managment.Repositories
                 command.Parameters.AddWithValue("patronomic", empData.Patronomic);
                 command.Parameters.AddWithValue("birthday", empData.BirthDay);
                 command.Parameters.AddWithValue("NowDate", DateTime.Now);
-                command.Parameters.AddWithValue("status", 1);
-                command.Parameters.AddWithValue("number", "1234");
 
 
                 try
@@ -459,7 +452,29 @@ namespace Cafe_Managment.Repositories
             }
         }
 
+        public void UpdateCurrentUserPicture(byte[] picture)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
 
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = $"UPDATE employees SET ProfileImage = @value, UpdatedAt = NOW() " +
+                    $"WHERE Id = {UserData.Id}";
+                command.Parameters.AddWithValue("value", picture);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
     }
 }
 

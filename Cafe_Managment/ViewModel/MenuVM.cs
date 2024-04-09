@@ -1,6 +1,7 @@
 ﻿using Cafe_Managment.Model;
 using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
+using Cafe_Managment.View;
 using Cafe_Managment.View.DialogWindows;
 using System;
 using System.Collections.Generic;
@@ -17,28 +18,52 @@ namespace Cafe_Managment.ViewModel
 {
     internal class MenuVM : ViewModelBase
     {
+        public UpdatePrice updatePrice;
+
         DishesRepository dishesRepository;
+        public bool IsExitClicked = false;
         private bool _isReadOnly;
         private bool _isEnabled;
+        private bool _isViewVisible;
         private int _selectedDish;
         private object _selectedItem;
         private object _selectedItemMenu;
+        private string _newPrice;
         DataTable tempArchvie = new DataTable();
         DataTable tempMenu = new DataTable();
         private DataTable _menu;
         private DataTable _activemenu;
 
         public ICommand EditRowCommand { get; set; }
-        public ICommand EditRowCommandMenu { get; set; }
+        public ICommand EditPriceCommandMenu { get; set; }
         public ICommand AddDishToArchiveCommand { get; set; }
         public ICommand SaveRowCommand { get; set; }
-        public ICommand SaveRowCommandMenu { get; set; }
         public ICommand DeleteRowCommand { get; set; }
         public ICommand DeleteRowCommandMenu { get; set; }
         public ICommand TransferRowCommand { get; set; }
         public ICommand InfoCommandArchive { get; set; }
         public ICommand InfoCommandMenu { get; set; }
 
+        public ICommand CloseWindowCommand { get; set; }
+        public ICommand SavePriceCommand {  get; set; }
+
+        public string NewPrice
+        {
+            get { return _newPrice; }
+            set
+            {
+                _newPrice = value;
+                OnPropertyChanged(nameof(NewPrice));
+            }
+        } 
+
+        public bool IsViewVisible
+        {
+            get { return _isViewVisible; }
+            set { _isViewVisible = value;
+                OnPropertyChanged(nameof(IsViewVisible));
+            }
+        }
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -114,8 +139,9 @@ namespace Cafe_Managment.ViewModel
             Menu.Columns.Remove("Id");
 
             IsEnabled = false;
-            IsReadOnly = false;
+            IsReadOnly = true;
             SelectedDish = -1;
+            IsViewVisible = true;
 
             //EditRowCommand = new RelayCommand(EditRow);
 
@@ -126,12 +152,19 @@ namespace Cafe_Managment.ViewModel
             TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
 
             DeleteRowCommandMenu = new RelayCommand(ExecuteDeleteRowCommandMenu);
-            SaveRowCommandMenu = new RelayCommand(ExecuteSaveRowCommandMenu);
-            EditRowCommandMenu = new RelayCommand(ExecuteEditRowCommandMenu);
+            EditPriceCommandMenu = new RelayCommand(ExecuteEditPriceCommandMenu);
 
             InfoCommandArchive = new RelayCommand(ExecuteInfoCommandArchive);
             InfoCommandMenu = new RelayCommand(ExecuteInfoCommandMenu);
 
+            SavePriceCommand = new RelayCommand(ExecuteSavePriceCommand);
+            CloseWindowCommand = new RelayCommand(ExecuteCloseDialogCommand);
+        }
+
+        private void ExecuteCloseDialogCommand(object obj)
+        {
+            NewPrice = "";
+            IsViewVisible = false;
         }
 
         private void ExecuteDeleteRowCommandMenu(object obj)
@@ -161,34 +194,47 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        private void ExecuteSaveRowCommandMenu(object obj)
+        private void ExecuteEditPriceCommandMenu(object obj)
         {
-            int temp = SelectedDish;
-
-            DataRowView dataRowView = SelectedItemMenu as DataRowView;
-
-            ActiveMenu.AcceptChanges();
-            //Получаем информацию о выбранной строке
-            DishData dish = new DishData
+            updatePrice = new UpdatePrice();
+            
+            updatePrice.IsVisibleChanged += (s, ev) =>
             {
-                Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
-                Price = dataRowView.Row[5].ToString()
+                if (!updatePrice.IsVisible && (updatePrice.GetInput()!=""))
+                {
+                    DataRowView dataRowView = SelectedItemMenu as DataRowView;
+                    DishData data = new DishData
+                    {
+                        Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+                        Price = updatePrice.GetInput(),
+                    };
+
+                    dishesRepository.UpdateDishPrice(data);
+                    MessageBox.Show($"Блюдо {dataRowView.Row[2].ToString()}\nБыло успешно изменено!");
+
+                    tempMenu = dishesRepository.GetAllDishesFromMenu();
+                    DataTable dt = tempMenu.Copy();
+                    dt.Columns.Remove("Id");
+                    ActiveMenu = dt.Copy();
+                    
+
+                    updatePrice.Close();
+                }
+                else
+                {
+                    if (!updatePrice.IsVisible)
+                    {
+                        updatePrice.Close();
+                    }
+
+                }
             };
-
-            //MessageBox.Show($"{dish.Id.ToString()}\n{dish.Price}");
-            if (dish != null)
-            {
-                dishesRepository.UpdateDishPrice(dish);
-                OnPropertyChanged(nameof(tempMenu));
-            }
+            updatePrice.ShowDialog();
         }
-
-        private void ExecuteEditRowCommandMenu(object obj)
+        private void ExecuteSavePriceCommand(object obj)
         {
-            ActiveMenu.AcceptChanges();
-            IsReadOnly = !IsReadOnly;
+            IsViewVisible = false;
         }
-
         public void ExecuteSaveRowCommand(object parameter)
         {
             int temp = SelectedDish;
@@ -209,6 +255,13 @@ namespace Cafe_Managment.ViewModel
             if (dish != null)
             {
                 dishesRepository.UpdateDish(dish);
+
+                tempArchvie = dishesRepository.GetAllDishesFromArchive();
+                DataTable dt = tempArchvie.Copy();
+                dt.Columns.Remove("Id");
+                Menu = dt.Copy();
+
+                IsReadOnly = true;
                 OnPropertyChanged(nameof(tempArchvie));
             }
         }

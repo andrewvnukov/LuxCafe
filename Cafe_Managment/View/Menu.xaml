@@ -18,15 +18,19 @@
                 <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
             </ScrollViewer.Resources>
 
-            <Grid Height="1000">
+            <Grid Height="auto"
+                  Margin="0 0 0 20">
                 <TextBlock Text="Архив блюд" 
                            Style="{DynamicResource Text_Headline2}"
+                           Foreground="{DynamicResource AccientColor1}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
-                
-                <StackPanel>
 
-                    <Button Width="25" Margin="0 45 730 0" Style="{StaticResource GridInfoButton}"
+                <StackPanel Margin="0 30 0 0">
+                    <Button Width="25" Style="{StaticResource GridInfoButton}"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Margin="10"
                        Command="{Binding DataContext.InfoCommandArchive, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
                         <Button.DataContext>
                             <vn:MenuVM/>
@@ -118,8 +122,14 @@
 
                     <!--ActiveMenuDataGrid-->
 
-                    <Button Width="25" Margin="0 45 730 0" Style="{StaticResource GridInfoButton}"
-                       Command="{Binding DataContext.InfoCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
+                    <Button Width="25"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Margin="10"
+                            Style="{StaticResource GridInfoButton}"
+                       Command="{Binding DataContext.InfoCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" 
+                            CommandParameter="{Binding}">
+                        
                         <Button.DataContext>
                             <vn:MenuVM/>
                         </Button.DataContext>
@@ -127,7 +137,7 @@
                     </Button>
 
                     <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" 
-                              Margin="10 15 0 0" 
+                              Margin="10 0 0 0" 
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
@@ -148,22 +158,16 @@
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="75">
+                                        <StackPanel Orientation="Horizontal" Width="auto"
+                                                    HorizontalAlignment="Center">
 
                                             <Button Style="{StaticResource GridEditButton}"
                                                     
-                         Command="{Binding DataContext.EditRowCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                         Command="{Binding DataContext.EditPriceCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
                                                 </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
-                                            <Button Style="{StaticResource GridRemoveButton}"
-                                Command="{Binding DataContext.SaveRowCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-                                                <Button.DataContext>
-                                                    <vn:MenuVM/>
-                                                </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
+                                                <Icon:PackIconMaterial Kind="CurrencyRub" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
 
                                             <Button Style="{StaticResource GridDeleteButton}" 

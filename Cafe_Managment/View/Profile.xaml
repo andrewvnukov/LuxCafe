@@ -39,6 +39,7 @@
                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
                         />
                     <Button Style="{StaticResource Text_Button}"
+                            Command="{Binding EditPicture}"
                             Foreground="AntiqueWhite"
                             Width="160"
                             Margin="10"

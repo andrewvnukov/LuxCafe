@@ -7,8 +7,6 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="/Fonts/Montserrat.ttf"/>
         <Setter Property="FontSize" Value="14"/>
-
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">

@@ -141,6 +141,7 @@
     <Compile Include="Repositories\DishesRepository.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
     <Compile Include="ViewModel\DeletedDataVM.cs" />
+    <Compile Include="ViewModel\DialogWindowsVM\NewDishVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\UpdatePriceVM.cs" />
     <Compile Include="ViewModel\HelloPageVM.cs" />
@@ -149,6 +150,9 @@
     <Compile Include="ViewModel\ViewWindowVM.cs" />
     <Compile Include="View\DeletedData.xaml.cs">
       <DependentUpon>DeletedData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\NewDish.xaml.cs">
+      <DependentUpon>NewDish.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\RegisterForms\RegisterFirst.xaml.cs">
       <DependentUpon>RegisterFirst.xaml</DependentUpon>
@@ -237,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DeletedData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\NewDish.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

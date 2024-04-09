@@ -12,6 +12,7 @@ namespace Cafe_Managment.Repositories
 {
     public interface IUserRepository
     {
+        void UpdateCurrentUserPicture(byte[] picture);
         int AuthenticateUser(NetworkCredential credential);
         void Add(EmpData empData);
         bool IfUserExists(string Username);

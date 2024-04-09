@@ -20,8 +20,9 @@
             </ScrollViewer.Resources>
 
             <Grid Height="1000">
-                <TextBlock Text="Удалённые из архива блюд" 
+                <TextBlock Text="Удалённые из архива блюда" 
                            Style="{DynamicResource Text_Headline2}"
+                           Foreground="{DynamicResource AccientColor1}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
 
@@ -63,9 +64,10 @@
                    
 
                     <TextBlock Text="Уволенные сотрудники" 
-                           Style="{DynamicResource Text_Headline2}"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Center"/>
+                               Foreground="{DynamicResource AccientColor1}"
+                                Style="{DynamicResource Text_Headline2}"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"/>
 
                     <!--DismissedEmployeesDataGrid-->
 
