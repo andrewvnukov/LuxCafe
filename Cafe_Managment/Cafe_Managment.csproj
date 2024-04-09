@@ -142,6 +142,7 @@
     <Compile Include="Utilities\RelayCommandForType.cs" />
     <Compile Include="ViewModel\DeletedDataVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
+    <Compile Include="ViewModel\DialogWindowsVM\UpdatePriceVM.cs" />
     <Compile Include="ViewModel\HelloPageVM.cs" />
     <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
