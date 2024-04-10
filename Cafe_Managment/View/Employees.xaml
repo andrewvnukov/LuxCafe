@@ -48,6 +48,7 @@
                               Style="{DynamicResource DataGridStyle1}"
                               ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedEmployeeItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False" 
                               >

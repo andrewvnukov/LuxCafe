@@ -20,6 +20,8 @@ namespace Cafe_Managment.ViewModel
         private DataTable _employees;
         private int _selectedEmployee;
         private bool _isReadOnly;
+        private object _selectedEmployeeItem;
+
         DataTable temp = new DataTable();
 
 
@@ -47,6 +49,16 @@ namespace Cafe_Managment.ViewModel
                 _selectedEmployee = value;
                 OnPropertyChanged(nameof(SelectedEmployee));
             } 
+        }
+
+        public object SelectedEmployeeItem
+        {
+            get { return _selectedEmployeeItem; }
+            set
+            {
+                _selectedEmployeeItem = value;
+                OnPropertyChanged(nameof(SelectedEmployeeItem));
+            }
         }
 
         public DataTable Employees
@@ -79,8 +91,56 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteSaveCommand(object obj)
         {
-           MessageBox.Show(temp.Rows[SelectedEmployee][1].ToString());
+            if (SelectedEmployeeItem != null)
+            {
+                DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
+                if (dataRowView != null)
+                {
+                    UserData employeeData = new UserData();
+                    //foreach (DataColumn column in dataRowView.Row.Table.Columns)
+                    //{
+                    //    MessageBox.Show(column.ColumnName);
+                    //}
+
+                    string branchIdString = dataRowView.Row["Филиал"].ToString();
+                    if (int.TryParse(branchIdString, out int branchId))
+                    {
+                        // Преобразование прошло успешно, присваиваем значение переменной UserData.BranchId
+                        UserData.BranchId = branchId;
+                    }
+                    string RoleIdString = dataRowView.Row["Роль"].ToString();
+                    if (int.TryParse(branchIdString, out int roleId))
+                    {
+                        // Преобразование прошло успешно, присваиваем значение переменной UserData.BranchId
+                        UserData.RoleId = roleId;
+                    }
+                    UserData.Name = dataRowView.Row["Имя"].ToString();
+                    UserData.Surname = dataRowView.Row["Фамилия"].ToString();
+                    UserData.Patronomic = dataRowView.Row["Отчество"].ToString();
+                    UserData.PhoneNumber = dataRowView.Row["Номер телефона"].ToString();
+                    UserData.Email = dataRowView.Row["Почта"].ToString();
+                    //UserData.BirthDay = dataRowView.Row["Дата рождения"].ToString();
+                    UserData.Address = dataRowView.Row["Адрес"].ToString();
+
+                    //UserData.DeletedAt = DateTime.Parse(dataRowView.Row["DeletedAt"].ToString());
+                    //UserData.Status = dataRowView.Row["Status"].ToString();
+                    //UserData.BirthDay = dataRowView.Row["BirthDay"].ToString();
+                    //UserData.Title = dataRowView.Row["Title"].ToString();
+                    // Профиль изображения: замените на вашу логику для изображения
+                    //UserData.ProfileImage = null;
+
+                    // Обновляем информацию о сотруднике
+                    userRepository.UpdateEmployee(employeeData);
+
+                    // Обновляем данные в представлении
+                    Employees = userRepository.GetByAll();
+                }
+            }
         }
+
+
+
+
 
         private void ExecuteEditCommand(object obj)
         {

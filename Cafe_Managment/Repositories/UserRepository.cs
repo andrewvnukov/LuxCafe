@@ -475,6 +475,49 @@ namespace Cafe_Managment.Repositories
                 }
             }
         }
+
+        public void UpdateEmployee(UserData employeeData)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                command.Connection = connection;
+                command.CommandText = @"UPDATE employees 
+                                SET 
+                                    CreatedAt = @CreatedAt, 
+                                    Name = @Name, 
+                                    Surname = @Surname, 
+                                    Patronomic = @Patronomic, 
+                                    PhoneNumber = @PhoneNumber, 
+                                    Email = @Email, 
+                                    Address = @Address, 
+                                    ProfileImage = @ProfileImage
+                                WHERE Id = @Id";
+                command.Parameters.AddWithValue("@Id", UserData.Id); // Замените UserData на имя объекта данных сотрудника, переданного в параметре
+                command.Parameters.AddWithValue("@RoleId", UserData.RoleId); // Замените UserData на имя объекта данных сотрудника, переданного в параметре
+                command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
+                command.Parameters.AddWithValue("@CreatedAt", UserData.CreatedAt);
+                command.Parameters.AddWithValue("@Name", UserData.Name);
+                command.Parameters.AddWithValue("@Surname", UserData.Surname);
+                command.Parameters.AddWithValue("@Patronomic", UserData.Patronomic);
+                command.Parameters.AddWithValue("@PhoneNumber", UserData.PhoneNumber);
+                command.Parameters.AddWithValue("@Email", UserData.Email);
+                //command.Parameters.AddWithValue("@BirthDay", UserData.BirthDay);
+                command.Parameters.AddWithValue("@Address", UserData.Address);
+                // Параметр ProfileImage требует специальной обработки, в зависимости от того, как вы храните изображения в базе данных
+                 command.Parameters.AddWithValue("@ProfileImage", UserData.ProfileImage);
+
+                // Применяем изменения
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
+
+
     }
 }
 

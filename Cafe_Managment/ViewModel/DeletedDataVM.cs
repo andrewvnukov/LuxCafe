@@ -61,15 +61,14 @@ namespace Cafe_Managment.ViewModel
             set
             {
                 _selectedItemDeletedDish = value;
-                OnPropertyChanged(nameof(_selectedItemDeletedDish));
+                OnPropertyChanged(nameof(SelectedItemDeletedDish));
             }
         }
 
         public DeletedDataVM()
         {
             deletedDataRepository = new DeletedDataRepository();
-            DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
-            IsReadOnly = true;
+            //DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
 
             tempDelDish = deletedDataRepository.GetAllDeletedDishes();
             DeletedDishes = tempDelDish.Copy();
@@ -86,8 +85,12 @@ namespace Cafe_Managment.ViewModel
 
 
             DismissedEmployees = deletedDataRepository.GetDismissedEmployees();
+            IsReadOnly = true;
+
 
             DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
+            IsReadOnly = true;
+
 
 
             RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
