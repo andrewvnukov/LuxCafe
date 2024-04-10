@@ -138,15 +138,15 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
                 command.Connection = connection;
                 command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
-                                        e.Id,
-                                        c.Address AS 'Филиал', r.Title AS 'Роль', 
-                                        e.Name AS 'Имя', e.Surname AS 'Фамилия', 
-                                        e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
-                                        e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения', 
-                                        e.Address AS 'Адрес' 
-                                FROM Employees e 
-                                INNER JOIN Roles r ON e.RoleId = r.Id
-                                INNER JOIN Branches c ON e.BranchId = c.Id";
+                                e.Id,
+                                c.Address AS 'Филиал', r.Title AS 'Роль', 
+                                e.Name AS 'Имя', e.Surname AS 'Фамилия', 
+                                e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
+                                e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения',
+                                e.Address AS 'Адрес' 
+                        FROM Employees e 
+                        INNER JOIN Roles r ON e.RoleId = r.Id
+                        INNER JOIN Branches c ON e.BranchId = c.Id";
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 adapter.Fill(dataTable);
@@ -154,8 +154,16 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
 
+            // Удалите время из даты рождения
+            foreach (DataRow row in dataTable.Rows)
+            {
+                DateTime birthDay = DateTime.Parse(row["Дата рождения"].ToString());
+                row["Дата рождения"] = birthDay.ToShortDateString(); // Преобразовать в строку даты без времени
+            }
+
             return dataTable;
         }
+
 
 
         public void GetById()

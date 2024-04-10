@@ -10,31 +10,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <StackPanel
-            Margin="70,20,70,0"
-            VerticalAlignment="Top" Grid.ColumnSpan="2"
-            >
-            
-            <TextBox Tag="Имя"
-                     Text="{Binding NewEmp.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource LoginTextBox}"
-                     Margin="0,20,0,20"/>
-            <TextBox Tag="Фамилия"
-                     Text="{Binding NewEmp.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource LoginTextBox}"
-                     Margin="0,20,0,20"/>
-            <TextBox Tag="Отчество"
-                     Text="{Binding NewEmp.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource LoginTextBox}"
-                     Margin="0,20,0,20"/>
-            <TextBox Tag="Дата рождения"
-                     Text="{Binding NewEmp.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{DynamicResource LoginTextBox}"
-                     Margin="0,20,0,0"/>
-            <TextBlock Text="{Binding BirthErrorMessage}"
-                       Style="{StaticResource MiniToastBlock}"
-                       Foreground="Red"/>
+        <StackPanel Margin="70,20,70,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <TextBox Tag="Имя" Text="{Binding NewEmp.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
+            <TextBox Tag="Фамилия" Text="{Binding NewEmp.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
+            <TextBox Tag="Отчество" Text="{Binding NewEmp.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
+            <DatePicker SelectedDate="{Binding NewEmp.BirthDay, Mode=TwoWay}" Margin="0,20,0,0" SelectedDateFormat="Short"/>
+            <TextBlock Text="{Binding BirthErrorMessage}" Style="{StaticResource MiniToastBlock}" Foreground="Red"/>
         </StackPanel>
+
         <Button Content="Далее"
                 Style="{DynamicResource DefaultButton}"
                 Command="{Binding NextPageCommand}"
