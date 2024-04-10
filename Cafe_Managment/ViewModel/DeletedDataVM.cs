@@ -24,6 +24,15 @@ namespace Cafe_Managment.ViewModel
         private DataTable _dismissedEmployees;
 
         private DataTable _deletedDishes;
+        private object _selectedItemDeletedDish;
+
+
+        DataTable tempDelDish = new DataTable();
+
+
+
+        public ICommand RestoreDishCommand { get; set; }
+
 
 
         public DataTable DismissedEmployees
@@ -46,17 +55,71 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        public object SelectedItemDeletedDish
+        {
+            get { return _selectedItemDeletedDish; }
+            set
+            {
+                _selectedItemDeletedDish = value;
+                OnPropertyChanged(nameof(_selectedItemDeletedDish));
+            }
+        }
+
         public DeletedDataVM()
         {
             deletedDataRepository = new DeletedDataRepository();
+            DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
+            IsReadOnly = true;
+
+            tempDelDish = deletedDataRepository.GetAllDeletedDishes();
+            DeletedDishes = tempDelDish.Copy();
+            DeletedDishes.Columns.Remove("Id");
+
+
+            //dishesRepository = new DishesRepository();
+            //Menu = dishesRepository.GetAllDishesFromArchive();
+            //IsReadOnly = true;
+
+            //tempMenu = dishesRepository.GetAllDishesFromMenu();
+            //ActiveMenu = tempMenu.Copy();
+            //ActiveMenu.Columns.Remove("Id");
+
 
             DismissedEmployees = deletedDataRepository.GetDismissedEmployees();
 
             DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
 
-            IsReadOnly = false;
+
+            RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
+
 
         }
 
+        private void ExecuteRestoreDishCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedItemDeletedDish as DataRowView;
+
+            // Получаем ID выбранного блюда
+            int dishId = int.Parse(tempDelDish.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+
+            // Отображаем диалоговое окно с вопросом
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите восстановить это блюдо?", "Подтверждение восстановления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            // Если пользователь выбрал "Да", то удаляем блюдо
+            if (result == MessageBoxResult.Yes)
+            {
+                // Создаем объект блюда для передачи в метод удаления
+                DishData dishToRestore = new DishData
+                {
+                    Id = dishId
+                };
+
+                // Удаляем блюдо
+                deletedDataRepository.RestoreDeletedDish(dishToRestore);
+
+                // Обновляем интерфейс, если необходимо
+                OnPropertyChanged(nameof(tempDelDish));
+            }
+        }
     }
 }

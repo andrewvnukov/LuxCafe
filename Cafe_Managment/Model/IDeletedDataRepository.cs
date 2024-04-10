@@ -13,5 +13,6 @@ namespace Cafe_Managment.Model
     {
         DataTable GetDismissedEmployees();
         DataTable GetAllDeletedDishes();
+        DataTable RestoreDeletedDish(DishData dish);
     }
 }

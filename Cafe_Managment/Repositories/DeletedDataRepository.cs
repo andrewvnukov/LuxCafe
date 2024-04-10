@@ -40,7 +40,7 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
                 command.Connection = connection;
                 command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
-                                        e.Id,
+                                        
                                         c.Address AS 'Филиал', r.Title AS 'Роль', 
                                         e.Name AS 'Имя', e.Surname AS 'Фамилия', 
                                         e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
@@ -89,7 +89,43 @@ namespace Cafe_Managment.Repositories
             return dataTable;
         }
 
+        public DataTable RestoreDeletedDish(DishData dish)
+        {
+            DataTable restoredData = new DataTable(); // Создаем новый DataTable для возвращаемых данных
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+
+                // Перемещение информации о блюде из deleted_dishes в disharchive
+                command.Connection = connection;
+                command.CommandText = @"INSERT INTO disharchive (Id, CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt)
+                                SELECT Id, CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt
+                                FROM deleted_dishes
+                                WHERE Id = @Id";
+                command.Parameters.AddWithValue("@Id", dish.Id);
+                command.ExecuteNonQuery();
+
+                // Удаление блюда из deleted_dishes
+                command.CommandText = "DELETE FROM deleted_dishes WHERE Id = @Id";
+                command.ExecuteNonQuery();
+
+                // Получение данных из disharchive
+                command.CommandText = "SELECT * FROM disharchive WHERE Id = @Id";
+                using (var adapter = new MySqlDataAdapter(command))
+                {
+                    adapter.Fill(restoredData);
+                }
+
+                connection.Close();
+            }
+
+            return restoredData; // Возвращаем восстановленные данные
+        }
+
+
 
     }
- 
+
 }
