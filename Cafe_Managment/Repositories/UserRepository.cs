@@ -253,13 +253,13 @@ namespace Cafe_Managment.Repositories
 
         public bool GetByMac()
         {
-            var mac = (from nic in NetworkInterface.GetAllNetworkInterfaces()
+            string mac = (from nic in NetworkInterface.GetAllNetworkInterfaces()
                        where nic.OperationalStatus == OperationalStatus.Up
                        select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+            
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
-
                 connection.Open();
 
                 command.Connection = connection;
