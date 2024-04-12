@@ -286,6 +286,9 @@ namespace Cafe_Managment.Repositories
 
         public void ForgetCurrentUser()
         {
+            string mac = (from nic in NetworkInterface.GetAllNetworkInterfaces()
+                          where nic.OperationalStatus == OperationalStatus.Up
+                          select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
@@ -293,8 +296,8 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
 
                 command.Connection = connection;
-                command.CommandText = "DELETE IGNORE FROM autorizeddevices WHERE EmployeeId = @EmpId";
-                command.Parameters.AddWithValue("EmpId", UserData.Id);
+                command.CommandText = "DELETE IGNORE FROM autorizeddevices WHERE DeviceMac = @EmpId";
+                command.Parameters.AddWithValue("EmpId", mac);
 
                 command.ExecuteNonQuery();
             }

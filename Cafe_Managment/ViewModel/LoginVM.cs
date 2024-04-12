@@ -97,8 +97,6 @@ namespace Cafe_Managment.ViewModel
             LoginErrorMessage = "";
             PasswordErrorMessage = "";
 
-            MessageBox.Show(Username);
-
             var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
 
             switch (isValidUser)
