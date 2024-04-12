@@ -68,34 +68,16 @@ namespace Cafe_Managment.ViewModel
         public DeletedDataVM()
         {
             deletedDataRepository = new DeletedDataRepository();
-            //DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
 
             tempDelDish = deletedDataRepository.GetAllDeletedDishes();
             DeletedDishes = tempDelDish.Copy();
             DeletedDishes.Columns.Remove("Id");
-
-
-            //dishesRepository = new DishesRepository();
-            //Menu = dishesRepository.GetAllDishesFromArchive();
-            //IsReadOnly = true;
-
-            //tempMenu = dishesRepository.GetAllDishesFromMenu();
-            //ActiveMenu = tempMenu.Copy();
-            //ActiveMenu.Columns.Remove("Id");
-
+            IsReadOnly = true;
 
             DismissedEmployees = deletedDataRepository.GetDismissedEmployees();
             IsReadOnly = true;
 
-
-            DeletedDishes = deletedDataRepository.GetAllDeletedDishes();
-            IsReadOnly = true;
-
-
-
             RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
-
-
         }
 
         private void ExecuteRestoreDishCommand(object obj)

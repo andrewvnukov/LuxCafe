@@ -11,7 +11,9 @@ using System.Windows.Media.Imaging;
 namespace Cafe_Managment.Model
 {
     public class EmpData : ViewModelBase
+
     {
+        public int Id { get; set; }
         private int _branch;
         public int Branch
         {

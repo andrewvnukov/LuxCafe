@@ -14,7 +14,7 @@
             <TextBox Tag="Имя" Text="{Binding NewEmp.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
             <TextBox Tag="Фамилия" Text="{Binding NewEmp.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
             <TextBox Tag="Отчество" Text="{Binding NewEmp.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
-            <DatePicker SelectedDate="{Binding NewEmp.BirthDay, Mode=TwoWay}" Margin="0,20,0,0" SelectedDateFormat="Short"/>
+            <DatePicker SelectedDate="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,20,0,0"/>
             <TextBlock Text="{Binding BirthErrorMessage}" Style="{StaticResource MiniToastBlock}" Foreground="Red"/>
         </StackPanel>
 

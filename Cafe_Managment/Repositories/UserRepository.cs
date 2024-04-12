@@ -338,7 +338,7 @@ namespace Cafe_Managment.Repositories
                 command.CommandText = "INSERT INTO employees (RoleId, BranchId, Login, Password, Salt, Name, Surname, " +
                     "Patronomic, BirthDay, CreatedAt) "
                     + "VALUES(@role, @branch, @username, @password, @Salt, @name, @surname, " +
-                    "@patronomic, @birthday, @NowDate)";
+                    "@patronomic, @birthday, NOW())";
                 command.Parameters.AddWithValue("role", empData.Role + 1);
                 command.Parameters.AddWithValue("branch", empData.Branch + 1);
                 command.Parameters.AddWithValue("username", empData.Login);
@@ -348,9 +348,8 @@ namespace Cafe_Managment.Repositories
                 command.Parameters.AddWithValue("name", empData.Name);
                 command.Parameters.AddWithValue("surname", empData.Surname);
                 command.Parameters.AddWithValue("patronomic", empData.Patronomic);
-                command.Parameters.AddWithValue("birthday", empData.BirthDay);
-                command.Parameters.AddWithValue("NowDate", DateTime.Now);
 
+                command.Parameters.AddWithValue("birthday", DateTime.Parse(empData.BirthDay).ToString("yyyy-MM-dd"));
 
                 try
                 {
@@ -487,7 +486,7 @@ namespace Cafe_Managment.Repositories
             }
         }
 
-        public void UpdateEmployee(UserData employeeData)
+        public void UpdateEmployee(EmpData data)
         {
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
@@ -496,31 +495,23 @@ namespace Cafe_Managment.Repositories
 
                 command.Connection = connection;
                 command.CommandText = @"UPDATE employees 
-                                SET 
-                                    CreatedAt = @CreatedAt, 
+                                SET
+                                    UpdatedAt = NOW(),
                                     Name = @Name, 
                                     Surname = @Surname, 
                                     Patronomic = @Patronomic, 
                                     PhoneNumber = @PhoneNumber, 
                                     Email = @Email, 
-                                    Address = @Address, 
-                                    ProfileImage = @ProfileImage
+                                    Address = @Address
                                 WHERE Id = @Id";
-                command.Parameters.AddWithValue("@Id", UserData.Id); // Замените UserData на имя объекта данных сотрудника, переданного в параметре
-                command.Parameters.AddWithValue("@RoleId", UserData.RoleId); // Замените UserData на имя объекта данных сотрудника, переданного в параметре
-                command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
-                command.Parameters.AddWithValue("@CreatedAt", UserData.CreatedAt);
-                command.Parameters.AddWithValue("@Name", UserData.Name);
-                command.Parameters.AddWithValue("@Surname", UserData.Surname);
-                command.Parameters.AddWithValue("@Patronomic", UserData.Patronomic);
-                command.Parameters.AddWithValue("@PhoneNumber", UserData.PhoneNumber);
-                command.Parameters.AddWithValue("@Email", UserData.Email);
-                //command.Parameters.AddWithValue("@BirthDay", UserData.BirthDay);
-                command.Parameters.AddWithValue("@Address", UserData.Address);
-                // Параметр ProfileImage требует специальной обработки, в зависимости от того, как вы храните изображения в базе данных
-                 command.Parameters.AddWithValue("@ProfileImage", UserData.ProfileImage);
+                command.Parameters.AddWithValue("Id", data.Id); // Замените UserData на имя объекта данных сотрудника, переданного в параметре
+                command.Parameters.AddWithValue("Name", data.Name);
+                command.Parameters.AddWithValue("Surname", data.Surname);
+                command.Parameters.AddWithValue("Patronomic", data.Patronomic);
+                command.Parameters.AddWithValue("PhoneNumber", data.PhoneNumber);
+                command.Parameters.AddWithValue("Email", data.Email);
+                command.Parameters.AddWithValue("Address", data.Address);
 
-                // Применяем изменения
                 command.ExecuteNonQuery();
 
                 connection.Close();

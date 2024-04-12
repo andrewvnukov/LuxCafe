@@ -19,6 +19,7 @@ namespace Cafe_Managment.Repositories
         void EditCurrentUser(string NameOfProp, string Value);
         void Delete(int Id);
         void FireEmployee(int Id);
+        void UpdateEmployee(EmpData data);
         void RememberCurrentUser();
         void ForgetCurrentUser();
         string GetRoleById(int RoleId);

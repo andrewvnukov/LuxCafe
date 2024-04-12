@@ -19,6 +19,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
     public class RegistrationVM : ViewModelBase
     {
         UserRepository userRepository;
+        DateTime _dateOfBirth;
         private bool _isViewVisible = true;
         private object _activePage;
         private EmpData _newEmp = new EmpData();
@@ -32,6 +33,13 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         public List<string> RoleTable { get; set; }
         public List<string> BranchTable { get; set; }
 
+        public DateTime DateOfBirth
+        {
+            get { return _dateOfBirth; }
+            set { _dateOfBirth = value;
+                OnPropertyChanged(nameof(DateOfBirth));
+            }
+        }
         public string LoginErrorMessage
         {
             get { return _loginerrorMessage; }
@@ -82,6 +90,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 
         public RegistrationVM() 
         {
+            DateOfBirth = DateTime.Now;
             userRepository = new UserRepository();
             RoleTable = userRepository.GetRoles();
             RoleTable.Add("Выберите роль");
@@ -144,20 +153,30 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         }
         private void ExecuteNextPageCommand(object obj)
         {
-            try { 
-                DateTime.Parse(NewEmp.BirthDay);
+            if (IsMoreSixteen())
+            {
+                NewEmp.BirthDay = DateOfBirth.ToString("yyyy-MM-dd");
                 ActivePage = SecondPage;
                 BirthErrorMessage = "";
             }
-            catch
+            else
             {
-                BirthErrorMessage = "Введите корректную дату";
-            };
+                MessageBox.Show("Иди проспись");
+            }
         }
+
+        private bool IsMoreSixteen()
+        {
+            int age = DateTime.Today.Year - DateOfBirth.Year;
+            if (DateOfBirth > DateTime.Today.AddYears(-age))
+                age--;
+            return age >= 16;
+        }
+
         private bool CanExecuteNextCommand(object arg)
         {
             return _newEmp.Name.Length > 0 && _newEmp.Surname.Length > 0 
-                && _newEmp.Patronomic.Length > 0 && _newEmp.BirthDay.Length >= 6;
+                && _newEmp.Patronomic.Length > 0 && DateOfBirth!=null;
         }
 
 
