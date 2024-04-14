@@ -6,7 +6,26 @@
              xmlns:local="clr-namespace:Cafe_Managment.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Border CornerRadius="10"
+        BorderBrush="{DynamicResource AccientColor1}"
+        BorderThickness="1"
+            MaxHeight="200"
+            MaxWidth="200">
+        <Border.Background>
+            <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+        </Border.Background>
+        <Grid
+            Margin="0">
+            <StackPanel
+                Orientation="Vertical">
+                <Image Name="Picture" Stretch="Uniform" Margin="10"
+                       MaxHeight="100"/>
+                <TextBlock Name="Header" Style="{DynamicResource Text_Headline2}"
+                           Margin="10 0 10 0"
+                           Foreground="{DynamicResource AccientColor1}"
+                           FontSize="16"/>
+            </StackPanel>
             
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>

@@ -20,9 +20,11 @@ namespace Cafe_Managment.Controls
     /// </summary>
     public partial class Category : UserControl
     {
-        public Category()
+        public Category(string Name, string ImagePath)
         {
             InitializeComponent();
+            Header.Text = Name;
+            Picture.Source = new BitmapImage(new Uri(ImagePath, UriKind.Relative)); ;
         }
     }
 }

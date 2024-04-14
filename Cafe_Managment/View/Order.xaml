@@ -4,13 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ScrollViewer>
-        <WrapPanel>
-            
-        </WrapPanel>
+    <UserControl.DataContext>
+        <vm:OrderVM/>
+    </UserControl.DataContext>
+    <Grid
+        >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <ListBox ItemsSource="{Binding CategoryList, Mode=OneWay}"
+                     HorizontalAlignment="Center">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <WrapPanel IsItemsHost="True"
+                                   ItemWidth="100"
+                                   />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
         </ScrollViewer>
     </Grid>
 </UserControl>
