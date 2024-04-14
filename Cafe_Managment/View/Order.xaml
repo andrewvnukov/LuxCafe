@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
         <vm:OrderVM/>
@@ -17,14 +17,30 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                      Grid.Column="0">
             <ListBox ItemsSource="{Binding CategoryList, Mode=OneWay}"
+                     SelectedIndex="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      HorizontalAlignment="Center">
                 <ListBox.Template>
                     <ControlTemplate>
                         <WrapPanel IsItemsHost="True"
                                    ItemWidth="100"
                                    />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
+        </ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+              Grid.Column="1">
+            <ListBox
+             
+             HorizontalAlignment="Center">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <WrapPanel IsItemsHost="True"
+                           ItemWidth="150"
+                           />
                     </ControlTemplate>
                 </ListBox.Template>
             </ListBox>
