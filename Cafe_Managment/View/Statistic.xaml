@@ -3,10 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:local="clr-namespace:Cafe_Managment.View" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:viewmodel="clr-namespace:Cafe_Managment.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:StatisticVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Начало периода:" Margin="5"/>
+                <DatePicker x:Name="startDatePicker" Margin="5" SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Конец периода:" Margin="5"/>
+                <DatePicker x:Name="endDatePicker" Margin="5" SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
+            </StackPanel>
+            <Button Content="Обновить" HorizontalAlignment="Center" Margin="5" Style="{DynamicResource DefaultButton}" Command="{Binding UpdateIncomeChartx}"/>
+            <lvc:CartesianChart Width="250" Height="150" Name="incomeChart" Margin="10" Series="{Binding IncomeSeriesCollection}">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Labels="{Binding Labels}" LabelsRotation="0"/>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart" Margin="10" Series="{Binding PopularDishesSeriesCollection}">
+                <!-- Определение серий для диаграммы популярности блюд -->
+            </lvc:PieChart>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
+                <!-- Определение серий для диаграммы популярности блюд -->
+            </lvc:PieChart>
+        </StackPanel>
     </Grid>
 </UserControl>

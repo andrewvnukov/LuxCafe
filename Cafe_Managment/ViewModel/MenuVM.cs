@@ -173,6 +173,7 @@ namespace Cafe_Managment.ViewModel
 
             // Получаем ID выбранного блюда
             int dishId = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+            
 
             // Отображаем диалоговое окно с вопросом
             MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить это блюдо?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
