@@ -13,7 +13,7 @@ namespace Cafe_Managment.Model
 {
     public interface IStatisticsRepository
     {
-        double GetProfitForTimePeriod(DateTime startDate, DateTime endDate);
+        Dictionary<DateTime, double> GetProfitForTimePeriod(DateTime startDate, DateTime endDate);
         Dictionary<string, double> GetDishDataFromDatabase();
     }
 }

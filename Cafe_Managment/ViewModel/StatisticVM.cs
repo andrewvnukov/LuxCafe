@@ -18,6 +18,7 @@ namespace Cafe_Managment.ViewModel
     internal class StatisticVM : ViewModelBase
     {
 
+
         public ICommand UpdateIncomeChartx { get; set; }
         public ICommand FillIncomeChartx { get; set; }
 
@@ -26,29 +27,41 @@ namespace Cafe_Managment.ViewModel
         StatisticsRepository statisticsRepository;
         public new event PropertyChangedEventHandler PropertyChanged;
 
+        //private SeriesCollection _incomeSeriesCollection;
+        //public SeriesCollection IncomeSeriesCollection
+        //{
+        //    get { return _incomeSeriesCollection; }
+        //    set
+        //    {
+        //        _incomeSeriesCollection = value;
+        //        OnPropertyChanged(nameof(IncomeSeriesCollection));
+        //    }
+        //}
+
+        //private ObservableCollection<string> _labels;
+        //public ObservableCollection<string> Labels
+        //{
+        //    get { return _labels; }
+        //    set
+        //    {
+        //        _labels = value;
+        //        OnPropertyChanged(nameof(Labels));
+        //    }
+        //}
+
         private SeriesCollection _incomeSeriesCollection;
         public SeriesCollection IncomeSeriesCollection
         {
             get { return _incomeSeriesCollection; }
-            set
-            {
-                _incomeSeriesCollection = value;
-                OnPropertyChanged(nameof(IncomeSeriesCollection));
-            }
+            set { _incomeSeriesCollection = value; }
         }
 
         private ObservableCollection<string> _labels;
         public ObservableCollection<string> Labels
         {
             get { return _labels; }
-            set
-            {
-                _labels = value;
-                OnPropertyChanged(nameof(Labels));
-            }
+            set { _labels = value; }
         }
-
-       
 
 
         private SeriesCollection _popularDishesSeriesCollection;
@@ -105,39 +118,41 @@ namespace Cafe_Managment.ViewModel
             //// Устанавливаем начальную дату как конечную дату минус 30 дней
             StartDate = EndDate.AddDays(-30);
 
+            // Инициализация IncomeSeriesCollection
             IncomeSeriesCollection = new SeriesCollection();
+            Labels = new ObservableCollection<string>(); // инициализация Labels
 
             statisticsRepository = new StatisticsRepository();
-            LoadData();
+            // Вызываем LoadData после инициализации IncomeSeriesCollection
             UpdateIncomeChartx = new RelayCommand(ExecuteUpdateIncomeChart);
-            FillIncomeChartx = new RelayCommand(ExecuteFillIncomeChart);
 
+            LoadData();
+            FillIncomeChartx = new RelayCommand(ExecuteFillIncomeChart);
         }
+
+
 
         private void FillIncomeChart(DateTime startDate, DateTime endDate)
         {
-            double income = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
+            Dictionary<DateTime, double> profitData = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
+
+            // Clear existing data
+            IncomeSeriesCollection.Clear();
+
+            // Create new series
             ColumnSeries incomeSeries = new ColumnSeries
             {
                 Title = "Доход",
-                Values = new ChartValues<double> { income }
+                Values = new ChartValues<double>(profitData.Values) // Use the values from the dictionary
             };
-            IncomeSeriesCollection.Clear();
+
+            // Add the series to the collection
             IncomeSeriesCollection.Add(incomeSeries);
 
-            // Создаем новый экземпляр коллекции Labels, если он еще не был создан
-            if (Labels == null)
-            {
-                Labels = new ObservableCollection<string>();
-            }
-
-            // Формируем строку с обеими датами, разделёнными символом "-"
-            string selectedPeriod = $"C {startDate.ToString("dd/MM/yyyy")} По {endDate.ToString("dd/MM/yyyy")}";
-
-            // Очищаем коллекцию Labels и добавляем в неё сформированную строку
-            Labels.Clear();
-            Labels.Add(selectedPeriod);
+            // Use the dates as labels
+            Labels = new ObservableCollection<string>(profitData.Keys.Select(date => date.ToString("dd/MM/yyyy")));
         }
+
 
         private void ExecuteFillIncomeChart(object parameter)
         {
@@ -146,28 +161,53 @@ namespace Cafe_Managment.ViewModel
 
         private void UpdateIncomeChart(DateTime startDate, DateTime endDate)
         {
-            double income = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
-            ColumnSeries incomeSeries = new ColumnSeries
-            {
-                Title = "Доход",
-                Values = new ChartValues<double> { income }
-            };
-            IncomeSeriesCollection.Clear();
-            IncomeSeriesCollection.Add(incomeSeries);
+            Dictionary<DateTime, double> profitData = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
 
+            // Проверяем, инициализированы ли свойства
+            if (IncomeSeriesCollection == null)
+            {
+                IncomeSeriesCollection = new SeriesCollection();
+            }
             if (Labels == null)
             {
                 Labels = new ObservableCollection<string>();
             }
 
-            // Формируем строку с обеими датами, разделёнными символом "-"
-            string selectedPeriod = $"C {startDate.ToString("dd/MM/yyyy")} По {endDate.ToString("dd/MM/yyyy")}";
+            // Clear existing data
+            if (IncomeSeriesCollection != null)
+            {
+                IncomeSeriesCollection.Clear();
+            }
+            if (Labels != null)
+            {
+                Labels.Clear();
+            }
 
-            // Очищаем коллекцию Labels и добавляем в неё сформированную строку
-            Labels.Clear();
-            Labels.Add(selectedPeriod);
+            // Create new series
+            ColumnSeries incomeSeries = new ColumnSeries
+            {
+                Title = "Доход",
+                Values = new ChartValues<double>(profitData.Values) // Use the values from the dictionary
+            };
 
+            // Add the series to the collection
+            if (IncomeSeriesCollection != null)
+            {
+                IncomeSeriesCollection.Add(incomeSeries);
+            }
+
+            // Use the dates as labels
+            if (Labels != null)
+            {
+                foreach (var date in profitData.Keys)
+                {
+                    Labels.Add(date.ToString("dd/MM/yyyy"));
+                }
+            }
         }
+
+
+
 
         private void ExecuteUpdateIncomeChart(object parameter)
         {

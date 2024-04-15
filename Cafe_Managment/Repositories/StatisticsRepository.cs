@@ -63,36 +63,37 @@ namespace Cafe_Managment.Repositories
             return dishData;
         }
 
-        public double GetProfitForTimePeriod(DateTime startDate, DateTime endDate)
+        public Dictionary<DateTime, double> GetProfitForTimePeriod(DateTime startDate, DateTime endDate)
         {
-            double totalProfit = 0.0;
+            Dictionary<DateTime, double> profits = new Dictionary<DateTime, double>();
 
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
             {
-                using (var connection = GetConnection())
-                using (var command = new MySqlCommand())
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"
+            SELECT DATE(CreatedAt) as Date, SUM(TotalPrice) as Profit
+            FROM orders
+            WHERE CreatedAt >= @startDate AND CreatedAt <= @endDate
+            GROUP BY DATE(CreatedAt)";
+
+                command.Parameters.AddWithValue("@startDate", startDate);
+                command.Parameters.AddWithValue("@endDate", endDate);
+
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    command.Connection = connection;
-                    command.CommandText = @"
-                    SELECT SUM(TotalPrice)
-                    FROM orders
-                    WHERE CreatedAt >= @startDate AND CreatedAt <= @endDate";
-
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                    while (reader.Read())
                     {
-                        command.Parameters.AddWithValue("@startDate", startDate);
-                        command.Parameters.AddWithValue("@endDate", endDate);
-
-                        object result = command.ExecuteScalar();
-                        if (result != DBNull.Value)
-                        {
-                            totalProfit = Convert.ToDouble(result);
-                        }
+                        DateTime date = reader.GetDateTime("Date");
+                        double profit = reader.GetDouble("Profit");
+                        profits[date] = profit;
                     }
                 }
-
-                return totalProfit;
             }
+
+            return profits;
         }
+
     }
 }
