@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafe_Managment.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,40 @@ namespace Cafe_Managment.View
         public Order()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var item = button.DataContext;
+                
+                var listBox = FindParent<ListBox>(button);
+                if (listBox != null)
+                {
+                    listBox.SelectedItem = item;
+                    listBox.SelectedIndex = listBox.Items.IndexOf(item);
+                }
+                // Выполнение команды
+                var viewModel = DataContext as OrderVM;
+                if (viewModel != null)
+                {
+                    if (viewModel.SwitchToCategoryCommand.CanExecute(item))
+                    {
+                        viewModel.SwitchToCategoryCommand.Execute(item);
+                    }
+                }
+            }
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+
+            T parent = parentObject as T;
+            return parent ?? FindParent<T>(parentObject);
         }
     }
 }

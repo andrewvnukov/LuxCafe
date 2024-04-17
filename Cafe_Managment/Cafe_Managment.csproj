@@ -137,13 +137,11 @@
     <Compile Include="Controls\BindblePassBox.xaml.cs">
       <DependentUpon>BindblePassBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Category.xaml.cs">
-      <DependentUpon>Category.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Dish.xaml.cs">
       <DependentUpon>Dish.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GridLengthAnimation.cs" />
+    <Compile Include="Model\Category.cs" />
     <Compile Include="Model\DishData.cs" />
     <Compile Include="Model\EmpData.cs" />
     <Compile Include="Model\IDeletedDataRepository.cs" />
@@ -230,10 +228,6 @@
     <Compile Include="View\ViewWindow.xaml.cs">
       <DependentUpon>ViewWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\Category.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\Dish.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

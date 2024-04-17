@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Cafe_Managment.Controls;
+using Cafe_Managment.Model;
 using Cafe_Managment.Utilities;
 
 namespace Cafe_Managment.ViewModel
@@ -14,7 +14,7 @@ namespace Cafe_Managment.ViewModel
     {
         int _selectedCategory;
         List<Category> _categoryList;
-        List<Dish> _dishList;
+        List<DishData> _dishList;
         public List<Category> CategoryList
         {
             get { return _categoryList; }
@@ -28,7 +28,7 @@ namespace Cafe_Managment.ViewModel
             set { _selectedCategory = value; OnPropertyChanged(nameof(SelectedCategory)); }
         }
 
-        public List<Dish> DishList
+        public List<DishData> DishList
         {
             get { return _dishList; }
             set { _dishList = value; OnPropertyChanged(nameof(DishList)); }
