@@ -21,6 +21,7 @@ namespace Cafe_Managment.Model
         public string UpdatedAt { get; set; }
         public string BranchId { get; set; }
         public string Price { get; set; }
+        public string ImageSource { get; set; }
 
     }
 }

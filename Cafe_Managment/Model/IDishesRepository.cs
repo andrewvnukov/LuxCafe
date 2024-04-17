@@ -17,6 +17,6 @@ namespace Cafe_Managment.Model
         void UpdateDish(DishData dish);
         void DeleteDish(DishData dish);
         void TransferDishToActiveMenu(DishData dish);
-
+        List<DishData> GetDishListByCategory(int CatId);
     }
 }

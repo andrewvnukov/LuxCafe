@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:StatisticVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,15 +18,19 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Начало периода:" Margin="5"/>
-                <DatePicker x:Name="startDatePicker" Margin="5" SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
+                <DatePicker x:Name="startDatePicker" Margin="5" 
+                            SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Конец периода:" Margin="5"/>
-                <DatePicker x:Name="endDatePicker" Margin="5" SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
+                <DatePicker x:Name="endDatePicker" Margin="5"
+                            SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            <Button Content="Обновить" HorizontalAlignment="Center" Margin="5" Style="{DynamicResource DefaultButton}" Command="{Binding UpdateIncomeChartx}"/>
+                    <Button Content="Обновить" HorizontalAlignment="Center" Margin="5" Style="{DynamicResource DefaultButton}" Command="{Binding FillIncomeChartx}"/>
+                </StackPanel>
             <lvc:CartesianChart Height="250" Width="1000" Name="incomeChart" Margin="10 0 0 20" HorizontalAlignment="Center">
                 <lvc:CartesianChart.AxisX>
                     <lvc:Axis LabelsRotation="0" Width="1000" Height="260" Margin="0 0 0 20" Labels= "{Binding Labels}"/>
@@ -56,4 +60,5 @@
             </lvc:PieChart>
         </StackPanel>
     </Grid>
+    </ScrollViewer>
 </UserControl>

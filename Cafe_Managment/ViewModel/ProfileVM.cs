@@ -83,6 +83,9 @@ namespace Cafe_Managment.ViewModel
 
             CurrentData = new EmpData
             {
+                Name = UserData.Name,
+                Surname = UserData.Surname,
+                Patronomic = UserData.Patronomic,
                 Address = UserData.Address,
                 Email = UserData.Email,
                 BirthDay = UserData.BirthDay,

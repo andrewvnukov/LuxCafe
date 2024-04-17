@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using ExCSS;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace Cafe_Managment.Repositories
 {
@@ -235,6 +236,52 @@ namespace Cafe_Managment.Repositories
 
                 connection.Close();
             }
+        }
+
+        public List<DishData> GetDishListByCategory(int CatId)
+        {
+            List<DishData> result = new List<DishData>();
+
+            using(var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = $@"SELECT
+                                        a.Title,
+                                        a.Description,
+                                        a.Composition,
+                                        am.Price,
+                                        am.Id
+                                    FROM activemenu am
+                                    INNER JOIN disharchive a ON am.DishId = a.Id
+                                    WHERE am.BranchId = {UserData.BranchId}
+                                        AND a.CategoryId = {CatId}";
+                try
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(new DishData
+                            {
+                                Title = reader[0].ToString(),
+                                Description = reader[1].ToString(),
+                                Composition = reader[2].ToString(),
+                                Price = reader[3].ToString(),
+                                Id = reader.GetInt32(4)
+                            }) ;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                connection.Close();
+            }
+
+            return result;
         }
     }
 }

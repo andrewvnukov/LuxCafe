@@ -15,7 +15,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
                       Grid.Column="0">
@@ -29,44 +29,103 @@
                 </ListBox.Template>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button
-                            Background="Transparent"
+                        <Button Background="Transparent"
                     Margin="5"
-                            Click="Button_Click">
-                            <Border CornerRadius="10"
-                                    BorderBrush="{DynamicResource AccientColor1}"
-                                    BorderThickness="1"
-                                    >        
-                                <Border.Background>
-                                    <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
-                                </Border.Background>
-                                <Grid>
-                                    <StackPanel>
-                                        <Image Source="{Binding ImagePath}"/>
-                                        <TextBlock Style="{DynamicResource Text_Headline2}"
-                                               Text="{Binding Name}"
-                                               FontSize="16"
-                                                   Margin="5 0 5 0"/>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
+                    Click="Button_Click"
+                    BorderThickness="0">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border x:Name="BorderElement"
+                                            CornerRadius="10"
+                                            BorderBrush="{DynamicResource AccientColor1}"
+                                            BorderThickness="1">
+                                        <Border.Background>
+                                            <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                                        </Border.Background>
+                                        <Grid>
+                                            <StackPanel>
+                                                <Image Source="{Binding ImagePath}"/>
+                                                <TextBlock Style="{DynamicResource Text_Headline2}"
+                                                           Text="{Binding Name}"
+                                                           FontSize="16"
+                                                           Margin="5 0 5 0"
+                                                           TextWrapping="WrapWithOverflow"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
-              Grid.Column="1">
+                        Grid.Column="1">
             <ListBox
-             
+             ItemsSource="{Binding DishList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedDish}"
              HorizontalAlignment="Center">
                 <ListBox.Template>
                     <ControlTemplate>
-                        <WrapPanel IsItemsHost="True"
-                           ItemWidth="150"
-                           />
+                        <WrapPanel IsItemsHost="True" ItemWidth="auto"/>
                     </ControlTemplate>
                 </ListBox.Template>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            MaxWidth="200"
+                            Width="auto"
+                            Background="Transparent"
+                            Margin="5">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Border CornerRadius="10"
+                                            BorderBrush="{DynamicResource AccientColor1}"
+                                            BorderThickness="1">
+                                        <Border.Background>
+                                            <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                                        </Border.Background>
+                                        <Grid>
+                                            <StackPanel>
+                                                <Image Source="{Binding ImageSource}"/>
+                                                <TextBlock Style="{DynamicResource Text_Headline2}"
+                                                           Text="{Binding Title}"
+                                                           HorizontalAlignment="Center"
+                                                           TextAlignment="Center"
+                                                           FontSize="16"
+                                                           Margin="5 0 5 0"
+                                                           TextWrapping="WrapWithOverflow"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            
+                        </Button>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                Grid.Column="2"
+              
+              >
+            <ListBox
+     ItemsSource="{Binding DishList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+     HorizontalAlignment="Center">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <WrapPanel IsItemsHost="True" ItemWidth="auto"/>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text=""/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
     </Grid>

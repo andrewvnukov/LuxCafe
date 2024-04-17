@@ -53,14 +53,18 @@ namespace Cafe_Managment.ViewModel
         public SeriesCollection IncomeSeriesCollection
         {
             get { return _incomeSeriesCollection; }
-            set { _incomeSeriesCollection = value; }
+            set { _incomeSeriesCollection = value;
+                OnPropertyChanged(nameof(IncomeSeriesCollection));
+            }
         }
 
         private ObservableCollection<string> _labels;
         public ObservableCollection<string> Labels
         {
             get { return _labels; }
-            set { _labels = value; }
+            set { _labels = value;
+                OnPropertyChanged(nameof(Labels));
+            }
         }
 
 
@@ -137,7 +141,7 @@ namespace Cafe_Managment.ViewModel
             Dictionary<DateTime, double> profitData = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
 
             // Clear existing data
-            IncomeSeriesCollection.Clear();
+            IncomeSeriesCollection= new SeriesCollection();
 
             // Create new series
             ColumnSeries incomeSeries = new ColumnSeries
@@ -174,10 +178,7 @@ namespace Cafe_Managment.ViewModel
             }
 
             // Clear existing data
-            if (IncomeSeriesCollection != null)
-            {
-                IncomeSeriesCollection.Clear();
-            }
+
             if (Labels != null)
             {
                 Labels.Clear();
@@ -219,10 +220,6 @@ namespace Cafe_Managment.ViewModel
         private void LoadData()
         {
             // Подготовка данных для диаграммы дохода
-
-
-            FillIncomeChart(StartDate, EndDate);
-            // Подготовка данных для диаграммы популярных блюд
             PopularDishesSeriesCollection = new SeriesCollection();
             PopularDishesSeriesCollection.Add(new PieSeries
             {
@@ -231,6 +228,9 @@ namespace Cafe_Managment.ViewModel
                 DataLabels = true, // Отображать метки данных
                 LabelPoint = point => $"{point.Y} ({point.Participation:P})", // Формат меток данных
             });
+            FillIncomeChart(StartDate, EndDate);
+            // Подготовка данных для диаграммы популярных блюд
+            
 
             // Подготовка данных для диаграммы непопулярных блюд
             UnpopularDishesSeriesCollection = new SeriesCollection();
@@ -241,11 +241,6 @@ namespace Cafe_Managment.ViewModel
                 DataLabels = true, // Отображать метки данных
                 LabelPoint = point => $"{point.Y} ({point.Participation:P})", // Формат меток данных
             });
-        }
-
-        protected new void OnPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

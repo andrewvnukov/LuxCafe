@@ -281,7 +281,8 @@
                                    FontSize="{TemplateBinding FontSize}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontWeight="DemiBold">
+                                   FontWeight="DemiBold"
+                                   Margin="10 0 10 0">
                             <TextBlock.Foreground>
                                 <SolidColorBrush x:Name="TextColor" Color="LightGray"/>
                             </TextBlock.Foreground>
