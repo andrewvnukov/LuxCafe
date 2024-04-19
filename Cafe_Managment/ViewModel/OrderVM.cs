@@ -17,9 +17,13 @@ namespace Cafe_Managment.ViewModel
         DishesRepository dishesRepository;
         int _selectedCategory;
         object _selectedDish;
+        int _spotNumber;
+        int _guestCount;
         List<Category> _categoryList;
         List<DishData> _dishList;
-        List<(int Id, int Count, string Title)> _selectedDishes;
+        List<DishData> _selectedDishes;
+        List<DishData> tempL;
+        float _totalPrice;
         public List<Category> CategoryList
         {
             get { return _categoryList; }
@@ -32,6 +36,24 @@ namespace Cafe_Managment.ViewModel
             get { return _selectedCategory; }
             set { _selectedCategory = value; OnPropertyChanged(nameof(SelectedCategory)); }
         }
+        public float TotalPrice
+        {
+            get { return _totalPrice; }
+            set { _totalPrice = value;
+            OnPropertyChanged(nameof(TotalPrice));}
+        }
+        public int SpotNumber
+        {
+            get { return _spotNumber; }
+            set { _spotNumber = value;
+            OnPropertyChanged(nameof(SpotNumber));}
+        }
+        public int GuestCount
+        {
+            get { return _guestCount; }
+            set { _guestCount = value;
+            OnPropertyChanged(nameof(GuestCount));}
+        }
         public object SelectedDish
         {
             get { return _selectedDish; }
@@ -43,7 +65,7 @@ namespace Cafe_Managment.ViewModel
             set { _dishList = value; OnPropertyChanged(nameof(DishList)); }
         }
 
-        public List<(int Id, int Count, string Title)> SelectedDishes
+        public List<DishData> SelectedDishes
         {
             get { return _selectedDishes; }
             set { _selectedDishes = value; OnPropertyChanged(nameof(SelectedDishes)); }
@@ -59,7 +81,11 @@ namespace Cafe_Managment.ViewModel
             SwitchToCategoryCommand = new RelayCommand(ExecuteSwitchToCategoryCommand);
             AddDishToOrderCommand = new RelayCommand(ExecuteAddDishToOrderCommand);
 
+            TotalPrice = 0;
             CategoryList = new List<Category>();
+            SelectedDishes = new List<DishData>();
+            tempL = new List<DishData>();
+
             CategoryList.Add(new Category("Напитки", "/Images/Categories/Drinks.png"));
             CategoryList.Add(new Category("Закуски", "/Images/Categories/Snacks.png"));
             CategoryList.Add(new Category("Десерты", "/Images/Categories/Desserts.png"));
@@ -72,7 +98,33 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteAddDishToOrderCommand(object obj)
         {
-            DishData temp = SelectedDish as DishData;
+            bool IsInCart = false;
+            DishData temp = obj as DishData;
+            Debug.WriteLine(temp.Title);
+            foreach (DishData dish in tempL)
+            {
+                if (dish.Id == temp.Id) 
+                {   
+                    dish.Count += 1; 
+                    IsInCart = true;
+                    TotalPrice += float.Parse(dish.Price);
+                    break;
+                }
+                
+            }
+            if (!IsInCart)
+            {
+                tempL.Add(new DishData
+                {
+                    Id = temp.Id,
+                    Price = temp.Price,
+                    Title = temp.Title,
+                    Count = 1,
+                });
+                TotalPrice += float.Parse(temp.Price);
+            }
+            SelectedDishes = new List<DishData>();
+            SelectedDishes = tempL;
         }
 
         private void ExecuteSwitchToCategoryCommand(object obj)

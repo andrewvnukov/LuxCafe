@@ -59,5 +59,42 @@ namespace Cafe_Managment.View
             T parent = parentObject as T;
             return parent ?? FindParent<T>(parentObject);
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var item = button.DataContext;
+
+                var listBox = FindParent<ListBox>(button);
+                if (listBox != null)
+                {
+                    listBox.SelectedItem = item;
+                    listBox.SelectedIndex = listBox.Items.IndexOf(item);
+                }
+                // Выполнение команды
+                var viewModel = DataContext as OrderVM;
+                if (viewModel != null)
+                {
+                    if (viewModel.SwitchToCategoryCommand.CanExecute(item))
+                    {
+                        viewModel.AddDishToOrderCommand.Execute(item);
+                    }
+                }
+            }
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true; // Если не является числом или точкой, отменяем ввод
+            }
+            else
+            {
+                e.Handled = false;
+            }
+        }
     }
 }

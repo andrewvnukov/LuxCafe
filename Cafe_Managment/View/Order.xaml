@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -61,7 +62,8 @@
             </ListBox>
         </ScrollViewer>
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
-                        Grid.Column="1">
+                        Grid.Column="1"
+                      >
             <ListBox
              ItemsSource="{Binding DishList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectedItem="{Binding SelectedDish}"
@@ -77,7 +79,8 @@
                             MaxWidth="200"
                             Width="auto"
                             Background="Transparent"
-                            Margin="5">
+                            Margin="5"
+                            Click="Button_Click_1">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Border CornerRadius="10"
@@ -91,6 +94,7 @@
                                                 <Image Source="{Binding ImageSource}"/>
                                                 <TextBlock Style="{DynamicResource Text_Headline2}"
                                                            Text="{Binding Title}"
+                                                           Foreground="{DynamicResource AccientColor1}"
                                                            HorizontalAlignment="Center"
                                                            TextAlignment="Center"
                                                            FontSize="16"
@@ -107,26 +111,105 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden"
-                Grid.Column="2"
-              
-              >
-            <ListBox
-     ItemsSource="{Binding DishList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-     HorizontalAlignment="Center">
-                <ListBox.Template>
-                    <ControlTemplate>
-                        <WrapPanel IsItemsHost="True" ItemWidth="auto"/>
-                    </ControlTemplate>
-                </ListBox.Template>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text=""/>
+        <Border CornerRadius="0 0 10 0"
+                BorderThickness="1 0 0 0"
+                BorderBrush="White"
+                Grid.Column="2">
+            <Border.Background>
+                <SolidColorBrush Opacity="0.7" Color="{DynamicResource BorderGradientColor1}"/>
+            </Border.Background>
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Блюда в заказе" Style="{DynamicResource Text_Headline2}"/>
+                        <ListBox
+                            ItemsSource="{Binding SelectedDishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            HorizontalAlignment="Center"
+                            IsHitTestVisible="False"
+                            IsEnabled="True"
+                            Background="Transparent">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <WrapPanel IsItemsHost="True" ItemWidth="auto"
+                                               Orientation="Vertical"/>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="5">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{DynamicResource BorderGradientColor2}" Opacity="0.5"/>
+                                        </Border.Background>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}" Style="{DynamicResource Default_Text}"
+                                                       FontSize="16" Margin="5 0 0 0"
+                                                       Width="135" TextWrapping="WrapWithOverflow"/>
+                                            <TextBlock Text="{Binding Price}" 
+                                    Style="{DynamicResource Default_Text}" 
+                                    FontSize="16"
+                                    VerticalAlignment="Center"
+                                    Width="40"
+                                    TextWrapping="Wrap"/>
+                                            <StackPanel Orientation="Horizontal"
+                                            IsEnabled="True">
+                                                <Button Width="20" Height="20">
+                                                    <Icon:PackIconMaterial Kind="Minus"/>
+                                                </Button>
+                                                <TextBox Width="30" Height="20"
+                                                         Text="{Binding Count}"/>
+                                                <Button Width="20" Height="20">
+                                                    <Icon:PackIconMaterial Kind="Plus"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+                <Border Background="#EEEEEE"
+                        VerticalAlignment="Bottom"
+                        Height="125">
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="Итоговая цена"
+                                       FontSize="18"
+                                       FontWeight="DemiBold"
+                                       Margin="0 0 5 5"
+                                       HorizontalAlignment="Left"
+                                       Width="160"/>
+                            <TextBlock Text="{Binding TotalPrice, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       FontSize="18"
+                                       FontWeight="DemiBold"/>
                         </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
+                        <StackPanel HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="Номер столика"
+                                       FontSize="18"
+                                       Width="160"
+                                       Margin="0 0 5 5"/>
+                            <TextBox Text="{Binding SpotNumber, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       FontSize="18"
+                                       FontWeight="DemiBold"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="Количество гостей"
+                                       FontSize="18"
+                                       Width="160"
+                                       Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding GuestCount, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                       FontSize="18"
+                                       FontWeight="DemiBold"
+                                       PreviewTextInput="TextBox_PreviewTextInput"/>
+                        </StackPanel>
+                        <Button Content="Оформить" Style="{DynamicResource DefaultButton}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
