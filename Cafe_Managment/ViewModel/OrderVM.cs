@@ -73,6 +73,7 @@ namespace Cafe_Managment.ViewModel
 
         public ICommand SwitchToCategoryCommand { get; set; }
         public ICommand AddDishToOrderCommand { get; set; }
+        public ICommand DescreaseDishCommand { get; set; }
 
         public OrderVM() 
         {
@@ -80,6 +81,7 @@ namespace Cafe_Managment.ViewModel
 
             SwitchToCategoryCommand = new RelayCommand(ExecuteSwitchToCategoryCommand);
             AddDishToOrderCommand = new RelayCommand(ExecuteAddDishToOrderCommand);
+            DescreaseDishCommand = new RelayCommand(ExecuteDescreaseDishCommand);
 
             TotalPrice = 0;
             CategoryList = new List<Category>();
@@ -94,6 +96,31 @@ namespace Cafe_Managment.ViewModel
             CategoryList.Add(new Category("Основные блюда", "/Images/Categories/MainDish.png"));
             CategoryList.Add(new Category("Салаты", "/Images/Categories/Salad.png"));
             CategoryList.Add(new Category("Завтраки", "/Images/Categories/Breakfast.png"));
+        }
+
+        private void ExecuteDescreaseDishCommand(object obj)
+        {
+            DishData temp = obj as DishData;
+            foreach (DishData dish in tempL)
+            {
+                if (dish.Id == temp.Id)
+                {
+                    if (dish.Count == 1)
+                    {
+                        tempL.Remove(dish);
+                        TotalPrice -= float.Parse(dish.Price);
+                        break;
+                    }
+                    else
+                    {
+                        dish.Count -= 1;
+                        TotalPrice -= float.Parse(dish.Price);
+                        break;
+                    }
+                }
+            }
+            SelectedDishes = new List<DishData>();
+            SelectedDishes = tempL;
         }
 
         private void ExecuteAddDishToOrderCommand(object obj)

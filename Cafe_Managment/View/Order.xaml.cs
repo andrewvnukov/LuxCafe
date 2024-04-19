@@ -96,5 +96,42 @@ namespace Cafe_Managment.View
                 e.Handled = false;
             }
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var item = button.DataContext;
+
+                var listBox = FindParent<ListBox>(button);
+                if (listBox != null)
+                {
+                    listBox.SelectedItem = item;
+                    listBox.SelectedIndex = listBox.Items.IndexOf(item);
+                }
+                // Выполнение команды
+                var viewModel = DataContext as OrderVM;
+                if (viewModel != null)
+                {
+                        viewModel.AddDishToOrderCommand.Execute(item);
+                }
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var item = button.DataContext;
+                // Выполнение команды
+                var viewModel = DataContext as OrderVM;
+                if (viewModel != null)
+                {
+                    viewModel.DescreaseDishCommand.Execute(item);
+                }
+            }
+        }
     }
 }

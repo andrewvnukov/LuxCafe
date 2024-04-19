@@ -17,6 +17,8 @@ namespace Cafe_Managment.ViewModel
 {
     internal class StatisticVM : ViewModelBase
     {
+        double _graphWidth;
+
 
 
         public ICommand UpdateIncomeChartx { get; set; }
@@ -27,28 +29,6 @@ namespace Cafe_Managment.ViewModel
         StatisticsRepository statisticsRepository;
         public new event PropertyChangedEventHandler PropertyChanged;
 
-        //private SeriesCollection _incomeSeriesCollection;
-        //public SeriesCollection IncomeSeriesCollection
-        //{
-        //    get { return _incomeSeriesCollection; }
-        //    set
-        //    {
-        //        _incomeSeriesCollection = value;
-        //        OnPropertyChanged(nameof(IncomeSeriesCollection));
-        //    }
-        //}
-
-        //private ObservableCollection<string> _labels;
-        //public ObservableCollection<string> Labels
-        //{
-        //    get { return _labels; }
-        //    set
-        //    {
-        //        _labels = value;
-        //        OnPropertyChanged(nameof(Labels));
-        //    }
-        //}
-
         private SeriesCollection _incomeSeriesCollection;
         public SeriesCollection IncomeSeriesCollection
         {
@@ -57,6 +37,13 @@ namespace Cafe_Managment.ViewModel
                 OnPropertyChanged(nameof(IncomeSeriesCollection));
             }
         }
+
+        public double GraphWidth
+        {
+            get { return _graphWidth; }
+            set { _graphWidth = value;
+            OnPropertyChanged(nameof(GraphWidth));}
+        } 
 
         private ObservableCollection<string> _labels;
         public ObservableCollection<string> Labels

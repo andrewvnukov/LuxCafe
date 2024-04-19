@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafe_Managment.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace Cafe_Managment.View
         public Statistic()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            StatisticVM vm= DataContext as StatisticVM;
+            vm.GraphWidth = e.NewSize.Width*0.95;
         }
     }
 }
