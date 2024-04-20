@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="Controls\GridLengthAnimation.cs" />
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\ChequeModel.cs" />
     <Compile Include="Model\DishData.cs" />
     <Compile Include="Model\EmpData.cs" />
     <Compile Include="Model\IDeletedDataRepository.cs" />

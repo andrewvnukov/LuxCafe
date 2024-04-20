@@ -25,6 +25,8 @@ using System.Windows.Resources;
 using ExCSS;
 using System.Xml.Linq;
 using System.Diagnostics;
+using Cafe_Managment.Controls;
+using System.Diagnostics.Metrics;
 
 namespace Cafe_Managment.Repositories
 {
@@ -281,6 +283,95 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
 
+            return result;
+        }
+
+        public int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice)
+        {
+            long insertedId;
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            { 
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = $@"INSERT orders (EmployeeId, BranchId, TotalPrice, GuestCount, Spot, CreatedAt)
+                                            VALUES
+                                            ({UserData.Id}, {UserData.BranchId},
+                                            {totalPrice}, {guestCount}, {spot}, NOW())";
+                try
+                {
+                    command.ExecuteNonQuery();
+                    insertedId = command.LastInsertedId;
+                }
+                catch (Exception)
+                {
+                    return 1;
+                }
+                foreach(DishData dish in dishList)
+                {
+                    command.CommandText = $@"INSERT orderdetails (DishId, OrderId, Quantity)
+                                            VALUES
+                                            ({dish.Id}, {insertedId}, {dish.Count})";
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+                return 0;
+            }
+        }
+
+        public List<ChequeModel> GetActiveOrders()
+        {
+            List<ChequeModel> result = new List<ChequeModel>();
+            List<DishData> dishTemp = new List<DishData>();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = $@"SELECT Id, TotalPrice, GuestCount, Spot, CreatedAt
+                                        FROM orders WHERE BranchId={UserData.BranchId} AND IsReady=0";
+                using(var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        dishTemp = new List<DishData>();
+                        using (var connection2 = GetConnection())
+                        using (var command2 = new MySqlCommand())
+                        {
+                            connection2.Open();
+                            command2.Connection = connection2;
+                            command2.CommandText = $@"SELECT 
+                                                    a.Title,
+                                                    od.Quantity
+                                                    FROM orderdetails od
+                                                    INNER JOIN activemenu am ON am.Id = od.DishId
+                                                    INNER JOIN disharchive a ON a.Id = am.DishId
+                                                    WHERE od.OrderId = {reader[0].ToString()}";
+                            using (var reader2 = command2.ExecuteReader())
+                            { 
+                                while (reader2.Read())
+                                {
+                                    dishTemp.Add(new DishData
+                                    {
+                                        Title = reader2[0].ToString(),
+                                        Count = reader2.GetInt32(1)
+                                    });
+                                }
+                            }
+                        }
+                        result.Add(new ChequeModel
+                        {
+                            Id = reader.GetInt32(0),
+                            TotalPrice = reader.GetFloat(1),
+                            GuestNumber = reader.GetInt32(2),
+                            SpotNumber = reader.GetInt32(3),
+                            CreatedAt = reader.GetDateTime(4),
+                            dishes = dishTemp
+                        });
+                    }
+                }
+            }
             return result;
         }
     }

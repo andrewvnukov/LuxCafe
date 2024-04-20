@@ -4,9 +4,135 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <UserControl.DataContext>
+        <vm:KitchenVM/>
+    </UserControl.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <StackPanel>
+            <TextBlock Text="Кухня" Style="{DynamicResource Text_Headline1}"/>
+            <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="10"
+                 HorizontalAlignment="Left">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        SnapsToDevicePixels="True">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <WrapPanel IsItemsHost="True" ItemWidth="auto" ItemHeight="auto"/>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="10"
+                                    BorderBrush="{DynamicResource AccientColor1}"
+                                    BorderThickness="1">
+                            <Border.Background>
+                                <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                            </Border.Background>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="25"/>
+                                </Grid.RowDefinitions>
+                                <Border BorderThickness="0 0 0 2" BorderBrush="#EEEEEE"
+                                        Background="Transparent"
+                                        Grid.Row="0"/>
+                                <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE"
+                                        Background="Transparent"
+                                        Grid.Row="2"/>
+                                <StackPanel Orientation="Horizontal"
+                                            Grid.Row="0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="5 0 5 0">
+                                                                    <TextBlock Text="Заказ №" 
+                                               Style="{DynamicResource Text_Headline3}"/>
+                                                                    <TextBlock Text="{Binding Id}" 
+                                               Style="{DynamicResource Text_Headline3}"/>
+                                </StackPanel>
+                                <ListBox ItemsSource="{Binding dishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Margin="10"
+                                         HorizontalAlignment="Left"
+                                         Grid.Row="1">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                SnapsToDevicePixels="True">
+                                                            <ContentPresenter />
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.Template>
+                                        <ControlTemplate>
+                                            <WrapPanel IsItemsHost="True" ItemWidth="auto"
+                                                       Orientation="Vertical"/>
+                                        </ControlTemplate>
+                                    </ListBox.Template>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="5"
+                                                    BorderBrush="{DynamicResource AccientColor1}"
+                                                    BorderThickness="1"
+                                                    Height="Auto">
+                                                <Border.Background>
+                                                    <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                                                </Border.Background>
+                                                <Grid Margin="5 1 5 1">
+                                                    <TextBlock Text="{Binding Title}" Style="{DynamicResource Default_Text}"
+                                                               HorizontalAlignment="Left"
+                                                               TextWrapping="WrapWithOverflow"
+                                                               Margin="0 0 20 0"
+                                                               MaxWidth="200"/>
+                                                    <TextBlock Text="{Binding Count}" Style="{DynamicResource Default_Text}"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="0 0 1 0" BorderBrush="#EEEEEE"
+                                            Background="Transparent"
+                                            Grid.Column="0"/>
+                                    <TextBlock Grid.Column="0" Text="{Binding GuestNumber}" Style="{DynamicResource Default_Text}"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding SpotNumber}" Style="{DynamicResource Default_Text}"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

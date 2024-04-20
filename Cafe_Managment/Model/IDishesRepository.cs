@@ -18,5 +18,8 @@ namespace Cafe_Managment.Model
         void DeleteDish(DishData dish);
         void TransferDishToActiveMenu(DishData dish);
         List<DishData> GetDishListByCategory(int CatId);
+        List<ChequeModel> GetActiveOrders();
+        int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice);
+        
     }
 }

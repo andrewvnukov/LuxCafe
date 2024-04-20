@@ -74,6 +74,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand SwitchToCategoryCommand { get; set; }
         public ICommand AddDishToOrderCommand { get; set; }
         public ICommand DescreaseDishCommand { get; set; }
+        public ICommand CreateOrderCommand { get; set; }
 
         public OrderVM() 
         {
@@ -82,7 +83,10 @@ namespace Cafe_Managment.ViewModel
             SwitchToCategoryCommand = new RelayCommand(ExecuteSwitchToCategoryCommand);
             AddDishToOrderCommand = new RelayCommand(ExecuteAddDishToOrderCommand);
             DescreaseDishCommand = new RelayCommand(ExecuteDescreaseDishCommand);
+            CreateOrderCommand = new RelayCommand(ExecuteCreateOrderCommand, CanExecuteCreateOrderCommand);
 
+            SpotNumber = 0;
+            GuestCount = 0;
             TotalPrice = 0;
             CategoryList = new List<Category>();
             SelectedDishes = new List<DishData>();
@@ -96,6 +100,28 @@ namespace Cafe_Managment.ViewModel
             CategoryList.Add(new Category("Основные блюда", "/Images/Categories/MainDish.png"));
             CategoryList.Add(new Category("Салаты", "/Images/Categories/Salad.png"));
             CategoryList.Add(new Category("Завтраки", "/Images/Categories/Breakfast.png"));
+        }
+
+        private bool CanExecuteCreateOrderCommand(object arg)
+        {
+            return (GuestCount >0 && SpotNumber >0);
+        }
+
+        private void ExecuteCreateOrderCommand(object obj)
+        {
+            switch(dishesRepository.CreateNewOrder(tempL, SpotNumber, GuestCount, TotalPrice)){
+                case 0:
+                    MessageBox.Show("Заказ успешно оформлен!");
+                    SelectedDishes = new List<DishData>();
+                    tempL = new List<DishData>();
+                    SpotNumber = 0;
+                    GuestCount = 0;
+                    TotalPrice = 0;
+                    break;
+                case 1:
+                    MessageBox.Show("Ошибка при оформлении заказа!");
+                    break;
+            }
         }
 
         private void ExecuteDescreaseDishCommand(object obj)
