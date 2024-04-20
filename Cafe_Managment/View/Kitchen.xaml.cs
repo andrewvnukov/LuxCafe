@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafe_Managment.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,52 @@ namespace Cafe_Managment.View
         public Kitchen()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var item = button.DataContext;
+                var listBox = FindParent<ListBox>(button);
+                if (listBox != null)
+                {
+                    listBox.SelectedItem = item;
+                    listBox.SelectedIndex = listBox.Items.IndexOf(item);
+                }
+                // Выполнение команды
+                var viewModel = DataContext as KitchenVM;
+                if (viewModel != null)
+                {
+                    viewModel.ChangeDishStatusCommand.Execute(listBox.SelectedIndex);
+                }
+            }
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+
+            T parent = parentObject as T;
+            return parent ?? FindParent<T>(parentObject);
+        }
+
+        private void Border_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var button = sender as Border;
+            if (button != null)
+            {
+                var item = button.DataContext;
+
+                var listBox = FindParent<ListBox>(button);
+                if (listBox != null)
+                {
+                    listBox.SelectedItem = item;
+                    listBox.SelectedIndex = listBox.Items.IndexOf(item);
+                }
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Cafe_Managment.Model
         public string Price { get; set; }
         public string ImageSource { get; set; }
         public int Count { get; set; }
+        public int Status { get; set; }
 
     }
 }

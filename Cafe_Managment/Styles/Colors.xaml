@@ -6,10 +6,12 @@
     <SolidColorBrush x:Key="SecondaryColor1" Color="#393E46"/>
     <SolidColorBrush x:Key="SecondaryColor2" Color="#7396D1"/>
     <SolidColorBrush x:Key="AccientColor1" Color="#bbbca5"/>
+    <SolidColorBrush x:Key="AccientColor2" Color="#eeefd8"/>
 
     <!--Font pallete-->
     <SolidColorBrush x:Key="HeadLineTextColor1" Color="#7896D6"/>
     <SolidColorBrush x:Key="NormalTextColor1" Color="#EEEEEE"/>
+    <SolidColorBrush x:Key="ContrastTextColor" Color="#222222"/>
     <Color x:Key="Color_NormalText1">#EEEEEE</Color>
     <Color x:Key="Color_HiddenText1">#8d95a2</Color>
     

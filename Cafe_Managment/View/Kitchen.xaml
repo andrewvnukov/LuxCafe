@@ -5,17 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+             xmlns:lvc="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
         <vm:KitchenVM/>
     </UserControl.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Grid>
+        <TextBlock Text="{Binding EmptyMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   Style="{DynamicResource Text_Headline2}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+            
         <StackPanel>
             <TextBlock Text="Кухня" Style="{DynamicResource Text_Headline1}"/>
-            <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                <Button Style="{DynamicResource GridInfoButton}"
+                        HorizontalAlignment="Left"
+                        Margin="10"
+                        Command="{Binding ReloadCommand}">
+                    <lvc:PackIconMaterial Kind="Reload" Foreground="{DynamicResource NormalTextColor1}"/>
+                </Button>
+                <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                     SelectedIndex="{Binding SelectedCheque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Margin="10"
-                 HorizontalAlignment="Left">
+                 HorizontalAlignment="Left"
+                     >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Template">
@@ -41,7 +56,9 @@
                     <DataTemplate>
                         <Border CornerRadius="10"
                                     BorderBrush="{DynamicResource AccientColor1}"
-                                    BorderThickness="1">
+                                    BorderThickness="1"
+                                PreviewMouseDown="Border_PreviewMouseDown"
+                                >
                             <Border.Background>
                                 <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
                             </Border.Background>
@@ -69,7 +86,7 @@
                                 </StackPanel>
                                 <ListBox ItemsSource="{Binding dishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          Margin="10"
-                                         HorizontalAlignment="Left"
+                                         HorizontalAlignment="Center"
                                          Grid.Row="1">
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">
@@ -95,6 +112,7 @@
                                     </ListBox.Template>
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
                                             <Border CornerRadius="5"
                                                     BorderBrush="{DynamicResource AccientColor1}"
                                                     BorderThickness="1"
@@ -102,31 +120,96 @@
                                                 <Border.Background>
                                                     <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
                                                 </Border.Background>
-                                                <Grid Margin="5 1 5 1">
-                                                    <TextBlock Text="{Binding Title}" Style="{DynamicResource Default_Text}"
+                                                <Grid Margin="5 1 5 1"
+                                                      Width="200">
+                                                    <TextBlock Text="{Binding Title}"
                                                                HorizontalAlignment="Left"
                                                                TextWrapping="WrapWithOverflow"
                                                                Margin="0 0 20 0"
-                                                               MaxWidth="200"/>
-                                                    <TextBlock Text="{Binding Count}" Style="{DynamicResource Default_Text}"
+                                                               MaxWidth="200"
+                                                               Style="{DynamicResource DefaultContrast16_Text}"/>
+                                                    <TextBlock Text="{Binding Count}"
                                                                HorizontalAlignment="Right"
-                                                               VerticalAlignment="Center"/>
+                                                               VerticalAlignment="Center"
+                                                               Style="{DynamicResource DefaultContrast16_Text}"/>
                                                 </Grid>
                                             </Border>
+                                                <Button Margin="5"
+                                                        Click="Button_Click">
+                                                    <Button.Template>
+                                                        <ControlTemplate>
+                                                            <Border Background="Transparent"
+                                                                    Margin="0">
+                                                            <lvc:PackIconMaterial x:Name="icon"/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                                                    <Setter TargetName="icon" Property="Kind" Value="Fire"/>
+                                                                    <Setter TargetName="icon" Property="Foreground">
+                                                                        <Setter.Value>
+                                                                            <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
+                                                                                <LinearGradientBrush.GradientStops>
+                                                                                    <GradientStop Offset="0" Color="Red"/>
+                                                                                    <GradientStop Offset="0.7" Color="Orange"/>
+                                                                                    <GradientStop Offset="1" Color="Orange"/>
+                                                                                </LinearGradientBrush.GradientStops>
+                                                                            </LinearGradientBrush>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="1">
+                                                                    <Setter TargetName="icon" Property="Kind" Value="Watch"/>
+                                                                    <Setter TargetName="icon" Property="Foreground" Value="SandyBrown"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="2">
+                                                                    <Setter TargetName="icon" Property="Kind" Value="CheckBold"/>
+                                                                    <Setter TargetName="icon" Property="Foreground" Value="Green"/>
+                                                                
+                                                                </DataTrigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
                                 
                                 <Grid Grid.Row="2">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
                                     <Border BorderThickness="0 0 1 0" BorderBrush="#EEEEEE"
                                             Background="Transparent"
                                             Grid.Column="0"/>
-                                    <TextBlock Grid.Column="0" Text="{Binding GuestNumber}" Style="{DynamicResource Default_Text}"/>
-                                    <TextBlock Grid.Column="1" Text="{Binding SpotNumber}" Style="{DynamicResource Default_Text}"/>
+                                    <StackPanel Grid.Column="0"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Center"
+                                                Margin="5 0 0 0">
+                                        <TextBlock  Text="Кол-во гостей" 
+                                                    Style="{DynamicResource Default_Text}"
+                                                    Margin="5 0 5 0"
+                                                    FontSize="16"/>
+                                        <TextBlock  Text="{Binding GuestNumber}" 
+                                                    Style="{DynamicResource Default_Text}"
+                                                    Margin="5 0 5 0"
+                                                    FontSize="16"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Center"
+                                                Margin="5 0 5 0">
+                                        <TextBlock  Text="Номер стола" 
+                                                    Style="{DynamicResource Default_Text}"
+                                                    Margin="5 0 5 0"
+                                                    FontSize="16"/>
+                                        <TextBlock  Text="{Binding SpotNumber}" 
+                                                    Style="{DynamicResource Default_Text}"
+                                                    Margin="5 0 5 0"
+                                                    FontSize="16"/>
+                                    </StackPanel>
                                 </Grid>
                             </Grid>
                         </Border>
@@ -134,5 +217,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
+        </Grid>
     </ScrollViewer>
 </UserControl>

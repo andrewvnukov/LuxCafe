@@ -38,6 +38,15 @@
         <Setter Property="Margin" Value="20,0,0,0"/>
 
     </Style>
+    <Style x:Key="DefaultContrast16_Text" TargetType="TextBlock">
+
+        <Setter Property="FontFamily" Value="/Fonts/Montserrat"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Foreground" Value="{DynamicResource AccientColor2}"/>
+        <Setter Property="FontSize" Value="16"/>
+
+    </Style>
 
     <Style x:Key="LittleText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="/Fonts/Montserrat"/>

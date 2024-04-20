@@ -211,8 +211,6 @@ namespace Cafe_Managment.Repositories
                 connection.Close();
             }
         }
-
-
         public void TransferDishToActiveMenu(DishData dish)
         {
             using (var connection = GetConnection())
@@ -343,7 +341,9 @@ namespace Cafe_Managment.Repositories
                             command2.Connection = connection2;
                             command2.CommandText = $@"SELECT 
                                                     a.Title,
-                                                    od.Quantity
+                                                    od.Quantity,
+                                                    od.Status,
+                                                    od.Id
                                                     FROM orderdetails od
                                                     INNER JOIN activemenu am ON am.Id = od.DishId
                                                     INNER JOIN disharchive a ON a.Id = am.DishId
@@ -355,7 +355,9 @@ namespace Cafe_Managment.Repositories
                                     dishTemp.Add(new DishData
                                     {
                                         Title = reader2[0].ToString(),
-                                        Count = reader2.GetInt32(1)
+                                        Count = reader2.GetInt32(1),
+                                        Status = reader2.GetInt32(2),
+                                        Id = reader2.GetInt32(3)
                                     });
                                 }
                             }
@@ -373,6 +375,56 @@ namespace Cafe_Managment.Repositories
                 }
             }
             return result;
+        }
+
+        public void UpdateStatus(DishData dish)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                try
+                {
+                    command.Connection = connection;
+                    command.CommandText = $@"UPDATE orderdetails
+                                SET 
+                                    Status = {dish.Status}
+                                WHERE
+                                    Id = {dish.Id}";
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
+        }
+
+        public void DoOrderReady(ChequeModel cheque)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                try
+                {
+                    command.Connection = connection;
+                    command.CommandText = $@"UPDATE orders
+                                SET 
+                                    IsReady = true
+                                WHERE
+                                    Id = {cheque.Id}";
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+            }
         }
     }
 }

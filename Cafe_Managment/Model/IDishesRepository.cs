@@ -20,6 +20,8 @@ namespace Cafe_Managment.Model
         List<DishData> GetDishListByCategory(int CatId);
         List<ChequeModel> GetActiveOrders();
         int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice);
+        void UpdateStatus(DishData dish);
+        void DoOrderReady(ChequeModel cheque);
         
     }
 }
