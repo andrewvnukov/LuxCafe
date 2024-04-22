@@ -11,7 +11,7 @@ using LiveCharts.Wpf;
 using Cafe_Managment.Repositories;
 using System.Windows.Input;
 using System.Windows;
-
+using Cafe_Managment.Model;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -23,10 +23,15 @@ namespace Cafe_Managment.ViewModel
 
         public ICommand UpdateIncomeChartx { get; set; }
         public ICommand FillIncomeChartx { get; set; }
+        public ICommand LoadPopularDishes { get; set; }
+        public ICommand LoadUnpopularDishes { get; set; }
+
 
         
 
         StatisticsRepository statisticsRepository;
+
+
         public new event PropertyChangedEventHandler PropertyChanged;
 
         private SeriesCollection _incomeSeriesCollection;
@@ -77,6 +82,19 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+
+        private SeriesCollection _trendSeriesCollection;
+        public SeriesCollection TrendSeriesCollection
+        {
+            get { return _trendSeriesCollection; }
+            set
+            {
+                _trendSeriesCollection = value;
+                OnPropertyChanged(nameof(TrendSeriesCollection));
+            }
+        }
+
+
         private DateTime _startDate;
         public DateTime StartDate
         {
@@ -85,9 +103,10 @@ namespace Cafe_Managment.ViewModel
             {
                 _startDate = value;
                 OnPropertyChanged(nameof(StartDate));
-                //LoadData(); // Перезагружаем данные при изменении начальной даты
             }
         }
+
+       
 
         private DateTime _endDate;
         public DateTime EndDate
@@ -109,16 +128,21 @@ namespace Cafe_Managment.ViewModel
             //// Устанавливаем начальную дату как конечную дату минус 30 дней
             StartDate = EndDate.AddDays(-30);
 
+            PopularDishesSeriesCollection = new SeriesCollection();
+            UnpopularDishesSeriesCollection = new SeriesCollection();
             // Инициализация IncomeSeriesCollection
             IncomeSeriesCollection = new SeriesCollection();
-            Labels = new ObservableCollection<string>(); // инициализация Labels
+            Labels = new ObservableCollection<string>(); 
 
             statisticsRepository = new StatisticsRepository();
             // Вызываем LoadData после инициализации IncomeSeriesCollection
             UpdateIncomeChartx = new RelayCommand(ExecuteUpdateIncomeChart);
+            LoadPopularDishes = new RelayCommand(ExecuteLoadPopularDishes);
+            LoadUnpopularDishes = new RelayCommand(ExecuteLoadUnpopularDishes);
 
             LoadData();
             FillIncomeChartx = new RelayCommand(ExecuteFillIncomeChart);
+
         }
 
 
@@ -194,7 +218,39 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        public void ExecuteLoadPopularDishes(object parameter)
+        {
+            var popularDishes = statisticsRepository.GetPopularDishes();
+            var series = new SeriesCollection();
 
+            foreach (var dish in popularDishes)
+            {
+                series.Add(new PieSeries
+                {
+                    Title = dish.Key,
+                    Values = new ChartValues<double> { dish.Value }
+                });
+            }
+
+            PopularDishesSeriesCollection = series;
+        }
+
+        public void ExecuteLoadUnpopularDishes(object parameter)
+        {
+            var unpopularDishes = statisticsRepository.GetUnpopularDishes();
+            var series = new SeriesCollection();
+
+            foreach (var dish in unpopularDishes)
+            {
+                series.Add(new PieSeries
+                {
+                    Title = dish.Key,
+                    Values = new ChartValues<double> { dish.Value }
+                });
+            }
+
+            UnpopularDishesSeriesCollection = series;
+        }
 
 
         private void ExecuteUpdateIncomeChart(object parameter)
@@ -206,28 +262,15 @@ namespace Cafe_Managment.ViewModel
 
         private void LoadData()
         {
-            // Подготовка данных для диаграммы дохода
-            PopularDishesSeriesCollection = new SeriesCollection();
-            PopularDishesSeriesCollection.Add(new PieSeries
-            {
-                Title = "Популярные блюда",
-                Values = new ChartValues<double> { 10, 20, 30 }, // Пример данных
-                DataLabels = true, // Отображать метки данных
-                LabelPoint = point => $"{point.Y} ({point.Participation:P})", // Формат меток данных
-            });
             FillIncomeChart(StartDate, EndDate);
-            // Подготовка данных для диаграммы популярных блюд
-            
 
-            // Подготовка данных для диаграммы непопулярных блюд
-            UnpopularDishesSeriesCollection = new SeriesCollection();
-            UnpopularDishesSeriesCollection.Add(new PieSeries
-            {
-                Title = "Непопулярные блюда",
-                Values = new ChartValues<double> { 5, 8, 12 }, // Пример данных
-                DataLabels = true, // Отображать метки данных
-                LabelPoint = point => $"{point.Y} ({point.Participation:P})", // Формат меток данных
-            });
+            ExecuteLoadPopularDishes(null);
+
+            // Вызов метода для загрузки данных о непопулярных блюдах
+            ExecuteLoadUnpopularDishes(null);
+
         }
+
+
     }
 }

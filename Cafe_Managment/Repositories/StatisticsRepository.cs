@@ -63,6 +63,10 @@ namespace Cafe_Managment.Repositories
             return dishData;
         }
 
+
+        
+
+
         public Dictionary<DateTime, double> GetProfitForTimePeriod(DateTime startDate, DateTime endDate)
         {
             Dictionary<DateTime, double> profits = new Dictionary<DateTime, double>();
@@ -94,6 +98,82 @@ namespace Cafe_Managment.Repositories
 
             return profits;
         }
+
+        public Dictionary<string, double> GetPopularDishes()
+        {
+            var popularDishes = new Dictionary<string, double>();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"
+            SELECT 
+                da.Title AS dish_name,
+                SUM(od.Quantity) AS total_quantity
+            FROM 
+                orderdetails od
+                JOIN activemenu am ON od.DishId = am.Id
+                JOIN disharchive da ON am.DishId = da.Id
+            GROUP BY 
+                da.Title
+            ORDER BY 
+                total_quantity DESC
+            LIMIT 5"; // Возвращаем 10 самых популярных блюд
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string dishName = reader.GetString("dish_name");
+                        double totalQuantity = reader.GetDouble("total_quantity");
+                        popularDishes.Add(dishName, totalQuantity);
+                    }
+                }
+            }
+
+            return popularDishes;
+        }
+
+        public Dictionary<string, double> GetUnpopularDishes()
+        {
+            var unpopularDishes = new Dictionary<string, double>();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"
+            SELECT 
+                da.Title AS dish_name,
+                SUM(od.Quantity) AS total_quantity
+            FROM 
+                orderdetails od
+                JOIN activemenu am ON od.DishId = am.Id
+                JOIN disharchive da ON am.DishId = da.Id
+            GROUP BY 
+                da.Title
+            ORDER BY 
+                total_quantity ASC
+            LIMIT 5"; // Возвращаем 10 самых непопулярных блюд
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string dishName = reader.GetString("dish_name");
+                        double totalQuantity = reader.GetDouble("total_quantity");
+                        unpopularDishes.Add(dishName, totalQuantity);
+                    }
+                }
+            }
+
+            return unpopularDishes;
+        }
+
+
 
     }
 }

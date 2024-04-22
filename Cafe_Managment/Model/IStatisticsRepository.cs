@@ -15,5 +15,7 @@ namespace Cafe_Managment.Model
     {
         Dictionary<DateTime, double> GetProfitForTimePeriod(DateTime startDate, DateTime endDate);
         Dictionary<string, double> GetDishDataFromDatabase();
+        Dictionary<string, double> GetUnpopularDishes();
+        Dictionary<string, double> GetPopularDishes();
     }
 }

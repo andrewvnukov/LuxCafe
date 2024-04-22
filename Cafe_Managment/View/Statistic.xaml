@@ -64,22 +64,23 @@
         </StackPanel>
 
             <StackPanel Orientation="Horizontal" 
-                        Grid.Row="1"
-                        HorizontalAlignment="Center">
-        <StackPanel  Margin="10">
-            <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart"  Margin="10 10" Series="{Binding PopularDishesSeriesCollection}">
-                <!-- Определение серий для диаграммы популярности блюд -->
-            </lvc:PieChart>
-        </StackPanel>
+            Grid.Row="1"
+            HorizontalAlignment="Center">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart" Margin="10 10" Series="{Binding PopularDishesSeriesCollection}">
+                        <!-- Определение серий для диаграммы популярности блюд -->
+                    </lvc:PieChart>
+                </StackPanel>
 
                 <StackPanel Margin="10">
-            <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
-                <!-- Определение серий для диаграммы популярности блюд -->
-            </lvc:PieChart>
-        </StackPanel>
+                    <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
+                        <!-- Определение серий для диаграммы популярности блюд -->
+                    </lvc:PieChart>
+                </StackPanel>
             </StackPanel>
+
         </Grid>
     </ScrollViewer>
 </UserControl>
