@@ -174,6 +174,97 @@ namespace Cafe_Managment.Repositories
         }
 
 
+        public List<DishData> GetDishPopularityTrend(int dishId, DateTime startDate, DateTime endDate)
+        {
+            List<DishData> trendData = new List<DishData>();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+
+                // SQL-запрос для получения количества заказов блюда по дням в заданном периоде
+                command.CommandText = @"
+                SELECT DATE(orders.CreatedAt) AS OrderDate, COUNT(*) AS OrderCount
+                FROM orderdetails
+                JOIN orders ON orderdetails.OrderId = orders.Id
+                WHERE orderdetails.DishId = @DishId
+                  AND orders.CreatedAt BETWEEN @StartDate AND @EndDate
+                GROUP BY OrderDate
+                ORDER BY OrderDate";
+
+                command.Parameters.AddWithValue("@DishId", dishId);
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        DishData dishData = new DishData
+                        {
+                            Id = dishId,
+                            CreatedAt = reader.GetDateTime("OrderDate"),
+                            Count = reader.GetInt32("OrderCount")
+                        };
+
+                        trendData.Add(dishData);
+                    }
+                }
+            }
+
+            return trendData;
+        }
+
+        public IEnumerable<DishData> GetAllDishes()
+        {
+            List<DishData> dishes = new List<DishData>();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"SELECT 
+                                  am.Id,
+                                  c.Title AS Category, 
+                                  da.Title AS DishName,
+                                  da.Description AS Description, 
+                                  da.Composition AS Composition,
+                                  am.Price AS Price,                                     
+                                  am.TransferedAt AS CreatedAt,
+                                  am.UpdatedAt AS UpdatedAt
+                                FROM activemenu am
+                                INNER JOIN disharchive da ON am.DishId = da.Id
+                                INNER JOIN categories c ON da.CategoryId = c.Id";
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                // Преобразование DataTable в список DishData
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    DishData dish = new DishData
+                    {
+                        Id = Convert.ToInt32(row["Id"]),
+                        CategoryId = Convert.ToInt32(row["Category"]), // или используйте строковое значение
+                        Title = row["DishName"].ToString(),
+                        Description = row["Description"].ToString(),
+                        Composition = row["Composition"].ToString(),
+                        
+                        Price = row["Price"].ToString() // Преобразование в строку
+                    };
+
+                    dishes.Add(dish);
+                }
+
+                connection.Close();
+            }
+
+            return dishes;
+        }
 
     }
 }

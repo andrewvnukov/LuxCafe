@@ -12,22 +12,28 @@ using Cafe_Managment.Repositories;
 using System.Windows.Input;
 using System.Windows;
 using Cafe_Managment.Model;
+using Cafe_Managment.Controls;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class StatisticVM : ViewModelBase
     {
         double _graphWidth;
-
+        public ObservableCollection<DishData> AllDishes { get; set; }
+        public DishData SelectedDish { get; set; }
+    
 
 
         public ICommand UpdateIncomeChartx { get; set; }
         public ICommand FillIncomeChartx { get; set; }
         public ICommand LoadPopularDishes { get; set; }
         public ICommand LoadUnpopularDishes { get; set; }
+        public ICommand LoadTrendCommand { get; set; }
 
 
-        
+
+        public ObservableCollection<string> TrendLabels { get; set; }
+
 
         StatisticsRepository statisticsRepository;
 
@@ -130,6 +136,9 @@ namespace Cafe_Managment.ViewModel
 
             PopularDishesSeriesCollection = new SeriesCollection();
             UnpopularDishesSeriesCollection = new SeriesCollection();
+            LoadTrendCommand = new RelayCommand(ExecuteLoadTrendCommand);
+
+            // Предварительная загрузка всех блюд в комбобокс
             // Инициализация IncomeSeriesCollection
             IncomeSeriesCollection = new SeriesCollection();
             Labels = new ObservableCollection<string>(); 
@@ -146,6 +155,26 @@ namespace Cafe_Managment.ViewModel
         }
 
 
+        public void ExecuteLoadTrendCommand(object parameter)
+        {
+            if (SelectedDish == null) return; // Убедиться, что выбрано блюдо
+
+            // Получение данных о популярности из репозитория
+            var trends = statisticsRepository.GetDishPopularityTrend(SelectedDish.Id, StartDate, EndDate);
+
+            // Создание новой серии для графика
+            var lineSeries = new LineSeries
+            {
+                Title = SelectedDish.Title,
+                Values = new ChartValues<int>(trends.Select(t => t.Count))
+            };
+
+            // Обновление данных в графике
+            TrendSeriesCollection = new SeriesCollection { lineSeries };
+
+            // Обновление меток по осям
+            Labels = new ObservableCollection<string>(trends.Select(t => t.CreatedAt.ToString("yyyy-MM-dd")));
+        }
 
         private void FillIncomeChart(DateTime startDate, DateTime endDate)
         {

@@ -17,5 +17,6 @@ namespace Cafe_Managment.Model
         Dictionary<string, double> GetDishDataFromDatabase();
         Dictionary<string, double> GetUnpopularDishes();
         Dictionary<string, double> GetPopularDishes();
+        IEnumerable<DishData> GetAllDishes();
     }
 }

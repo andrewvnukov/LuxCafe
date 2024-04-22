@@ -17,13 +17,14 @@ namespace Cafe_Managment.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public string Composition { get; set; }
-        public string CreatedAt { get; set; }
-        public string UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public string BranchId { get; set; }
         public string Price { get; set; }
         public string ImageSource { get; set; }
         public int Count { get; set; }
         public int Status { get; set; }
+        public int OrderCount { get; set; }
 
     }
 }

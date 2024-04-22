@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0"
@@ -80,6 +81,34 @@
                     </lvc:PieChart>
                 </StackPanel>
             </StackPanel>
+
+            <StackPanel Grid.Row="3">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Выберите блюдо:" />
+                    <ComboBox ItemsSource="{Binding AllDishes}" SelectedItem="{Binding SelectedDish}" Width="150" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Дата начала:" />
+                    <DatePicker SelectedDate="{Binding StartDate}" Width="150" />
+
+                    <TextBlock Text="Дата конца:" />
+                    <DatePicker SelectedDate="{Binding EndDate}" Width="150" />
+                </StackPanel>
+
+                <Button Content="Загрузить тенденции" Command="{Binding LoadTrendCommand}" />
+
+                <lvc:CartesianChart Series="{Binding TrendSeriesCollection}">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Дата" Labels="{Binding Labels}" />
+                    </lvc:CartesianChart.AxisX>
+
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Количество заказов" />
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </StackPanel>
+
 
         </Grid>
     </ScrollViewer>
