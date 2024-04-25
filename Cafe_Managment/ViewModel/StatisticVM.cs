@@ -13,14 +13,13 @@ using System.Windows.Input;
 using System.Windows;
 using Cafe_Managment.Model;
 using Cafe_Managment.Controls;
+using System.Diagnostics;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class StatisticVM : ViewModelBase
     {
         double _graphWidth;
-        public ObservableCollection<DishData> AllDishes { get; set; }
-        public DishData SelectedDish { get; set; }
     
 
 
@@ -32,7 +31,6 @@ namespace Cafe_Managment.ViewModel
 
 
 
-        public ObservableCollection<string> TrendLabels { get; set; }
 
 
         StatisticsRepository statisticsRepository;
@@ -62,6 +60,29 @@ namespace Cafe_Managment.ViewModel
             get { return _labels; }
             set { _labels = value;
                 OnPropertyChanged(nameof(Labels));
+            }
+        }
+
+        private ObservableCollection<string> _trendlabels;
+        public ObservableCollection<string> TrendLabels
+        {
+            get { return _trendlabels; }
+            set
+            {
+                _trendlabels = value;
+                OnPropertyChanged(nameof(TrendLabels));
+            }
+        }
+
+        private DishData selectedDish;
+
+        public DishData SelectedDish
+        {
+            get { return selectedDish; }
+            set
+            {
+                selectedDish = value;
+                OnPropertyChanged();
             }
         }
 
@@ -100,6 +121,18 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        private ObservableCollection<DishData> allDishes;
+
+        public ObservableCollection<DishData> AllDishes
+        {
+            get { return allDishes; }
+            set
+            {
+                allDishes = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private DateTime _startDate;
         public DateTime StartDate
@@ -128,36 +161,50 @@ namespace Cafe_Managment.ViewModel
 
         public StatisticVM()
         {
-            //// Устанавливаем конечную дату в текущую дату
+            // Инициализация репозитория
+            statisticsRepository = new StatisticsRepository();  // Убедитесь, что аргументы передаются корректно, например, строка подключения
+
+            // Устанавливаем конечную дату в текущую дату
             EndDate = DateTime.Today;
 
-            //// Устанавливаем начальную дату как конечную дату минус 30 дней
+            // Устанавливаем начальную дату как конечную дату минус 30 дней
             StartDate = EndDate.AddDays(-30);
 
+            // Инициализация коллекций
             PopularDishesSeriesCollection = new SeriesCollection();
             UnpopularDishesSeriesCollection = new SeriesCollection();
+
+            // Инициализация ObservableCollection для AllDishes
+            var dishes = statisticsRepository.GetAllDishes();  // Здесь statisticsRepository уже инициализирован
+            AllDishes = new ObservableCollection<DishData>(dishes);
+
+            // Инициализация команд
             LoadTrendCommand = new RelayCommand(ExecuteLoadTrendCommand);
-
-            // Предварительная загрузка всех блюд в комбобокс
-            // Инициализация IncomeSeriesCollection
-            IncomeSeriesCollection = new SeriesCollection();
-            Labels = new ObservableCollection<string>(); 
-
-            statisticsRepository = new StatisticsRepository();
-            // Вызываем LoadData после инициализации IncomeSeriesCollection
-            UpdateIncomeChartx = new RelayCommand(ExecuteUpdateIncomeChart);
             LoadPopularDishes = new RelayCommand(ExecuteLoadPopularDishes);
             LoadUnpopularDishes = new RelayCommand(ExecuteLoadUnpopularDishes);
+            UpdateIncomeChartx = new RelayCommand(ExecuteUpdateIncomeChart);
 
+            // Инициализация дополнительных данных
+            IncomeSeriesCollection = new SeriesCollection();
+            Labels = new ObservableCollection<string>();
+            TrendLabels = new ObservableCollection<string>();
+
+            // Вызываем LoadData после инициализации всех команд и коллекций
             LoadData();
-            FillIncomeChartx = new RelayCommand(ExecuteFillIncomeChart);
+        }
 
+
+        public List<DishData> GetAllDishes()
+        {
+            List<DishData> dishes = new List<DishData>();
+            // Заполнение данными
+            return dishes;
         }
 
 
         public void ExecuteLoadTrendCommand(object parameter)
         {
-            if (SelectedDish == null) return; // Убедиться, что выбрано блюдо
+            if (SelectedDish == null || StartDate == null || EndDate == null) return; // Проверка на null
 
             // Получение данных о популярности из репозитория
             var trends = statisticsRepository.GetDishPopularityTrend(SelectedDish.Id, StartDate, EndDate);
@@ -173,8 +220,9 @@ namespace Cafe_Managment.ViewModel
             TrendSeriesCollection = new SeriesCollection { lineSeries };
 
             // Обновление меток по осям
-            Labels = new ObservableCollection<string>(trends.Select(t => t.CreatedAt.ToString("yyyy-MM-dd")));
+            TrendLabels = new ObservableCollection<string>(trends.Select(t => t.CreatedAt.ToString("yyyy-MM-dd")));
         }
+
 
         private void FillIncomeChart(DateTime startDate, DateTime endDate)
         {
@@ -286,8 +334,6 @@ namespace Cafe_Managment.ViewModel
         {
             UpdateIncomeChart(StartDate, EndDate);
         }
-
-
 
         private void LoadData()
         {

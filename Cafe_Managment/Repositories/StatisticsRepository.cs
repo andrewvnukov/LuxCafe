@@ -120,7 +120,7 @@ namespace Cafe_Managment.Repositories
                 da.Title
             ORDER BY 
                 total_quantity DESC
-            LIMIT 5"; // Возвращаем 10 самых популярных блюд
+            LIMIT 5"; // Возвращаем 5 самых популярных блюд
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -157,7 +157,7 @@ namespace Cafe_Managment.Repositories
                 da.Title
             ORDER BY 
                 total_quantity ASC
-            LIMIT 5"; // Возвращаем 10 самых непопулярных блюд
+            LIMIT 5"; // Возвращаем 5 самых непопулярных блюд
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -184,15 +184,15 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
                 command.Connection = connection;
 
-                // SQL-запрос для получения количества заказов блюда по дням в заданном периоде
+                // SQL-запрос для получения суммарного количества порций блюда по дням в заданном периоде
                 command.CommandText = @"
-                SELECT DATE(orders.CreatedAt) AS OrderDate, COUNT(*) AS OrderCount
-                FROM orderdetails
-                JOIN orders ON orderdetails.OrderId = orders.Id
-                WHERE orderdetails.DishId = @DishId
-                  AND orders.CreatedAt BETWEEN @StartDate AND @EndDate
-                GROUP BY OrderDate
-                ORDER BY OrderDate";
+        SELECT DATE(orders.CreatedAt) AS OrderDate, SUM(orderdetails.Quantity) AS TotalQuantity
+        FROM orderdetails
+        JOIN orders ON orderdetails.OrderId = orders.Id
+        WHERE orderdetails.DishId = @DishId
+          AND orders.CreatedAt BETWEEN @StartDate AND @EndDate
+        GROUP BY OrderDate
+        ORDER BY OrderDate";
 
                 command.Parameters.AddWithValue("@DishId", dishId);
                 command.Parameters.AddWithValue("@StartDate", startDate);
@@ -206,7 +206,7 @@ namespace Cafe_Managment.Repositories
                         {
                             Id = dishId,
                             CreatedAt = reader.GetDateTime("OrderDate"),
-                            Count = reader.GetInt32("OrderCount")
+                            Count = reader.GetInt32("TotalQuantity") // Используем суммарное количество порций
                         };
 
                         trendData.Add(dishData);
@@ -217,6 +217,7 @@ namespace Cafe_Managment.Repositories
             return trendData;
         }
 
+
         public IEnumerable<DishData> GetAllDishes()
         {
             List<DishData> dishes = new List<DishData>();
@@ -226,38 +227,33 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = @"SELECT 
+                command.CommandText = @"SELECT
                                   am.Id,
-                                  c.Title AS Category, 
-                                  da.Title AS DishName,
-                                  da.Description AS Description, 
-                                  da.Composition AS Composition,
-                                  am.Price AS Price,                                     
-                                  am.TransferedAt AS CreatedAt,
-                                  am.UpdatedAt AS UpdatedAt
+                                  da.Title AS Title,
+                                  da.Description,
+                                  da.Composition,
+                                  am.Price,                                     
+                                  am.TransferedAt AS CreatedAt
                                 FROM activemenu am
                                 INNER JOIN disharchive da ON am.DishId = da.Id
                                 INNER JOIN categories c ON da.CategoryId = c.Id";
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
-
-                // Преобразование DataTable в список DishData
-                foreach (DataRow row in dataTable.Rows)
+                using (var reader = command.ExecuteReader())
                 {
-                    DishData dish = new DishData
+                    while (reader.Read())
                     {
-                        Id = Convert.ToInt32(row["Id"]),
-                        CategoryId = Convert.ToInt32(row["Category"]), // или используйте строковое значение
-                        Title = row["DishName"].ToString(),
-                        Description = row["Description"].ToString(),
-                        Composition = row["Composition"].ToString(),
-                        
-                        Price = row["Price"].ToString() // Преобразование в строку
-                    };
+                        var dish = new DishData
+                        {
+                            Id = reader.GetInt32("Id"),
+                            Title = reader.GetString("Title"),  // Убедитесь, что столбец существует
+                            Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? string.Empty : reader.GetString("Description"),
+                            Composition = reader.IsDBNull(reader.GetOrdinal("Composition")) ? string.Empty : reader.GetString("Composition"),
+                            CreatedAt = reader.GetDateTime("CreatedAt"), // Предполагаем, что поле обязательно
+                            Price = reader.IsDBNull(reader.GetOrdinal("Price")) ? "0.00" : reader.GetDecimal("Price").ToString("F2")  // Безопасное преобразование
+                        };
 
-                    dishes.Add(dish);
+                        dishes.Add(dish);
+                    }
                 }
 
                 connection.Close();
@@ -265,6 +261,7 @@ namespace Cafe_Managment.Repositories
 
             return dishes;
         }
+
 
     }
 }

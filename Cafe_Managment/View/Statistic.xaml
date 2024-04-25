@@ -23,12 +23,12 @@
                     Margin="0">
                 <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Начало периода:" Margin="5"/>
+                        <TextBlock Text="Начало периода:" Margin="5" Style="{DynamicResource Text_Headline3}"/>
                 <DatePicker x:Name="startDatePicker" Margin="5" 
                             SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Конец периода:" Margin="5"/>
+                        <TextBlock Text="Конец периода:" Margin="5" Style="{DynamicResource Text_Headline3}"/>
                 <DatePicker x:Name="endDatePicker" Margin="5"
                             SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
@@ -68,14 +68,14 @@
             Grid.Row="1"
             HorizontalAlignment="Center">
                 <StackPanel Margin="10">
-                    <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource Text_Headline3}"/>
                     <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart" Margin="10 10" Series="{Binding PopularDishesSeriesCollection}">
                         <!-- Определение серий для диаграммы популярности блюд -->
                     </lvc:PieChart>
                 </StackPanel>
 
                 <StackPanel Margin="10">
-                    <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource Text_Headline3}"/>
                     <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
                         <!-- Определение серий для диаграммы популярности блюд -->
                     </lvc:PieChart>
@@ -83,24 +83,29 @@
             </StackPanel>
 
             <StackPanel Grid.Row="3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                    <TextBlock Text="Выберите блюдо:" Style="{DynamicResource Text_Headline3}" Margin="5 0 5 0"/>
+                    <ComboBox ItemsSource="{Binding AllDishes}" DisplayMemberPath="Title" 
+                    SelectedItem="{Binding SelectedDish}" Width="150" Margin="5 0 0 10"/>
+                </StackPanel>
+
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="Выберите блюдо:" />
-                    <ComboBox ItemsSource="{Binding AllDishes}" SelectedItem="{Binding SelectedDish}" Width="150" />
+
+                    <TextBlock Text="Начало периода:" Style="{DynamicResource Text_Headline3}" Margin="5"/>
+                    <DatePicker SelectedDate="{Binding StartDate}" Width="150" Margin="5"/>
+
+                    <TextBlock Text="Конец периода:" Style="{DynamicResource Text_Headline3}" Margin="5"/>
+                    <DatePicker SelectedDate="{Binding EndDate}" Width="150" Margin="5"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Дата начала:" />
-                    <DatePicker SelectedDate="{Binding StartDate}" Width="150" />
-
-                    <TextBlock Text="Дата конца:" />
-                    <DatePicker SelectedDate="{Binding EndDate}" Width="150" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 15" >
+                    <Button Content="Загрузить тенденции" Command="{Binding LoadTrendCommand}" Width="250"
+                        Style="{DynamicResource DefaultButton}"  />
                 </StackPanel>
 
-                <Button Content="Загрузить тенденции" Command="{Binding LoadTrendCommand}" />
-
-                <lvc:CartesianChart Series="{Binding TrendSeriesCollection}">
+                <lvc:CartesianChart Series="{Binding TrendSeriesCollection}" Height="200" Margin="0 0 10 15">
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Дата" Labels="{Binding Labels}" />
+                        <lvc:Axis Title="Дата" Labels="{Binding TrendLabels}" />
                     </lvc:CartesianChart.AxisX>
 
                     <lvc:CartesianChart.AxisY>
@@ -108,8 +113,7 @@
                     </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>
             </StackPanel>
-
-
+        
         </Grid>
     </ScrollViewer>
 </UserControl>
