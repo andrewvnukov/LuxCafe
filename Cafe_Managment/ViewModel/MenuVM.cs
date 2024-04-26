@@ -299,34 +299,30 @@ namespace Cafe_Managment.ViewModel
                 OnPropertyChanged(nameof(tempArchvie));
             }
         }
+
         private void ExecuteTransferRowCommand(object parameter)
         {
             {
-                // Получаем информацию о выбранной строке
                 DataRowView dataRowView = SelectedItem as DataRowView;
 
-                // Получаем ID выбранного блюда
                 int dishId = int.Parse(tempArchvie.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
 
-                // Отображаем диалоговое окно с вопросом
-                MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите переместить это блюдо в активное меню?", "Подтверждение перемещения", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                updatePrice = new UpdatePrice();
 
-                // Если пользователь выбрал "Да", то перемещаем блюдо
-                if (result == MessageBoxResult.Yes)
+                updatePrice.IsVisibleChanged += (s, ev) =>
                 {
-                    // Создаем объект блюда для передачи в метод перемещения
-                    DishData dishToMove = new DishData
+                    if (!updatePrice.IsVisible && updatePrice.GetInput()!="")
                     {
-                        Id = dishId
-                    };
 
-                    // Перемещаем блюдо в активное меню
-                    dishesRepository.TransferDishToActiveMenu(dishToMove);
+                        DishData dishToMove = new DishData
+                        {
+                            Id = dishId,
+                            Price = updatePrice.GetInput()
+                        };
 
-                    // Обновляем интерфейс, если необходимо
-                    OnPropertyChanged(nameof(tempArchvie));
-                    OnPropertyChanged(nameof(ActiveMenu));
-                }
+                        dishesRepository.TransferDishToActiveMenu(dishToMove);
+                    }
+                };
             }
         }
         

@@ -145,6 +145,13 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        int _selectedIndexInTrend;
+        public int SelectedIndexInTrend
+        {
+            get { return _selectedIndexInTrend; }
+            set { _selectedIndexInTrend = value;
+            OnPropertyChanged(nameof(SelectedIndexInTrend));}
+        }
        
 
         private DateTime _endDate;
@@ -176,10 +183,14 @@ namespace Cafe_Managment.ViewModel
 
             // Инициализация ObservableCollection для AllDishes
             var dishes = statisticsRepository.GetAllDishes();  // Здесь statisticsRepository уже инициализирован
-            AllDishes = new ObservableCollection<DishData>(dishes);
+            IEnumerable<DishData> dish = dishes as IEnumerable<DishData>;
+            dish = dish.Append(new DishData { Title = "Выберите блюдо" });
+            AllDishes = new ObservableCollection<DishData>(dish);
+            SelectedIndexInTrend = AllDishes.Count-1;
+
 
             // Инициализация команд
-            LoadTrendCommand = new RelayCommand(ExecuteLoadTrendCommand);
+            LoadTrendCommand = new RelayCommand(ExecuteLoadTrendCommand, CanExecuteLoadTrendCommand);
             LoadPopularDishes = new RelayCommand(ExecuteLoadPopularDishes);
             LoadUnpopularDishes = new RelayCommand(ExecuteLoadUnpopularDishes);
             UpdateIncomeChartx = new RelayCommand(ExecuteUpdateIncomeChart);
@@ -193,6 +204,10 @@ namespace Cafe_Managment.ViewModel
             LoadData();
         }
 
+        private bool CanExecuteLoadTrendCommand(object arg)
+        {
+            return !(SelectedDish == null || StartDate == null || EndDate == null|| SelectedIndexInTrend == AllDishes.Count-1);
+        }
 
         public List<DishData> GetAllDishes()
         {
@@ -201,10 +216,8 @@ namespace Cafe_Managment.ViewModel
             return dishes;
         }
 
-
         public void ExecuteLoadTrendCommand(object parameter)
         {
-            if (SelectedDish == null || StartDate == null || EndDate == null) return; // Проверка на null
 
             // Получение данных о популярности из репозитория
             var trends = statisticsRepository.GetDishPopularityTrend(SelectedDish.Id, StartDate, EndDate);
@@ -222,7 +235,6 @@ namespace Cafe_Managment.ViewModel
             // Обновление меток по осям
             TrendLabels = new ObservableCollection<string>(trends.Select(t => t.CreatedAt.ToString("yyyy-MM-dd")));
         }
-
 
         private void FillIncomeChart(DateTime startDate, DateTime endDate)
         {
@@ -340,7 +352,6 @@ namespace Cafe_Managment.ViewModel
             FillIncomeChart(StartDate, EndDate);
 
             ExecuteLoadPopularDishes(null);
-
             // Вызов метода для загрузки данных о непопулярных блюдах
             ExecuteLoadUnpopularDishes(null);
 

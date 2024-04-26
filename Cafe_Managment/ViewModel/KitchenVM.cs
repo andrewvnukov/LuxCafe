@@ -93,32 +93,49 @@ namespace Cafe_Managment.ViewModel
         private void ExecuteChangeDishStatusCommand(object obj)
         {
             int dishIndex = (int)obj;
-            if (temp[SelectedCheque].dishes[dishIndex].Status == 0)
+            switch (temp[SelectedCheque].dishes[dishIndex].Status)
             {
-                temp[SelectedCheque].dishes[dishIndex].Status += 1;
-                dishesRepository.UpdateStatus(temp[SelectedCheque].dishes[dishIndex]);
-                UpdateLists(0);
-                
-            }
-            else
-            {
-                temp[SelectedCheque].dishes[dishIndex].Status += 1;
-                bool IsChequeReady = true;
-                foreach (var item in temp[SelectedCheque].dishes) 
-                {
-                    if (item.Status == 2) IsChequeReady = true;
-                    else { IsChequeReady = false; break; }
-                }
-                if (IsChequeReady)
-                {
-                    dishesRepository.DoOrderReady(temp[SelectedCheque]);
-
-                    UpdateLists(1);
-                }
-                else
-                {
+                case 0:
+                    temp[SelectedCheque].dishes[dishIndex].Status += 1;
+                    dishesRepository.UpdateStatus(temp[SelectedCheque].dishes[dishIndex]);
                     UpdateLists(0);
-                }
+                    break;
+                case 1:
+                    temp[SelectedCheque].dishes[dishIndex].Status += 1;
+
+                    if (temp[SelectedCheque].dishes[dishIndex].Count > 1)
+                    {
+                        temp[SelectedCheque].dishes[dishIndex].Count -= 1;
+                        temp[SelectedCheque].dishes[dishIndex].Status = 0;
+                    }
+                    else
+                    {
+                        if (temp[SelectedCheque].dishes[dishIndex].Count == 1)
+                        {
+                            temp[SelectedCheque].dishes.RemoveAt(dishIndex);
+                        }
+                    }
+
+                    bool IsChequeReady = true;
+
+                    foreach (var item in temp[SelectedCheque].dishes)
+                    {
+                        if (item.Status == 2) IsChequeReady = true;
+                        else { IsChequeReady = false; break; }
+                    }
+                    if (IsChequeReady)
+                    {
+                        dishesRepository.DoOrderReady(temp[SelectedCheque]);
+
+                        UpdateLists(1);
+                    }
+                    else
+                    {
+                        UpdateLists(0);
+                    }
+                    break;
+                case 2:
+                    break;
             }
         }
     }

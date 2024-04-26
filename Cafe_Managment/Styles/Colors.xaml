@@ -30,7 +30,6 @@
     <Color x:Key="PressedButtonColor1">#404D89</Color>
     <Color x:Key="PressedButtonColor2">#AAAAAA</Color>
     
-    
     <!--UpPanel colors-->
 
     <SolidColorBrush x:Key="AuthPanelBack" Color="#44435F"/>

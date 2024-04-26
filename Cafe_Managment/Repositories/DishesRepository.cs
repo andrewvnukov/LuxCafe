@@ -70,7 +70,7 @@ namespace Cafe_Managment.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
+                command.CommandText = $@"SELECT ROW_NUMBER() OVER() AS '№',
                                       am.Id,
                                       c.Title AS 'Раздел', 
                                       da.Title AS 'Название',
@@ -81,7 +81,8 @@ namespace Cafe_Managment.Repositories
                                       am.UpdatedAt AS 'Дата обновления цены'
                                 FROM activemenu am
                                 INNER JOIN disharchive da ON am.DishId = da.Id
-                                INNER JOIN categories c ON da.CategoryId = c.Id";
+                                INNER JOIN categories c ON da.CategoryId = c.Id
+                                WHERE am.BranchId = {UserData.BranchId}";
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 adapter.Fill(dataTable);
@@ -219,14 +220,23 @@ namespace Cafe_Managment.Repositories
                 connection.Open();
                 command.Connection = connection;
 
+                command.CommandText = $@"SELECT Id 
+                                        FROM activemenu
+                                        WHERE BranchId = {UserData.BranchId}
+                                                AND DishId = {dish.Id}";
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows) return;
+                }
                 command.CommandText = "SET foreign_key_checks = 0";
                 command.ExecuteNonQuery();
 
                 
-                command.CommandText = @"INSERT INTO activemenu (DishId, BranchId, Price, TransferedAt)
-                                VALUES (@Id, @branchId, 100, NOW())";
+                command.CommandText = $@"INSERT INTO activemenu (DishId, BranchId, Price, TransferedAt)
+                                VALUES (@Id, @branchId, @price, NOW())";
 
                 command.Parameters.AddWithValue("@Id", dish.Id); 
+                command.Parameters.AddWithValue("@price", dish.Price); 
                 command.Parameters.AddWithValue("@branchId", UserData.BranchId); 
 
                 command.ExecuteNonQuery();
