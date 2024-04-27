@@ -172,7 +172,8 @@
                               Grid.Row="0">
                     <StackPanel Orientation="Vertical"
                                 >
-                        <TextBlock Text="Блюда в заказе" Style="{DynamicResource Text_Headline2}"/>
+                        <TextBlock Text="Блюда в заказе" Style="{DynamicResource Text_Headline2}"
+                                   Foreground="Black"/>
                         <ListBox
                             ItemsSource="{Binding SelectedDishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             HorizontalAlignment="Center"
