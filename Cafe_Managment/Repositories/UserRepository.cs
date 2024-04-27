@@ -194,7 +194,6 @@ namespace Cafe_Managment.Repositories
         }
 
 
-
         public void GetById()
         {
             using (var connection = GetConnection())

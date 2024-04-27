@@ -142,11 +142,7 @@
                                     Command="{Binding OrderCommand}">
                         </menu:ButtonControl>
 
-                        <menu:ButtonControl Content="Удаленное" 
-                                            Tag="/Images/Deleted.png"
-                                    Style="{StaticResource DefaultRadioButton}"
-                                    Command="{Binding DeletedDataCommand}">
-                        </menu:ButtonControl>
+                        
                     </StackPanel>
                     <Button Style="{DynamicResource BackButton}"
                         Content="Назад" 
