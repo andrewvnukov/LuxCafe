@@ -51,7 +51,7 @@
                                 Width="{Binding GraphWidth,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
                                 >
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis LabelsRotation="0" Margin="0 0 0 0" Labels= "{Binding Labels}">
+                        <lvc:Axis LabelsRotation="35" Margin="0 0 0 0" Labels= "{Binding Labels}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Step="1"/>
                             </lvc:Axis.Separator>
@@ -94,13 +94,11 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="2">
-                <TextBlock Text="График продаж блюда" Style="{DynamicResource Text_Headline2}"
+                <TextBlock Text="Тенденция популярности блюда" Style="{DynamicResource Text_Headline2}"
                            Foreground="{DynamicResource AccientColor1}"
                            Margin="10"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                    <TextBlock Text="Выберите блюдо:" Style="{DynamicResource Text_Headline3}"
-                               Margin="5 0 5 0"
-                               Foreground="{DynamicResource AccientColor1}"/>
+                    
                     <ComboBox ItemsSource="{Binding AllDishes}" DisplayMemberPath="Title" 
                     SelectedItem="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               SelectedIndex="{Binding SelectedIndexInTrend,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -120,13 +118,13 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 15" >
-                    <Button Content="Загрузить тенденции" Command="{Binding LoadTrendCommand}" Width="250"
+                    <Button Content="Загрузить тенденцию" Command="{Binding LoadTrendCommand}" Width="250"
                         Style="{DynamicResource DefaultButton}"  />
                 </StackPanel>
 
                 <lvc:CartesianChart Series="{Binding TrendSeriesCollection}" Height="200" Margin="0 0 10 15">
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Дата" Labels="{Binding TrendLabels}" />
+                        <lvc:Axis LabelsRotation="35" Labels="{Binding TrendLabels}" />
                     </lvc:CartesianChart.AxisX>
 
                     <lvc:CartesianChart.AxisY>

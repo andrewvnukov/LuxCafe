@@ -65,6 +65,35 @@ namespace Cafe_Managment.Repositories
             return validUser;
         }
 
+        public DataTable GetDismissedEmployees()
+        {
+            DataTable dataTable = new DataTable();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
+                                        
+                                        c.Address AS 'Филиал', r.Title AS 'Роль', 
+                                        e.Name AS 'Имя', e.Surname AS 'Фамилия', 
+                                        e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
+                                        e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения', 
+                                        e.Address AS 'Адрес' 
+                                FROM dismissed_employees e 
+                                INNER JOIN Roles r ON e.RoleId = r.Id
+                                INNER JOIN Branches c ON e.BranchId = c.Id";
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                adapter.Fill(dataTable);
+
+                connection.Close();
+            }
+
+            return dataTable;
+        }
+
         public void Delete(int Id)
         {
             throw new NotImplementedException();

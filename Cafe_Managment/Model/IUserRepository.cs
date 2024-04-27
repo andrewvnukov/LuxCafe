@@ -29,5 +29,6 @@ namespace Cafe_Managment.Repositories
         bool GetByMac();   
         List<string> GetBranches();
         DataTable GetByAll();
+        DataTable GetDismissedEmployees();
     }
 }

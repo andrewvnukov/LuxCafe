@@ -22,6 +22,9 @@ namespace Cafe_Managment.Model
         int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice);
         void UpdateStatus(DishData dish);
         void DoOrderReady(ChequeModel cheque);
-        
+        DataTable RestoreDeletedDish(DishData dish);
+        DataTable GetAllDeletedDishes();
+
+
     }
 }

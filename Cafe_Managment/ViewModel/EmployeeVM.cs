@@ -21,6 +21,8 @@ namespace Cafe_Managment.ViewModel
         private int _selectedEmployee;
         private bool _isReadOnly;
         private object _selectedEmployeeItem;
+        private DataTable _dismissedEmployees;
+
 
         DataTable temp = new DataTable();
 
@@ -39,6 +41,11 @@ namespace Cafe_Managment.ViewModel
                 _isReadOnly = value;
                 OnPropertyChanged(nameof(IsReadOnly));
             }
+        }
+        public DataTable DismissedEmployees
+        {
+            get { return _dismissedEmployees; }
+            set { _dismissedEmployees = value; }
         }
 
         public int SelectedEmployee
@@ -79,6 +86,9 @@ namespace Cafe_Managment.ViewModel
             IsReadOnly = true;
 
             SelectedEmployee = -1;
+
+            DismissedEmployees = userRepository.GetDismissedEmployees();
+            IsReadOnly = true;
 
             HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
             FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
