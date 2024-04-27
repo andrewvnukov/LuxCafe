@@ -153,7 +153,7 @@ namespace Cafe_Managment.ViewModel
         {
             bool IsInCart = false;
             DishData temp = obj as DishData;
-            Debug.WriteLine(temp.Title);
+            //Debug.WriteLine(temp.Title);
             foreach (DishData dish in tempL)
             {
                 if (dish.Id == temp.Id) 
@@ -182,7 +182,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteSwitchToCategoryCommand(object obj)
         {
-            Debug.WriteLine(SelectedCategory.ToString());
+            //Debug.WriteLine(SelectedCategory.ToString());
             List<DishData> temp = dishesRepository.GetDishListByCategory(SelectedCategory+1);
             for (int i = 0; i < temp.Count; i++)
             {
