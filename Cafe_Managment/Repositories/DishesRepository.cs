@@ -495,8 +495,9 @@ namespace Cafe_Managment.Repositories
                     {
                         if (reader.HasRows)
                         {
-                            // Если блюдо уже есть в меню, прерываем выполнение
-                            return;
+                            // Если блюдо уже в меню, предупреждаем пользователя
+                            MessageBox.Show("Это блюдо уже есть в меню.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
+                            return; // Прерываем выполнение метода
                         }
                     }
 
@@ -518,23 +519,64 @@ namespace Cafe_Managment.Repositories
             }
             catch (MySqlException sqlEx)
             {
-                // Обработка ошибок MySQL
-                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
+                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                // Общая обработка ошибок
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                // Гарантированное закрытие соединения
                 if (connection != null && connection.State == ConnectionState.Open)
                 {
                     connection.Close();
                 }
             }
         }
+
+        public bool CheckDishInMenu(int dishId, int branchId)
+        {
+            MySqlConnection connection = null;
+
+            try
+            {
+                connection = GetConnection();
+                connection.Open();
+
+                using (var command = new MySqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = @"SELECT Id FROM activemenu WHERE BranchId = @BranchId AND DishId = @DishId";
+                    command.Parameters.AddWithValue("@BranchId", branchId);
+                    command.Parameters.AddWithValue("@DishId", dishId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows; // Если есть строки, блюдо уже в меню
+                    }
+                }
+            }
+            catch (MySqlException sqlEx)
+            {
+                // Обработка исключений MySQL
+                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                // Общая обработка исключений
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close(); // Гарантированное закрытие соединения
+                }
+            }
+
+            return false; // Если что-то пошло не так, предполагаем, что блюда в меню нет
+        }
+
 
 
         public List<DishData> GetDishListByCategory(int CatId)

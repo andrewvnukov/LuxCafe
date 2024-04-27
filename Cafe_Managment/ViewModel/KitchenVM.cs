@@ -125,7 +125,7 @@ namespace Cafe_Managment.ViewModel
                     }
                     if (IsChequeReady)
                     {
-                        dishesRepository.DoOrderReady(temp[SelectedCheque]);
+                        dishesRepository.IsOrderReady(temp[SelectedCheque]);
 
                         UpdateLists(1);
                     }

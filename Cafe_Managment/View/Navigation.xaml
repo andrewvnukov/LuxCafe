@@ -130,7 +130,7 @@
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding KitchenCommand}">
                         </menu:ButtonControl>
-                        <menu:ButtonControl Content="Меню" 
+                        <menu:ButtonControl Content="Блюда" 
                                             Tag="/Images/Menu.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding MenuCommand}">
