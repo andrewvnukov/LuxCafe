@@ -194,21 +194,14 @@
                            Style="{DynamicResource Text_Headline2}"
                            Foreground="{DynamicResource AccientColor1}"
                            VerticalAlignment="Top"
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                                   Margin="0 15"/>
 
                         <StackPanel>
 
-                            <Button Width="25" Margin="0 45 730 0" Style="{StaticResource GridInfoButton}"
-                       Command="{Binding DataContext.InfoCommandArchive, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
-                                <Button.DataContext>
-                                    <vn:DeletedDataVM/>
-                                </Button.DataContext>
-                                <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
-                            </Button>
-
                             <!--DeletedFromArchiveDataGrid-->
 
-                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 0 0 10" 
+                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 60 0 10" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 

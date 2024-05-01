@@ -429,8 +429,7 @@ namespace Cafe_Managment.ViewModel
                 "Внимание!!!", MessageBoxButton.YesNoCancel);
         }
         private void ExecuteInfoCommandMenu(object obj)
-        {
-            
+        {          
             MessageBox.Show("Изменению подлежит только стоимость блюда\n" +
                 "Остальные данные изменены не будут!!!",
                 "Внимание!!!", MessageBoxButton.YesNoCancel);

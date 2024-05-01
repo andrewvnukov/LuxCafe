@@ -22,7 +22,6 @@
             <StackPanel Grid.Row="0"
                     Margin="0">
                 <TextBlock Text="Статистика продаж" Style="{DynamicResource Text_Headline2}"
-                       Foreground="{DynamicResource AccientColor1}"
                            Margin="10"/>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
@@ -76,7 +75,6 @@
                 <StackPanel Margin="10">
                     <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                Style="{DynamicResource Text_Headline2}"
-                               Foreground="{DynamicResource AccientColor1}"
                                Margin="10"/>
                     <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart" Margin="10 10" Series="{Binding PopularDishesSeriesCollection}">
                         <!-- Определение серий для диаграммы популярности блюд -->
@@ -86,7 +84,6 @@
                 <StackPanel Margin="10">
                     <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"
                                Style="{DynamicResource Text_Headline2}"
-                               Foreground="{DynamicResource AccientColor1}"
                                Margin="10"/>
                     <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
                         <!-- Определение серий для диаграммы популярности блюд -->
@@ -95,7 +92,6 @@
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <TextBlock Text="Тенденция популярности блюда" Style="{DynamicResource Text_Headline2}"
-                           Foreground="{DynamicResource AccientColor1}"
                            Margin="10"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                     
