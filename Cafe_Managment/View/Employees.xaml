@@ -101,8 +101,48 @@
                             Height="40" Width="100" 
                             Margin="10,0,0,0"/>
                     </StackPanel>
+
+                    <TextBlock Text="Уволенные сотрудники" 
+                               Foreground="{DynamicResource AccientColor1}"
+                                Style="{DynamicResource Text_Headline2}"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center"/>
+
+                    <!--DismissedEmployeesDataGrid-->
+
+                    <Button Width="25" Margin="0 45 730 0" Style="{StaticResource GridInfoButton}"
+                       Command="{Binding DataContext.InfoCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
+                        <Button.DataContext>
+                            <vn:EmployeeVM/>
+                        </Button.DataContext>
+                        <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
+                    </Button>
+
+                    <DataGrid Grid.Row="6" x:Name="DismissedEmployeesDataGrid" 
+                              Margin="10 0 0 0" 
+                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                              CellStyle="{DynamicResource DataGridCellStyle1}" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding DismissedEmployees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding IsReadOnly}"
+                              CanUserReorderColumns="False"
+                              MaxHeight="420"
+                              VerticalScrollBarVisibility="Hidden"
+                              >
+                        <DataGrid.DataContext>
+                            <vn:EmployeeVM/>
+                        </DataGrid.DataContext>
+                        <DataGrid.Columns>
+
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
+                        </DataGrid.Resources>
+                    </DataGrid>
                 </StackPanel>
             </Grid>
+            
         </ScrollViewer>
     </Grid>
 </UserControl>

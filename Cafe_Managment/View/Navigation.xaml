@@ -130,7 +130,7 @@
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding KitchenCommand}">
                         </menu:ButtonControl>
-                        <menu:ButtonControl Content="Меню" 
+                        <menu:ButtonControl Content="Блюда" 
                                             Tag="/Images/Menu.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding MenuCommand}">
@@ -142,11 +142,7 @@
                                     Command="{Binding OrderCommand}">
                         </menu:ButtonControl>
 
-                        <menu:ButtonControl Content="Удаленное" 
-                                            Tag="/Images/Deleted.png"
-                                    Style="{StaticResource DefaultRadioButton}"
-                                    Command="{Binding DeletedDataCommand}">
-                        </menu:ButtonControl>
+                        
                     </StackPanel>
                     <Button Style="{DynamicResource BackButton}"
                         Content="Назад" 

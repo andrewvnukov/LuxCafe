@@ -189,6 +189,62 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
+                    <Grid Height="1000">
+                        <TextBlock Text="Удалённые из архива блюда" 
+                           Style="{DynamicResource Text_Headline2}"
+                           Foreground="{DynamicResource AccientColor1}"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                                   Margin="0 15"/>
+
+                        <StackPanel>
+
+                            <!--DeletedFromArchiveDataGrid-->
+
+                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 60 0 10" 
+                              
+                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
+                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
+                              CellStyle="{DynamicResource DataGridCellStyle1}" 
+                              Style="{DynamicResource DataGridStyle1}"
+                              ItemsSource="{Binding DeletedDishes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding IsReadOnly}"
+                              SelectedItem="{Binding SelectedItemDeletedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              CanUserReorderColumns="False"
+                              MaxHeight="420"
+                              VerticalScrollBarVisibility="Hidden"
+                              >
+
+                                <DataGrid.Columns>
+
+                                    <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Width="29" Margin="4 0 0 0">
+                                                    <Button Style="{StaticResource GridEditButton}"  
+                                                        Command="{Binding DataContext.RestoreDishCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                        <Button.DataContext>
+                                                            <vn:DeletedDataVM/>
+                                                        </Button.DataContext>
+                                                        <Icon:PackIconMaterial Kind="BackupRestore" Style="{StaticResource gridButtonIcon}"/>
+                                                    </Button>
+
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
+                                </DataGrid.Resources>
+                            </DataGrid>
+
+
+                        </StackPanel>
+                    </Grid>
+
                 </StackPanel>
             </Grid>
         </ScrollViewer>

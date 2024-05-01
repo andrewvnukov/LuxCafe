@@ -233,7 +233,7 @@ namespace Cafe_Managment.ViewModel
             TrendSeriesCollection = new SeriesCollection { lineSeries };
 
             // Обновление меток по осям
-            TrendLabels = new ObservableCollection<string>(trends.Select(t => t.CreatedAt.ToString("yyyy-MM-dd")));
+            TrendLabels = new ObservableCollection<string>(trends.Select(t => t.CreatedAt.ToString("dd/MM/yyyy")));
         }
 
         private void FillIncomeChart(DateTime startDate, DateTime endDate)

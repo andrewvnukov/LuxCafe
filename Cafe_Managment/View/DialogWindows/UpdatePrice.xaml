@@ -37,7 +37,7 @@
                      Tag="Новая цена"/>
             <Button Style="{DynamicResource DefaultButton}"
                     Command="{Binding SavePriceCommand}"
-                    Content="Сохранить"
+                    Content="Добавить"
                     VerticalAlignment="Bottom"
                     Margin="20"
                     Width="125"
