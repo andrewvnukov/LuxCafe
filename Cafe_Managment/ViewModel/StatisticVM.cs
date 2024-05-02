@@ -13,6 +13,10 @@ using System.Windows.Input;
 using System.Windows;
 using Cafe_Managment.Model;
 using Cafe_Managment.Controls;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
 using System.Diagnostics;
 
 namespace Cafe_Managment.ViewModel
@@ -20,10 +24,11 @@ namespace Cafe_Managment.ViewModel
     internal class StatisticVM : ViewModelBase
     {
         double _graphWidth;
-    
+        private Notifier _notifier;
 
 
-        public ICommand UpdateIncomeChartx { get; set; }
+
+        public ICommand ConfirmPeriodUpdatedCommand { get; set; }
         public ICommand FillIncomeChartx { get; set; }
         public ICommand LoadPopularDishes { get; set; }
         public ICommand LoadUnpopularDishes { get; set; }
@@ -168,6 +173,8 @@ namespace Cafe_Managment.ViewModel
 
         public StatisticVM()
         {
+            _notifier = CreateNotifier();
+
             // Инициализация репозитория
             statisticsRepository = new StatisticsRepository();  // Убедитесь, что аргументы передаются корректно, например, строка подключения
 
@@ -193,7 +200,8 @@ namespace Cafe_Managment.ViewModel
             LoadTrendCommand = new RelayCommand(ExecuteLoadTrendCommand, CanExecuteLoadTrendCommand);
             LoadPopularDishes = new RelayCommand(ExecuteLoadPopularDishes);
             LoadUnpopularDishes = new RelayCommand(ExecuteLoadUnpopularDishes);
-            UpdateIncomeChartx = new RelayCommand(ExecuteUpdateIncomeChart);
+            FillIncomeChartx = new RelayCommand(ExecuteFillIncomeChart);
+            ConfirmPeriodUpdatedCommand = new RelayCommand(ExecuteConfirmPeriodUpdatedCommand);
 
             // Инициализация дополнительных данных
             IncomeSeriesCollection = new SeriesCollection();
@@ -202,6 +210,30 @@ namespace Cafe_Managment.ViewModel
 
             // Вызываем LoadData после инициализации всех команд и коллекций
             LoadData();
+        }
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
+
+        private void ExecuteConfirmPeriodUpdatedCommand(object obj)
+        {
+            _notifier.ShowSuccess($"Период успешно обновлен!");
         }
 
         private bool CanExecuteLoadTrendCommand(object arg)
@@ -261,51 +293,10 @@ namespace Cafe_Managment.ViewModel
         private void ExecuteFillIncomeChart(object parameter)
         {
             FillIncomeChart(StartDate, EndDate);
+            ExecuteConfirmPeriodUpdatedCommand(null);
         }
 
-        private void UpdateIncomeChart(DateTime startDate, DateTime endDate)
-        {
-            Dictionary<DateTime, double> profitData = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
 
-            // Проверяем, инициализированы ли свойства
-            if (IncomeSeriesCollection == null)
-            {
-                IncomeSeriesCollection = new SeriesCollection();
-            }
-            if (Labels == null)
-            {
-                Labels = new ObservableCollection<string>();
-            }
-
-            // Clear existing data
-
-            if (Labels != null)
-            {
-                Labels.Clear();
-            }
-
-            // Create new series
-            ColumnSeries incomeSeries = new ColumnSeries
-            {
-                Title = "Доход",
-                Values = new ChartValues<double>(profitData.Values) // Use the values from the dictionary
-            };
-
-            // Add the series to the collection
-            if (IncomeSeriesCollection != null)
-            {
-                IncomeSeriesCollection.Add(incomeSeries);
-            }
-
-            // Use the dates as labels
-            if (Labels != null)
-            {
-                foreach (var date in profitData.Keys)
-                {
-                    Labels.Add(date.ToString("dd/MM/yyyy"));
-                }
-            }
-        }
 
         public void ExecuteLoadPopularDishes(object parameter)
         {
@@ -342,10 +333,7 @@ namespace Cafe_Managment.ViewModel
         }
 
 
-        private void ExecuteUpdateIncomeChart(object parameter)
-        {
-            UpdateIncomeChart(StartDate, EndDate);
-        }
+        
 
         private void LoadData()
         {

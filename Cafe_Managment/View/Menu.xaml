@@ -6,6 +6,8 @@
              xmlns:vn="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:viewmodel="clr-namespace:Cafe_Managment.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:MenuVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -181,9 +183,7 @@
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
-
                             </DataGridTemplateColumn>
-
                         </DataGrid.Columns>
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
@@ -196,7 +196,6 @@
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                                    Margin="0 15"/>
-
                         <StackPanel>
 
                             <!--DeletedFromArchiveDataGrid-->
@@ -216,7 +215,6 @@
                               >
 
                                 <DataGrid.Columns>
-
                                     <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -240,11 +238,8 @@
                                     <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                                 </DataGrid.Resources>
                             </DataGrid>
-
-
                         </StackPanel>
                     </Grid>
-
                 </StackPanel>
             </Grid>
         </ScrollViewer>

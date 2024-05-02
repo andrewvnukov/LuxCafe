@@ -9,11 +9,17 @@ using System.Windows.Input;
 using Cafe_Managment.Model;
 using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
-
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
 namespace Cafe_Managment.ViewModel
 {
     internal class OrderVM : ViewModelBase
     {
+        private Notifier _notifier;
+
         DishesRepository dishesRepository;
         int _selectedCategory;
         object _selectedDish;
@@ -78,6 +84,8 @@ namespace Cafe_Managment.ViewModel
 
         public OrderVM() 
         {
+            _notifier = CreateNotifier();
+
             dishesRepository = new DishesRepository();
 
             SwitchToCategoryCommand = new RelayCommand(ExecuteSwitchToCategoryCommand);
@@ -102,6 +110,26 @@ namespace Cafe_Managment.ViewModel
             CategoryList.Add(new Category("Завтраки", "/Images/Categories/Breakfast.png"));
         }
 
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
+
         private bool CanExecuteCreateOrderCommand(object arg)
         {
             return (GuestCount >0 && SpotNumber >0);
@@ -111,7 +139,7 @@ namespace Cafe_Managment.ViewModel
         {
             switch(dishesRepository.CreateNewOrder(tempL, SpotNumber, GuestCount, TotalPrice)){
                 case 0:
-                    MessageBox.Show("Заказ успешно оформлен!");
+                    _notifier.ShowSuccess("Заказ успешно оформлен!");
                     SelectedDishes = new List<DishData>();
                     tempL = new List<DishData>();
                     SpotNumber = 0;
@@ -119,7 +147,7 @@ namespace Cafe_Managment.ViewModel
                     TotalPrice = 0;
                     break;
                 case 1:
-                    MessageBox.Show("Ошибка при оформлении заказа!");
+                    _notifier.ShowError("Ошибка при оформлении заказа!");
                     break;
             }
         }

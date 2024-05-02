@@ -9,11 +9,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class KitchenVM : ViewModelBase
     {
+        private Notifier _notifier;
+
         DishesRepository dishesRepository;
         List<ChequeModel> _cheques;
         List<ChequeModel> temp;
@@ -46,11 +53,33 @@ namespace Cafe_Managment.ViewModel
 
         public KitchenVM() 
         {
+            _notifier = CreateNotifier();
+
             dishesRepository = new DishesRepository();
 
             ChangeDishStatusCommand = new RelayCommand(ExecuteChangeDishStatusCommand);
             ReloadCommand = new RelayCommand(ExecuteReloadCommand);
             UpdateLists(1);
+        }
+
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
         }
 
         private void ExecuteReloadCommand(object obj)
@@ -93,6 +122,8 @@ namespace Cafe_Managment.ViewModel
         private void ExecuteChangeDishStatusCommand(object obj)
         {
             int dishIndex = (int)obj;
+
+            // Обновляем статус блюда
             switch (temp[SelectedCheque].dishes[dishIndex].Status)
             {
                 case 0:
@@ -100,6 +131,7 @@ namespace Cafe_Managment.ViewModel
                     dishesRepository.UpdateStatus(temp[SelectedCheque].dishes[dishIndex]);
                     UpdateLists(0);
                     break;
+
                 case 1:
                     temp[SelectedCheque].dishes[dishIndex].Status += 1;
 
@@ -108,35 +140,42 @@ namespace Cafe_Managment.ViewModel
                         temp[SelectedCheque].dishes[dishIndex].Count -= 1;
                         temp[SelectedCheque].dishes[dishIndex].Status = 0;
                     }
-                    else
+                    else if (temp[SelectedCheque].dishes[dishIndex].Count == 1)
                     {
-                        if (temp[SelectedCheque].dishes[dishIndex].Count == 1)
-                        {
-                            temp[SelectedCheque].dishes.RemoveAt(dishIndex);
-                        }
+                        temp[SelectedCheque].dishes.RemoveAt(dishIndex);
                     }
 
-                    bool IsChequeReady = true;
+                    // Проверяем, готов ли заказ
+                    bool isChequeReady = true;
 
                     foreach (var item in temp[SelectedCheque].dishes)
                     {
-                        if (item.Status == 2) IsChequeReady = true;
-                        else { IsChequeReady = false; break; }
+                        if (item.Status != 2)
+                        {
+                            isChequeReady = false;
+                            break;
+                        }
                     }
-                    if (IsChequeReady)
-                    {
-                        dishesRepository.IsOrderReady(temp[SelectedCheque]);
 
-                        UpdateLists(1);
+                    if (isChequeReady) // Если заказ готов
+                    {
+                        var orderId = temp[SelectedCheque].Id; // Получаем Id заказа
+                        dishesRepository.IsOrderReady(temp[SelectedCheque]);
+                        _notifier.ShowSuccess($"Заказ №{orderId} готов к выдаче!"); // Уведомление с номером заказа
+                        UpdateLists(1); // Обновление списков
                     }
                     else
                     {
-                        UpdateLists(0);
+                        UpdateLists(0); // Заказ еще не готов
                     }
                     break;
+
                 case 2:
+                    // Если статус 2, ничего не делаем
                     break;
             }
         }
+
+
     }
 }

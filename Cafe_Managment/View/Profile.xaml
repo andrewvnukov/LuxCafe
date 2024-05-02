@@ -66,12 +66,12 @@
          Text="{Binding CurrentData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
-   Margin="10,10,0,10">
+                    Margin="10,10,0,10">
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
-Width="auto"
-HorizontalAlignment="Center"
-Tag="Отчество"
-Text="{Binding CurrentData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        Width="auto"
+                        HorizontalAlignment="Center"
+                        Tag="Отчество"
+                        Text="{Binding CurrentData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
                                 Margin="10,10,0,10">

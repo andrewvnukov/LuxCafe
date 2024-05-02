@@ -11,12 +11,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class ProfileVM : ViewModelBase
     {
         UserRepository userRepository;
+        private Notifier _notifier;
 
         private EmpData _currentData;
         private string _fullname;
@@ -76,8 +82,9 @@ namespace Cafe_Managment.ViewModel
         public ProfileVM()
         {
             userRepository = new UserRepository();
+            _notifier = CreateNotifier();
 
-            _isAdressReadOnly=true;
+            _isAdressReadOnly = true;
             _isEmailReadOnly=true;
             _isNumberReadOnly=true;
 
@@ -103,7 +110,29 @@ namespace Cafe_Managment.ViewModel
             Branch = userRepository.GetBranchById(UserData.BranchId);
             Fullname = $"{UserData.Surname} {UserData.Name} {UserData.Patronomic}";
         }
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
 
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
+        private void ExecuteShowErrorCommand(object obj)
+        {
+            _notifier.ShowSuccess("This is an error notification.");
+        }
         private void ExecuteEditAdress(object obj)
         {
             if (IsAdressReadOnly)
@@ -115,6 +144,8 @@ namespace Cafe_Managment.ViewModel
                 userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
                 IsAdressReadOnly = !IsAdressReadOnly;
                 userRepository.GetById();
+                _notifier.ShowSuccess("Адрес успешно изменен!");
+
             }
         }
 
@@ -129,6 +160,7 @@ namespace Cafe_Managment.ViewModel
                 userRepository.EditCurrentUser(nameof(EmpData.Email), CurrentData.Email);
                 IsEmailReadOnly = !IsEmailReadOnly;
                 userRepository.GetById();
+                _notifier.ShowSuccess("Email успешно изменен!");
             }
         }
 
@@ -143,6 +175,8 @@ namespace Cafe_Managment.ViewModel
                 userRepository.EditCurrentUser(nameof(EmpData.PhoneNumber), CurrentData.PhoneNumber);
                 IsNumberReadOnly = !IsNumberReadOnly;
                 userRepository.GetById();
+                _notifier.ShowSuccess("Номер телефона успешно изменен!");
+
             }
         }
 
@@ -157,6 +191,7 @@ namespace Cafe_Managment.ViewModel
                 byte[] photoData = File.ReadAllBytes(fileDialog.FileName);
                 userRepository.UpdateCurrentUserPicture(photoData);
                 userRepository.GetById();
+                _notifier.ShowSuccess("Фотография успешно изменена!");
             }
         }
     }

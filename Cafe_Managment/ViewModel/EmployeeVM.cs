@@ -11,11 +11,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class EmployeeVM : ViewModelBase
     {
+        private Notifier _notifier;
+
         UserRepository userRepository;
         private DataTable _employees;
         private int _selectedEmployee;
@@ -77,8 +84,9 @@ namespace Cafe_Managment.ViewModel
         public EmployeeVM()
         {
             userRepository = new UserRepository();
+            _notifier = CreateNotifier();
 
-            
+
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
             Employees.Columns.Remove("Id");
@@ -96,12 +104,51 @@ namespace Cafe_Managment.ViewModel
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
         }
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
 
         private void ExecuteSaveCommand(object obj)
         {
+            // Проверка, что SelectedEmployeeItem не равен null
+            if (SelectedEmployeeItem == null)
+            {
+                _notifier.ShowError("Нет выбранного сотрудника.");
+                return;
+            }
+
             DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
 
-            int EmpId = int.Parse(temp.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+            if (dataRowView == null || dataRowView.Row == null) // Дополнительная проверка
+            {
+                _notifier.ShowError("Некорректные данные.");
+                return;
+            }
+
+            int EmpId;
+            if (!int.TryParse(dataRowView.Row[0].ToString(), out EmpId))
+            {
+                _notifier.ShowError("Некорректный идентификатор сотрудника.");
+                return;
+            }
+
+            // Создаем новый объект с данными сотрудника
             EmpData newdata = new EmpData
             {
                 Id = EmpId,
@@ -112,18 +159,26 @@ namespace Cafe_Managment.ViewModel
                 Email = dataRowView.Row[7].ToString(),
                 Address = dataRowView.Row[9].ToString(),
             };
-            
-            userRepository.UpdateEmployee(newdata);
 
-            temp = userRepository.GetByAll();
+            userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
+
+            temp = userRepository.GetByAll(); // Обновляем данные таблицы
             Employees = temp.Copy();
             Employees.Columns.Remove("Id");
 
+            // Проверяем, если измененный сотрудник является текущим пользователем
             if (EmpId == UserData.Id)
             {
                 userRepository.GetById();
             }
+
+            // Конкатенируем фамилию, имя и отчество
+            string fullName = $"{dataRowView.Row[4].ToString()} {dataRowView.Row[3].ToString()} {dataRowView.Row[5].ToString()}";
+
+            _notifier.ShowSuccess($"Данные сотрудника {fullName} успешно изменены!");
+            IsReadOnly = true;
         }
+
 
         private void ExecuteEditCommand(object obj)
         {
@@ -145,19 +200,22 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteFireCommand(object obj)
         {
+            DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
+
             int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
+            string fullName = $"{dataRowView.Row[4].ToString()} {dataRowView.Row[3].ToString()} {dataRowView.Row[5].ToString()}";
 
             if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp}?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
                 if (temp == UserData.Id)
                 {
-                    MessageBox.Show("Извините, но вы не можете уволить себя","Ошибка");
+                    _notifier.ShowError("Извините, но вы не можете уволить себя");
                 }
                 else
                 {
                     userRepository.FireEmployee(temp);
-                    MessageBox.Show("Сотрудник уволен!","Кто-то остался без чая...");
+                    _notifier.ShowSuccess($"Сотрудник {fullName} уволен.");
                 }
             }
             
@@ -183,9 +241,9 @@ namespace Cafe_Managment.ViewModel
                 temp = userRepository.GetByAll();
                 Employees = temp.Copy();
                 Employees.Columns.Remove("Id");
+                _notifier.ShowSuccess("Сотрудник успешно нанят!");
+
             };
-
-
         }
     }
     
