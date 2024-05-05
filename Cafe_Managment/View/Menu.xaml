@@ -68,14 +68,8 @@
 
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Width="95">
-                                            <Button Style="{StaticResource GridEditButton}"
-                                                        Command="{Binding DataContext.EditRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-                                                <Button.DataContext>
-                                                    <vn:MenuVM/>
-                                                </Button.DataContext>
-                                                <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
-                                            </Button>
+                                        <StackPanel Orientation="Horizontal" Width="auto">
+                                           
                                             <Button Style="{StaticResource GridRemoveButton}"
                                                     Click="Button_Click"
                                                     Command="{Binding DataContext.SaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
@@ -201,45 +195,33 @@
                             Margin="0"/>
                     </StackPanel>
 
-                    <TextBlock Text="Меню" 
+                    <TextBlock Text="Активное меню" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
 
                     <!--ActiveMenuDataGrid-->
 
-                    <Button Width="25"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Left"
-                            Margin="10"
-                            Style="{StaticResource GridInfoButton}"
-                       Command="{Binding DataContext.InfoCommandMenu, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" 
-                            CommandParameter="{Binding}">
-                        
-                        <Button.DataContext>
-                            <vn:MenuVM/>
-                        </Button.DataContext>
-                        <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
-                    </Button>
+                    
 
                     <DataGrid Grid.Row="6" x:Name="ActiveMenuDataGrid" 
-                              Margin="10 0 0 0" 
-                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
+                             RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 
                               Style="{DynamicResource DataGridStyle1}"
-                              SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding ActiveMenu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsReadOnly="{Binding CanEditColumns}"
                               SelectedItem="{Binding SelectedItemMenu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False"
                               MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
-                              >
-                        <DataGrid.DataContext>
-                            <vn:MenuVM/>
-                        </DataGrid.DataContext>
+                              AutoGenerateColumns="False"
+                        >
+
                         <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="№" Binding="{Binding №}" IsReadOnly="True" />
 
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -268,6 +250,102 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Раздел}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Раздел, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Название" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Название}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Название, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Описание" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Описание}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Состав" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Состав}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Состав, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Цена" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Стоимость}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Стоимость, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ДатаДобавления}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding ДатаДобавления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Дата обновления цены" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ДатаОбновленияЦены}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding ДатаОбновленияЦены, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
                         </DataGrid.Columns>
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>

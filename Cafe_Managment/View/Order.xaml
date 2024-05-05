@@ -11,6 +11,8 @@
     <UserControl.DataContext>
         <vm:OrderVM/>
     </UserControl.DataContext>
+
+    
     <Grid
         >
         <Grid.ColumnDefinitions>
@@ -166,7 +168,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="125"/>
+                    <RowDefinition Height="160"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden"
                               Grid.Row="0">
@@ -185,9 +187,9 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
                                                 <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="True">
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                SnapsToDevicePixels="True">             
                                                     <ContentPresenter />
                                                 </Border>
                                             </ControlTemplate>
@@ -254,36 +256,44 @@
                         <TextBlock Text="Итоговая цена"
                                        FontSize="18"
                                        FontWeight="DemiBold"
-                                       Margin="0 0 5 5"
+                                       Margin="4 0 5 5"
                                        HorizontalAlignment="Left"
                                        Width="160"/>
                         <TextBlock Text="{Binding TotalPrice, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        FontSize="18"
                                        FontWeight="DemiBold"/>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Center"
-                                    Orientation="Horizontal">
-                        <TextBlock Text="Номер столика"
-                                       FontSize="18"
-                                       Width="160"
-                                       Margin="0 0 5 5"/>
-                        <TextBox Text="{Binding SpotNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       FontSize="18"
-                                       FontWeight="DemiBold"
-                                       PreviewTextInput="TextBox_PreviewTextInput"/>
-                    </StackPanel>
-                    <StackPanel HorizontalAlignment="Center"
-                                    Orientation="Horizontal">
-                        <TextBlock Text="Количество гостей"
-                                       FontSize="18"
-                                       Width="160"
-                                       Margin="0 0 5 0"/>
-                        <TextBox Text="{Binding GuestCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       FontSize="18"
-                                       FontWeight="DemiBold"
-                                       PreviewTextInput="TextBox_PreviewTextInput"/>
-                    </StackPanel>
-                    <Button Content="Оформить" Style="{DynamicResource DefaultButton}"
+                    
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="Номер столика" FontSize="18" Width="160" Margin="26 0 5 5"/>
+                            <ComboBox ItemsSource="{Binding TableNumbers}"  
+                                SelectedItem="{Binding SpotNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  FontSize="18"
+                                  FontWeight="DemiBold"
+                                  MaxHeight="100"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                        </StackPanel>
+
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="Количество гостей" FontSize="18" Width="160" Margin="0 0 5 0"/>
+                        </StackPanel>
+
+                        <Slider Minimum="1" Maximum="10"  
+                            Value="{Binding GuestCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TickPlacement="BottomRight"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            Width="200"
+                            Height="40"/>       
+
+                        <!-- Отображение значения слайдера -->
+                            <TextBlock Text="{Binding GuestCount}" 
+                               HorizontalAlignment="Center"
+                               FontSize="18"
+                               FontWeight="DemiBold"
+                               Margin="0 -22 0 0"/> 
+
+                        <Button Content="Оформить" Style="{DynamicResource DefaultButton}"
                             Command="{Binding CreateOrderCommand}"/>
                 </StackPanel>
                 </Border>

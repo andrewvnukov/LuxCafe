@@ -180,7 +180,11 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-       
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //protected void OnPropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
         public MenuVM()
         {
             CanEditColumns = false; // Переключаем состояние
@@ -211,8 +215,6 @@ namespace Cafe_Managment.ViewModel
 
 
             RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
-
-
 
 
             IsEnabled = false;
@@ -253,11 +255,7 @@ namespace Cafe_Managment.ViewModel
 
         
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+       
 
         private Notifier CreateNotifier()
         {
@@ -375,13 +373,15 @@ namespace Cafe_Managment.ViewModel
                 {
                     Id = dishId
                 };
+                ExecuteShowDishSuccessfullyRestoredCommand(dataRowView);
 
                 // Удаляем блюдо
                 dishesRepository.RestoreDeletedDish(dishToRestore);
+                RefreshDeletedDishes();
 
                 // Обновляем интерфейс, если необходимо
                 OnPropertyChanged(nameof(tempDelDish));
-                ExecuteShowDishSuccessfullyRestoredCommand(dataRowView);
+
             }
         }
 
@@ -425,39 +425,55 @@ namespace Cafe_Managment.ViewModel
         private void ExecuteEditPriceCommandMenu(object obj)
         {
             updatePrice = new UpdatePrice();
-            
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
+
             updatePrice.IsVisibleChanged += (s, ev) =>
             {
-                if (!updatePrice.IsVisible && (updatePrice.GetInput()!=""))
+                if (!updatePrice.IsVisible && !string.IsNullOrEmpty(updatePrice.GetInput()))
                 {
-                    ExecuteShowPriceSuccessfullyUpdatedCommand(null);
-
-                    tempMenu = dishesRepository.GetAllDishesFromMenu();
-                    DataTable dt = tempMenu.Copy();
-                    dt.Columns.Remove("Id");
-                    ActiveMenu = dt.Copy();
-                    
-
-                    updatePrice.Close();
-                }
-                else
-                {
-                    if (!updatePrice.IsVisible)
+                    // Создаем объект DishData
+                    DishData dishData = new DishData
                     {
-                        updatePrice.Close();
-                    }
+                        Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+                        Price = updatePrice.GetInput() // Получаем введенную цену
+                    };
 
+                    try
+                    {
+                        // Обновляем цену блюда
+                        dishesRepository.UpdateDishPrice(dishData);
+
+                        ExecuteShowPriceSuccessfullyUpdatedCommand(null); // Показать уведомление о смене цены
+
+                        tempMenu = dishesRepository.GetAllDishesFromMenu(); // Обновляем данные меню
+                        DataTable dt = tempMenu.Copy();
+                        dt.Columns.Remove("Id");
+                        ActiveMenu = dt.Copy();
+
+                        updatePrice.Close(); // Закрываем окно
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Произошла ошибка при обновлении цены: {ex.Message}"); // Обработка ошибок
+                    }
+                }
+                else if (!updatePrice.IsVisible)
+                {
+                    updatePrice.Close(); // Закрываем окно, если оно невидимо
                 }
             };
-            updatePrice.ShowDialog();
+
+            updatePrice.ShowDialog(); // Открываем окно
         }
         private void ExecuteSavePriceCommand(object obj)
         {
+            
             IsViewVisible = false;
+            //updatePrice.Close();
             RefreshMenu();
-            tempMenu = ActiveMenu; // Сохранение текущего значения
-            ActiveMenu = null; // Сброс
-            ActiveMenu = tempMenu;
+            //tempMenu = ActiveMenu; // Сохранение текущего значения
+            //ActiveMenu = null; // Сброс
+            //ActiveMenu = tempMenu;
         }
         public void ExecuteSaveRowCommand(object parameter)
         {
@@ -490,7 +506,6 @@ namespace Cafe_Managment.ViewModel
                 _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно изменено!");
             }
 
-
         }
 
         private void ExecuteAddDishToArchiveCommand(object obj)
@@ -500,30 +515,38 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteDeleteRowCommand(object parameter)
         {
-            // Получаем информацию о выбранной строке
             DataRowView dataRowView = SelectedItem as DataRowView;
 
-            // Получаем ID выбранного блюда
+            if (dataRowView == null)
+            {
+                MessageBox.Show("Не выбран элемент для удаления.");
+                return;
+            }
+
             int dishId = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
 
-            // Отображаем диалоговое окно с вопросом
             MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить это блюдо?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            // Если пользователь выбрал "Да", то удаляем блюдо
             if (result == MessageBoxResult.Yes)
             {
-                // Создаем объект блюда для передачи в метод удаления
                 DishData dishToDelete = new DishData
                 {
                     Id = dishId
                 };
+                ExecuteShowDishSuccessfullyDeletedCommandArchive(dataRowView);
 
-                // Удаляем блюдо
+
+                // Обновляем привязку данных
                 dishesRepository.DeleteDish(dishToDelete);
 
-                // Обновляем интерфейс, если необходимо
-                OnPropertyChanged(nameof(tempArchive));
-                ExecuteShowDishSuccessfullyDeletedCommandArchive(dataRowView);
+                RefreshArchive();
+                RefreshDeletedDishes();
+
+                // Восстанавливаем привязку
+                Menu = null; // Сбрасываем значение
+                Menu = tempArchive; // Восстанавливаем значение
+                OnPropertyChanged(nameof(Menu)); // Уведомление о смене данных
+
             }
         }
 
@@ -581,6 +604,19 @@ namespace Cafe_Managment.ViewModel
             ActiveMenu = tempMenu.Copy();
             ActiveMenu.Columns.Remove("Id");
         }
+        private void RefreshArchive()
+        {
+            tempArchive = dishesRepository.GetAllDishesFromArchive();
+            Menu = tempArchive.Copy();
+            Menu.Columns.Remove("Id");
+
+        }
+        private void RefreshDeletedDishes()
+        {        
+            tempDelDish = dishesRepository.GetAllDeletedDishes();
+            DeletedDishes = tempDelDish.Copy();
+            DeletedDishes.Columns.Remove("Id");
+        }
 
 
         private void ExecuteEditRowCommand(object obj)
@@ -593,21 +629,17 @@ namespace Cafe_Managment.ViewModel
             tempArchive = Menu; // Сохранение текущего значения
             Menu = null; // Сброс
             Menu = tempArchive; 
-
-
         }
 
         private void ExecuteInfoCommandArchive(object obj)
         {
-            MessageBox.Show("Поля №, Раздел, Дата изменения цены и Дата обновления \n" +
-                "изменению  НЕ ПОДЛЕЖАТ!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+            _notifier.ShowInformation("№, Раздел, Дата добавления и Дата последнего обновления не подлежат изменению!");
+                
         }
         private void ExecuteInfoCommandMenu(object obj)
-        {          
-            MessageBox.Show("Изменению подлежит только стоимость блюда\n" +
-                "Остальные данные изменены не будут!!!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+        {
+            _notifier.ShowInformation("Изменению подлежит только стоимость блюда");
+                
         }
     }
 }

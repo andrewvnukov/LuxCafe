@@ -13,7 +13,6 @@ using ToastNotifications;
 using ToastNotifications.Messages;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
-using System.Diagnostics;
 namespace Cafe_Managment.ViewModel
 {
     internal class OrderVM : ViewModelBase
@@ -25,6 +24,7 @@ namespace Cafe_Managment.ViewModel
         object _selectedDish;
         int _spotNumber;
         int _guestCount;
+        private List<int> _tableNumbers;
         List<Category> _categoryList;
         List<DishData> _dishList;
         List<DishData> _selectedDishes;
@@ -76,6 +76,15 @@ namespace Cafe_Managment.ViewModel
             get { return _selectedDishes; }
             set { _selectedDishes = value; OnPropertyChanged(nameof(SelectedDishes)); }
         }
+        public List<int> TableNumbers
+        {
+            get { return _tableNumbers; }
+            set
+            {
+                _tableNumbers = value;
+                OnPropertyChanged(nameof(TableNumbers));
+            }
+        }
 
         public ICommand SwitchToCategoryCommand { get; set; }
         public ICommand AddDishToOrderCommand { get; set; }
@@ -84,6 +93,8 @@ namespace Cafe_Managment.ViewModel
 
         public OrderVM() 
         {
+            _tableNumbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }; // Пример списка номеров столиков
+
             _notifier = CreateNotifier();
 
             dishesRepository = new DishesRepository();

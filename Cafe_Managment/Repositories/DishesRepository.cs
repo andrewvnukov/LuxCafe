@@ -214,8 +214,8 @@ namespace Cafe_Managment.Repositories
                 da.Description AS 'Описание', 
                 da.Composition AS 'Состав',
                 am.Price AS 'Стоимость',                                     
-                am.TransferedAt AS 'Дата добавления',
-                am.UpdatedAt AS 'Дата обновления цены'
+                am.TransferedAt AS 'ДатаДобавления',
+                am.UpdatedAt AS 'ДатаОбновленияЦены'
                 FROM activemenu am
                 INNER JOIN disharchive da ON am.DishId = da.Id
                 INNER JOIN categories c ON da.CategoryId = c.Id
