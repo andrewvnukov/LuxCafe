@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafe_Managment.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace Cafe_Managment.View
         public Menu()
         {
             InitializeComponent();
+            DataContext = new MenuVM();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
