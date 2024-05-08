@@ -27,7 +27,6 @@ namespace Cafe_Managment.ViewModel
         private Notifier _notifier;
 
 
-
         public ICommand ConfirmPeriodUpdatedCommand { get; set; }
         public ICommand FillIncomeChartx { get; set; }
         public ICommand LoadPopularDishes { get; set; }
@@ -35,13 +34,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand LoadTrendCommand { get; set; }
 
 
-
-
-
         StatisticsRepository statisticsRepository;
-
-
-        public new event PropertyChangedEventHandler PropertyChanged;
 
         private SeriesCollection _incomeSeriesCollection;
         public SeriesCollection IncomeSeriesCollection
@@ -87,7 +80,7 @@ namespace Cafe_Managment.ViewModel
             set
             {
                 selectedDish = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedDish));
             }
         }
 
@@ -134,7 +127,7 @@ namespace Cafe_Managment.ViewModel
             set
             {
                 allDishes = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(AllDishes));
             }
         }
 
@@ -250,6 +243,18 @@ namespace Cafe_Managment.ViewModel
 
         public void ExecuteLoadTrendCommand(object parameter)
         {
+            DateTime today = DateTime.Today;
+
+            if (StartDate > today)
+            {
+                _notifier.ShowWarning("Начальная дата не может быть позже сегодняшнего дня. Выберите корректный период.");
+                return;
+            }
+            if (EndDate < StartDate)
+            {
+                _notifier.ShowWarning("Конечная дата не может быть раньше начальной даты. Выберите корректный период.");
+                return;
+            }
 
             // Получение данных о популярности из репозитория
             var trends = statisticsRepository.GetDishPopularityTrend(SelectedDish.Id, StartDate, EndDate);
@@ -269,29 +274,43 @@ namespace Cafe_Managment.ViewModel
         }
 
         private void FillIncomeChart(DateTime startDate, DateTime endDate)
-        {
+        {          
             Dictionary<DateTime, double> profitData = statisticsRepository.GetProfitForTimePeriod(startDate, endDate);
 
-            // Clear existing data
-            IncomeSeriesCollection= new SeriesCollection();
+            // Очистить существующие данные
+            IncomeSeriesCollection = new SeriesCollection();
 
-            // Create new series
+            // Создать новый набор данных
             ColumnSeries incomeSeries = new ColumnSeries
             {
                 Title = "Доход",
-                Values = new ChartValues<double>(profitData.Values) // Use the values from the dictionary
+                Values = new ChartValues<double>(profitData.Values) // Используем значения из словаря
             };
 
-            // Add the series to the collection
+            // Добавляем новый набор данных
             IncomeSeriesCollection.Add(incomeSeries);
 
-            // Use the dates as labels
+            // Используем даты как метки
             Labels = new ObservableCollection<string>(profitData.Keys.Select(date => date.ToString("dd/MM/yyyy")));
         }
 
 
+
         private void ExecuteFillIncomeChart(object parameter)
         {
+            DateTime today = DateTime.Today; 
+
+            if (StartDate > today)
+            {
+                _notifier.ShowWarning("Начальная дата не может быть позже сегодняшнего дня. Выберите корректный период.");
+                return; 
+            }
+            if (EndDate < StartDate)
+            {
+                _notifier.ShowWarning("Конечная дата не может быть раньше начальной даты. Выберите корректный период.");
+                return; 
+            }
+
             FillIncomeChart(StartDate, EndDate);
             ExecuteConfirmPeriodUpdatedCommand(null);
         }

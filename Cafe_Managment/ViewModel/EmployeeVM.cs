@@ -24,14 +24,14 @@ namespace Cafe_Managment.ViewModel
         private Notifier _notifier;
 
         UserRepository userRepository;
-        private DataTable _employees;
         private int _selectedEmployee;
         private bool _isReadOnly;
         private object _selectedEmployeeItem;
-        private DataTable _dismissedEmployees;
 
 
         DataTable temp = new DataTable();
+        DataTable tempdel = new DataTable();
+        
 
 
         public ICommand HireCommand { get; set; }
@@ -49,10 +49,21 @@ namespace Cafe_Managment.ViewModel
                 OnPropertyChanged(nameof(IsReadOnly));
             }
         }
+     
+        private DataTable _dismissedEmployees;
+
         public DataTable DismissedEmployees
+
         {
-            get { return _dismissedEmployees; }
-            set { _dismissedEmployees = value; }
+            get => _dismissedEmployees;
+            set
+            {
+                if (_dismissedEmployees != value) // Проверяем, изменилось ли значение
+                {
+                    _dismissedEmployees = value;
+                    OnPropertyChanged(nameof(DismissedEmployees)); // Уведомляем об изменении
+                }
+            }
         }
 
         public int SelectedEmployee
@@ -75,10 +86,20 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        private DataTable _employees;
+
         public DataTable Employees
+
         {
-            get { return _employees; }
-            set { _employees = value; }
+            get => _employees;
+            set
+            {
+                if (_employees != value) // Проверяем, изменилось ли значение
+                {
+                    _employees = value;
+                    OnPropertyChanged(nameof(Employees)); // Уведомляем об изменении
+                }
+            }
         }
 
         public EmployeeVM()
@@ -90,6 +111,11 @@ namespace Cafe_Managment.ViewModel
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
             Employees.Columns.Remove("Id");
+
+            tempdel = userRepository.GetDismissedEmployees();
+            DismissedEmployees = tempdel.Copy();
+
+
 
             IsReadOnly = true;
 
@@ -104,6 +130,7 @@ namespace Cafe_Managment.ViewModel
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
         }
+
         private Notifier CreateNotifier()
         {
             return new Notifier(cfg =>
@@ -162,9 +189,8 @@ namespace Cafe_Managment.ViewModel
 
             userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
 
-            temp = userRepository.GetByAll(); // Обновляем данные таблицы
-            Employees = temp.Copy();
-            Employees.Columns.Remove("Id");
+            RefreshAll();
+
 
             // Проверяем, если измененный сотрудник является текущим пользователем
             if (EmpId == UserData.Id)
@@ -215,6 +241,9 @@ namespace Cafe_Managment.ViewModel
                 else
                 {
                     userRepository.FireEmployee(temp);
+                    DismissedEmployees = userRepository.GetDismissedEmployees();
+                    RefreshAll();
+
                     _notifier.ShowSuccess($"Сотрудник {fullName} уволен.");
                 }
             }
@@ -238,13 +267,28 @@ namespace Cafe_Managment.ViewModel
             registration.IsVisibleChanged += (s, ev) =>
             {
                 registration.Close();
-                temp = userRepository.GetByAll();
-                Employees = temp.Copy();
-                Employees.Columns.Remove("Id");
-                _notifier.ShowSuccess("Сотрудник успешно нанят!");
+                RefreshAll();
+                _notifier.ShowSuccess("Сотрудник успешно зарегистрирован!");
 
             };
         }
+        private void RefreshAll()
+        {
+            temp = userRepository.GetByAll();
+            Employees = temp.Copy();
+            Employees.Columns.Remove("Id");
+            DismissedEmployees = userRepository.GetDismissedEmployees();
+
+            temp = userRepository.GetByAll();
+            DataTable dtEmp = temp.Copy();
+            dtEmp.Columns.Remove("Id");
+            Employees = dtEmp.Copy();
+
+            tempdel = userRepository.GetDismissedEmployees();
+            DataTable dtEmpdel = tempdel.Copy();
+            DismissedEmployees = dtEmp.Copy();
+        }
+
     }
-    
+
 }

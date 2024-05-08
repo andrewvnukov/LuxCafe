@@ -23,9 +23,7 @@ namespace Cafe_Managment.ViewModel
 {
     internal class MenuVM : ViewModelBase
     {
-
         private Notifier _notifier;
-
         public UpdatePrice updatePrice;
 
         DishesRepository dishesRepository;
@@ -37,11 +35,9 @@ namespace Cafe_Managment.ViewModel
         private object _selectedItem;
         private object _selectedItemMenu;
         private string _newPrice;
-        private DataTable _menu;
 
         DataTable tempArchive = new DataTable();
         DataTable tempMenu = new DataTable();
-        private DataTable _deletedDishes;
         private object _selectedItemDeletedDish;
         DataTable tempDelDish = new DataTable();
 
@@ -78,12 +74,21 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+
+        private DataTable _deletedDishes;
+
         public DataTable DeletedDishes
         {
-            get { return _deletedDishes; }
-            set { _deletedDishes = value; }
+            get => _deletedDishes;
+            set
+            {
+                if (_deletedDishes != value) // Проверяем, изменилось ли значение
+                {
+                    _deletedDishes = value;
+                    OnPropertyChanged(nameof(DeletedDishes)); // Уведомляем об изменении
+                }
+            }
         }
-      
 
         public object SelectedItemDeletedDish
         {
@@ -147,24 +152,35 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        private DataTable _activemenu;
-        public DataTable ActiveMenu
-        {
-            get { return _activemenu; }
-            set
-            {
-                _activemenu = value;
-                OnPropertyChanged(nameof(ActiveMenu)); // Обязательно вызывать это после изменения свойства
-            }
-        }
+        private DataTable _menu;
 
         public DataTable Menu
         {
-            get { return _menu; }
+            get => _menu;
             set
             {
-                _menu = value;
-                OnPropertyChanged(nameof(Menu));
+                if (_menu != value) // Проверяем, изменилось ли значение
+                {
+                    _menu = value;
+                    OnPropertyChanged(nameof(Menu)); // Уведомляем об изменении
+                }
+            }
+        }
+
+       
+
+        private DataTable _activemenu;
+
+        public DataTable ActiveMenu
+        {
+            get => _activemenu;
+            set
+            {
+                if (_activemenu != value) // Проверяем, изменилось ли значение
+                {
+                    _activemenu = value;
+                    OnPropertyChanged(nameof(ActiveMenu)); // Уведомляем об изменении
+                }
             }
         }
 
@@ -180,11 +196,7 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //protected void OnPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
+       
         public MenuVM()
         {
             CanEditColumns = false; // Переключаем состояние
@@ -203,7 +215,6 @@ namespace Cafe_Managment.ViewModel
             _notifier = CreateNotifier();
 
             
-
             tempMenu = dishesRepository.GetAllDishesFromMenu();
             ActiveMenu = tempMenu.Copy();
             ActiveMenu.Columns.Remove("Id");
@@ -246,17 +257,9 @@ namespace Cafe_Managment.ViewModel
             ShowDishSuccessfullyTransferedCommand = new RelayCommand(ExecuteShowDishSuccessfullyTransferedCommand);
             ShowPriceSuccessfullyUpdatedCommand = new RelayCommand(ExecuteShowPriceSuccessfullyUpdatedCommand);
             ShowDishSuccessfullyDeletedCommandArchive = new RelayCommand(ExecuteShowDishSuccessfullyDeletedCommandArchive);
-
-
-            ShowErrorCommand = new RelayCommand(ExecuteShowErrorCommand);
-            ShowWarningCommand = new RelayCommand(ExecuteShowWarningCommand);
-            ShowInformationCommand = new RelayCommand(ExecuteShowInformationCommand);
         }
 
         
-
-       
-
         private Notifier CreateNotifier()
         {
             return new Notifier(cfg =>
@@ -340,21 +343,7 @@ namespace Cafe_Managment.ViewModel
 
             _notifier.ShowSuccess($"Цена блюда {dataRowView.Row[2].ToString()}\nуспешно изменена!");  
         }
-        private void ExecuteShowErrorCommand(object obj)
-        {
-            _notifier.ShowError("This is an error notification.");
-        }
-
-        private void ExecuteShowWarningCommand(object obj)
-        {
-            _notifier.ShowWarning("This is a warning notification.");
-        }
-
-        private void ExecuteShowInformationCommand(object obj)
-        {
-            _notifier.ShowInformation("This is an information notification.");
-        }
-
+       
         private void ExecuteRestoreDishCommand(object obj)
         {
             DataRowView dataRowView = SelectedItemDeletedDish as DataRowView;
@@ -378,10 +367,11 @@ namespace Cafe_Managment.ViewModel
                 // Удаляем блюдо
                 dishesRepository.RestoreDeletedDish(dishToRestore);
                 RefreshDeletedDishes();
-
-                // Обновляем интерфейс, если необходимо
-                OnPropertyChanged(nameof(tempDelDish));
-
+                RefreshArchive();
+                tempMenu = dishesRepository.GetAllDishesFromMenu(); // Обновляем данные меню
+                DataTable dtMenu = tempMenu.Copy();
+                dtMenu.Columns.Remove("Id");
+                ActiveMenu = dtMenu.Copy();
             }
         }
 
@@ -417,6 +407,7 @@ namespace Cafe_Managment.ViewModel
 
                 // Обновляем интерфейс, если необходимо
                 RefreshMenu();
+
                 _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
 
             }
@@ -446,9 +437,9 @@ namespace Cafe_Managment.ViewModel
                         ExecuteShowPriceSuccessfullyUpdatedCommand(null); // Показать уведомление о смене цены
 
                         tempMenu = dishesRepository.GetAllDishesFromMenu(); // Обновляем данные меню
-                        DataTable dt = tempMenu.Copy();
-                        dt.Columns.Remove("Id");
-                        ActiveMenu = dt.Copy();
+                        DataTable dtMenu = tempMenu.Copy();
+                        dtMenu.Columns.Remove("Id");
+                        ActiveMenu = dtMenu.Copy();
 
                         updatePrice.Close(); // Закрываем окно
                     }
@@ -497,9 +488,9 @@ namespace Cafe_Managment.ViewModel
                 dishesRepository.UpdateDish(dish);
 
                 tempArchive = dishesRepository.GetAllDishesFromArchive();
-                DataTable dt = tempArchive.Copy();
-                dt.Columns.Remove("Id");
-                Menu = dt.Copy();
+                DataTable dtArchive = tempArchive.Copy();
+                dtArchive.Columns.Remove("Id");
+                Menu = dtArchive.Copy();
 
                 IsReadOnly = true;
                 OnPropertyChanged(nameof(tempArchive));
@@ -538,14 +529,8 @@ namespace Cafe_Managment.ViewModel
 
                 // Обновляем привязку данных
                 dishesRepository.DeleteDish(dishToDelete);
-
-                RefreshArchive();
                 RefreshDeletedDishes();
-
-                // Восстанавливаем привязку
-                Menu = null; // Сбрасываем значение
-                Menu = tempArchive; // Восстанавливаем значение
-                OnPropertyChanged(nameof(Menu)); // Уведомление о смене данных
+                RefreshArchive();
 
             }
         }
@@ -566,7 +551,6 @@ namespace Cafe_Managment.ViewModel
             {
                 // Если блюдо уже в меню, выводим предупреждение
                 _notifier.ShowError($"{dataRowView.Row[2].ToString()}\nуже есть в активном меню");
-                //MessageBox.Show("Это блюдо уже есть в активном меню.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -587,9 +571,11 @@ namespace Cafe_Managment.ViewModel
                     
                     // Перемещаем блюдо в активное меню
                     dishesRepository.TransferDishToActiveMenu(dishToMove);
+
+        
+                    RefreshMenu();
                     _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно перенесено в активное меню!");
 
-                    // Обновляем данные активного меню после переноса блюда
                 }
             };
 
@@ -612,10 +598,11 @@ namespace Cafe_Managment.ViewModel
 
         }
         private void RefreshDeletedDishes()
-        {        
+        {
             tempDelDish = dishesRepository.GetAllDeletedDishes();
-            DeletedDishes = tempDelDish.Copy();
-            DeletedDishes.Columns.Remove("Id");
+            DataTable dtDelDishes = tempDelDish.Copy();
+            dtDelDishes.Columns.Remove("Id");
+            DeletedDishes = dtDelDishes.Copy();
         }
 
 

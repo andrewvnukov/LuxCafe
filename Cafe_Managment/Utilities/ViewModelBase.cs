@@ -11,9 +11,11 @@ namespace Cafe_Managment.Utilities
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propName = null)
+        //public void OnPropertyChanged([CallerMemberName] string propName = null)
+        protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            // Если есть подписчики на событие, уведомляем их об изменении свойства
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

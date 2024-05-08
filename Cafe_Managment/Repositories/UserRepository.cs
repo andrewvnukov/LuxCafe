@@ -111,7 +111,7 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"SELECT 
                                     ROW_NUMBER() OVER() AS '№',
                                     c.Address AS 'Филиал', 
-                                    r.Title AS 'Роль', 
+                                    r.Title AS 'Должность', 
                                     e.Name AS 'Имя', 
                                     e.Surname AS 'Фамилия', 
                                     e.Patronomic AS 'Отчество', 
@@ -212,9 +212,10 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"INSERT INTO dismissed_employees 
                                     (BranchId, RoleId, CreatedAt, UpdatedAt, DeletedAt, Login, Password, Salt, Name, Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage) 
                                     SELECT BranchId, RoleId, CreatedAt, UpdatedAt, NOW() as DeletedAt, Login, Password, Salt, Name, 
-                                    Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage 
+                                    Surname, Patronomic, PhoneNumber, Email, DATE_FORMAT(BirthDay, '%d-%m-%Y') AS 'Дата рождения', Address, ProfileImage 
                                     FROM employees 
                                     WHERE Id = @Id";
+
 
                     command.Parameters.AddWithValue("@Id", id);
                     command.ExecuteNonQuery();
@@ -261,7 +262,7 @@ namespace Cafe_Managment.Repositories
                     command.Connection = connection;
                     command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
                                 e.Id,
-                                c.Address AS 'Филиал', r.Title AS 'Роль', 
+                                c.Address AS 'Филиал', r.Title AS 'Должность', 
                                 e.Name AS 'Имя', e.Surname AS 'Фамилия', 
                                 e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
                                 e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения',
@@ -303,7 +304,6 @@ namespace Cafe_Managment.Repositories
 
             return dataTable;
         }
-
 
 
         public void GetById()

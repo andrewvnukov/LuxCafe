@@ -16,6 +16,8 @@ using ToastNotifications.Messages;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -23,6 +25,8 @@ namespace Cafe_Managment.ViewModel
     {
         UserRepository userRepository;
         private Notifier _notifier;
+        private string _previousPhoneNumber;
+        private string _previousEmail;
 
         private EmpData _currentData;
         private string _fullname;
@@ -34,10 +38,42 @@ namespace Cafe_Managment.ViewModel
         public ICommand EditEmail { get; set; }
         public ICommand EditNumber { get; set; }
         public ICommand EditPicture { get; set; }
+        public ICommand FormatNumber { get; set; }
+
 
 
         public string Role {get; set;}
         public string Branch { get; set;}
+
+        private string _phoneNumber;
+
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                if (_phoneNumber != value) // Проверяем, изменилось ли значение
+                {
+                    _phoneNumber = value;
+                    OnPropertyChanged(nameof(PhoneNumber)); // Уведомляем об изменении
+                }
+            }
+        }
+
+        private string _email;
+
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                if (_email != value) // Проверяем, изменилось ли значение
+                {
+                    _email = value;
+                    OnPropertyChanged(nameof(Email)); // Уведомляем об изменении
+                }
+            }
+        }
 
         public bool IsAdressReadOnly
         {
@@ -78,7 +114,6 @@ namespace Cafe_Managment.ViewModel
             set { _fullname = value; OnPropertyChanged(nameof(Fullname)); }
         }
 
-
         public ProfileVM()
         {
             userRepository = new UserRepository();
@@ -105,10 +140,26 @@ namespace Cafe_Managment.ViewModel
             EditEmail = new RelayCommand(ExecuteEditEmail); 
             EditNumber = new RelayCommand(ExecuteEditNumber);
             EditPicture = new RelayCommand(ExecuteEditPicture);
+            FormatNumber = new RelayCommand(ExecuteFormatNumber);
             
             Role = userRepository.GetRoleById(UserData.RoleId);
             Branch = userRepository.GetBranchById(UserData.BranchId);
             Fullname = $"{UserData.Surname} {UserData.Name} {UserData.Patronomic}";
+
+            CurrentData.PhoneNumber = FormatPhoneNumber(CurrentData.PhoneNumber);
+            _previousPhoneNumber = CurrentData.PhoneNumber;
+
+            _previousEmail = CurrentData.Email;
+
+        }
+
+        public void ExecuteFormatNumber(object parameter)
+        {
+            FormatPhoneNumber(null);
+        }
+        public void UpdatePhoneNumber(string newPhoneNumber)
+        {
+            PhoneNumber = newPhoneNumber; 
         }
         private Notifier CreateNotifier()
         {
@@ -129,10 +180,7 @@ namespace Cafe_Managment.ViewModel
                 cfg.Dispatcher = Application.Current.Dispatcher;
             });
         }
-        private void ExecuteShowErrorCommand(object obj)
-        {
-            _notifier.ShowSuccess("This is an error notification.");
-        }
+       
         private void ExecuteEditAdress(object obj)
         {
             if (IsAdressReadOnly)
@@ -151,34 +199,83 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteEditEmail(object obj)
         {
+            string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"; 
+            Regex emailRegex = new Regex(emailPattern); 
+
             if (IsEmailReadOnly)
             {
                 IsEmailReadOnly = !IsEmailReadOnly;
             }
-            else
+            else 
             {
-                userRepository.EditCurrentUser(nameof(EmpData.Email), CurrentData.Email);
-                IsEmailReadOnly = !IsEmailReadOnly;
-                userRepository.GetById();
+                if (!emailRegex.IsMatch(CurrentData.Email)) 
+                {
+                    _notifier.ShowWarning("Некорректный формат электронной почты. Убедитесь, что введенная почта правильная.");
+                    CurrentData.Email = _previousEmail; 
+                    OnPropertyChanged(nameof(CurrentData.Email)); 
+                    IsEmailReadOnly = !IsEmailReadOnly;
+
+                    return; 
+                }
+
+                
+                userRepository.EditCurrentUser(nameof(EmpData.Email), CurrentData.Email); 
+                IsEmailReadOnly = !IsEmailReadOnly; 
+                userRepository.GetById(); 
                 _notifier.ShowSuccess("Email успешно изменен!");
             }
         }
 
+        private string FormatPhoneNumber(string rawNumber)
+        {
+            string digitsOnly = new string(rawNumber.Where(char.IsDigit).ToArray());
+
+            // Если длина 11 символов и начинается с 8 или 7, приводим к нужному формату
+            if (digitsOnly.Length == 11 && (digitsOnly.StartsWith("7") || digitsOnly.StartsWith("8")))
+            {
+                return $"+7 ({digitsOnly.Substring(1, 3)}) {digitsOnly.Substring(4, 3)}-{digitsOnly.Substring(7, 2)}-{digitsOnly.Substring(9, 2)}";
+            }
+
+            return rawNumber;
+        }
         private void ExecuteEditNumber(object obj)
         {
+            string phonePattern = @"^(?:\+7|8)[-\s]?\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{2}[-\s]?\d{2}$";
+            Regex phoneRegex = new Regex(phonePattern);
+
             if (IsNumberReadOnly)
             {
                 IsNumberReadOnly = !IsNumberReadOnly;
             }
             else
             {
+                // Проверяем формат номера телефона
+                if (!phoneRegex.IsMatch(CurrentData.PhoneNumber))
+                {
+                    _notifier.ShowWarning("Некорректный формат номера телефона.");
+                    //Debug.WriteLine("sdv",_previousPhoneNumber);
+
+                    CurrentData.PhoneNumber = _previousPhoneNumber; 
+                    OnPropertyChanged(nameof(CurrentData.PhoneNumber)); 
+                    IsNumberReadOnly = !IsNumberReadOnly;
+
+                    return;
+                }
+
+                // Сохраняем текущее значение как предыдущее перед обновлением
+                _previousPhoneNumber = CurrentData.PhoneNumber;
+
+                // Выполняем обновление
                 userRepository.EditCurrentUser(nameof(EmpData.PhoneNumber), CurrentData.PhoneNumber);
                 IsNumberReadOnly = !IsNumberReadOnly;
                 userRepository.GetById();
-                _notifier.ShowSuccess("Номер телефона успешно изменен!");
 
+                CurrentData.PhoneNumber = FormatPhoneNumber(CurrentData.PhoneNumber); 
+
+                _notifier.ShowSuccess("Номер телефона успешно изменен!");
             }
         }
+
 
         private void ExecuteEditPicture(object obj)
         {
@@ -191,7 +288,7 @@ namespace Cafe_Managment.ViewModel
                 byte[] photoData = File.ReadAllBytes(fileDialog.FileName);
                 userRepository.UpdateCurrentUserPicture(photoData);
                 userRepository.GetById();
-                _notifier.ShowSuccess("Фотография успешно изменена!");
+                _notifier.ShowSuccess("Фотография профиля успешно изменена!");
             }
         }
     }
