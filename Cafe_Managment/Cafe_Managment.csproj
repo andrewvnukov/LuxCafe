@@ -190,6 +190,9 @@
     <Compile Include="View\DialogWindows\NewDish.xaml.cs">
       <DependentUpon>NewDish.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DialogWindows\PhotoEdit.xaml.cs">
+      <DependentUpon>PhotoEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DialogWindows\RegisterForms\RegisterFirst.xaml.cs">
       <DependentUpon>RegisterFirst.xaml</DependentUpon>
     </Compile>
@@ -285,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\NewDish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\PhotoEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

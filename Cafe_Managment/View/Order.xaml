@@ -270,7 +270,17 @@
                                   FontSize="18"
                                   FontWeight="DemiBold"
                                   MaxHeight="100"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        
+                                            <WrapPanel IsItemsHost="True"
+                                                       Orientation="Horizontal"
+                                                       Width="60"/>
+                                       
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
