@@ -271,6 +271,7 @@ namespace Cafe_Managment.Repositories
                                 e.Address AS 'Адрес',
                                 e.UpdatedAt AS 'ДатаОбновления',
                                 e.CreatedAt AS 'ДатаНайма'
+                                e.ProfileImage AS 'Фото'
                         FROM Employees e 
                         INNER JOIN Roles r ON e.RoleId = r.Id
                         INNER JOIN Branches c ON e.BranchId = c.Id";

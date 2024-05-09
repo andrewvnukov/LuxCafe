@@ -116,7 +116,6 @@ namespace Cafe_Managment.ViewModel
             DismissedEmployees = tempdel.Copy();
 
 
-
             IsReadOnly = true;
 
             SelectedEmployee = -1;
@@ -260,7 +259,6 @@ namespace Cafe_Managment.ViewModel
             }
             
         }
-
         private bool CanExecuteHireCommand(object arg)
         {
             bool istrue = false;
