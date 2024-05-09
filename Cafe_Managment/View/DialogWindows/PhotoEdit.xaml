@@ -1,0 +1,14 @@
+﻿<Window x:Class="Cafe_Managment.View.DialogWindows.PhotoEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows"
+        xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="Transparent">
+    <Grid>
+        <Image Name="Profile"/>
+    </Grid>
+</Window>

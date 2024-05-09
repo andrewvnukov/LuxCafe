@@ -39,6 +39,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand EditCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand InfoCommand { get; set; }
+        public ICommand EditPhotoCommand { get; set; }
 
         public bool IsReadOnly
         {
@@ -128,6 +129,12 @@ namespace Cafe_Managment.ViewModel
             EditCommand = new RelayCommand(ExecuteEditCommand);
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
+            EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
+        }
+
+        private void ExecuteEditPhotoCommand(object obj)
+        {
+            throw new NotImplementedException();
         }
 
         private Notifier CreateNotifier()
