@@ -19,10 +19,10 @@ namespace Cafe_Managment.View.DialogWindows
     /// </summary>
     public partial class PhotoEdit : Window
     {
-        public PhotoEdit()
+        public PhotoEdit(BitmapImage bitmapImage)
         {
             InitializeComponent();
-
+            Profile.Source = bitmapImage;
         }
     }
 }

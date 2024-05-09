@@ -21,6 +21,7 @@ namespace Cafe_Managment.Repositories
         protected MySqlConnection GetConnection()
         {
             return new MySqlConnection(_connectionString);
+
         }
     }
 }

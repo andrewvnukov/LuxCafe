@@ -16,6 +16,8 @@ using ToastNotifications.Messages;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Media.Imaging;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -134,7 +136,11 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteEditPhotoCommand(object obj)
         {
-            throw new NotImplementedException();
+            DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
+            byte[] bitmapArray = dataRowView.Row[13] as byte[];
+            BitmapImage bitmapImage = userRepository.ConvertByteArrayToBitmapImage(bitmapArray);
+            PhotoEdit photoEdit = new PhotoEdit(bitmapImage);
+            photoEdit.Show();
         }
 
         private Notifier CreateNotifier()
@@ -245,19 +251,20 @@ namespace Cafe_Managment.ViewModel
         {
             DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
 
-            int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
+            int tempId = int.Parse(temp.Rows[SelectedEmployee][1].ToString());
             string fullName = $"{dataRowView.Row[4].ToString()} {dataRowView.Row[3].ToString()} {dataRowView.Row[5].ToString()}";
 
-            if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp}?",
+            if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp.Rows[SelectedEmployee][0].ToString()}?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
-                if (temp == UserData.Id)
+                if (tempId == UserData.Id)
                 {
                     _notifier.ShowError("Извините, но вы не можете уволить себя");
                 }
                 else
                 {
-                    userRepository.FireEmployee(temp);
+                    userRepository.FireEmployee(tempId);
+
                     DismissedEmployees = userRepository.GetDismissedEmployees();
                     RefreshAll();
 

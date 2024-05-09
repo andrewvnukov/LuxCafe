@@ -213,7 +213,7 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"INSERT INTO dismissed_employees 
                                     (BranchId, RoleId, CreatedAt, UpdatedAt, DeletedAt, Login, Password, Salt, Name, Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage) 
                                     SELECT BranchId, RoleId, CreatedAt, UpdatedAt, NOW() as DeletedAt, Login, Password, Salt, Name, 
-                                    Surname, Patronomic, PhoneNumber, Email, DATE_FORMAT(BirthDay, '%d-%m-%Y'), Address, ProfileImage 
+                                    Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage 
                                     FROM employees 
                                     WHERE Id = @Id";
 
@@ -228,6 +228,7 @@ namespace Cafe_Managment.Repositories
                     // Включаем проверки внешних ключей
                     command.CommandText = "SET foreign_key_checks = 1";
                     command.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
             catch (MySqlException ex)
@@ -237,13 +238,6 @@ namespace Cafe_Managment.Repositories
             catch (Exception ex)
             {
                 MessageBox.Show($"Произошла ошибка: {ex.Message}");
-            }
-            finally
-            {
-                if (connection != null && connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                }
             }
         }
 
@@ -270,8 +264,8 @@ namespace Cafe_Managment.Repositories
                                 e.Login AS 'Логин',
                                 e.Address AS 'Адрес',
                                 e.UpdatedAt AS 'ДатаОбновления',
-                                e.CreatedAt AS 'ДатаНайма'
-                                e.ProfileImage AS 'Фото'
+                                e.CreatedAt AS 'ДатаНайма',
+                                e.ProfileImage
                         FROM Employees e 
                         INNER JOIN Roles r ON e.RoleId = r.Id
                         INNER JOIN Branches c ON e.BranchId = c.Id";
@@ -428,7 +422,7 @@ namespace Cafe_Managment.Repositories
         }
 
 
-        private BitmapImage ConvertByteArrayToBitmapImage(byte[] byteArray)
+        public BitmapImage ConvertByteArrayToBitmapImage(byte[] byteArray)
         {
             if (byteArray == null || byteArray.Length == 0)
             {

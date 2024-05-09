@@ -51,7 +51,7 @@
                               SelectedItem="{Binding SelectedEmployeeItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False" 
-                              AutoGenerateColumns="False"
+                              AutoGenerateColumns="False" SelectionChanged="MembersDataGrid_SelectionChanged_1"
                               >
 
                         <DataGrid.Columns>
@@ -78,7 +78,7 @@
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridInfoButton}"
-                                                    Command="{Binding DataContext.PhotoCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                                    Command="{Binding DataContext.EditPhotoCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>

@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows"
         xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
         mc:Ignorable="d"
-        AllowsTransparency="True"
-        Background="Transparent">
+        Height="250"
+        Width="250">
     <Grid>
         <Image Name="Profile"/>
     </Grid>

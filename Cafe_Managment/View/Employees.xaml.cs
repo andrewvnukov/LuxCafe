@@ -30,5 +30,10 @@ namespace Cafe_Managment.View
         {
 
         }
+
+        private void MembersDataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
