@@ -178,14 +178,26 @@ namespace Cafe_Managment.ViewModel
             // Создаем новый объект с данными сотрудника
             EmpData newdata = new EmpData
             {
+               
                 Id = EmpId,
                 Name = dataRowView.Row[3].ToString(),
+                Login = dataRowView.Row[8].ToString(),
                 Surname = dataRowView.Row[4].ToString(),
                 Patronomic = dataRowView.Row[5].ToString(),
                 PhoneNumber = dataRowView.Row[6].ToString(),
                 Email = dataRowView.Row[7].ToString(),
                 Address = dataRowView.Row[9].ToString(),
             };
+            Debug.WriteLine(dataRowView.Row[1], "1");
+            Debug.WriteLine(dataRowView.Row[2], "2");
+            Debug.WriteLine(dataRowView.Row[3], "3");
+            Debug.WriteLine(dataRowView.Row[4], "4");
+            Debug.WriteLine(dataRowView.Row[5], "5");
+            Debug.WriteLine(dataRowView.Row[6], "6");
+            Debug.WriteLine(dataRowView.Row[7], "7");
+            Debug.WriteLine(dataRowView.Row[8], "8");
+            Debug.WriteLine(dataRowView.Row[9], "9");
+            Debug.WriteLine(dataRowView.Row[10], "10");
 
             userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
 

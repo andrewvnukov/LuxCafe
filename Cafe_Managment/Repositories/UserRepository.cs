@@ -117,7 +117,8 @@ namespace Cafe_Managment.Repositories
                                     e.Patronomic AS 'Отчество', 
                                     e.PhoneNumber AS 'Номер телефона', 
                                     e.Email AS 'Почта', 
-                                    DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения', 
+                                    DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения', 
+                                    e.Login AS 'Логин',
                                     e.Address AS 'Адрес' 
                                 FROM dismissed_employees e 
                                 INNER JOIN Roles r ON e.RoleId = r.Id
@@ -212,7 +213,7 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"INSERT INTO dismissed_employees 
                                     (BranchId, RoleId, CreatedAt, UpdatedAt, DeletedAt, Login, Password, Salt, Name, Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage) 
                                     SELECT BranchId, RoleId, CreatedAt, UpdatedAt, NOW() as DeletedAt, Login, Password, Salt, Name, 
-                                    Surname, Patronomic, PhoneNumber, Email, DATE_FORMAT(BirthDay, '%d-%m-%Y') AS 'Дата рождения', Address, ProfileImage 
+                                    Surname, Patronomic, PhoneNumber, Email, DATE_FORMAT(BirthDay, '%d-%m-%Y'), Address, ProfileImage 
                                     FROM employees 
                                     WHERE Id = @Id";
 
@@ -264,9 +265,11 @@ namespace Cafe_Managment.Repositories
                                 e.Id,
                                 c.Address AS 'Филиал', r.Title AS 'Должность', 
                                 e.Name AS 'Имя', e.Surname AS 'Фамилия', 
-                                e.Patronomic AS 'Отчество', e.PhoneNumber AS 'Номер телефона', 
-                                e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения',
-                                e.Address AS 'Адрес' 
+                                e.Patronomic AS 'Отчество', e.PhoneNumber AS 'НомерТелефона', 
+                                e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения',
+                                e.Login AS 'Логин',
+                                e.Address AS 'Адрес',
+                                e.UpdatedAt AS 'ДатаОбновления'
                         FROM Employees e 
                         INNER JOIN Roles r ON e.RoleId = r.Id
                         INNER JOIN Branches c ON e.BranchId = c.Id";
@@ -277,8 +280,8 @@ namespace Cafe_Managment.Repositories
                     // Удаление времени из даты рождения
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        DateTime birthDay = DateTime.Parse(row["Дата рождения"].ToString());
-                        row["Дата рождения"] = birthDay.ToShortDateString();
+                        DateTime birthDay = DateTime.Parse(row["ДатаРождения"].ToString());
+                        row["ДатаРождения"] = birthDay.ToShortDateString();
                     }
                 }
             }
@@ -891,6 +894,7 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"UPDATE employees 
                                     SET
                                         UpdatedAt = NOW(),
+                                        Login = @Login, 
                                         Name = @Name, 
                                         Surname = @Surname, 
                                         Patronomic = @Patronomic, 
@@ -907,6 +911,7 @@ namespace Cafe_Managment.Repositories
                     }
 
                     command.Parameters.AddWithValue("@Id", data.Id);
+                    command.Parameters.AddWithValue("@Login", data.Login);
                     command.Parameters.AddWithValue("@Name", data.Name);
                     command.Parameters.AddWithValue("@Surname", data.Surname);
                     command.Parameters.AddWithValue("@Patronomic", data.Patronomic ?? ""); // Убедиться, что не `null`
