@@ -185,7 +185,6 @@ namespace Cafe_Managment.ViewModel
             // Создаем новый объект с данными сотрудника
             EmpData newdata = new EmpData
             {
-               
                 Id = EmpId,
                 Name = dataRowView.Row[3].ToString(),
                 Login = dataRowView.Row[8].ToString(),
