@@ -117,7 +117,7 @@ namespace Cafe_Managment.Repositories
                                     e.Patronomic AS 'Отчество', 
                                     e.PhoneNumber AS 'Номер телефона', 
                                     e.Email AS 'Почта', 
-                                    DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения', 
+                                    DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'Дата рождения', 
                                     e.Login AS 'Логин',
                                     e.Address AS 'Адрес' 
                                 FROM dismissed_employees e 
