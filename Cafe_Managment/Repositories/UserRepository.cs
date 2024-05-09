@@ -269,7 +269,8 @@ namespace Cafe_Managment.Repositories
                                 e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения',
                                 e.Login AS 'Логин',
                                 e.Address AS 'Адрес',
-                                e.UpdatedAt AS 'ДатаОбновления'
+                                e.UpdatedAt AS 'ДатаОбновления',
+                                e.CreatedAt AS 'ДатаНайма'
                         FROM Employees e 
                         INNER JOIN Roles r ON e.RoleId = r.Id
                         INNER JOIN Branches c ON e.BranchId = c.Id";
