@@ -10,11 +10,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
+using System.Data;
 
 namespace Cafe_Managment.ViewModel
 {
     public class LoginVM : ViewModelBase
     {
+        private Notifier _notifier;
+
         private string _username;
         private SecureString _password;
         private string _loginerrorMessage;
@@ -68,6 +78,8 @@ namespace Cafe_Managment.ViewModel
 
         public LoginVM()
         {
+            _notifier = CreateNotifier();
+
 
             userRepository = new UserRepository();
 
@@ -75,6 +87,25 @@ namespace Cafe_Managment.ViewModel
             CloseAppCommand = new RelayCommand(ExecuteCloseAppCommand);
         }
 
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
         private void ExecuteCloseAppCommand(object obj)
         {
             System.Windows.Application.Current.Shutdown();
@@ -92,35 +123,56 @@ namespace Cafe_Managment.ViewModel
             return DataValid;
         }
 
-        private void ExecuteLoginCommand(object obj)
+        private async void ExecuteLoginCommand(object obj)
         {
-            LoginErrorMessage = "";
-            PasswordErrorMessage = "";
-
-            var isValidUser = userRepository.AuthenticateUser(new System.Net.NetworkCredential(Username, Password));
-
-            switch (isValidUser)
+            try
             {
-                case 0:
-                    if (IsRemember)
-                    {
-                        Task RememberCurrentUserAsync = new Task(userRepository.RememberCurrentUser);
-                        RememberCurrentUserAsync.Start();
-                    }
-                    IsViewVisible = false;
-                    break;
-                case 1:
-                    LoginErrorMessage = "Сотрудник уволен";
-                    PasswordErrorMessage = "Сотрудник уволен";
-                    break;
-                case 2:
-                    LoginErrorMessage = "Неправильный логин";
-                    break;
-                case 3:
-                    PasswordErrorMessage = "Неправильный пароль";
-                    break;
+                var credential = new System.Net.NetworkCredential(Username, Password);
+
+                // Сначала проверим, не уволен ли пользователь
+                var dismissedData = await Task.Run(() => userRepository.GetDismissedEmployees());
+                var isDismissed = dismissedData?.AsEnumerable()
+                                   .Any(row => row.Field<string>("Логин") == Username) ?? false;
+
+                if (isDismissed)
+                {
+                    _notifier.ShowInformation("Данный сотрудник был уволен.");
+                    return;
+                }
+
+                // Если не уволен, продолжаем аутентификацию
+                var result = await Task.Run(() => userRepository.AuthenticateUser(credential));
+
+                switch (result)
+                {
+                    case 0: // Успешная аутентификация
+                        if (IsRemember)
+                        {
+                            await Task.Run(userRepository.RememberCurrentUser); // Асинхронное запоминание
+                        }
+                        IsViewVisible = false; // Закрыть окно входа
+                        break;
+
+                    case 2: // Неправильный логин
+                        _notifier.ShowWarning("Неправильный логин или пароль. Пожалуйста, попробуйте снова.");
+                        break;
+
+                    case 3: // Неправильный пароль
+                        _notifier.ShowWarning("Неправильный логин или пароль. Пожалуйста, попробуйте снова.");
+                        break;
+
+                    default:
+                        _notifier.ShowError("Произошла непредвиденная ошибка при аутентификации.");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                _notifier.ShowError($"Произошла ошибка при аутентификации: {ex.Message}"); // Обработка исключений
             }
         }
+
+
     }
 }
 

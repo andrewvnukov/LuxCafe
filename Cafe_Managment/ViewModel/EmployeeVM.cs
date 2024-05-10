@@ -236,10 +236,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteInfoCommand(object obj)
         {
-            MessageBox.Show("Изменению подлежат только следующие поля:\n" +
-                "Имя, Фамилия, Отчество, Почта, Номер телефона и адрес.\n" +
-                "Остальные данные изменены не будут!!!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+            _notifier.ShowInformation("Изменению подлежат только следующие поля:\nИмя, Фамилия, Отчество, Почта, Номер телефона и адрес.");
         }
 
         private bool CanExecuteFireCommand(object arg)
@@ -295,12 +292,11 @@ namespace Cafe_Managment.ViewModel
 
             };
         }
-        private void RefreshAll()
+        public void RefreshAll()
         {
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
             Employees.Columns.Remove("Id");
-            DismissedEmployees = userRepository.GetDismissedEmployees();
 
             temp = userRepository.GetByAll();
             DataTable dtEmp = temp.Copy();
@@ -310,6 +306,7 @@ namespace Cafe_Managment.ViewModel
             tempdel = userRepository.GetDismissedEmployees();
             DataTable dtEmpdel = tempdel.Copy();
             DismissedEmployees = dtEmp.Copy();
+            DismissedEmployees = userRepository.GetDismissedEmployees();
         }
 
     }
