@@ -192,23 +192,23 @@ namespace Cafe_Managment.ViewModel
             {
                 Id = EmpId,
                 Name = dataRowView.Row[3].ToString(),
-                Login = dataRowView.Row[8].ToString(),
                 Surname = dataRowView.Row[4].ToString(),
                 Patronomic = dataRowView.Row[5].ToString(),
                 PhoneNumber = dataRowView.Row[6].ToString(),
                 Email = dataRowView.Row[7].ToString(),
-                Address = dataRowView.Row[9].ToString(),
+                Address = dataRowView.Row[10].ToString()
             };
-            Debug.WriteLine(dataRowView.Row[1], "1");
-            Debug.WriteLine(dataRowView.Row[2], "2");
-            Debug.WriteLine(dataRowView.Row[3], "3");
-            Debug.WriteLine(dataRowView.Row[4], "4");
-            Debug.WriteLine(dataRowView.Row[5], "5");
-            Debug.WriteLine(dataRowView.Row[6], "6");
-            Debug.WriteLine(dataRowView.Row[7], "7");
-            Debug.WriteLine(dataRowView.Row[8], "8");
-            Debug.WriteLine(dataRowView.Row[9], "9");
-            Debug.WriteLine(dataRowView.Row[10], "10");
+            DataRow dataRow = dataRowView.Row;
+            DataTable dataTable = dataRow.Table;
+
+            // Получение названий столбцов
+            var columnNames = dataTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList();
+
+            // Пример вывода названий столбцов
+            foreach (var columnName in columnNames)
+            {
+                Debug.WriteLine($"Столбец: {columnName}");
+            }
 
             userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
 

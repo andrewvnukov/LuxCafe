@@ -122,7 +122,7 @@ namespace Cafe_Managment.Repositories
                                     e.Name AS 'Имя', 
                                     e.Surname AS 'Фамилия', 
                                     e.Patronomic AS 'Отчество', 
-                                    e.PhoneNumber AS 'Номер телефона', 
+                                    e.PhoneNumber AS 'НомерТелефона', 
                                     e.Email AS 'Почта', 
                                     DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения', 
                                     e.Login AS 'Логин',
@@ -910,7 +910,6 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"UPDATE employees 
                                     SET
                                         UpdatedAt = NOW(),
-                                        Login = @Login, 
                                         Name = @Name, 
                                         Surname = @Surname, 
                                         Patronomic = @Patronomic, 
@@ -927,7 +926,6 @@ namespace Cafe_Managment.Repositories
                     }
 
                     command.Parameters.AddWithValue("@Id", data.Id);
-                    command.Parameters.AddWithValue("@Login", data.Login);
                     command.Parameters.AddWithValue("@Name", data.Name);
                     command.Parameters.AddWithValue("@Surname", data.Surname);
                     command.Parameters.AddWithValue("@Patronomic", data.Patronomic ?? ""); // Убедиться, что не `null`
