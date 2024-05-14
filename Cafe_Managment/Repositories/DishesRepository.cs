@@ -82,7 +82,6 @@ namespace Cafe_Managment.Repositories
             return dataTable;
         }
 
-
         public DataTable GetAllDeletedDishes()
         {
             DataTable dataTable = new DataTable();
@@ -134,7 +133,6 @@ namespace Cafe_Managment.Repositories
 
             return dataTable;
         }
-
 
         public DataTable RestoreDeletedDish(DishData dish)
         {
@@ -902,5 +900,16 @@ namespace Cafe_Managment.Repositories
             }
         }
 
+        public List<string> GetAllCategories()
+        {
+            List<string> categories = new List<string>();
+            MySqlConnection connection = GetConnection();
+            connection.Open();
+            using(var command = new MySqlCommand())
+            {
+                command.Connection = connection;
+                command.CommandText = "SELECT Title FROM"
+            }
+        }
     }
 }

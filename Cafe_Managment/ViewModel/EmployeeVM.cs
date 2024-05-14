@@ -241,7 +241,7 @@ namespace Cafe_Managment.ViewModel
                 "Остальные данные изменены не будут!!!",
                 "Внимание!!!", MessageBoxButton.YesNoCancel);
         }
-
+            
         private bool CanExecuteFireCommand(object arg)
         {
             return !(SelectedEmployee == -1 || SelectedEmployee >= Employees.Rows.Count);
