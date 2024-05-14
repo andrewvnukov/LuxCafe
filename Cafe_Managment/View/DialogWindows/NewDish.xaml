@@ -50,7 +50,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center">
-                        <ComboBox ItemsSource="{Binding }"
+                        
                     </StackPanel>
                 </Grid>
             </StackPanel>

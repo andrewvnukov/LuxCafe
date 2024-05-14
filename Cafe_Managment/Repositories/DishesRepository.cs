@@ -908,8 +908,9 @@ namespace Cafe_Managment.Repositories
             using(var command = new MySqlCommand())
             {
                 command.Connection = connection;
-                command.CommandText = "SELECT Title FROM"
+                command.CommandText = "SELECT Title FROM";
             }
+            return null;
         }
     }
 }
