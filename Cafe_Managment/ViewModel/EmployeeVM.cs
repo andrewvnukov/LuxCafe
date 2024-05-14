@@ -192,23 +192,23 @@ namespace Cafe_Managment.ViewModel
             {
                 Id = EmpId,
                 Name = dataRowView.Row[3].ToString(),
-                Login = dataRowView.Row[8].ToString(),
                 Surname = dataRowView.Row[4].ToString(),
                 Patronomic = dataRowView.Row[5].ToString(),
                 PhoneNumber = dataRowView.Row[6].ToString(),
                 Email = dataRowView.Row[7].ToString(),
-                Address = dataRowView.Row[9].ToString(),
+                Address = dataRowView.Row[10].ToString()
             };
-            Debug.WriteLine(dataRowView.Row[1], "1");
-            Debug.WriteLine(dataRowView.Row[2], "2");
-            Debug.WriteLine(dataRowView.Row[3], "3");
-            Debug.WriteLine(dataRowView.Row[4], "4");
-            Debug.WriteLine(dataRowView.Row[5], "5");
-            Debug.WriteLine(dataRowView.Row[6], "6");
-            Debug.WriteLine(dataRowView.Row[7], "7");
-            Debug.WriteLine(dataRowView.Row[8], "8");
-            Debug.WriteLine(dataRowView.Row[9], "9");
-            Debug.WriteLine(dataRowView.Row[10], "10");
+            DataRow dataRow = dataRowView.Row;
+            DataTable dataTable = dataRow.Table;
+
+            // Получение названий столбцов
+            var columnNames = dataTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList();
+
+            // Пример вывода названий столбцов
+            foreach (var columnName in columnNames)
+            {
+                Debug.WriteLine($"Столбец: {columnName}");
+            }
 
             userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
 
@@ -236,10 +236,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteInfoCommand(object obj)
         {
-            MessageBox.Show("Изменению подлежат только следующие поля:\n" +
-                "Имя, Фамилия, Отчество, Почта, Номер телефона и адрес.\n" +
-                "Остальные данные изменены не будут!!!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+            _notifier.ShowInformation("Изменению подлежат только следующие поля:\nИмя, Фамилия, Отчество, Почта, Номер телефона и адрес.");
         }
             
         private bool CanExecuteFireCommand(object arg)
@@ -295,12 +292,11 @@ namespace Cafe_Managment.ViewModel
 
             };
         }
-        private void RefreshAll()
+        public void RefreshAll()
         {
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
             Employees.Columns.Remove("Id");
-            DismissedEmployees = userRepository.GetDismissedEmployees();
 
             temp = userRepository.GetByAll();
             DataTable dtEmp = temp.Copy();
@@ -310,6 +306,7 @@ namespace Cafe_Managment.ViewModel
             tempdel = userRepository.GetDismissedEmployees();
             DataTable dtEmpdel = tempdel.Copy();
             DismissedEmployees = dtEmp.Copy();
+            DismissedEmployees = userRepository.GetDismissedEmployees();
         }
 
     }

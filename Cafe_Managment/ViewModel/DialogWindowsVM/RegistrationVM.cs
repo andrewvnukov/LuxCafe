@@ -24,6 +24,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 {
     public class RegistrationVM : ViewModelBase
     {
+
         UserRepository userRepository;
         private Notifier _notifier;
 
@@ -175,7 +176,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 
             if (!loginRegex.IsMatch(NewEmp.Login))
             {
-                _notifier.ShowWarning("Логин должен содержать хотя бы одну латинскую букву и не должен состоять только из цифр.");
+                _notifier.ShowWarning("Логин должен включать в себя только буквы латинского алфавита и не должен состоять исключительно из цифр.");
                 return;
             }
 
@@ -216,6 +217,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 
             _notifier.ShowSuccess($"Сотрудник \"{fullName}\" был успешно зарегистрирован под логином {NewEmp.Login}!");
             IsViewVisible = false; // Закрыть окно регистрации
+            //RefreshAll();
         }
 
 

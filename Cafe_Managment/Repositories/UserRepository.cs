@@ -25,6 +25,7 @@ using System.Windows.Resources;
 using ExCSS;
 using System.Xml.Linq;
 using Google.Protobuf.WellKnownTypes;
+using System.Diagnostics;
 
 namespace Cafe_Managment.Repositories
 {
@@ -43,56 +44,62 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT Id, Password, Salt FROM Employees WHERE Login = @Username";
+                    command.CommandText = "SELECT Id, Password, Salt, IsDismissed FROM Employees WHERE Login = @Username"; // Проверьте порядок столбцов
                     command.Parameters.AddWithValue("@Username", credential.UserName);
 
                     using (var reader = command.ExecuteReader())
                     {
-                        if (reader.HasRows && reader.Read())
+                        if (reader.Read())
                         {
+                            // Убедитесь, что все столбцы доступны перед их использованием
+                            if (reader.FieldCount < 4)
+                            {
+                                return -1; // Если столбцы отсутствуют, верните код ошибки
+                            }
+
+                            bool isDismissed = reader.GetBoolean(3); // Проверьте индекс
+                            if (isDismissed)
+                            {
+                                return 1; // 1 - сотрудник уволен
+                            }
+
                             string storedPassword = reader.GetString(1); // Пароль из базы данных
-                            string salt = reader.GetString(2); // Соль для хэширования
+                            string salt = reader.GetString(2); // Соль для пароля
 
-                            // Хэшируем вводимый пароль и сравниваем с хранимым
-                            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(credential.Password, salt);
+                            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(credential.Password, storedPassword); // Проверка пароля
+                            if (isPasswordValid)
+                            {
+                                UserData.Id = reader.GetInt32(0); // Установить идентификатор
+                                return 0; // 0 - успешная аутентификация
+                            }
 
-                            if (hashedPassword == storedPassword)
-                            {
-                                UserData.Id = reader.GetInt32(0); // Идентификатор пользователя
-                                validUser = 0; // 0 - успешная аутентификация
-                            }
-                            else
-                            {
-                                validUser = 1; // 1 - неверный пароль
-                            }
+                            return 3; // 3 - неверный пароль
                         }
-                        else
-                        {
-                            validUser = 2; // 2 - пользователь не найден
-                        }
+
+                        return 2; // 2 - пользователь не найден
                     }
                 }
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show($"Ошибка базы данных MySQL: {ex.Message}");
-                validUser = -1; // -1 - ошибка базы данных
+                Debug.WriteLine($"Ошибка базы данных MySQL: {ex.Message}");
+                return -1; // -1 - ошибка базы данных
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Общая ошибка: {ex.Message}");
-                validUser = -1; // -1 - общая ошибка
+                Debug.WriteLine($"Произошла ошибка: {ex.Message}");
+                return -1; // -1 - общая ошибка
             }
             finally
             {
                 if (connection != null && connection.State == ConnectionState.Open)
                 {
-                    connection.Close();
+                    connection.Close(); // Закрыть соединение
                 }
             }
-
-            return validUser;
         }
+
+
 
 
         public DataTable GetDismissedEmployees()
@@ -115,23 +122,26 @@ namespace Cafe_Managment.Repositories
                                     e.Name AS 'Имя', 
                                     e.Surname AS 'Фамилия', 
                                     e.Patronomic AS 'Отчество', 
-                                    e.PhoneNumber AS 'Номер телефона', 
+                                    e.PhoneNumber AS 'НомерТелефона', 
                                     e.Email AS 'Почта', 
                                     DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения', 
                                     e.Login AS 'Логин',
-                                    e.Address AS 'Адрес' 
+                                    e.Address AS 'Адрес',
+                                    e.DeletedAt AS 'ДатаУвольнения',
+                                    e.CreatedAt AS 'ДатаНайма',
+                                    e.IsDismissed AS 'Уволен'
                                 FROM dismissed_employees e 
                                 INNER JOIN Roles r ON e.RoleId = r.Id
                                 INNER JOIN Branches c ON e.BranchId = c.Id";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                    adapter.Fill(dataTable);
+                    adapter.Fill(dataTable); // Заполняем DataTable
                 }
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show($"Ошибка базы данных MySQL: {ex.Message}");
-                dataTable = null; // Или можно вернуть пустую таблицу в случае ошибки
+                dataTable = null;
             }
             catch (Exception ex)
             {
@@ -142,11 +152,11 @@ namespace Cafe_Managment.Repositories
             {
                 if (connection != null && connection.State == ConnectionState.Open)
                 {
-                    connection.Close();
+                    connection.Close(); // Закрываем соединение
                 }
             }
 
-            return dataTable;
+            return dataTable; // Возвращаем заполненную таблицу
         }
 
 
@@ -209,16 +219,19 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = "SET foreign_key_checks = 0";
                     command.ExecuteNonQuery();
 
-                    // Переносим сотрудника в dismissed_employees
+                    // Сначала установим IsDismissed в 1
+                    command.CommandText = "UPDATE employees SET IsDismissed = 1 WHERE Id = @Id";
+                    command.Parameters.AddWithValue("@Id", id);
+                    command.ExecuteNonQuery();
+
+                    // Теперь перемещаем сотрудника в dismissed_employees
                     command.CommandText = @"INSERT INTO dismissed_employees 
-                                    (BranchId, RoleId, CreatedAt, UpdatedAt, DeletedAt, Login, Password, Salt, Name, Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage) 
+                                    (BranchId, RoleId, CreatedAt, UpdatedAt, DeletedAt, Login, Password, Salt, Name, Surname, 
+                                    Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage) 
                                     SELECT BranchId, RoleId, CreatedAt, UpdatedAt, NOW() as DeletedAt, Login, Password, Salt, Name, 
                                     Surname, Patronomic, PhoneNumber, Email, BirthDay, Address, ProfileImage 
                                     FROM employees 
                                     WHERE Id = @Id";
-
-
-                    command.Parameters.AddWithValue("@Id", id);
                     command.ExecuteNonQuery();
 
                     // Удаляем сотрудника из employees
@@ -228,7 +241,6 @@ namespace Cafe_Managment.Repositories
                     // Включаем проверки внешних ключей
                     command.CommandText = "SET foreign_key_checks = 1";
                     command.ExecuteNonQuery();
-                    connection.Close();
                 }
             }
             catch (MySqlException ex)
@@ -239,7 +251,15 @@ namespace Cafe_Managment.Repositories
             {
                 MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close(); // Закрыть соединение
+                }
+            }
         }
+
 
 
         public DataTable GetByAll()
@@ -890,7 +910,6 @@ namespace Cafe_Managment.Repositories
                     command.CommandText = @"UPDATE employees 
                                     SET
                                         UpdatedAt = NOW(),
-                                        Login = @Login, 
                                         Name = @Name, 
                                         Surname = @Surname, 
                                         Patronomic = @Patronomic, 
@@ -907,7 +926,6 @@ namespace Cafe_Managment.Repositories
                     }
 
                     command.Parameters.AddWithValue("@Id", data.Id);
-                    command.Parameters.AddWithValue("@Login", data.Login);
                     command.Parameters.AddWithValue("@Name", data.Name);
                     command.Parameters.AddWithValue("@Surname", data.Surname);
                     command.Parameters.AddWithValue("@Patronomic", data.Patronomic ?? ""); // Убедиться, что не `null`
