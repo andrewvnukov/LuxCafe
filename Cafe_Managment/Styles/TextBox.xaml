@@ -26,8 +26,9 @@
                         </Border>
                         <TextBlock x:Name="PART_Hint"
                                    Foreground="LightGray"
+                                   VerticalAlignment="Top"
                                    HorizontalAlignment="Left"
-                                   Margin="10" VerticalAlignment="Center" 
+                                   Margin="10"
                                    Panel.ZIndex="2" Background="Transparent"
                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}"
                                    Height="auto"

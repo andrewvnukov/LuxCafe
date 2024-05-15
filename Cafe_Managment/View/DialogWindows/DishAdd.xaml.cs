@@ -15,18 +15,13 @@ using System.Windows.Shapes;
 namespace Cafe_Managment.View.DialogWindows
 {
     /// <summary>
-    /// Логика взаимодействия для NewDish.xaml
+    /// Логика взаимодействия для DishAdd.xaml
     /// </summary>
-    public partial class NewDish : Window
+    public partial class DishAdd : Window
     {
-        public NewDish()
+        public DishAdd()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

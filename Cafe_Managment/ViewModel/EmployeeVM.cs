@@ -236,7 +236,7 @@ namespace Cafe_Managment.ViewModel
         {
             _notifier.ShowInformation("Изменению подлежат только следующие поля:\nИмя, Фамилия, Отчество, Почта, Номер телефона и адрес.");
         }
-
+            
         private bool CanExecuteFireCommand(object arg)
         {
             return !(SelectedEmployee == -1 || SelectedEmployee >= Employees.Rows.Count);

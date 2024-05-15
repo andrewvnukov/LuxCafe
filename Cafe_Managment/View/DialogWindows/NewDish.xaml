@@ -4,9 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows"
+        xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
         mc:Ignorable="d"
-        Title="NewDish" Height="450" Width="800">
+        Title="NewDish" Height="450" Width="800"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None">
+    <Window.DataContext>
+        <vm:MenuVM/>
+    </Window.DataContext>
+    <Border>
     <Grid>
-        
+            <StackPanel Orientation="Vertical">
+                <Button Style="{DynamicResource CloseApp}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="30"
+                        Margin="2"
+                        Click="Button_Click"/>
+                <TextBlock Text="Добавление нового блюда в архив"
+                           TextWrapping="Wrap" Style="{DynamicResource Text_Headline2}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                >
+                    <TextBox Tag="Название блюда"
+                             Text="{Binding NewDish.Title}"
+                             Style="{DynamicResource LoginTextBox}"
+                             Margin="20"/>
+                    <TextBox Tag="Описание блюда"
+                             Text="{Binding NewDish.Description}"
+                             Style="{DynamicResource LoginTextBox}"
+                             Margin="20"
+                             Height="auto"
+                             TextWrapping="Wrap"/>
+                    <TextBox Tag="Состав блюда"
+                             Text="{Binding NewDish.Composition}"
+                             Style="{DynamicResource LoginTextBox}"
+                             Margin="20"
+                             Height="auto"
+                             TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
+                        
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
     </Grid>
+    </Border>
 </Window>

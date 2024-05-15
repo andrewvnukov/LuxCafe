@@ -35,6 +35,7 @@ namespace Cafe_Managment.ViewModel
         private object _selectedItem;
         private object _selectedItemMenu;
         private string _newPrice;
+        private DishData _newDish;
 
         DataTable tempArchive = new DataTable();
         DataTable tempMenu = new DataTable();
@@ -74,6 +75,15 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        public DishData NewDish
+        {
+            get => _newDish;
+            set
+            {
+                _newDish = value;
+                OnPropertyChanged(nameof(NewDish));
+            }
+        }
 
         private DataTable _deletedDishes;
 
@@ -501,6 +511,7 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteAddDishToArchiveCommand(object obj)
         {
+
             MessageBox.Show("Блюдо успешно добавлено!");
         }
 
@@ -516,7 +527,8 @@ namespace Cafe_Managment.ViewModel
 
             int dishId = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
 
-            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить это блюдо?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить это блюдо?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -587,8 +599,10 @@ namespace Cafe_Managment.ViewModel
         private void RefreshMenu()
         {
             tempMenu = dishesRepository.GetAllDishesFromMenu();
-            ActiveMenu = tempMenu.Copy();
-            ActiveMenu.Columns.Remove("Id");
+            DataTable dt = tempMenu.Copy();
+            dt.Columns.Remove("Id");
+            ActiveMenu = new DataTable();
+            ActiveMenu = dt;
         }
         private void RefreshArchive()
         {
