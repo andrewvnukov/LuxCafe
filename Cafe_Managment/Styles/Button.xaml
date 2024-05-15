@@ -388,7 +388,7 @@
                         <Grid>
                             <Image Stretch="Uniform"
                                 Margin="7"
-                                Source="/Images/Back.png"
+                                Source="/Images/exit.png"
                                    Visibility="Collapsed"
                                    x:Name="BtnImage"/>
                             <TextBlock Text="{TemplateBinding Content}"

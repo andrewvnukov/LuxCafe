@@ -33,9 +33,7 @@ namespace Cafe_Managment.ViewModel
 
         DataTable temp = new DataTable();
         DataTable tempdel = new DataTable();
-        
-
-
+    
         public ICommand HireCommand { get; set; }
         public ICommand FireCommand { get; set; }
         public ICommand EditCommand { get; set; }

@@ -19,7 +19,7 @@
                    VerticalAlignment="Center"/>
             
         <StackPanel>
-            <TextBlock Text="Кухня" Style="{DynamicResource Text_Headline1}"/>
+            <TextBlock Text="Активные заказы" Style="{DynamicResource Text_Headline1}"/>
                 <Button Style="{DynamicResource GridInfoButton}"
                         HorizontalAlignment="Left"
                         Margin="10"

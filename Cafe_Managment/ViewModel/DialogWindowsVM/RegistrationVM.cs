@@ -24,10 +24,8 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 {
     public class RegistrationVM : ViewModelBase
     {
-
         UserRepository userRepository;
         private Notifier _notifier;
-
         DateTime _dateOfBirth;
         private bool _isViewVisible = true;
         private object _activePage;
@@ -36,8 +34,6 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         private object SecondPage = new RegisterSecond();
         private string _loginerrorMessage;
         private string _birtherrorMessage;
-
-
 
         public List<string> RoleTable { get; set; }
         public List<string> BranchTable { get; set; }
@@ -100,7 +96,6 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         public ICommand PreviousPageCommand { get; }
         public ICommand GeneratePasswordCommand { get; }
 
-
         public RegistrationVM() 
         {
             _notifier = CreateNotifier();
@@ -108,7 +103,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             DateOfBirth = DateTime.Now;
             userRepository = new UserRepository();
             RoleTable = userRepository.GetRoles();
-            RoleTable.Add("Выберите роль");
+            RoleTable.Add("Выберите должность");
             BranchTable = userRepository.GetBranches();
             BranchTable.Add("Выберите филиал");
             LoginErrorMessage = "";
@@ -133,9 +128,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             PreviousPageCommand = new RelayCommand(ExecutePreviousPageCommand);
             RegisterCommand = new RelayCommand(ExecuteRegisterCommand, CanExecuteRegisterCommand);
             GeneratePasswordCommand = new RelayCommand(ExecuteGeneratePassword);
-
         }
-
         private void ExecuteGeneratePassword(object obj)
         {
             string newPassword = PasswordGenerator.GenerateSecurePassword();
@@ -143,7 +136,6 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             OnPropertyChanged(nameof(NewEmp.Password));
             _notifier.ShowWarning("Перед завершением регистрации, убедитесь, что сотрудник сохранил себе пароль!");
         }
-
         private Notifier CreateNotifier()
         {
             return new Notifier(cfg =>
@@ -220,29 +212,22 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             //RefreshAll();
         }
 
-
-
-
         private bool CanExecuteRegisterCommand(object arg)
         {
-
             return _newEmp.Login.Length > 0 
                 && _newEmp.Password.Length > 0 
                 && _newEmp.Role != RoleTable.Count-1
                 && _newEmp.Branch != BranchTable.Count - 1;
-
         }
 
         private void ExecutePreviousPageCommand(object obj)
         {
             ActivePage = FirstPage;
-
         }
         private bool IsValidName(string name)
         {
             string namePattern = "^[a-zA-Zа-яА-ЯёЁ/s]+$"; // Регулярное выражение для ФИО
             Regex nameRegex = new Regex(namePattern);
-
             return nameRegex.IsMatch(name); // Проверяем, соответствует ли шаблон
         }
 
@@ -297,12 +282,9 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             && DateOfBirth != null;
         }
 
-
         private void ExecuteCloseWindowCommand(object obj)
         {
             IsViewVisible = false;
         }
-
-
     }
 }

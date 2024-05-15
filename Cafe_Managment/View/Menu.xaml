@@ -25,7 +25,6 @@
                   Margin="0 0 0 20">
                 <TextBlock Text="Архив блюд" 
                            Style="{DynamicResource Text_Headline2}"
-                           Foreground="{DynamicResource AccientColor1}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
 
@@ -354,7 +353,6 @@
                     <Grid Height="1000">
                         <TextBlock Text="Удалённые из архива блюда" 
                            Style="{DynamicResource Text_Headline2}"
-                           Foreground="{DynamicResource AccientColor1}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                                    Margin="0 15"/>

@@ -7,17 +7,11 @@
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:m="clr-namespace:Cafe_Managment.Model"
              d:DataContext="{d:DesignInstance Type=vm:ProfileVM}"
-
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <vm:ProfileVM/>
-    </UserControl.DataContext>
-
     <Grid>
-        <TextBlock Text="Профиль" 
+        <TextBlock Text="Профиль сотрудника"
                    Style="{DynamicResource Text_Headline1}" 
-                   Foreground="{DynamicResource AccientColor1}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Top" Margin="0,0,0,0"/>
         <ScrollViewer Margin="10,40,10,10"
@@ -57,7 +51,8 @@
                              Width="auto"
                              HorizontalAlignment="Center"
                              Tag="Фамилия"
-                             Text="{Binding CurrentData.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding CurrentData.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
             Margin="10,10,0,10">

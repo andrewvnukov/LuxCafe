@@ -14,7 +14,8 @@
             <TextBox Tag="Имя" Text="{Binding NewEmp.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
             <TextBox Tag="Фамилия" Text="{Binding NewEmp.Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
             <TextBox Tag="Отчество" Text="{Binding NewEmp.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource LoginTextBox}" Margin="0,20,0,20"/>
-            <DatePicker SelectedDate="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,20,0,0"/>
+            <TextBlock Text="Дата рождения" Foreground="LightGray" FontSize="14" FontFamily="/Fonts/Montserrat.ttf"/>
+            <DatePicker SelectedDate="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,10,0,0"/>
         </StackPanel>
 
         <Button Content="Далее"
