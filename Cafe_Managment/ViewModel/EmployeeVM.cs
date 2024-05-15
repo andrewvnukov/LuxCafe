@@ -118,7 +118,6 @@ namespace Cafe_Managment.ViewModel
             tempdel = userRepository.GetDismissedEmployees();
             DismissedEmployees = tempdel.Copy();
 
-
             IsReadOnly = true;
 
             SelectedEmployee = -1;
