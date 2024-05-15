@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:m="clr-namespace:Cafe_Managment.Model"
+             d:DataContext="{d:DesignInstance Type=vm:ProfileVM}"
+
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -13,7 +15,7 @@
     </UserControl.DataContext>
 
     <Grid>
-        <TextBlock Text="Личный кабинет" 
+        <TextBlock Text="Профиль" 
                    Style="{DynamicResource Text_Headline1}" 
                    Foreground="{DynamicResource AccientColor1}"
                    HorizontalAlignment="Center"
@@ -66,12 +68,12 @@
          Text="{Binding CurrentData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
-   Margin="10,10,0,10">
+                    Margin="10,10,0,10">
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
-Width="auto"
-HorizontalAlignment="Center"
-Tag="Отчество"
-Text="{Binding CurrentData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        Width="auto"
+                        HorizontalAlignment="Center"
+                        Tag="Отчество"
+                        Text="{Binding CurrentData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
                                 Margin="10,10,0,10">
@@ -142,18 +144,19 @@ Text="{Binding CurrentData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=Property
                     <StackPanel Orientation="Horizontal"
                                 Margin="10,10,0,10">
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
+                                 Name="PhoneNumberTB"
                                  IsReadOnly="{Binding IsNumberReadOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="auto"
                                 HorizontalAlignment="Center"
                                 Tag="Номер телефона"
                                 Text="{Binding CurrentData.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox Style="{DynamicResource Edit_Button}"
-                                  Command="{Binding EditNumber}"
-                                   Margin="5 0 0 0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Height="20"
-                                   Width="auto"/>
+                          Command="{Binding EditNumber}"
+                          Margin="5 0 0 0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="20"
+                          Width="auto"/>    
                     </StackPanel>
                 </StackPanel>
             </Grid>

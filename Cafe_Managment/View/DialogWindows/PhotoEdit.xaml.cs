@@ -1,5 +1,4 @@
-﻿using Cafe_Managment.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Cafe_Managment.View
+namespace Cafe_Managment.View.DialogWindows
 {
     /// <summary>
-    /// Логика взаимодействия для Menu.xaml
+    /// Логика взаимодействия для PhotoEdit.xaml
     /// </summary>
-    public partial class Menu : UserControl
+    public partial class PhotoEdit : Window
     {
-        public Menu()
+        public PhotoEdit(BitmapImage bitmapImage)
         {
             InitializeComponent();
-            DataContext = new MenuVM();
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+            Profile.Source = bitmapImage;
         }
     }
 }

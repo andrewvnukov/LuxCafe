@@ -40,30 +40,30 @@ namespace Cafe_Managment.ViewModel
         public Brush PanelBack
         {
             get { return _panelBack; }
-            set { _panelBack = value; OnPropertyChanged(); }
+            set { _panelBack = value; OnPropertyChanged(nameof(PanelBack)); }
         }
 
         public int WindowWidth
         {
             get { return _windowWidth; }
-            set { _windowWidth = value; OnPropertyChanged(); }
+            set { _windowWidth = value; OnPropertyChanged(nameof(WindowWidth)); }
         }
 
         public int WindowHeight
         {
             get { return _windowHeight; }
-            set { _windowHeight = value; OnPropertyChanged(); }
+            set { _windowHeight = value; OnPropertyChanged(nameof(WindowHeight)); }
         }
 
         public ResizeMode ResizeMode
         { get { return _resizeMode; }
-            set { _resizeMode = value; OnPropertyChanged(); }
+            set { _resizeMode = value; OnPropertyChanged(nameof(ResizeMode)); }
         }
 
         public bool CanResize
         {
             get { return _canResize; }
-            set { _canResize = value; OnPropertyChanged(); }
+            set { _canResize = value; OnPropertyChanged(nameof(CanResize)); }
         }
 
         public ICommand CloseAppCommand { get; set; }

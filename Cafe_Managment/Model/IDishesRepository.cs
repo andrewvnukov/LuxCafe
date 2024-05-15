@@ -12,6 +12,7 @@ namespace Cafe_Managment.Model
 {
     public interface IDishesRepository
     {
+        List<string> GetAllCategories();
         DataTable GetAllDishesFromArchive();
         DataTable GetAllDishesFromMenu();
         void UpdateDish(DishData dish);

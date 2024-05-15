@@ -11,20 +11,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Media.Imaging;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class EmployeeVM : ViewModelBase
     {
+        private Notifier _notifier;
+
         UserRepository userRepository;
-        private DataTable _employees;
         private int _selectedEmployee;
         private bool _isReadOnly;
         private object _selectedEmployeeItem;
-        private DataTable _dismissedEmployees;
 
 
         DataTable temp = new DataTable();
+        DataTable tempdel = new DataTable();
+        
 
 
         public ICommand HireCommand { get; set; }
@@ -32,6 +41,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand EditCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand InfoCommand { get; set; }
+        public ICommand EditPhotoCommand { get; set; }
 
         public bool IsReadOnly
         {
@@ -42,10 +52,21 @@ namespace Cafe_Managment.ViewModel
                 OnPropertyChanged(nameof(IsReadOnly));
             }
         }
+     
+        private DataTable _dismissedEmployees;
+
         public DataTable DismissedEmployees
+
         {
-            get { return _dismissedEmployees; }
-            set { _dismissedEmployees = value; }
+            get => _dismissedEmployees;
+            set
+            {
+                if (_dismissedEmployees != value) // Проверяем, изменилось ли значение
+                {
+                    _dismissedEmployees = value;
+                    OnPropertyChanged(nameof(DismissedEmployees)); // Уведомляем об изменении
+                }
+            }
         }
 
         public int SelectedEmployee
@@ -68,20 +89,35 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        private DataTable _employees;
+
         public DataTable Employees
+
         {
-            get { return _employees; }
-            set { _employees = value; }
+            get => _employees;
+            set
+            {
+                if (_employees != value) // Проверяем, изменилось ли значение
+                {
+                    _employees = value;
+                    OnPropertyChanged(nameof(Employees)); // Уведомляем об изменении
+                }
+            }
         }
 
         public EmployeeVM()
         {
             userRepository = new UserRepository();
+            _notifier = CreateNotifier();
 
-            
+
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
             Employees.Columns.Remove("Id");
+
+            tempdel = userRepository.GetDismissedEmployees();
+            DismissedEmployees = tempdel.Copy();
+
 
             IsReadOnly = true;
 
@@ -95,13 +131,63 @@ namespace Cafe_Managment.ViewModel
             EditCommand = new RelayCommand(ExecuteEditCommand);
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
+            EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
+        }
+
+        private void ExecuteEditPhotoCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
+            byte[] bitmapArray = dataRowView.Row[13] as byte[];
+            BitmapImage bitmapImage = userRepository.ConvertByteArrayToBitmapImage(bitmapArray);
+            PhotoEdit photoEdit = new PhotoEdit(bitmapImage);
+            photoEdit.Show();
+        }
+
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
         }
 
         private void ExecuteSaveCommand(object obj)
         {
+            // Проверка, что SelectedEmployeeItem не равен null
+            if (SelectedEmployeeItem == null)
+            {
+                _notifier.ShowError("Нет выбранного сотрудника.");
+                return;
+            }
+
             DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
 
-            int EmpId = int.Parse(temp.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+            if (dataRowView == null || dataRowView.Row == null) // Дополнительная проверка
+            {
+                _notifier.ShowError("Некорректные данные.");
+                return;
+            }
+
+            int EmpId;
+            if (!int.TryParse(dataRowView.Row[0].ToString(), out EmpId))
+            {
+                _notifier.ShowError("Некорректный идентификатор сотрудника.");
+                return;
+            }
+
+            // Создаем новый объект с данными сотрудника
             EmpData newdata = new EmpData
             {
                 Id = EmpId,
@@ -110,20 +196,38 @@ namespace Cafe_Managment.ViewModel
                 Patronomic = dataRowView.Row[5].ToString(),
                 PhoneNumber = dataRowView.Row[6].ToString(),
                 Email = dataRowView.Row[7].ToString(),
-                Address = dataRowView.Row[9].ToString(),
+                Address = dataRowView.Row[10].ToString()
             };
-            
-            userRepository.UpdateEmployee(newdata);
+            DataRow dataRow = dataRowView.Row;
+            DataTable dataTable = dataRow.Table;
 
-            temp = userRepository.GetByAll();
-            Employees = temp.Copy();
-            Employees.Columns.Remove("Id");
+            // Получение названий столбцов
+            var columnNames = dataTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList();
 
+            // Пример вывода названий столбцов
+            foreach (var columnName in columnNames)
+            {
+                Debug.WriteLine($"Столбец: {columnName}");
+            }
+
+            userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
+
+            RefreshAll();
+
+
+            // Проверяем, если измененный сотрудник является текущим пользователем
             if (EmpId == UserData.Id)
             {
                 userRepository.GetById();
             }
+
+            // Конкатенируем фамилию, имя и отчество
+            string fullName = $"{dataRowView.Row[4].ToString()} {dataRowView.Row[3].ToString()} {dataRowView.Row[5].ToString()}";
+
+            _notifier.ShowSuccess($"Данные сотрудника {fullName} успешно изменены!");
+            IsReadOnly = true;
         }
+
 
         private void ExecuteEditCommand(object obj)
         {
@@ -132,12 +236,9 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteInfoCommand(object obj)
         {
-            MessageBox.Show("Изменению подлежат только следующие поля:\n" +
-                "Имя, Фамилия, Отчество, Почта, Номер телефона и адрес.\n" +
-                "Остальные данные изменены не будут!!!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+            _notifier.ShowInformation("Изменению подлежат только следующие поля:\nИмя, Фамилия, Отчество, Почта, Номер телефона и адрес.");
         }
-
+            
         private bool CanExecuteFireCommand(object arg)
         {
             return !(SelectedEmployee == -1 || SelectedEmployee >= Employees.Rows.Count);
@@ -145,24 +246,30 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteFireCommand(object obj)
         {
-            int temp = int.Parse(Employees.Rows[SelectedEmployee][0].ToString());
+            DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
 
-            if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp}?",
+            int tempId = int.Parse(temp.Rows[SelectedEmployee][1].ToString());
+            string fullName = $"{dataRowView.Row[4].ToString()} {dataRowView.Row[3].ToString()} {dataRowView.Row[5].ToString()}";
+
+            if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp.Rows[SelectedEmployee][0].ToString()}?",
                 "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.None))
             {
-                if (temp == UserData.Id)
+                if (tempId == UserData.Id)
                 {
-                    MessageBox.Show("Извините, но вы не можете уволить себя","Ошибка");
+                    _notifier.ShowError("Извините, но вы не можете уволить себя");
                 }
                 else
                 {
-                    userRepository.FireEmployee(temp);
-                    MessageBox.Show("Сотрудник уволен!","Кто-то остался без чая...");
+                    userRepository.FireEmployee(tempId);
+
+                    DismissedEmployees = userRepository.GetDismissedEmployees();
+                    RefreshAll();
+
+                    _notifier.ShowSuccess($"Сотрудник {fullName} уволен.");
                 }
             }
             
         }
-
         private bool CanExecuteHireCommand(object arg)
         {
             bool istrue = false;
@@ -180,13 +287,28 @@ namespace Cafe_Managment.ViewModel
             registration.IsVisibleChanged += (s, ev) =>
             {
                 registration.Close();
-                temp = userRepository.GetByAll();
-                Employees = temp.Copy();
-                Employees.Columns.Remove("Id");
+                RefreshAll();
+                _notifier.ShowSuccess("Сотрудник успешно зарегистрирован!");
+
             };
-
-
         }
+        public void RefreshAll()
+        {
+            temp = userRepository.GetByAll();
+            Employees = temp.Copy();
+            Employees.Columns.Remove("Id");
+
+            temp = userRepository.GetByAll();
+            DataTable dtEmp = temp.Copy();
+            dtEmp.Columns.Remove("Id");
+            Employees = dtEmp.Copy();
+
+            tempdel = userRepository.GetDismissedEmployees();
+            DataTable dtEmpdel = tempdel.Copy();
+            DismissedEmployees = dtEmp.Copy();
+            DismissedEmployees = userRepository.GetDismissedEmployees();
+        }
+
     }
-    
+
 }

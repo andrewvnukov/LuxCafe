@@ -52,8 +52,8 @@ namespace Cafe_Managment.Repositories
                       d.Title AS 'Название',
                       d.Description AS 'Описание', 
                       d.Composition AS 'Состав',
-                      d.CreatedAt AS 'Дата добавления', 
-                      d.UpdatedAt AS 'Дата последнего обновления' 
+                      d.CreatedAt AS 'ДатаДобавления', 
+                      d.UpdatedAt AS 'ДатаПоследнегоОбновления' 
                 FROM disharchive d
                 INNER JOIN categories c ON d.CategoryId = c.Id";
 
@@ -81,7 +81,6 @@ namespace Cafe_Managment.Repositories
 
             return dataTable;
         }
-
 
         public DataTable GetAllDeletedDishes()
         {
@@ -134,7 +133,6 @@ namespace Cafe_Managment.Repositories
 
             return dataTable;
         }
-
 
         public DataTable RestoreDeletedDish(DishData dish)
         {
@@ -214,8 +212,8 @@ namespace Cafe_Managment.Repositories
                 da.Description AS 'Описание', 
                 da.Composition AS 'Состав',
                 am.Price AS 'Стоимость',                                     
-                am.TransferedAt AS 'Дата добавления',
-                am.UpdatedAt AS 'Дата обновления цены'
+                am.TransferedAt AS 'ДатаДобавления',
+                am.UpdatedAt AS 'ДатаОбновленияЦены'
                 FROM activemenu am
                 INNER JOIN disharchive da ON am.DishId = da.Id
                 INNER JOIN categories c ON da.CategoryId = c.Id
@@ -902,5 +900,17 @@ namespace Cafe_Managment.Repositories
             }
         }
 
+        public List<string> GetAllCategories()
+        {
+            List<string> categories = new List<string>();
+            MySqlConnection connection = GetConnection();
+            connection.Open();
+            using(var command = new MySqlCommand())
+            {
+                command.Connection = connection;
+                command.CommandText = "SELECT Title FROM";
+            }
+            return null;
+        }
     }
 }

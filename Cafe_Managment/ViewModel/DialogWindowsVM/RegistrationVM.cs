@@ -13,12 +13,21 @@ using System.Web.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Cafe_Managment.ViewModel.DialogWindowsVM
 {
     public class RegistrationVM : ViewModelBase
     {
+
         UserRepository userRepository;
+        private Notifier _notifier;
+
         DateTime _dateOfBirth;
         private bool _isViewVisible = true;
         private object _activePage;
@@ -32,6 +41,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 
         public List<string> RoleTable { get; set; }
         public List<string> BranchTable { get; set; }
+
 
         public DateTime DateOfBirth
         {
@@ -54,7 +64,7 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         public bool IsViewVisible
         {
             get { return _isViewVisible; }
-            set { _isViewVisible = value; OnPropertyChanged(); }
+            set { _isViewVisible = value; OnPropertyChanged(nameof(IsViewVisible)); }
         }
 
         public object ActivePage
@@ -63,9 +73,10 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             set
             {
                 _activePage = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ActivePage));
             }
         }
+        
         public EmpData NewEmp
         {
             get { return _newEmp; }
@@ -87,9 +98,13 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
         public ICommand RegisterCommand { get; set; }
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
+        public ICommand GeneratePasswordCommand { get; }
+
 
         public RegistrationVM() 
         {
+            _notifier = CreateNotifier();
+
             DateOfBirth = DateTime.Now;
             userRepository = new UserRepository();
             RoleTable = userRepository.GetRoles();
@@ -117,25 +132,97 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             NextPageCommand = new RelayCommand(ExecuteNextPageCommand, CanExecuteNextCommand);
             PreviousPageCommand = new RelayCommand(ExecutePreviousPageCommand);
             RegisterCommand = new RelayCommand(ExecuteRegisterCommand, CanExecuteRegisterCommand);
-           
+            GeneratePasswordCommand = new RelayCommand(ExecuteGeneratePassword);
+
         }
 
-        
+        private void ExecuteGeneratePassword(object obj)
+        {
+            string newPassword = PasswordGenerator.GenerateSecurePassword();
+            NewEmp.Password = newPassword; 
+            OnPropertyChanged(nameof(NewEmp.Password));
+            _notifier.ShowWarning("Перед завершением регистрации, убедитесь, что сотрудник сохранил себе пароль!");
+        }
+
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
+        private string GetFullName(EmpData emp)
+        {
+            return $"{emp.Surname} {emp.Name} {emp.Patronomic}"; // Формирование строки ФИО
+        }
+
         private void ExecuteRegisterCommand(object obj)
         {
-            LoginErrorMessage = "";
-            
+            // Проверка, соответствует ли логин требованиям (английские буквы и отсутствие пробелов)
+            string loginPattern = "^(?=.*[a-zA-Z])[a-zA-Z0-9]+$";
+            Regex loginRegex = new Regex(loginPattern);
+
+            if (!loginRegex.IsMatch(NewEmp.Login))
+            {
+                _notifier.ShowWarning("Логин должен включать в себя только буквы латинского алфавита и не должен состоять исключительно из цифр.");
+                return;
+            }
+
+            // Проверка длины логина (не менее 5 символов)
+            if (NewEmp.Login.Length < 5)
+            {
+                _notifier.ShowWarning("Длина логина должна быть не минее 5 символов.");
+                return;
+            }
+
+            // Проверка, существует ли пользователь с таким логином
             if (userRepository.IfUserExists(NewEmp.Login))
             {
-                LoginErrorMessage = "Данный пользователь уже существует";
+                _notifier.ShowError("Данный пользователь уже существует!");
+                return;
             }
-            else
+
+            // Проверка длины пароля
+            if (NewEmp.Password.Length < 8)
             {
-                userRepository.Add(NewEmp);
-                MessageBox.Show($"Новый пользователь с логином {NewEmp.Login} был добавлен!");
-                IsViewVisible = false;
+                _notifier.ShowWarning("Пароль должен состоять минимум из 8 символов.");
+                return;
             }
+
+            // Проверка, содержит ли пароль минимум одну заглавную букву и один специальный символ
+            string passwordPattern = @"^(?=.*[A-Z])(?=.*[!@#$%^&*()_+=\[{\]};:<>|./?,-]).*$";
+            Regex passwordRegex = new Regex(passwordPattern);
+
+            if (!passwordRegex.IsMatch(NewEmp.Password))
+            {
+                _notifier.ShowWarning("Пароль должен содержать минимум одну заглавную букву и один специальный символ.");
+                return;
+            }
+
+            // Если все проверки пройдены, добавляем пользователя
+            userRepository.Add(NewEmp);
+            string fullName = GetFullName(NewEmp);
+
+            _notifier.ShowSuccess($"Сотрудник \"{fullName}\" был успешно зарегистрирован под логином {NewEmp.Login}!");
+            IsViewVisible = false; // Закрыть окно регистрации
+            //RefreshAll();
         }
+
+
+
+
         private bool CanExecuteRegisterCommand(object arg)
         {
 
@@ -151,17 +238,46 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
             ActivePage = FirstPage;
 
         }
+        private bool IsValidName(string name)
+        {
+            string namePattern = "^[a-zA-Zа-яА-ЯёЁ/s]+$"; // Регулярное выражение для ФИО
+            Regex nameRegex = new Regex(namePattern);
+
+            return nameRegex.IsMatch(name); // Проверяем, соответствует ли шаблон
+        }
+
         private void ExecuteNextPageCommand(object obj)
         {
+            // Проверка имени
+            if (!IsValidName(NewEmp.Name))
+            {
+                _notifier.ShowWarning("Имя не должно содержать цифры, пробелы или специальные символы.");
+                return ; // Прекращаем выполнение
+            }
+
+            // Проверка фамилии
+            if (!IsValidName(NewEmp.Surname))
+            {
+                _notifier.ShowWarning("Фамилия не должна содержать цифры, пробелы или специальные символы.");
+                return; // Прекращаем выполнение
+            }
+
+            // Проверка отчества
+            if (!IsValidName(NewEmp.Patronomic))
+            {
+                _notifier.ShowWarning("Отчество не должно содержать цифры, пробелы или специальные символы.");
+                return; // Прекращаем выполнение
+            }
+
+            // Проверка на возрастной ценз
             if (IsMoreSixteen())
             {
                 NewEmp.BirthDay = DateOfBirth.ToString("yyyy-MM-dd");
                 ActivePage = SecondPage;
-                BirthErrorMessage = "";
             }
             else
             {
-                MessageBox.Show("Иди проспись");
+                _notifier.ShowWarning("Сотрудник младше 16 лет и не может быть нанят.");
             }
         }
 
@@ -175,8 +291,10 @@ namespace Cafe_Managment.ViewModel.DialogWindowsVM
 
         private bool CanExecuteNextCommand(object arg)
         {
-            return _newEmp.Name.Length > 0 && _newEmp.Surname.Length > 0 
-                && _newEmp.Patronomic.Length > 0 && DateOfBirth!=null;
+            return !string.IsNullOrEmpty(_newEmp.Name.Trim()) 
+            && !string.IsNullOrWhiteSpace(_newEmp.Surname)
+            && !string.IsNullOrWhiteSpace(_newEmp.Patronomic)
+            && DateOfBirth != null;
         }
 
 

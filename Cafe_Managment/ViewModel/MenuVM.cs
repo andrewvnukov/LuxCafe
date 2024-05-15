@@ -13,11 +13,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using ToastNotifications;
+using ToastNotifications.Messages;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using System.Diagnostics;
 
 namespace Cafe_Managment.ViewModel
 {
     internal class MenuVM : ViewModelBase
     {
+        private Notifier _notifier;
         public UpdatePrice updatePrice;
 
         DishesRepository dishesRepository;
@@ -29,14 +35,22 @@ namespace Cafe_Managment.ViewModel
         private object _selectedItem;
         private object _selectedItemMenu;
         private string _newPrice;
-        DataTable tempArchvie = new DataTable();
+        private DishData _newDish;
+
+        DataTable tempArchive = new DataTable();
         DataTable tempMenu = new DataTable();
-        private DataTable _menu;
-        private DataTable _deletedDishes;
         private object _selectedItemDeletedDish;
         DataTable tempDelDish = new DataTable();
 
-
+        public ICommand ShowDishSuccessfullyRestoredCommand { get; set; }
+        public ICommand ShowDishSuccessfullyDeletedCommand { get; set; }
+        public ICommand ShowDataSuccessfullyUpdatedCommand { get; set; }
+        public ICommand ShowDishSuccessfullyTransferedCommand { get; set; }
+        public ICommand ShowPriceSuccessfullyUpdatedCommand { get; set; }
+        public ICommand ShowDishSuccessfullyDeletedCommandArchive { get; set; }
+        public ICommand ShowErrorCommand { get; set; }
+        public ICommand ShowWarningCommand { get; set; }
+        public ICommand ShowInformationCommand { get; set; }
         public ICommand EditRowCommand { get; set; }
         public ICommand EditPriceCommandMenu { get; set; }
         public ICommand AddDishToArchiveCommand { get; set; }
@@ -61,12 +75,30 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+        public DishData NewDish
+        {
+            get => _newDish;
+            set
+            {
+                _newDish = value;
+                OnPropertyChanged(nameof(NewDish));
+            }
+        }
+
+        private DataTable _deletedDishes;
+
         public DataTable DeletedDishes
         {
-            get { return _deletedDishes; }
-            set { _deletedDishes = value; }
+            get => _deletedDishes;
+            set
+            {
+                if (_deletedDishes != value) // Проверяем, изменилось ли значение
+                {
+                    _deletedDishes = value;
+                    OnPropertyChanged(nameof(DeletedDishes)); // Уведомляем об изменении
+                }
+            }
         }
-      
 
         public object SelectedItemDeletedDish
         {
@@ -130,30 +162,69 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        private DataTable _activemenu;
-        public DataTable ActiveMenu
-        {
-            get { return _activemenu; }
-            set
-            {
-                _activemenu = value;
-                OnPropertyChanged(nameof(ActiveMenu)); // Обязательно вызывать это после изменения свойства
-            }
-        }
+        private DataTable _menu;
 
         public DataTable Menu
         {
-            get { return _menu; }
-            set { _menu = value;
-                OnPropertyChanged(nameof(Menu));
+            get => _menu;
+            set
+            {
+                if (_menu != value) // Проверяем, изменилось ли значение
+                {
+                    _menu = value;
+                    OnPropertyChanged(nameof(Menu)); // Уведомляем об изменении
+                }
             }
         }
+
+       
+
+        private DataTable _activemenu;
+
+        public DataTable ActiveMenu
+        {
+            get => _activemenu;
+            set
+            {
+                if (_activemenu != value) // Проверяем, изменилось ли значение
+                {
+                    _activemenu = value;
+                    OnPropertyChanged(nameof(ActiveMenu)); // Уведомляем об изменении
+                }
+            }
+        }
+
+        private bool _canEditColumns;
+        public bool CanEditColumns
+        {
+            get { return _canEditColumns; }
+            set
+            {
+                _canEditColumns = value;
+                OnPropertyChanged(nameof(CanEditColumns));
+                Debug.WriteLine($"CanEditColumns changed to: {value}"); // Отладочный вывод
+            }
+        }
+
+       
         public MenuVM()
         {
-            dishesRepository = new DishesRepository();
-            Menu = dishesRepository.GetAllDishesFromArchive();
-            IsReadOnly = true;
+            CanEditColumns = false; // Переключаем состояние
 
+            dishesRepository = new DishesRepository();
+            tempArchive = dishesRepository.GetAllDishesFromArchive();
+
+            // Создаем копию перед модификацией
+            tempArchive = dishesRepository.GetAllDishesFromArchive();
+            Menu = tempArchive.Copy();
+            Menu.Columns.Remove("Id");
+
+            //Menu = dishesRepository.GetAllDishesFromArchive();
+            IsReadOnly = false;
+
+            _notifier = CreateNotifier();
+
+            
             tempMenu = dishesRepository.GetAllDishesFromMenu();
             ActiveMenu = tempMenu.Copy();
             ActiveMenu.Columns.Remove("Id");
@@ -161,18 +232,14 @@ namespace Cafe_Managment.ViewModel
             tempDelDish = dishesRepository.GetAllDeletedDishes();
             DeletedDishes = tempDelDish.Copy();
             DeletedDishes.Columns.Remove("Id");
-            IsReadOnly = true;
+            IsReadOnly = false;
 
 
             RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
 
 
-            tempArchvie = dishesRepository.GetAllDishesFromArchive();
-            Menu = tempArchvie.Copy();
-            Menu.Columns.Remove("Id");
-
             IsEnabled = false;
-            IsReadOnly = true;
+            IsReadOnly = false;
             SelectedDish = -1;
             IsViewVisible = true;
 
@@ -192,8 +259,101 @@ namespace Cafe_Managment.ViewModel
 
             SavePriceCommand = new RelayCommand(ExecuteSavePriceCommand);
             CloseWindowCommand = new RelayCommand(ExecuteCloseDialogCommand);
+
+
+            ShowDishSuccessfullyRestoredCommand = new RelayCommand(ExecuteShowDishSuccessfullyRestoredCommand);
+            ShowDishSuccessfullyDeletedCommand = new RelayCommand(ExecuteShowDishSuccessfullyDeletedCommand);
+            ShowDataSuccessfullyUpdatedCommand = new RelayCommand(ExecuteShowDataSuccessfullyUpdatedCommand);
+            ShowDishSuccessfullyTransferedCommand = new RelayCommand(ExecuteShowDishSuccessfullyTransferedCommand);
+            ShowPriceSuccessfullyUpdatedCommand = new RelayCommand(ExecuteShowPriceSuccessfullyUpdatedCommand);
+            ShowDishSuccessfullyDeletedCommandArchive = new RelayCommand(ExecuteShowDishSuccessfullyDeletedCommandArchive);
         }
 
+        
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(5),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
+
+        private void ExecuteShowDishSuccessfullyRestoredCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedItemDeletedDish as DataRowView;
+            DishData data = new DishData
+            {
+                Id = int.Parse(tempDelDish.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+            };
+
+            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно восстановлено!");
+        }
+        private void ExecuteShowDishSuccessfullyDeletedCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
+            DishData data = new DishData
+            {
+                Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+            };
+
+            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
+        }
+        private void ExecuteShowDishSuccessfullyDeletedCommandArchive(object obj)
+        {
+            DataRowView dataRowView = SelectedItem as DataRowView;
+            DishData data = new DishData
+            {
+                Id = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+            };
+
+            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
+        }
+        private void ExecuteShowDishSuccessfullyTransferedCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
+            DishData data = new DishData
+            {
+                Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+            };
+            
+            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно перенесено в активное меню!");
+        }
+        private void ExecuteShowDataSuccessfullyUpdatedCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedItem as DataRowView;
+            DishData data = new DishData
+            {
+                Id = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+            };
+
+            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
+
+        }
+
+        private void ExecuteShowPriceSuccessfullyUpdatedCommand(object obj)
+        {
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
+
+            DishData data = new DishData
+            {
+                Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
+            };
+
+            _notifier.ShowSuccess($"Цена блюда {dataRowView.Row[2].ToString()}\nуспешно изменена!");  
+        }
+       
         private void ExecuteRestoreDishCommand(object obj)
         {
             DataRowView dataRowView = SelectedItemDeletedDish as DataRowView;
@@ -212,12 +372,16 @@ namespace Cafe_Managment.ViewModel
                 {
                     Id = dishId
                 };
+                ExecuteShowDishSuccessfullyRestoredCommand(dataRowView);
 
                 // Удаляем блюдо
                 dishesRepository.RestoreDeletedDish(dishToRestore);
-
-                // Обновляем интерфейс, если необходимо
-                OnPropertyChanged(nameof(tempDelDish));
+                RefreshDeletedDishes();
+                RefreshArchive();
+                tempMenu = dishesRepository.GetAllDishesFromMenu(); // Обновляем данные меню
+                DataTable dtMenu = tempMenu.Copy();
+                dtMenu.Columns.Remove("Id");
+                ActiveMenu = dtMenu.Copy();
             }
         }
 
@@ -225,7 +389,7 @@ namespace Cafe_Managment.ViewModel
         {
             NewPrice = "";
             IsViewVisible = false;
-
+            ExecuteShowDishSuccessfullyTransferedCommand(null);
         }
 
         private void ExecuteDeleteRowCommandMenu(object obj)
@@ -254,45 +418,63 @@ namespace Cafe_Managment.ViewModel
                 // Обновляем интерфейс, если необходимо
                 RefreshMenu();
 
+                _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
+
             }
         }
 
         private void ExecuteEditPriceCommandMenu(object obj)
         {
             updatePrice = new UpdatePrice();
-            
+            DataRowView dataRowView = SelectedItemMenu as DataRowView;
+
             updatePrice.IsVisibleChanged += (s, ev) =>
             {
-                if (!updatePrice.IsVisible && (updatePrice.GetInput()!=""))
+                if (!updatePrice.IsVisible && !string.IsNullOrEmpty(updatePrice.GetInput()))
                 {
-                    DataRowView dataRowView = SelectedItemMenu as DataRowView;
-                    DishData data = new DishData
+                    // Создаем объект DishData
+                    DishData dishData = new DishData
                     {
                         Id = int.Parse(tempMenu.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString()),
-                        Price = updatePrice.GetInput(),
+                        Price = updatePrice.GetInput() // Получаем введенную цену
                     };
 
-                    dishesRepository.UpdateDishPrice(data);
-                    MessageBox.Show($"Цена блюда {dataRowView.Row[2].ToString()}\nБыла успешно изменена!");
-
-                    RefreshMenu();
-
-                    updatePrice.Close();
-                }
-                else
-                {
-                    if (!updatePrice.IsVisible)
+                    try
                     {
-                        updatePrice.Close();
-                    }
+                        // Обновляем цену блюда
+                        dishesRepository.UpdateDishPrice(dishData);
 
+                        ExecuteShowPriceSuccessfullyUpdatedCommand(null); // Показать уведомление о смене цены
+
+                        tempMenu = dishesRepository.GetAllDishesFromMenu(); // Обновляем данные меню
+                        DataTable dtMenu = tempMenu.Copy();
+                        dtMenu.Columns.Remove("Id");
+                        ActiveMenu = dtMenu.Copy();
+
+                        updatePrice.Close(); // Закрываем окно
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Произошла ошибка при обновлении цены: {ex.Message}"); // Обработка ошибок
+                    }
+                }
+                else if (!updatePrice.IsVisible)
+                {
+                    updatePrice.Close(); // Закрываем окно, если оно невидимо
                 }
             };
-            updatePrice.ShowDialog();
+
+            updatePrice.ShowDialog(); // Открываем окно
         }
         private void ExecuteSavePriceCommand(object obj)
         {
+            
             IsViewVisible = false;
+            //updatePrice.Close();
+            RefreshMenu();
+            //tempMenu = ActiveMenu; // Сохранение текущего значения
+            //ActiveMenu = null; // Сброс
+            //ActiveMenu = tempMenu;
         }
         public void ExecuteSaveRowCommand(object parameter)
         {
@@ -305,7 +487,7 @@ namespace Cafe_Managment.ViewModel
             //Получаем информацию о выбранной строке
             DishData dish = new DishData
             {
-               Id = int.Parse(tempArchvie.Rows[int.Parse(dataRowView.Row[0].ToString())-1][1].ToString()),
+               Id = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString())-1][1].ToString()),
                Title = dataRowView.Row[2].ToString(),
                Description = dataRowView.Row[3].ToString(),
                Composition = dataRowView.Row[4].ToString(),
@@ -315,47 +497,53 @@ namespace Cafe_Managment.ViewModel
             {
                 dishesRepository.UpdateDish(dish);
 
-                tempArchvie = dishesRepository.GetAllDishesFromArchive();
-                DataTable dt = tempArchvie.Copy();
-                dt.Columns.Remove("Id");
-                Menu = dt.Copy();
+                tempArchive = dishesRepository.GetAllDishesFromArchive();
+                DataTable dtArchive = tempArchive.Copy();
+                dtArchive.Columns.Remove("Id");
+                Menu = dtArchive.Copy();
 
                 IsReadOnly = true;
-                OnPropertyChanged(nameof(tempArchvie));
+                OnPropertyChanged(nameof(tempArchive));
+                _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно изменено!");
             }
+
         }
 
         private void ExecuteAddDishToArchiveCommand(object obj)
         {
-            DishAdd dishAdd = new DishAdd();
-            dishAdd.Show();
+
+            MessageBox.Show("Блюдо успешно добавлено!");
         }
 
         private void ExecuteDeleteRowCommand(object parameter)
         {
-            // Получаем информацию о выбранной строке
             DataRowView dataRowView = SelectedItem as DataRowView;
 
-            // Получаем ID выбранного блюда
-            int dishId = int.Parse(tempArchvie.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+            if (dataRowView == null)
+            {
+                MessageBox.Show("Не выбран элемент для удаления.");
+                return;
+            }
 
-            // Отображаем диалоговое окно с вопросом
-            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить это блюдо?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            int dishId = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
 
-            // Если пользователь выбрал "Да", то удаляем блюдо
+            MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить это блюдо?",
+                "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
             if (result == MessageBoxResult.Yes)
             {
-                // Создаем объект блюда для передачи в метод удаления
                 DishData dishToDelete = new DishData
                 {
                     Id = dishId
                 };
+                ExecuteShowDishSuccessfullyDeletedCommandArchive(dataRowView);
 
-                // Удаляем блюдо
+
+                // Обновляем привязку данных
                 dishesRepository.DeleteDish(dishToDelete);
+                RefreshDeletedDishes();
+                RefreshArchive();
 
-                // Обновляем интерфейс, если необходимо
-                OnPropertyChanged(nameof(tempArchvie));
             }
         }
 
@@ -365,15 +553,16 @@ namespace Cafe_Managment.ViewModel
             if (dataRowView == null) return;
 
             // Получение идентификатора блюда
-            int dishId = int.Parse(tempArchvie.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+            int dishId = int.Parse(tempArchive.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
 
             // Проверка, находится ли блюдо уже в активном меню
             bool dishExistsInMenu = dishesRepository.CheckDishInMenu(dishId, UserData.BranchId);
+            
 
             if (dishExistsInMenu)
             {
                 // Если блюдо уже в меню, выводим предупреждение
-                MessageBox.Show("Это блюдо уже есть в активном меню.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
+                _notifier.ShowError($"{dataRowView.Row[2].ToString()}\nуже есть в активном меню");
                 return;
             }
 
@@ -391,14 +580,14 @@ namespace Cafe_Managment.ViewModel
                         Id = dishId,
                         Price = updatePrice.GetInput()  // Получаем введенную пользователем цену
                     };
-
+                    
                     // Перемещаем блюдо в активное меню
                     dishesRepository.TransferDishToActiveMenu(dishToMove);
 
-                    // Обновляем данные активного меню после переноса блюда
+        
                     RefreshMenu();
+                    _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно перенесено в активное меню!");
 
-                    updatePrice.Close();
                 }
             };
 
@@ -415,25 +604,43 @@ namespace Cafe_Managment.ViewModel
             ActiveMenu = new DataTable();
             ActiveMenu = dt;
         }
+        private void RefreshArchive()
+        {
+            tempArchive = dishesRepository.GetAllDishesFromArchive();
+            Menu = tempArchive.Copy();
+            Menu.Columns.Remove("Id");
+
+        }
+        private void RefreshDeletedDishes()
+        {
+            tempDelDish = dishesRepository.GetAllDeletedDishes();
+            DataTable dtDelDishes = tempDelDish.Copy();
+            dtDelDishes.Columns.Remove("Id");
+            DeletedDishes = dtDelDishes.Copy();
+        }
 
 
         private void ExecuteEditRowCommand(object obj)
         {
             Menu.AcceptChanges();
-            IsReadOnly = !IsReadOnly;
+            CanEditColumns = false; // Переключаем состояние
+
+            OnPropertyChanged(nameof(CanEditColumns)); // Убедитесь, что этот вызов здесь
+            Debug.WriteLine("ToggleEditMode called."); // Проверка
+            tempArchive = Menu; // Сохранение текущего значения
+            Menu = null; // Сброс
+            Menu = tempArchive; 
         }
 
         private void ExecuteInfoCommandArchive(object obj)
         {
-            MessageBox.Show("Поля №, Раздел, Дата изменения цены и Дата обновления \n" +
-                "изменению  НЕ ПОДЛЕЖАТ!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+            _notifier.ShowInformation("№, Раздел, Дата добавления и Дата последнего обновления не подлежат изменению!");
+                
         }
         private void ExecuteInfoCommandMenu(object obj)
-        {          
-            MessageBox.Show("Изменению подлежит только стоимость блюда\n" +
-                "Остальные данные изменены не будут!!!",
-                "Внимание!!!", MessageBoxButton.YesNoCancel);
+        {
+            _notifier.ShowInformation("Изменению подлежит только стоимость блюда");
+                
         }
     }
 }

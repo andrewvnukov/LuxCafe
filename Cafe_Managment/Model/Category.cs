@@ -38,6 +38,8 @@ namespace Cafe_Managment.Model
             }
         }
 
+
+
         public Category(string name, string imagePath)
         {
             Name = name;
