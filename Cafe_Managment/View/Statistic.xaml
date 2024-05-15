@@ -21,7 +21,7 @@
 
             <StackPanel Grid.Row="0"
                     Margin="0">
-                <TextBlock Text="Статистика продаж" Style="{DynamicResource Text_Headline2}"
+                <TextBlock Text="Статистика выручки" Style="{DynamicResource Text_Headline2}"
                            Margin="10"/>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
@@ -91,7 +91,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="2">
-                <TextBlock Text="Тенденция популярности блюда" Style="{DynamicResource Text_Headline2}"
+                <TextBlock Text="Динамика популярности блюда" Style="{DynamicResource Text_Headline2}"
                            Margin="10"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                     
@@ -114,17 +114,17 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 15" >
-                    <Button Content="Загрузить тенденцию" Command="{Binding LoadTrendCommand}" Width="250"
+                    <Button Content="Загрузить динамику" Command="{Binding LoadTrendCommand}" Width="250"
                         Style="{DynamicResource DefaultButton}"  />
                 </StackPanel>
 
                 <lvc:CartesianChart Series="{Binding TrendSeriesCollection}" Height="200" Margin="0 0 10 15">
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis LabelsRotation="35" Labels="{Binding TrendLabels}" />
+                        <lvc:Axis LabelsRotation="35" Labels="{Binding TrendLabels}" FontSize="13" />
                     </lvc:CartesianChart.AxisX>
 
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Количество заказов" />
+                        <lvc:Axis Title="Количество заказов" FontSize="14" />
                     </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>
             </StackPanel>

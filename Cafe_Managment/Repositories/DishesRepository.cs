@@ -246,7 +246,6 @@ namespace Cafe_Managment.Repositories
             return dataTable; // Возвращаем заполненный DataTable
         }
 
-
         public void UpdateDish(DishData dish)
         {
             MySqlConnection connection = null;
@@ -575,8 +574,6 @@ namespace Cafe_Managment.Repositories
             return false; // Если что-то пошло не так, предполагаем, что блюда в меню нет
         }
 
-
-
         public List<DishData> GetDishListByCategory(int CatId)
         {
             List<DishData> result = new List<DishData>();
@@ -642,7 +639,6 @@ namespace Cafe_Managment.Repositories
 
             return result;
         }
-
 
         public int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice)
         {
@@ -713,8 +709,6 @@ namespace Cafe_Managment.Repositories
                 }
             }
         }
-
-
         public List<ChequeModel> GetActiveOrders()
         {
             List<ChequeModel> result = new List<ChequeModel>();
@@ -817,7 +811,6 @@ namespace Cafe_Managment.Repositories
 
             return result;
         }
-
 
         public void UpdateStatus(DishData dish)
         {

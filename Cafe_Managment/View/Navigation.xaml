@@ -18,13 +18,11 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </UserControl.Resources>
 
-
     <UserControl.Visibility>
         <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}" />
     </UserControl.Visibility>
-    
-    <Grid>
 
+    <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="MenuGrid" Width="180">
@@ -115,7 +113,7 @@
                             
                         </menu:ButtonControl>
 
-                        <menu:ButtonControl Content="Статистика" 
+                        <menu:ButtonControl Content="Аналитика" 
                                             Tag="/Images/Statistic.png"
                                     Style="{StaticResource DefaultRadioButton}"
                                     Command="{Binding StatisticCommand}">
@@ -142,10 +140,9 @@
                                     Command="{Binding OrderCommand}">
                         </menu:ButtonControl>
 
-                        
                     </StackPanel>
                     <Button Style="{DynamicResource BackButton}"
-                        Content="Назад" 
+                        Content="Выйти" 
                         VerticalAlignment="Bottom" 
                         Height="40"
                         Margin="10,0,10,5"

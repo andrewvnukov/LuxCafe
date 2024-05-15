@@ -42,13 +42,12 @@
             <!--<TextBlock Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" Text="Авторизация" Style="{DynamicResource Text_Headline1}"/>-->
 
             <Image Grid.Column="1" Source="/Images/MainLogo.png"/>
-            <TextBlock Text="Деньги не пахнут, я пахну."
+            <TextBlock Text=""
                        Grid.Column="1"
                        Grid.Row="1"
                        Foreground="#EEEEEE"
                        HorizontalAlignment="Center"
                        FontFamily="/Fonts/Montserrat"/>
-
 
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    Height="40" Name="LoginBox" Tag="Логин" Grid.Row="1" Grid.Column="1" 
@@ -79,11 +78,11 @@
             <Button Content="Войти" Margin="30,10,30,0" 
                   Style="{StaticResource DefaultButton}" 
                   Grid.Column="1" Grid.Row="3" 
-                  IsTabStop="False" Command="{Binding LoginCommand}" Height="60" VerticalAlignment="Top"/>
+                  IsTabStop="False" Command="{Binding LoginCommand}" Height="40" VerticalAlignment="Top"/>
             <CheckBox Grid.Row="3" Grid.Column="1"
                     Style="{DynamicResource AwesomeCheckBox}"
                     HorizontalAlignment="Left"
-                    Margin="30,74,0,0"
+                    Margin="30,71.6,0,0"
                     Tag="Запомнить меня" Height="26" VerticalAlignment="Top"
                     IsChecked="{Binding IsRemember, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>

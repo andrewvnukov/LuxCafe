@@ -23,7 +23,7 @@
                       Grid.Column="0">
             <ListBox ItemsSource="{Binding CategoryList}"
          SelectedIndex="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-         HorizontalAlignment="Center">
+         HorizontalAlignment="Center" >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Template">
@@ -52,7 +52,7 @@
                 </ListBox.Template>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Background="Transparent"
+                        <Button Background="{DynamicResource PrimaryColor2}"
                     Margin="5"
                     Click="Button_Click"
                     BorderThickness="0">
@@ -171,7 +171,7 @@
                 </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden"
                               Grid.Row="0">
-                    <StackPanel Orientation="Vertical"
+                    <StackPanel Orientation="Vertical" Background="#6C8DBF" 
                                 >
                         <TextBlock Text="Блюда в заказе" Style="{DynamicResource Text_Headline2}"
                                    Foreground="Black"/>
@@ -244,7 +244,7 @@
                         </ListBox>
                     </StackPanel>
                 </ScrollViewer>
-                <Border Background="#EEEEEE"
+                <Border Background="#6C8DBF"
                         Grid.Row="1"
                         CornerRadius="0 0 10 0">
                 <StackPanel Orientation="Vertical"

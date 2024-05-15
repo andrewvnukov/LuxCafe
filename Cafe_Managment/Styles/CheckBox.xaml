@@ -63,7 +63,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="CheckImage" Property="Source" Value="/Images/Cross.png"/>
+                            <Setter TargetName="CheckImage" Property="Source" Value="/Images/check (2).png"/>
                             <Setter TargetName="tag" Property="Foreground" Value="White"/>
                             <Setter TargetName="Square" Property="BorderBrush" Value="White"/>
                         </Trigger> 

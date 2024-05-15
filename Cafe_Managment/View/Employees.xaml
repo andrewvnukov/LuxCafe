@@ -260,8 +260,7 @@
                             Margin="10,0,0,0"/>
                     </StackPanel>
 
-                    <TextBlock Text="Уволенные сотрудники" 
-                               Foreground="{DynamicResource AccientColor1}"
+                    <TextBlock Text="Уволенные сотрудники"
                                 Style="{DynamicResource Text_Headline2}"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Center"/>

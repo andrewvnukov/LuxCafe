@@ -133,5 +133,10 @@ namespace Cafe_Managment.View
                 }
             }
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

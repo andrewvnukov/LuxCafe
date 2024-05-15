@@ -103,6 +103,7 @@
         </Setter>
 
     </Style>
+
     <Style x:Key="LoginPasswordBox" TargetType="PasswordBox">
         <Setter Property="Margin" Value="10,0,10,0"/>
         <Setter Property="Padding" Value="10"/>
