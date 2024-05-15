@@ -189,19 +189,17 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
-                    <Grid Height="1000">
+                    <StackPanel>
                         <TextBlock Text="Удалённые из архива блюда" 
-                           Style="{DynamicResource Text_Headline2}"
-                           Foreground="{DynamicResource AccientColor1}"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Center"
-                                   Margin="0 15"/>
+                                       Style="{DynamicResource Text_Headline2}"
+                                       Foreground="{DynamicResource AccientColor1}"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Center"
+                                       Margin="0 15"/>
 
-                        <StackPanel>
+                        <!--DeletedFromArchiveDataGrid-->
 
-                            <!--DeletedFromArchiveDataGrid-->
-
-                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 60 0 10" 
+                        <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 0 0 10" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -215,36 +213,32 @@
                               VerticalScrollBarVisibility="Hidden"
                               >
 
-                                <DataGrid.Columns>
+                            <DataGrid.Columns>
 
-                                    <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Width="29" Margin="4 0 0 0">
-                                                    <Button Style="{StaticResource GridEditButton}"  
+                                <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Width="29" Margin="4 0 0 0">
+                                                <Button Style="{StaticResource GridEditButton}"  
                                                         Command="{Binding DataContext.RestoreDishCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-                                                        <Button.DataContext>
-                                                            <vn:DeletedDataVM/>
-                                                        </Button.DataContext>
-                                                        <Icon:PackIconMaterial Kind="BackupRestore" Style="{StaticResource gridButtonIcon}"/>
-                                                    </Button>
+                                                    <Button.DataContext>
+                                                        <vn:DeletedDataVM/>
+                                                    </Button.DataContext>
+                                                    <Icon:PackIconMaterial Kind="BackupRestore" Style="{StaticResource gridButtonIcon}"/>
+                                                </Button>
 
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
 
-                                    </DataGridTemplateColumn>
+                                </DataGridTemplateColumn>
 
-                                </DataGrid.Columns>
-                                <DataGrid.Resources>
-                                    <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
-                                </DataGrid.Resources>
-                            </DataGrid>
-
-
-                        </StackPanel>
-                    </Grid>
-
+                            </DataGrid.Columns>
+                            <DataGrid.Resources>
+                                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
+                            </DataGrid.Resources>
+                        </DataGrid>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

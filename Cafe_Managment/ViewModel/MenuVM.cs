@@ -273,13 +273,9 @@ namespace Cafe_Managment.ViewModel
                     };
 
                     dishesRepository.UpdateDishPrice(data);
-                    MessageBox.Show($"Блюдо {dataRowView.Row[2].ToString()}\nБыло успешно изменено!");
+                    MessageBox.Show($"Цена блюда {dataRowView.Row[2].ToString()}\nБыла успешно изменена!");
 
-                    tempMenu = dishesRepository.GetAllDishesFromMenu();
-                    DataTable dt = tempMenu.Copy();
-                    dt.Columns.Remove("Id");
-                    ActiveMenu = dt.Copy();
-                    
+                    RefreshMenu();
 
                     updatePrice.Close();
                 }
@@ -297,7 +293,6 @@ namespace Cafe_Managment.ViewModel
         private void ExecuteSavePriceCommand(object obj)
         {
             IsViewVisible = false;
-            RefreshMenu();
         }
         public void ExecuteSaveRowCommand(object parameter)
         {
@@ -332,7 +327,8 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteAddDishToArchiveCommand(object obj)
         {
-            MessageBox.Show("Блюдо успешно добавлено!");
+            DishAdd dishAdd = new DishAdd();
+            dishAdd.Show();
         }
 
         private void ExecuteDeleteRowCommand(object parameter)
@@ -400,6 +396,9 @@ namespace Cafe_Managment.ViewModel
                     dishesRepository.TransferDishToActiveMenu(dishToMove);
 
                     // Обновляем данные активного меню после переноса блюда
+                    RefreshMenu();
+
+                    updatePrice.Close();
                 }
             };
 
@@ -411,8 +410,10 @@ namespace Cafe_Managment.ViewModel
         private void RefreshMenu()
         {
             tempMenu = dishesRepository.GetAllDishesFromMenu();
-            ActiveMenu = tempMenu.Copy();
-            ActiveMenu.Columns.Remove("Id");
+            DataTable dt = tempMenu.Copy();
+            dt.Columns.Remove("Id");
+            ActiveMenu = new DataTable();
+            ActiveMenu = dt;
         }
 
 
