@@ -6,43 +6,45 @@
         xmlns:local="clr-namespace:Cafe_Managment.View.DialogWindows"
         xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
         mc:Ignorable="d"
-        Title="NewDish" Height="450" Width="800"
+        Title="NewDish" Height="300" Width="800"
         AllowsTransparency="True"
         Background="Transparent"
-        WindowStyle="None">
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.DataContext>
         <vm:MenuVM/>
     </Window.DataContext>
-    <Border>
-    <Grid>
-            <StackPanel Orientation="Vertical">
-                <Button Style="{DynamicResource CloseApp}"
+    <Border CornerRadius="10"
+            Background="{DynamicResource PrimaryColor1}">
+
+        <StackPanel Orientation="Vertical"
+                        >
+            <Button Style="{DynamicResource CloseApp}"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Width="30"
                         Margin="2"
                         Click="Button_Click"/>
-                <TextBlock Text="Добавление нового блюда в архив"
+
+                <TextBlock Text="Добавление нового блюда в архив блюд"
                            TextWrapping="Wrap" Style="{DynamicResource Text_Headline2}"/>
-                <Grid>
+            <ScrollViewer
+                VerticalScrollBarVisibility="Hidden"
+                MaxHeight="150">
+                <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0"
+                                VerticalAlignment="Center"
                                 >
-                    <TextBox Tag="Название блюда"
-                             Text="{Binding NewDish.Title}"
+                        <TextBox Tag="Название блюда"
+                             Text="{Binding NewDishAdd.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource LoginTextBox}"
                              Margin="20"/>
-                    <TextBox Tag="Описание блюда"
-                             Text="{Binding NewDish.Description}"
-                             Style="{DynamicResource LoginTextBox}"
-                             Margin="20"
-                             Height="auto"
-                             TextWrapping="Wrap"/>
-                    <TextBox Tag="Состав блюда"
-                             Text="{Binding NewDish.Composition}"
+                        <TextBox Tag="Описание блюда"
+                             Text="{Binding NewDishAdd.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource LoginTextBox}"
                              Margin="20"
                              Height="auto"
@@ -50,10 +52,24 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center">
-                        
+                        <TextBox Tag="Состав блюда"
+                                 Text="{Binding NewDishAdd.Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{DynamicResource LoginTextBox}"
+                                 Margin="20"
+                                 Height="auto"
+                                 TextWrapping="Wrap"/>
+                        <ComboBox Margin="20"
+                                  ItemsSource="{Binding Categories, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
+
                 </Grid>
-            </StackPanel>
-    </Grid>
+            </ScrollViewer>
+
+            <Button Style="{DynamicResource DefaultButton}"
+                        HorizontalAlignment="Center"
+                        Padding="5"
+                        Content="Завершить"
+                        Margin="10"/>
+        </StackPanel>
     </Border>
 </Window>

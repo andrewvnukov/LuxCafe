@@ -160,10 +160,8 @@
         <Border CornerRadius="0 0 10 0"
                 BorderThickness="1 0 0 0"
                 BorderBrush="White"
+                Background="{DynamicResource PrimaryColor2}"
                 Grid.Column="2">
-            <Border.Background>
-                <SolidColorBrush Opacity="0.7" Color="{DynamicResource BorderGradientColor1}"/>
-            </Border.Background>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -171,7 +169,7 @@
                 </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden"
                               Grid.Row="0">
-                    <StackPanel Orientation="Vertical" Background="#6C8DBF" 
+                    <StackPanel Orientation="Vertical"
                                 >
                         <TextBlock Text="Блюда в заказе" Style="{DynamicResource Text_Headline2}"
                                    Foreground="Black"/>
@@ -216,7 +214,7 @@
                                     Style="{DynamicResource Default_Text}" 
                                     FontSize="16"
                                     VerticalAlignment="Center"
-                                    Width="40"
+                                    Width="50"
                                     TextWrapping="Wrap"/>
                                             <StackPanel Orientation="Horizontal"
                                             IsEnabled="True"
@@ -244,7 +242,7 @@
                         </ListBox>
                     </StackPanel>
                 </ScrollViewer>
-                <Border Background="#6C8DBF"
+                <Border Background="{DynamicResource PrimaryColor2}"
                         Grid.Row="1"
                         CornerRadius="0 0 10 0">
                 <StackPanel Orientation="Vertical"

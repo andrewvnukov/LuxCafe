@@ -183,7 +183,7 @@ namespace Cafe_Managment.ViewModel
                 _notifier.ShowError("Некорректный идентификатор сотрудника.");
                 return;
             }
-
+            EmpId = int.Parse(temp.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
             // Создаем новый объект с данными сотрудника
             EmpData newdata = new EmpData
             {

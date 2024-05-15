@@ -185,12 +185,6 @@
     <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewWindowVM.cs" />
-    <Compile Include="View\DeletedData.xaml.cs">
-      <DependentUpon>DeletedData.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\DialogWindows\DishAdd.xaml.cs">
-      <DependentUpon>DishAdd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\DialogWindows\NewDish.xaml.cs">
       <DependentUpon>NewDish.xaml</DependentUpon>
     </Compile>
@@ -284,14 +278,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Window.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\DeletedData.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\DialogWindows\DishAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

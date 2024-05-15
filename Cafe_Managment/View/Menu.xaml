@@ -129,13 +129,16 @@
                             <DataGridTemplateColumn Header="Описание">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Описание}" />
+                                        <TextBlock Text="{Binding Описание}" 
+                                                   MaxWidth="300"
+                                                    TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 MaxWidth="300"
+                                                    TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -280,13 +283,14 @@
                             <DataGridTemplateColumn Header="Описание" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Описание}" />
+                                        <TextBlock Text="{Binding Описание}" 
+                                                   MaxWidth="300"
+                                                   TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>

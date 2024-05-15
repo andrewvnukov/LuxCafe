@@ -41,6 +41,7 @@ namespace Cafe_Managment.ViewModel
         DataTable tempMenu = new DataTable();
         private object _selectedItemDeletedDish;
         DataTable tempDelDish = new DataTable();
+        List<string> _categoties = new List<string>();
 
         public ICommand ShowDishSuccessfullyRestoredCommand { get; set; }
         public ICommand ShowDishSuccessfullyDeletedCommand { get; set; }
@@ -61,10 +62,16 @@ namespace Cafe_Managment.ViewModel
         public ICommand InfoCommandArchive { get; set; }
         public ICommand InfoCommandMenu { get; set; }
         public ICommand CloseWindowCommand { get; set; }
-        public ICommand SavePriceCommand {  get; set; }
+        public ICommand SavePriceCommand { get; set; }
         public ICommand RestoreDishCommand { get; set; }
 
-
+        public List<string> Categories
+        {
+            get { return _categoties; }
+            set { _categoties = value;
+                OnPropertyChanged(nameof(_categoties));
+            }
+        } 
         public string NewPrice
         {
             get { return _newPrice; }
@@ -75,13 +82,13 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        public DishData NewDish
+        public DishData NewDishAdd
         {
             get => _newDish;
             set
             {
                 _newDish = value;
-                OnPropertyChanged(nameof(NewDish));
+                OnPropertyChanged(nameof(NewDishAdd));
             }
         }
 
@@ -511,8 +518,10 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteAddDishToArchiveCommand(object obj)
         {
+            Categories = dishesRepository.GetAllCategories();
+            NewDish newDish = new NewDish();
+            newDish.ShowDialog();
 
-            MessageBox.Show("Блюдо успешно добавлено!");
         }
 
         private void ExecuteDeleteRowCommand(object parameter)
@@ -592,7 +601,7 @@ namespace Cafe_Managment.ViewModel
             };
 
             // Показываем окно для установки цены
-            updatePrice.Show();
+            updatePrice.ShowDialog();
         }
 
         // Метод, который обновляет данные активного меню

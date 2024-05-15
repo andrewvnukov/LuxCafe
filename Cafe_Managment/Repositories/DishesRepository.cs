@@ -901,9 +901,19 @@ namespace Cafe_Managment.Repositories
             using(var command = new MySqlCommand())
             {
                 command.Connection = connection;
-                command.CommandText = "SELECT Title FROM";
+                command.CommandText = "SELECT Title FROM categories";
+                using(var reader = command.ExecuteReader())
+                {
+                    if(reader.Read())
+                    {
+                        foreach(var item in reader)
+                        {
+                            categories.Add(item.ToString());
+                        }
+                    }
+                }
             }
-            return null;
+            return categories;
         }
     }
 }

@@ -36,10 +36,6 @@
         <view:Statistic/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm:DeletedDataVM}">
-        <view:DeletedData/>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type vm:LoginVM}">
         <view:Login/>
     </DataTemplate>

@@ -265,10 +265,11 @@
             <Setter.Value>
                 <ControlTemplate x:Name="border" TargetType="Button">
                     <Border
-                        CornerRadius="15"
+                        CornerRadius="10"
                             TextBlock.Foreground="{TemplateBinding Foreground}"
                             x:Name="Border"
                             BorderThickness="1.5"
+                        Padding="{TemplateBinding Padding}"
                         >
                         <Border.Background>
                             <SolidColorBrush x:Name="BorderBackground" Opacity="0.7" Color="{DynamicResource DisableButtonColor1}"/>
