@@ -173,6 +173,7 @@
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Utilities\DishStatusToEnabledConverter.cs" />
     <Compile Include="Utilities\EmployeesRefresh.cs" />
+    <Compile Include="Utilities\OrderActiveTooLongConverter.cs" />
     <Compile Include="Utilities\PasswordGenerator.cs" />
     <Compile Include="Repositories\DeletedDataRepository.cs" />
     <Compile Include="Repositories\DishesRepository.cs" />
@@ -267,6 +268,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\BindblePassBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Combobox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

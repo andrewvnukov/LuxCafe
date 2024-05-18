@@ -68,6 +68,14 @@ namespace Cafe_Managment.ViewModel
                 OnPropertyChanged(nameof(EmptyMessage)); }
         }
 
+        private DateTime _creationTime;
+
+        public DateTime CreationTime
+        {
+            get { return _creationTime; }
+            set { _creationTime = value; OnPropertyChanged(nameof(CreationTime)); }
+        }
+
 
         public ICommand ChangeDishStatusCommand { get; set; }
         public ICommand ReloadCommand { get; set; }
@@ -116,6 +124,12 @@ namespace Cafe_Managment.ViewModel
                 _notifier.ShowSuccess($"Заказ № {selectedCheque.Id} успешно выполнен и закрыт!");
             }
         }
+
+        public bool IsOrderActiveForTooLong(ChequeModel cheque)
+        {
+            return (DateTime.Now - cheque.CreatedAt).TotalMinutes > 1;
+        }
+
 
         private Notifier CreateNotifier()
         {

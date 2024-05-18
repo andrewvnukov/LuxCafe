@@ -11,7 +11,7 @@
     <UserControl.DataContext>
         <vm:OrderVM/>
     </UserControl.DataContext>
-    
+
     <Grid
         >
         <Grid.ColumnDefinitions>
@@ -151,7 +151,7 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            
+
                         </Button>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -165,10 +165,11 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="32.2"/>
+                    <RowDefinition Height="127.8"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden"
-                              Grid.Row="0">
+                              Grid.Row="0" Margin="0,0,-0.4,31.8" Grid.RowSpan="2">
                     <StackPanel Orientation="Vertical"
                                 >
                         <TextBlock Text="Блюда в заказе" Style="{DynamicResource Text_Headline2}"
@@ -186,7 +187,7 @@
                                                 <Border Background="{TemplateBinding Background}"
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                                SnapsToDevicePixels="True">             
+                                                SnapsToDevicePixels="True">
                                                     <ContentPresenter />
                                                 </Border>
                                             </ControlTemplate>
@@ -242,42 +243,31 @@
                         </ListBox>
                     </StackPanel>
                 </ScrollViewer>
-                <Border Background="{DynamicResource PrimaryColor2}"
+                <Border Background="#6C8DBF"
                         Grid.Row="1"
-                        CornerRadius="0 0 10 0">
-                <StackPanel Orientation="Vertical"
+                        CornerRadius="0 0 10 0" Margin="0,0.4,-0.4,-0.4" Grid.RowSpan="2">
+                    <StackPanel Orientation="Vertical"
                                 HorizontalAlignment="Center"
                             >
-                    <StackPanel HorizontalAlignment="Center"
+                        <StackPanel HorizontalAlignment="Center"
                                     Orientation="Horizontal">
-                        <TextBlock Text="Итоговая цена"
+                            <TextBlock Text="Итоговая цена"
                                        FontSize="18"
                                        FontWeight="DemiBold"
                                        Margin="4 0 5 5"
                                        HorizontalAlignment="Left"
                                        Width="160"/>
-                        <TextBlock Text="{Binding TotalPrice, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding TotalPrice, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        FontSize="18"
                                        FontWeight="DemiBold"/>
-                    </StackPanel>
-                    
+                        </StackPanel>
+
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <TextBlock Text="Номер столика" FontSize="18" Width="160" Margin="26 0 5 5"/>
                             <ComboBox ItemsSource="{Binding TableNumbers}"  
-                                SelectedItem="{Binding SpotNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  FontSize="18"
-                                  FontWeight="DemiBold"
-                                  MaxHeight="100"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                <ComboBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        
-                                            <WrapPanel IsItemsHost="True"
-                                                       Orientation="Horizontal"
-                                                       Width="60"/>
-                                       
-                                    </ItemsPanelTemplate>
-                                </ComboBox.ItemsPanel>
+                  SelectedItem="{Binding SpotNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Style="{StaticResource CustomComboBoxStyle}">
+                                <!-- Your ComboBox items here -->
                             </ComboBox>
                         </StackPanel>
 
@@ -291,19 +281,19 @@
                             TickFrequency="1"
                             IsSnapToTickEnabled="True"
                             Width="200"
-                            Height="40"/>       
+                            Height="40"/>
 
                         <!-- Отображение значения слайдера -->
-                            <TextBlock Text="{Binding GuestCount}" 
+                        <TextBlock Text="{Binding GuestCount}" 
                                HorizontalAlignment="Center"
                                FontSize="18"
                                FontWeight="DemiBold"
-                               Margin="0 -22 0 0"/> 
+                               Margin="0 -22 0 0"/>
 
                         <Button Content="Оформить" Style="{DynamicResource DefaultButton}"
                             Command="{Binding CreateOrderCommand}"
                                 Width="150"/>
-                </StackPanel>
+                    </StackPanel>
                 </Border>
             </Grid>
         </Border>
