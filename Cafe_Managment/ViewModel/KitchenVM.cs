@@ -26,32 +26,57 @@ namespace Cafe_Managment.ViewModel
         List<ChequeModel> temp;
         int _selectedCheque;
         string _emptyMessage;
+        private bool _isOrderReady;
+
+        // Свойство для привязки в XAML
+        public bool IsOrderReady
+        {
+            get { return _isOrderReady; }
+            set
+            {
+                if (_isOrderReady != value)
+                {
+                    _isOrderReady = value;
+                    OnPropertyChanged(nameof(IsOrderReady));
+                }
+            }
+        }
+        private object _currentView;
+        public object CurrentView
+        {
+            get { return _currentView; }
+            set { _currentView = value; OnPropertyChanged(nameof(CurrentView)); }
+        }
 
         public List<ChequeModel> Cheques
         {
             get { return _cheques; }
-            set { _cheques = value; 
-            OnPropertyChanged(nameof(Cheques));}
+            set { _cheques = value;
+                OnPropertyChanged(nameof(Cheques)); }
         }
         public int SelectedCheque
         {
             get { return _selectedCheque; }
             set { _selectedCheque = value;
-            OnPropertyChanged(nameof(SelectedCheque));}
+                OnPropertyChanged(nameof(SelectedCheque)); }
         }
 
         public string EmptyMessage
         {
             get { return _emptyMessage; }
             set { _emptyMessage = value;
-            OnPropertyChanged(nameof(EmptyMessage));}
+                OnPropertyChanged(nameof(EmptyMessage)); }
         }
 
 
         public ICommand ChangeDishStatusCommand { get; set; }
         public ICommand ReloadCommand { get; set; }
+        public ICommand CloseOrderCommand { get; set; }
+        public ICommand OpenOrderCommand { get; set; }
 
-        public KitchenVM() 
+
+
+        public KitchenVM()
         {
             _notifier = CreateNotifier();
 
@@ -59,7 +84,37 @@ namespace Cafe_Managment.ViewModel
 
             ChangeDishStatusCommand = new RelayCommand(ExecuteChangeDishStatusCommand);
             ReloadCommand = new RelayCommand(ExecuteReloadCommand);
+            CloseOrderCommand = new RelayCommand(ExecuteCloseOrderCommand);
+            OpenOrderCommand = new RelayCommand(Order);
+
             UpdateLists(1);
+        }
+    
+        
+            private void Order(object obj) => new OrderVM();
+
+        
+
+
+        private void ExecuteCloseOrderCommand(object obj)
+        {
+            var selectedCheque = temp[SelectedCheque];
+
+            // Проверяем, есть ли не готовые блюда
+            bool hasUnreadyDishes = selectedCheque.dishes.Any(d => d.Status != 2);
+
+            if (hasUnreadyDishes)
+            {
+                // Если есть не готовые блюда, выдаем сообщение и не закрываем заказ
+                _notifier.ShowError($"Нельзя закрыть заказ № {selectedCheque.Id}, пока не все блюда готовы и выданы!");
+            }
+            else
+            {
+                // Иначе, все блюда готовы, можно закрыть заказ
+                dishesRepository.IsOrderReady(selectedCheque);
+                Cheques = dishesRepository.GetActiveOrders();
+                _notifier.ShowSuccess($"Заказ № {selectedCheque.Id} успешно выполнен и закрыт!");
+            }
         }
 
         private Notifier CreateNotifier()
@@ -82,6 +137,8 @@ namespace Cafe_Managment.ViewModel
             });
         }
 
+        
+
         private void ExecuteReloadCommand(object obj)
         {
             UpdateLists(1);
@@ -91,10 +148,10 @@ namespace Cafe_Managment.ViewModel
         {
             switch (v)
             {
-                case 0://При выполнении простых штук
+                case 0: // При выполнении простых штук
                     Cheques = new List<ChequeModel>();
                     Cheques = temp;
-                    if(Cheques.Count == 0)
+                    if (Cheques.Count == 0)
                     {
                         EmptyMessage = "Благодарим за работу!\nНо заказов пока что нет!";
                     }
@@ -103,10 +160,14 @@ namespace Cafe_Managment.ViewModel
                         EmptyMessage = string.Empty;
                     }
                     break;
-                case 1://При связи с сервером
+                case 1: // При связи с сервером
                     Cheques = new List<ChequeModel>();
                     Cheques = dishesRepository.GetActiveOrders();
                     temp = Cheques;
+
+                    // Разбиваем каждое блюдо на отдельные элементы, если их количество больше одного
+                    SplitDishes();
+
                     if (Cheques.Count == 0)
                     {
                         EmptyMessage = "Благодарим за работу!\nНо заказов пока что нет!";
@@ -119,54 +180,74 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
+
+        private void SplitDishes()
+        {
+            List<ChequeModel> updatedCheques = new List<ChequeModel>();
+
+            foreach (var cheque in Cheques)
+            {
+                List<DishData> splittedDishes = new List<DishData>();
+
+                foreach (var dish in cheque.dishes)
+                {
+                    if (dish.Count > 1)
+                    {
+                        // Если блюдо в заказе больше одного, разбиваем их на отдельные элементы
+                        for (int i = 0; i < dish.Count; i++)
+                        {
+                            splittedDishes.Add(new DishData
+                            {
+                                Title = dish.Title,
+                                Count = 1,
+                                Status = dish.Status,
+                                Id = dish.Id // Если нужен идентификатор, необходимо уникальное значение
+                            });
+                        }
+                    }
+                    else
+                    {
+                        // Если блюдо в заказе одно, оставляем его без изменений
+                        splittedDishes.Add(dish);
+                    }
+                }
+
+                // Обновляем список блюд в заказе
+                cheque.dishes = splittedDishes;
+                updatedCheques.Add(cheque);
+            }
+
+            // Обновляем список заказов
+            Cheques = updatedCheques;
+        }
+
         private void ExecuteChangeDishStatusCommand(object obj)
         {
             int dishIndex = (int)obj;
 
+            // Получаем ссылку на текущее блюдо
+            var currentDish = temp[SelectedCheque].dishes[dishIndex];
+
             // Обновляем статус блюда
-            switch (temp[SelectedCheque].dishes[dishIndex].Status)
+            switch (currentDish.Status)
             {
                 case 0:
-                    temp[SelectedCheque].dishes[dishIndex].Status += 1;
-                    dishesRepository.UpdateStatus(temp[SelectedCheque].dishes[dishIndex]);
-                    UpdateLists(0);
+                    currentDish.Status += 1;
                     break;
 
                 case 1:
-                    temp[SelectedCheque].dishes[dishIndex].Status += 1;
+                    currentDish.Status += 1;
 
-                    if (temp[SelectedCheque].dishes[dishIndex].Count > 1)
+                    if (currentDish.Count > 1)
                     {
-                        temp[SelectedCheque].dishes[dishIndex].Count -= 1;
-                        temp[SelectedCheque].dishes[dishIndex].Status = 0;
+                        currentDish.Count -= 1;
+                        currentDish.Status = 0;
                     }
-                    else if (temp[SelectedCheque].dishes[dishIndex].Count == 1)
+                    else if (currentDish.Count == 1)
                     {
-                        temp[SelectedCheque].dishes.RemoveAt(dishIndex);
-                    }
-
-                    // Проверяем, готов ли заказ
-                    bool isChequeReady = true;
-
-                    foreach (var item in temp[SelectedCheque].dishes)
-                    {
-                        if (item.Status != 2)
-                        {
-                            isChequeReady = false;
-                            break;
-                        }
-                    }
-
-                    if (isChequeReady) // Если заказ готов
-                    {
-                        var orderId = temp[SelectedCheque].Id; // Получаем Id заказа
-                        dishesRepository.IsOrderReady(temp[SelectedCheque]);
-                        _notifier.ShowSuccess($"Заказ №{orderId} готов к выдаче!"); // Уведомление с номером заказа
-                        UpdateLists(1); // Обновление списков
-                    }
-                    else
-                    {
-                        UpdateLists(0); // Заказ еще не готов
+                        currentDish.Status = 2; // Устанавливаем статус "готово"
+                                                // Обновляем статус блюда в базе данных
+                        dishesRepository.UpdateStatus(currentDish);
                     }
                     break;
 
@@ -174,7 +255,21 @@ namespace Cafe_Managment.ViewModel
                     // Если статус 2, ничего не делаем
                     break;
             }
+
+            // Проверяем, все ли блюда в заказе готовы
+            bool allDishesReady = temp[SelectedCheque].dishes.All(d => d.Status == 2);
+
+            // Если все блюда готовы, выдаем уведомление
+            if (allDishesReady)
+            {
+                _notifier.ShowSuccess($"Все блюда в заказе №{temp[SelectedCheque].Id} готовы и выданы!");
+            }
+
+            // Обновляем списки
+            UpdateLists(0);
         }
+
+
 
 
     }

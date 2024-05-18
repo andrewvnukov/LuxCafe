@@ -171,6 +171,7 @@
     <Compile Include="Model\IDishesRepository.cs" />
     <Compile Include="Model\IStatisticsRepository.cs" />
     <Compile Include="Model\UserData.cs" />
+    <Compile Include="Utilities\DishStatusToEnabledConverter.cs" />
     <Compile Include="Utilities\EmployeesRefresh.cs" />
     <Compile Include="Utilities\PasswordGenerator.cs" />
     <Compile Include="Repositories\DeletedDataRepository.cs" />

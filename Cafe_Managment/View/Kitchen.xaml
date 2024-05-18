@@ -6,11 +6,14 @@
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:lvc="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:vm1="clr-namespace:Cafe_Managment.Utilities"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:KitchenVM}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <vm:KitchenVM/>
-    </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <vm1:DishStatusToEnabledConverter x:Key="DishStatusToEnabledConverter"/>
+    </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <Grid>
         <TextBlock Text="{Binding EmptyMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -64,7 +67,7 @@
                             </Border.Background>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="45"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="25"/>
                                 </Grid.RowDefinitions>
@@ -74,16 +77,38 @@
                                 <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE"
                                         Background="Transparent"
                                         Grid.Row="2"/>
+                                
                                 <StackPanel Orientation="Horizontal"
                                             Grid.Row="0"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Margin="5 0 5 0">
-                                                                    <TextBlock Text="Заказ №" 
+                                                <TextBlock Text="Заказ №" Margin="0 0 0 0" 
                                                Style="{DynamicResource Text_Headline3}"/>
-                                                                    <TextBlock Text="{Binding Id}" 
+                                                <TextBlock Text="{Binding Id}" 
                                                Style="{DynamicResource Text_Headline3}"/>
-                                </StackPanel>
+                                    
+                                        <Button Style="{DynamicResource GridDeleteButton}"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 -3 0 0"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                            Command="{Binding DataContext.OpenOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                            CommandParameter="{Binding}">
+                                            <lvc:PackIconMaterial Kind="PenPlus" Foreground="White"/>
+                                        </Button>
+
+                                        <Button Style="{DynamicResource GridDeleteButton}"
+                                            HorizontalAlignment="Right"
+                                            Margin="120 -3 0 0"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                            Command="{Binding DataContext.CloseOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                            CommandParameter="{Binding}">
+                                            <lvc:PackIconMaterial Kind="Close" Foreground="Red"/>
+                                        </Button>
+                                    
+                                    </StackPanel>
                                 <ListBox ItemsSource="{Binding dishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          Margin="10"
                                          HorizontalAlignment="Center"
@@ -134,43 +159,44 @@
                                                                Style="{DynamicResource DefaultContrast16_Text}"/>
                                                 </Grid>
                                             </Border>
-                                                <Button Margin="5"
-                                                        Click="Button_Click">
-                                                    <Button.Template>
-                                                        <ControlTemplate>
-                                                            <Border Background="Transparent"
-                                                                    Margin="0">
-                                                            <lvc:PackIconMaterial x:Name="icon"/>
-                                                            </Border>
-                                                            <ControlTemplate.Triggers>
-                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                                                    <Setter TargetName="icon" Property="Kind" Value="Fire"/>
-                                                                    <Setter TargetName="icon" Property="Foreground">
-                                                                        <Setter.Value>
-                                                                            <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
-                                                                                <LinearGradientBrush.GradientStops>
-                                                                                    <GradientStop Offset="0" Color="Red"/>
-                                                                                    <GradientStop Offset="0.7" Color="Orange"/>
-                                                                                    <GradientStop Offset="1" Color="Orange"/>
-                                                                                </LinearGradientBrush.GradientStops>
-                                                                            </LinearGradientBrush>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="1">
-                                                                    <Setter TargetName="icon" Property="Kind" Value="Watch"/>
-                                                                    <Setter TargetName="icon" Property="Foreground" Value="SandyBrown"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="2">
-                                                                    <Setter TargetName="icon" Property="Kind" Value="CheckBold"/>
-                                                                    <Setter TargetName="icon" Property="Foreground" Value="Green"/>
-                                                                
-                                                                </DataTrigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Button.Template>
-                                                </Button>
-                                            </StackPanel>
+                                                    <Button Margin="5"
+                                                                Click="Button_Click"
+                                                                IsEnabled="{Binding Status, Converter={StaticResource DishStatusToEnabledConverter}}">
+                                                        <Button.Template>
+                                                            <ControlTemplate>
+                                                                <Border Background="Transparent"
+                                                                         Margin="0">
+                                                                    <lvc:PackIconMaterial x:Name="icon"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                                                        <Setter TargetName="icon" Property="Kind" Value="Fire"/>
+                                                                        <Setter TargetName="icon" Property="Foreground">
+                                                                            <Setter.Value>
+                                                                                <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
+                                                                                    <LinearGradientBrush.GradientStops>
+                                                                                        <GradientStop Offset="0" Color="Red"/>
+                                                                                        <GradientStop Offset="0.7" Color="Orange"/>
+                                                                                        <GradientStop Offset="1" Color="Orange"/>
+                                                                                    </LinearGradientBrush.GradientStops>
+                                                                                </LinearGradientBrush>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="1">
+                                                                        <Setter TargetName="icon" Property="Kind" Value="Watch"/>
+                                                                        <Setter TargetName="icon" Property="Foreground" Value="SandyBrown"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="2">
+                                                                        <Setter TargetName="icon" Property="Kind" Value="CheckBold"/>
+                                                                        <Setter TargetName="icon" Property="Foreground" Value="Green"/>
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+
+                                                </StackPanel>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
@@ -210,13 +236,18 @@
                                                     Margin="5 0 5 0"
                                                     FontSize="16"/>
                                     </StackPanel>
+
+                                    </Grid>
+                                    <ContentControl x:Name="Pages" Content="{Binding CurrentView}" Margin="0,0,0,0"/>
+
                                 </Grid>
-                            </Grid>
-                        </Border>
+
+                            </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
         </Grid>
+        
     </ScrollViewer>
 </UserControl>
