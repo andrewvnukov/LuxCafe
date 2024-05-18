@@ -40,11 +40,11 @@
                                 VerticalAlignment="Center"
                                 >
                         <TextBox Tag="Название блюда"
-                             Text="{Binding NewDishAdd.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource LoginTextBox}"
                              Margin="20"/>
                         <TextBox Tag="Описание блюда"
-                             Text="{Binding NewDishAdd.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{DynamicResource LoginTextBox}"
                              Margin="20"
                              Height="auto"
@@ -53,12 +53,13 @@
                     <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center">
                         <TextBox Tag="Состав блюда"
-                                 Text="{Binding NewDishAdd.Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{DynamicResource LoginTextBox}"
                                  Margin="20"
                                  Height="auto"
                                  TextWrapping="Wrap"/>
                         <ComboBox Margin="20"
+                                  SelectedIndex="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   ItemsSource="{Binding Categories, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
@@ -66,10 +67,12 @@
             </ScrollViewer>
 
             <Button Style="{DynamicResource DefaultButton}"
-                        HorizontalAlignment="Center"
-                        Padding="5"
-                        Content="Завершить"
-                        Margin="10"/>
+                    Command="{Binding AddDishToArchiveCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    HorizontalAlignment="Center"
+                    Padding="5"
+                    Content="Завершить"
+                    Margin="10"/>
         </StackPanel>
     </Border>
 </Window>

@@ -906,16 +906,50 @@ namespace Cafe_Managment.Repositories
                 command.CommandText = "SELECT Title FROM categories";
                 using(var reader = command.ExecuteReader())
                 {
-                    if(reader.Read())
+                    while (reader.Read())
                     {
-                        foreach(var item in reader)
-                        {
-                            categories.Add(item.ToString());
-                        }
+                        categories.Add(reader.GetString("Title"));
                     }
                 }
             }
             return categories;
+        }
+
+        public void AddDishToArchive(DishData dishData)
+        {
+            MySqlConnection connection = GetConnection();
+
+            try
+            {
+                connection.Open();
+
+                using (var command = new MySqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = $@"INSERT INTO disharchive (CategoryId, Title, Description, Composition, CreatedAt) 
+                                         VALUES ({dishData.CategoryId + 1},@title,@description,@composition,NOW())";
+                    command.Parameters.AddWithValue("@title", dishData.Title);
+                    command.Parameters.AddWithValue("@description", dishData.Description);
+                    command.Parameters.AddWithValue("@composition", dishData.Composition);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Ошибка при добавлении блюда: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла неожиданная ошибка: {ex.Message}");
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
         }
     }
 }

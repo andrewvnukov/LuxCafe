@@ -25,17 +25,20 @@ namespace Cafe_Managment.ViewModel
     {
         private Notifier _notifier;
         public UpdatePrice updatePrice;
+        
 
         DishesRepository dishesRepository;
         public bool IsExitClicked = false;
         private bool _isReadOnly;
         private bool _isEnabled;
         private bool _isViewVisible;
+        bool IsOpen;
         private int _selectedDish;
         private object _selectedItem;
         private object _selectedItemMenu;
         private string _newPrice;
         private DishData _newDish;
+        private int _selectedCategory;
 
         DataTable tempArchive = new DataTable();
         DataTable tempMenu = new DataTable();
@@ -65,6 +68,12 @@ namespace Cafe_Managment.ViewModel
         public ICommand SavePriceCommand { get; set; }
         public ICommand RestoreDishCommand { get; set; }
 
+        public int SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set { _selectedCategory = value; 
+            OnPropertyChanged(nameof(SelectedCategory));}
+        }
         public List<string> Categories
         {
             get { return _categoties; }
@@ -79,6 +88,34 @@ namespace Cafe_Managment.ViewModel
             {
                 _newPrice = value;
                 OnPropertyChanged(nameof(NewPrice));
+            }
+        }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set { _title= value;
+            OnPropertyChanged(nameof(Title));}
+        }
+        private string _description;
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+        private string _composition;
+        public string Composition
+        {
+            get => _composition;
+            set
+            {
+                _composition = value;
+                OnPropertyChanged(nameof(Composition));
             }
         }
 
@@ -218,6 +255,7 @@ namespace Cafe_Managment.ViewModel
         {
             CanEditColumns = false; // Переключаем состояние
 
+
             dishesRepository = new DishesRepository();
             tempArchive = dishesRepository.GetAllDishesFromArchive();
 
@@ -241,6 +279,7 @@ namespace Cafe_Managment.ViewModel
             DeletedDishes.Columns.Remove("Id");
             IsReadOnly = false;
 
+            Categories = dishesRepository.GetAllCategories();
 
             RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
 
@@ -518,10 +557,32 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteAddDishToArchiveCommand(object obj)
         {
-            Categories = dishesRepository.GetAllCategories();
-            NewDish newDish = new NewDish();
-            newDish.ShowDialog();
-
+            
+            if (Title != null && Description!=null && Composition!=null)
+            {
+                var window = obj as Window;
+                NewDishAdd = new DishData
+                {
+                    Title = Title,
+                    Description = Description,
+                    Composition = Composition,
+                    CategoryId = SelectedCategory
+                };
+                dishesRepository.AddDishToArchive(NewDishAdd);
+                window.Close();
+            }
+            else
+            {
+                if (Title != null || Description != null || Composition != null)
+                {
+                    _notifier.ShowWarning("Не все поля заполнены!");
+                }
+                else
+                {
+                    NewDish newDish = new NewDish();
+                    newDish.ShowDialog();
+                }
+            }
         }
 
         private void ExecuteDeleteRowCommand(object parameter)

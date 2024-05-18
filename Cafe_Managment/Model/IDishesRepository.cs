@@ -25,7 +25,7 @@ namespace Cafe_Managment.Model
         void IsOrderReady(ChequeModel cheque);
         DataTable RestoreDeletedDish(DishData dish);
         DataTable GetAllDeletedDishes();
-
+        void AddDishToArchive(DishData dishData);
 
     }
 }
