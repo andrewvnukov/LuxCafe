@@ -221,8 +221,6 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-       
-
         private DataTable _activemenu;
 
         public DataTable ActiveMenu

@@ -10,6 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800"
              SizeChanged ="UserControl_SizeChanged" >
+
+    
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
     <Grid>
         <Grid.RowDefinitions>
@@ -28,13 +30,13 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Начало периода:" Margin="5" Style="{DynamicResource Text_Headline3}"
                                    Foreground="{DynamicResource AccientColor1}"/>
-                        <DatePicker x:Name="startDatePicker" Margin="5" 
+                        <DatePicker x:Name="startDatePicker" Margin="5"  
                             SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Конец периода:" Margin="5" Style="{DynamicResource Text_Headline3}"
                                    Foreground="{DynamicResource AccientColor1}"/>
-                        <DatePicker x:Name="endDatePicker" Margin="5"
+                        <DatePicker x:Name="endDatePicker" Margin="5" 
                             SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <Button Content="Обновить" 

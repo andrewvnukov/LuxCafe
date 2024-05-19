@@ -25,15 +25,20 @@
                 <StackPanel Orientation="Vertical"
                             VerticalAlignment="Center">
                     <Image Grid.Column="0"
-                   Height="auto"
-                   Width="auto"
-                   Stretch="Uniform"
-                        Margin="20 20 20 10"
-                   Source="{Binding CurrentData.ProfileImage, Mode=OneWay}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        />
+                       MaxHeight="500"
+                       MaxWidth="500"
+                       Stretch="Uniform"
+                       Margin="20 20 20 10"
+                       Source="{Binding CurrentData.ProfileImage, Mode=OneWay}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <Image.Clip>
+                            <EllipseGeometry RadiusX="250" RadiusY="250" Center="250,250"/>
+                        </Image.Clip>
+                    </Image>
+
+
                     <Button Style="{StaticResource Text_Button}"
                             Command="{Binding EditPicture}"
                             Foreground="AntiqueWhite"

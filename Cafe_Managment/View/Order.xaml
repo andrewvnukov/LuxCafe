@@ -12,7 +12,6 @@
         <vm:OrderVM/>
     </UserControl.DataContext>
 
-    
 
     <Grid
         >
@@ -286,7 +285,7 @@
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <TextBlock Text="Номер столика:" FontSize="18" Width="160" Margin="26 0 5 5"/>
-                            <ComboBox ItemsSource="{Binding TableNumbers}"  
+                            <ComboBox ItemsSource="{Binding TableNumbers}" Width="39"
                   SelectedItem="{Binding SpotNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   Style="{StaticResource CustomComboBoxStyle}">
                             </ComboBox>
@@ -297,12 +296,12 @@
                         </StackPanel>
 
                         <Slider Minimum="1" Maximum="10"  
-        Value="{Binding GuestCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-        TickPlacement="BottomRight"
-        TickFrequency="1"
-        IsSnapToTickEnabled="True"
-        Width="200"
-        Height="40">
+                            Value="{Binding GuestCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            TickPlacement="BottomRight"
+                            TickFrequency="1"
+                            IsSnapToTickEnabled="True"
+                            Width="200"
+                            Height="40">
                             <Slider.Template>
                                 <ControlTemplate TargetType="Slider">
                                     <Grid>
@@ -331,8 +330,6 @@
                                 </ControlTemplate>
                             </Slider.Template>
                         </Slider>
-
-
 
                         <TextBlock Text="{Binding GuestCount}" 
                                HorizontalAlignment="Center"

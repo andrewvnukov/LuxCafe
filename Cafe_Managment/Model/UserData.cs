@@ -9,9 +9,6 @@ using System.Windows.Media.Imaging;
 namespace Cafe_Managment.Model
 {
     //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-    //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-    //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-    //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
 
     public abstract class UserData
     {
@@ -30,10 +27,7 @@ namespace Cafe_Managment.Model
         public static string Address {  get; set; }
         public static string Title { get; set; }
         public static BitmapImage ProfileImage { get; set; }
-        //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-        //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-        //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
-        //КЛАСС ДЛЯ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
+        
     }
 }
 

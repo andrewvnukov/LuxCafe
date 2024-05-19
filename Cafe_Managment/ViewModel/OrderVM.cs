@@ -235,9 +235,6 @@ namespace Cafe_Managment.ViewModel
             SelectedDishes = new List<DishData>(tempL);
         }
 
-
-
-
         private void ExecuteSwitchToCategoryCommand(object obj)
         {
             //Debug.WriteLine(SelectedCategory.ToString());

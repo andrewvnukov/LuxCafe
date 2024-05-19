@@ -1,10 +1,15 @@
-﻿using Cafe_Managment.Repositories;
+﻿using Cafe_Managment.Model;
+using Cafe_Managment.Repositories;
 using Cafe_Managment.Utilities;
 using Cafe_Managment.View;
+using Cafe_Managment.View.DialogWindows;
+using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -17,12 +22,44 @@ namespace Cafe_Managment.ViewModel
         private Brush _panelBack;
         private ResizeMode _resizeMode;
         private bool _canResize;
+        UserRepository userRepository;
 
         UserRepository repositoryBase;
 
         Login login;
         Navigation navigation;
         Loading loading = new Loading();
+
+        private string _employeeFullName;
+
+        public string EmployeeFullName
+        {
+            get { return _employeeFullName; }
+            set
+            {
+                if (_employeeFullName != value)
+                {
+                    _employeeFullName = value;
+                    OnPropertyChanged(nameof(EmployeeFullName));
+                }
+            }
+        }
+        private BitmapImage _employeePhoto;
+        private EmpData _currentData;
+
+        public BitmapImage EmployeePhoto
+        {
+            get { return _employeePhoto; }
+            set
+            {
+                if (_employeePhoto != value)
+                {
+                    _employeePhoto = value;
+                    OnPropertyChanged(nameof(EmployeePhoto));
+                }
+            }
+        }
+
 
         public object ActiveWindow
         {
@@ -65,6 +102,11 @@ namespace Cafe_Managment.ViewModel
             get { return _canResize; }
             set { _canResize = value; OnPropertyChanged(nameof(CanResize)); }
         }
+        public EmpData CurrentData
+        {
+            get { return _currentData; }
+            set { _currentData = value; OnPropertyChanged(nameof(CurrentData)); }
+        }
 
         public ICommand CloseAppCommand { get; set; }
         public ICommand MaximizeCommand { get; set; }
@@ -72,6 +114,8 @@ namespace Cafe_Managment.ViewModel
 
         public ViewWindowVM()
         {
+
+            
             CloseAppCommand = new RelayCommand(CloseApp);
             MaximizeCommand = new RelayCommand(MaxWindow);
             MinimizeCommand = new RelayCommand(MinWindow);
@@ -86,7 +130,26 @@ namespace Cafe_Managment.ViewModel
             {
                 AuthUser();
             }
+            userRepository = new UserRepository();
+            CurrentData = new EmpData
+            {
+                Name = UserData.Name,
+                Surname = UserData.Surname,
+                Patronomic = UserData.Patronomic,
+                Address = UserData.Address,
+                Email = UserData.Email,
+                BirthDay = UserData.BirthDay,
+                PhoneNumber = UserData.PhoneNumber,
+                CreatedAt = UserData.CreatedAt,
+                ProfileImage = UserData.ProfileImage,
+            };
+            EmployeeFullName = UserData.Surname +" "+ UserData.Name + " " + UserData.Patronomic;
 
+        }
+
+        private BitmapImage LoadEmployeePhoto(BitmapImage bitmapImage)
+        {
+            throw new NotImplementedException();
         }
 
         private void MinWindow(object obj)
