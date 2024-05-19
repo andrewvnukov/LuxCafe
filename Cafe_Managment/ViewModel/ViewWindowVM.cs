@@ -29,6 +29,7 @@ namespace Cafe_Managment.ViewModel
         Login login;
         Navigation navigation;
         Loading loading = new Loading();
+        public string Role { get; set; }
 
         private string _employeeFullName;
 
@@ -44,6 +45,7 @@ namespace Cafe_Managment.ViewModel
                 }
             }
         }
+        
         private BitmapImage _employeePhoto;
         private EmpData _currentData;
 
@@ -141,16 +143,14 @@ namespace Cafe_Managment.ViewModel
                 BirthDay = UserData.BirthDay,
                 PhoneNumber = UserData.PhoneNumber,
                 CreatedAt = UserData.CreatedAt,
-                ProfileImage = UserData.ProfileImage,
+                ProfileImage = UserData.ProfileImage
             };
             EmployeeFullName = UserData.Surname +" "+ UserData.Name + " " + UserData.Patronomic;
+            Role = userRepository.GetRoleById(UserData.RoleId);
 
         }
 
-        private BitmapImage LoadEmployeePhoto(BitmapImage bitmapImage)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         private void MinWindow(object obj)
         {

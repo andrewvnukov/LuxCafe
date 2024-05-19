@@ -60,9 +60,9 @@
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left"
-                            Margin="10,0,0,0">
-                    <Image Width="40"  
-                       Height="40"
+                            Margin="25,0,0,0">
+                    <Image Width="30"  
+                       Height="30"
                        Margin="0,0,5,0"
                        Stretch="UniformToFill"
                        ClipToBounds="True"
@@ -71,14 +71,20 @@
                             <Binding Path="CurrentData.ProfileImage" Mode="OneWay"/>
                         </Image.Source>
                         <Image.Clip>
-                            <EllipseGeometry RadiusX="20" RadiusY="20" Center="20,20"/>
+                            <EllipseGeometry RadiusX="15" RadiusY="15" Center="15,15"/>
                         </Image.Clip>
                     </Image>
 
                     <TextBlock Text="{Binding EmployeeFullName}" 
                                VerticalAlignment="Center"
-                               Foreground="White"
-                               FontWeight="Bold"
+                               Foreground="#EEEEEE"
+                               FontWeight="DemiBold"
+                               FontSize="14"/>
+                    <TextBlock Text="{Binding Role, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                               VerticalAlignment="Center"
+                               Margin="10"
+                               Foreground="#EEEEEE"
+                               FontWeight="DemiBold"
                                FontSize="14"/>
                 </StackPanel>
             </DockPanel>

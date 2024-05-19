@@ -459,7 +459,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="#6C8DBF" Opacity="0.5"/>
+                <SolidColorBrush Color="#6C8DBF" Opacity="0.8"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
