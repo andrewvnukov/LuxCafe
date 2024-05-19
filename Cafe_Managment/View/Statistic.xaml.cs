@@ -31,5 +31,7 @@ namespace Cafe_Managment.View
             StatisticVM vm= DataContext as StatisticVM;
             vm.GraphWidth = e.NewSize.Width*0.95;
         }
+
+        
     }
 }

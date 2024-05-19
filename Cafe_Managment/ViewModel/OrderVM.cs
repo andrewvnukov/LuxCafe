@@ -173,51 +173,49 @@ namespace Cafe_Managment.ViewModel
                     if (dish.Count == 1)
                     {
                         tempL.Remove(dish);
-                        TotalPrice -= float.Parse(dish.Price);
+                        TotalPrice -= (float)Math.Round(float.Parse(dish.Price), 1);
                         break;
                     }
                     else
                     {
                         dish.Count -= 1;
-                        TotalPrice -= float.Parse(dish.Price);
+                        TotalPrice -= (float)Math.Round(float.Parse(dish.Price), 1);
                         break;
                     }
                 }
             }
-            SelectedDishes = new List<DishData>();
-            SelectedDishes = tempL;
+            SelectedDishes = new List<DishData>(tempL);
         }
 
         private void ExecuteAddDishToOrderCommand(object obj)
         {
             bool IsInCart = false;
             DishData temp = obj as DishData;
-            //Debug.WriteLine(temp.Title);
+            float parsedPrice = (float)Math.Round(float.Parse(temp.Price), 1);
             foreach (DishData dish in tempL)
             {
-                if (dish.Id == temp.Id) 
-                {   
-                    dish.Count += 1; 
+                if (dish.Id == temp.Id)
+                {
+                    dish.Count += 1;
                     IsInCart = true;
-                    TotalPrice += float.Parse(dish.Price);
+                    TotalPrice += parsedPrice;
                     break;
                 }
-                
             }
             if (!IsInCart)
             {
                 tempL.Add(new DishData
                 {
                     Id = temp.Id,
-                    Price = temp.Price,
+                    Price = parsedPrice.ToString("F1"), // Ensure Price has one decimal place
                     Title = temp.Title,
                     Count = 1,
                 });
-                TotalPrice += float.Parse(temp.Price);
+                TotalPrice += parsedPrice;
             }
-            SelectedDishes = new List<DishData>();
-            SelectedDishes = tempL;
+            SelectedDishes = new List<DishData>(tempL);
         }
+
 
         private void ExecuteSwitchToCategoryCommand(object obj)
         {

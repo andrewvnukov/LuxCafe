@@ -27,6 +27,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using Cafe_Managment.Controls;
 using System.Diagnostics.Metrics;
+using System.Collections.ObjectModel;
 
 namespace Cafe_Managment.Repositories
 {
@@ -709,9 +710,9 @@ namespace Cafe_Managment.Repositories
                 }
             }
         }
-        public List<ChequeModel> GetActiveOrders()
+        public ObservableCollection<ChequeModel> GetActiveOrders()
         {
-            List<ChequeModel> result = new List<ChequeModel>();
+            ObservableCollection<ChequeModel> result = new ObservableCollection<ChequeModel>();
 
             MySqlConnection connection1 = null;
             MySqlConnection connection2 = null;
@@ -811,6 +812,7 @@ namespace Cafe_Managment.Repositories
 
             return result;
         }
+
 
         public void UpdateStatus(DishData dish)
         {

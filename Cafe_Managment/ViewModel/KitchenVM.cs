@@ -15,6 +15,8 @@ using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using System.Diagnostics;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
+using Cafe_Managment.View;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -23,8 +25,7 @@ namespace Cafe_Managment.ViewModel
         private Notifier _notifier;
 
         DishesRepository dishesRepository;
-        List<ChequeModel> _cheques;
-        List<ChequeModel> temp;
+        ObservableCollection<ChequeModel> temp;
         int _selectedCheque;
         string _emptyMessage;
         private bool _isOrderReady;
@@ -68,11 +69,12 @@ namespace Cafe_Managment.ViewModel
             set { _currentView = value; OnPropertyChanged(nameof(CurrentView)); }
         }
 
-        public List<ChequeModel> Cheques
+        private ObservableCollection<ChequeModel> _cheques;
+
+        public ObservableCollection<ChequeModel> Cheques
         {
             get { return _cheques; }
-            set { _cheques = value;
-                OnPropertyChanged(nameof(Cheques)); }
+            set { _cheques = value; OnPropertyChanged(nameof(Cheques)); }
         }
         public int SelectedCheque
         {
@@ -100,16 +102,16 @@ namespace Cafe_Managment.ViewModel
         public ICommand ChangeDishStatusCommand { get; set; }
         public ICommand ReloadCommand { get; set; }
         public ICommand CloseOrderCommand { get; set; }
-        public ICommand OpenOrderCommand { get; set; }
+        public ICommand OpenOrderPageCommand { get; set; }
 
 
 
         public KitchenVM()
         {
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1); // Интервал таймера - 1 секунда
+            _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += Timer_Tick; // Добавляем обработчик события таймера
-            _timer.Start(); // Запускаем таймер
+            _timer.Start();
 
             _notifier = CreateNotifier();
 
@@ -118,23 +120,33 @@ namespace Cafe_Managment.ViewModel
             ChangeDishStatusCommand = new RelayCommand(ExecuteChangeDishStatusCommand);
             ReloadCommand = new RelayCommand(ExecuteReloadCommand);
             CloseOrderCommand = new RelayCommand(ExecuteCloseOrderCommand);
-            OpenOrderCommand = new RelayCommand(Order);
+            OpenOrderPageCommand = new RelayCommand(ExecuteOpenOrderPageCommand);
 
             UpdateLists(1);
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Обновляем время ожидания для каждого заказа
             foreach (var cheque in Cheques)
             {
-                cheque.WaitingTime = DateTime.Now - cheque.CreatedAt;
-                Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
+                // Вычисляем время, прошедшее с момента создания заказа
+                var elapsed = DateTime.Now - cheque.CreatedAt;
+
+                // Вычисляем оставшееся время (45 минут минус время, прошедшее с момента создания)
+                var remaining = TimeSpan.FromMinutes(45) - elapsed;
+
+                // Если оставшееся время меньше нуля, устанавливаем его в ноль
+                cheque.WaitingTime = remaining < TimeSpan.Zero ? TimeSpan.Zero : remaining;
+
+                //Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
             }
         }
 
-        private void Order(object obj) => new OrderVM();
 
-        
+        private void ExecuteOpenOrderPageCommand(object obj)
+        {
+            
+        }
+
 
 
         private void ExecuteCloseOrderCommand(object obj)
@@ -196,8 +208,7 @@ namespace Cafe_Managment.ViewModel
             switch (v)
             {
                 case 0: // При выполнении простых штук
-                    Cheques = new List<ChequeModel>();
-                    Cheques = temp;
+                    Cheques = new ObservableCollection<ChequeModel>(temp);
                     if (Cheques.Count == 0)
                     {
                         EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет!";
@@ -208,9 +219,8 @@ namespace Cafe_Managment.ViewModel
                     }
                     break;
                 case 1: // При связи с сервером
-                    Cheques = new List<ChequeModel>();
                     Cheques = dishesRepository.GetActiveOrders();
-                    temp = Cheques;
+                    temp = new ObservableCollection<ChequeModel>(Cheques);
 
                     // Разбиваем каждое блюдо на отдельные элементы, если их количество больше одного
                     SplitDishes();
@@ -228,9 +238,11 @@ namespace Cafe_Managment.ViewModel
         }
 
 
+
+
         private void SplitDishes()
         {
-            List<ChequeModel> updatedCheques = new List<ChequeModel>();
+            ObservableCollection<ChequeModel> updatedCheques = new ObservableCollection<ChequeModel>();
 
             foreach (var cheque in Cheques)
             {
