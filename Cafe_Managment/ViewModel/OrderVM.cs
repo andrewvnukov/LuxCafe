@@ -116,7 +116,7 @@ namespace Cafe_Managment.ViewModel
             CategoryList.Add(new Category("Десерты", "/Images/Categories/Desserts.png"));
             CategoryList.Add(new Category("Гарниры", "/Images/Categories/Garnish.png"));
             CategoryList.Add(new Category("Супы", "/Images/Categories/Soup.png"));
-            CategoryList.Add(new Category("Основные блюда", "/Images/Categories/MainDish.png"));
+            CategoryList.Add(new Category("Второе", "/Images/Categories/MainDish.png"));
             CategoryList.Add(new Category("Салаты", "/Images/Categories/Salad.png"));
             CategoryList.Add(new Category("Завтраки", "/Images/Categories/Breakfast.png"));
         }

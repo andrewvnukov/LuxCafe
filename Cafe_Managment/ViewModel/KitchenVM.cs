@@ -14,6 +14,7 @@ using ToastNotifications.Messages;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -27,6 +28,7 @@ namespace Cafe_Managment.ViewModel
         int _selectedCheque;
         string _emptyMessage;
         private bool _isOrderReady;
+        private DispatcherTimer _timer;
 
         // Свойство для привязки в XAML
         public bool IsOrderReady
@@ -41,6 +43,24 @@ namespace Cafe_Managment.ViewModel
                 }
             }
         }
+        private TimeSpan _waitingTime;
+
+       
+
+        public TimeSpan WaitingTime
+        {
+            get => _waitingTime;
+            set
+            {
+                if (_waitingTime != value) // Проверяем, изменилось ли значение
+                {
+                    _waitingTime = value;
+                    OnPropertyChanged(nameof(WaitingTime));
+                    // Уведомляем об изменении
+                }
+            }
+        }
+
         private object _currentView;
         public object CurrentView
         {
@@ -86,6 +106,11 @@ namespace Cafe_Managment.ViewModel
 
         public KitchenVM()
         {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1); // Интервал таймера - 1 секунда
+            _timer.Tick += Timer_Tick; // Добавляем обработчик события таймера
+            _timer.Start(); // Запускаем таймер
+
             _notifier = CreateNotifier();
 
             dishesRepository = new DishesRepository();
@@ -97,9 +122,17 @@ namespace Cafe_Managment.ViewModel
 
             UpdateLists(1);
         }
-    
-        
-            private void Order(object obj) => new OrderVM();
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            // Обновляем время ожидания для каждого заказа
+            foreach (var cheque in Cheques)
+            {
+                cheque.WaitingTime = DateTime.Now - cheque.CreatedAt;
+                Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
+            }
+        }
+
+        private void Order(object obj) => new OrderVM();
 
         
 
@@ -121,6 +154,8 @@ namespace Cafe_Managment.ViewModel
                 // Иначе, все блюда готовы, можно закрыть заказ
                 dishesRepository.IsOrderReady(selectedCheque);
                 Cheques = dishesRepository.GetActiveOrders();
+                _timer.Stop();
+                UpdateLists(1);
                 _notifier.ShowSuccess($"Заказ № {selectedCheque.Id} успешно выполнен и закрыт!");
             }
         }
@@ -151,8 +186,6 @@ namespace Cafe_Managment.ViewModel
             });
         }
 
-        
-
         private void ExecuteReloadCommand(object obj)
         {
             UpdateLists(1);
@@ -167,7 +200,7 @@ namespace Cafe_Managment.ViewModel
                     Cheques = temp;
                     if (Cheques.Count == 0)
                     {
-                        EmptyMessage = "Благодарим за работу!\nНо заказов пока что нет!";
+                        EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет!";
                     }
                     else
                     {
@@ -184,7 +217,7 @@ namespace Cafe_Managment.ViewModel
 
                     if (Cheques.Count == 0)
                     {
-                        EmptyMessage = "Благодарим за работу!\nНо заказов пока что нет!";
+                        EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет!";
                     }
                     else
                     {
@@ -247,6 +280,8 @@ namespace Cafe_Managment.ViewModel
             {
                 case 0:
                     currentDish.Status += 1;
+                    dishesRepository.UpdateStatus(currentDish);
+
                     break;
 
                 case 1:
@@ -256,6 +291,7 @@ namespace Cafe_Managment.ViewModel
                     {
                         currentDish.Count -= 1;
                         currentDish.Status = 0;
+
                     }
                     else if (currentDish.Count == 1)
                     {

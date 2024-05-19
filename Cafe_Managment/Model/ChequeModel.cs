@@ -14,5 +14,6 @@ namespace Cafe_Managment.Model
         public float TotalPrice { get; set; }
         public int SpotNumber { get; set; }
         public int GuestNumber { get; set;}
+        public TimeSpan WaitingTime { get; internal set; }
     }
 }

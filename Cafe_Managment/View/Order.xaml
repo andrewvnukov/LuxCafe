@@ -15,9 +15,9 @@
     <Grid
         >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1.1*"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1.75*"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
                       Grid.Column="0">
@@ -47,7 +47,7 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.Template>
                     <ControlTemplate>
-                        <WrapPanel IsItemsHost="True" ItemWidth="100"/>
+                        <WrapPanel IsItemsHost="True" ItemWidth="150"/>
                     </ControlTemplate>
                 </ListBox.Template>
                 <ListBox.ItemTemplate>
@@ -60,17 +60,21 @@
                                 <ControlTemplate>
                                     <Border x:Name="BorderElement"
                                             CornerRadius="10"
+                                            MinWidth="90"
                                             BorderBrush="{DynamicResource AccientColor1}"
                                             BorderThickness="1">
                                         <Border.Background>
-                                            <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                                            <SolidColorBrush Color="#6C8DBF"/>
                                         </Border.Background>
                                         <Grid>
-                                            <StackPanel>
-                                                <Image Source="{Binding ImagePath}"/>
-                                                <TextBlock Style="{DynamicResource Text_Headline2}"
+                                            <StackPanel >
+                                                <Image Source="{Binding ImagePath}"
+                                                       MaxHeight="50"/>
+                                                <TextBlock Style="{DynamicResource Default_Text}"
+                                                           Foreground="White"
+                                                           HorizontalAlignment="Center"
                                                            Text="{Binding Name}"
-                                                           FontSize="16"
+                                                           FontSize="19"
                                                            Margin="5 0 5 0"
                                                            TextWrapping="WrapWithOverflow"/>
                                             </StackPanel>
@@ -123,27 +127,36 @@
                                 <ControlTemplate>
                                     <Border CornerRadius="10"
                                             BorderBrush="{DynamicResource AccientColor1}"
-                                            BorderThickness="1">
+                                            BorderThickness="1"
+                                            MinWidth="200"
+                                            MinHeight="180"
+                                            VerticalAlignment="Bottom"
+                                                          >
                                         <Border.Background>
-                                            <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                                            <SolidColorBrush Color="#6C8DBF"/>
                                         </Border.Background>
                                         <Grid>
                                             <StackPanel>
-                                                <Image Source="{Binding ImageSource}" Margin="10 5 10 0"/>
-                                                <TextBlock Style="{DynamicResource Text_Headline2}"
+                                                <Image Source="{Binding ImageSource}" 
+                                                       MaxHeight="75"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                                <TextBlock Style="{DynamicResource Default_Text}"
                                                            Text="{Binding Title}"
-                                                           Foreground="{DynamicResource AccientColor1}"
+                                                           Foreground="White"
                                                            HorizontalAlignment="Center"
+                                                           VerticalAlignment="Bottom"
                                                            TextAlignment="Center"
-                                                           FontSize="16"
+                                                           FontSize="20"
                                                            Margin="5 0 5 0"
                                                            TextWrapping="WrapWithOverflow"/>
                                                 <TextBlock Style="{DynamicResource Text_Headline2}"
                                                            Text="{Binding Price}"
-                                                           Foreground="{DynamicResource AccientColor1}"
+                                                           Foreground="White"
+                                                           VerticalAlignment="Bottom"
                                                            HorizontalAlignment="Center"
                                                            TextAlignment="Center"
-                                                           FontSize="16"
+                                                           FontSize="20"
                                                            Margin="5 0 5 0"
                                                            TextWrapping="WrapWithOverflow"/>
                                             </StackPanel>

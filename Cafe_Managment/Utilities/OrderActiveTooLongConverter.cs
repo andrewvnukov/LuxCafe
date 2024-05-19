@@ -17,11 +17,11 @@ namespace Cafe_Managment.Utilities
         {
             if (value is ChequeModel cheque)
             {
-                bool isActiveTooLong = (DateTime.Now - cheque.CreatedAt).TotalMinutes > 1;
-                Debug.WriteLine($"Cheque Id: {cheque.Id}, IsActiveTooLong: {isActiveTooLong}");
-                return isActiveTooLong;
+                TimeSpan waitingTime = DateTime.Now - cheque.CreatedAt;
+                Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {waitingTime}");
+                return waitingTime;
             }
-            return false;
+            return TimeSpan.Zero;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

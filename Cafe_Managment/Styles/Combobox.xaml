@@ -61,8 +61,8 @@
     <Style TargetType="ComboBox" x:Key="CustomComboBoxStyle">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
-        <Setter Property="MaxHeight" Value="100"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="MaxHeight" Value="40"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="Background" Value="LightBlue"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="BorderBrush" Value="#6C8DBF"/>
@@ -114,13 +114,12 @@
                             <Grid Name="DropDown"
                                   SnapsToDevicePixels="True"
                                   MinWidth="{TemplateBinding ActualWidth}"
-                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                  MaxHeight="150">
                                 <Border x:Name="DropDownBorder"
                                         BorderBrush="#6C8DBF"
                                         BorderThickness="2"
                                         Background="LightBlue"/>
                                 <ScrollViewer Margin="4,6,4,6"
-                                              VerticalScrollBarVisibility="Disabled"
                                               SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True"/>
                                 </ScrollViewer>
