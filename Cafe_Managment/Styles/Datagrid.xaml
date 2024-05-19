@@ -111,32 +111,8 @@
     </Style>
 
 
-    <!-- Стиль для PagingButton в гриде -->
 
-    <Style x:Key="PagingButton" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="Gray"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Margin" Value=" 1 0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="10 5">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 1"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Purple"/>
-                <Setter Property="Foreground" Value="White"/>
-            </Trigger>
-        </Style.Triggers>
-
-    </Style>
+    
 
     <!-- Стиль для GridEditButton -->
 
@@ -238,7 +214,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Стиль для GridRemoveButton бомбовый нереально ужасно-->
+    <!-- Стиль для GridRemoveButton-->
 
     <Style x:Key="GridRemoveButton" TargetType="Button" BasedOn="{StaticResource GridEditButton}">
         <Setter Property="Background" Value="#29AB87"/>
@@ -413,7 +389,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#7896D6"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="13"/>
         <Setter Property="Margin" Value="5 0 5 0"/>
 
         <Setter Property="Template">
@@ -482,7 +459,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="#935776" Opacity="0.3"/>
+                <SolidColorBrush Color="#6C8DBF" Opacity="0.5"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">

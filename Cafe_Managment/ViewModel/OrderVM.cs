@@ -189,20 +189,38 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteAddDishToOrderCommand(object obj)
         {
-            bool IsInCart = false;
             DishData temp = obj as DishData;
             float parsedPrice = (float)Math.Round(float.Parse(temp.Price), 1);
+
+            // Проверка на количество блюд в корзине
+            if (tempL.Count >= 10)
+            {
+                // Отправить уведомление о превышении лимита
+                _notifier.ShowWarning($"Превышен лимит на количество добавленных блюд (10 блюд максимум).");
+                return;
+            }
+
+            bool isAlreadyInCart = false;
+
             foreach (DishData dish in tempL)
             {
                 if (dish.Id == temp.Id)
                 {
+                    if (dish.Count >= 10) // Проверка на максимальное количество блюд
+                    {
+                        // Отправить уведомление о превышении лимита
+                        _notifier.ShowWarning($"Вы уже добавили максимальное количество ({dish.Count} шт.) этого блюда.");
+                        return;
+                    }
+
                     dish.Count += 1;
-                    IsInCart = true;
+                    isAlreadyInCart = true;
                     TotalPrice += parsedPrice;
                     break;
                 }
             }
-            if (!IsInCart)
+
+            if (!isAlreadyInCart) // Проверка наличия блюда в корзине
             {
                 tempL.Add(new DishData
                 {
@@ -213,8 +231,11 @@ namespace Cafe_Managment.ViewModel
                 });
                 TotalPrice += parsedPrice;
             }
+
             SelectedDishes = new List<DishData>(tempL);
         }
+
+
 
 
         private void ExecuteSwitchToCategoryCommand(object obj)

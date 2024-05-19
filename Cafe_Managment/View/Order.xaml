@@ -12,6 +12,8 @@
         <vm:OrderVM/>
     </UserControl.DataContext>
 
+    
+
     <Grid
         >
         <Grid.ColumnDefinitions>
@@ -185,7 +187,7 @@
                               Grid.Row="0" Margin="0,0,-0.4,31.8" Grid.RowSpan="2">
                     <StackPanel Orientation="Vertical"
                                 >
-                        <TextBlock Text="Заказано" Style="{DynamicResource Text_Headline2}"
+                        <TextBlock Text="Заказ" Style="{DynamicResource Text_Headline2}"
                                    Foreground="Black"/>
                         <ListBox
                             ItemsSource="{Binding SelectedDishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -216,13 +218,13 @@
                             </ListBox.Template>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border CornerRadius="5">
+                                    <Border CornerRadius="5" Margin="5 0 5 0">
                                         <Border.Background>
                                             <SolidColorBrush Color="{DynamicResource BorderGradientColor2}"/>
                                         </Border.Background>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Title}" Style="{DynamicResource Default_Text}"
-                                                       FontSize="18" Foreground="White" Margin="5 0 0 0"
+                                                       FontSize="18" Foreground="White" Margin="5 0 -30 0"
                                                        Width="135" TextWrapping="WrapWithOverflow"/>
                                             <TextBlock Text="{Binding Price}" 
                                     Style="{DynamicResource Default_Text}" 
@@ -234,16 +236,22 @@
                                             <StackPanel Orientation="Horizontal"
                                             IsEnabled="True"
                                                         >
-                                                <Button Width="18" Height="18"
-                                                        Click="Button_Click_3"
+                                                <Button Width="25" Height="25"
+                                                        Click="Button_Click_3" Style="{DynamicResource GridDeleteButton}"
                                                         IsDefault="True">
                                                     <Icon:PackIconMaterial Kind="Minus" VerticalAlignment="Center"
                                                                            HorizontalAlignment="Center" IsTabStop="False"/>
                                                 </Button>
-                                                <TextBox Width="18" Height="18"
+                                                <TextBox Width="25" Height="25"
+                                                         Background="Transparent"
+                                                         BorderBrush="Transparent"
                                                          Text="{Binding Count}"
+                                                         HorizontalAlignment="Center"
+                                                         VerticalAlignment="Center"
+                                                         FontSize="18"
+                                                         FontWeight="DemiBold"
                                                          IsReadOnly="True"/>
-                                                <Button Width="18" Height="18"
+                                                <Button Width="25" Height="25" Style="{DynamicResource GridPlusButton}"
                                                         Click="Button_Click_2"
                                                         Margin="0 0 5 0">
                                                     <Icon:PackIconMaterial Kind="Plus" VerticalAlignment="Center"
@@ -265,7 +273,7 @@
                             >
                         <StackPanel HorizontalAlignment="Center"
                                     Orientation="Horizontal">
-                            <TextBlock Text="Итоговая цена"
+                            <TextBlock Text="Итоговая цена:"
                                        FontSize="18"
                                        FontWeight="DemiBold"
                                        Margin="4 0 5 5"
@@ -277,7 +285,7 @@
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <TextBlock Text="Номер столика" FontSize="18" Width="160" Margin="26 0 5 5"/>
+                            <TextBlock Text="Номер столика:" FontSize="18" Width="160" Margin="26 0 5 5"/>
                             <ComboBox ItemsSource="{Binding TableNumbers}"  
                   SelectedItem="{Binding SpotNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   Style="{StaticResource CustomComboBoxStyle}">
@@ -285,16 +293,46 @@
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <TextBlock Text="Количество гостей" FontSize="18" Width="160" Margin="0 0 5 0"/>
+                            <TextBlock Text="Количество гостей:" FontSize="18" Width="160" Margin="0 0 5 0"/>
                         </StackPanel>
 
                         <Slider Minimum="1" Maximum="10"  
-                            Value="{Binding GuestCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            TickPlacement="BottomRight"
-                            TickFrequency="1"
-                            IsSnapToTickEnabled="True"
-                            Width="200"
-                            Height="40"/>
+        Value="{Binding GuestCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        TickPlacement="BottomRight"
+        TickFrequency="1"
+        IsSnapToTickEnabled="True"
+        Width="200"
+        Height="40">
+                            <Slider.Template>
+                                <ControlTemplate TargetType="Slider">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Track x:Name="PART_Track" Grid.Row="1">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Background="{DynamicResource PrimaryColor2}" Height="4" IsHitTestVisible="False"/>
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Background="{DynamicResource PrimaryColor2}" Height="4" IsHitTestVisible="False"/>
+                                            </Track.IncreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb>
+                                                    <Thumb.Template>
+                                                        <ControlTemplate TargetType="Thumb">
+                                                            <Ellipse Width="15" Height="15" Fill="{DynamicResource PrimaryColor2}" Stroke="White" StrokeThickness="1"/>
+                                                        </ControlTemplate>
+                                                    </Thumb.Template>
+                                                </Thumb>
+                                            </Track.Thumb>
+                                        </Track>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Slider.Template>
+                        </Slider>
+
+
 
                         <TextBlock Text="{Binding GuestCount}" 
                                HorizontalAlignment="Center"
@@ -310,4 +348,5 @@
             </Grid>
         </Border>
     </Grid>
+  
 </UserControl>

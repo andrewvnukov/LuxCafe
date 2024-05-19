@@ -14,6 +14,7 @@
             <ContentPresenter HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               Margin="3"
+                              
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"/>
         </Grid>
@@ -77,11 +78,13 @@
                                       Template="{StaticResource ComboBoxToggleButton}"
                                       Grid.Column="2"
                                       Focusable="false"
+                                      BorderBrush="Transparent"
+                                      Background="{DynamicResource PrimaryColor2}"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       ClickMode="Press">
                             <ToggleButton.Content>
                                 <Path x:Name="Arrow" 
-                                      HorizontalAlignment="Left"
+                                      HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       Data="M 0 0 L 4 4 L 8 0 Z"
                                       Fill="Black"/>
