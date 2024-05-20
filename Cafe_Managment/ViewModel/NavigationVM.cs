@@ -70,8 +70,10 @@ namespace Cafe_Managment.ViewModel
         private void Statistic(object obj) => CurrentView = new StatisticVM();
         private void DeletedData(object obj) => CurrentView = new DeletedDataVM(); 
 
+
         public NavigationVM()
         {
+
             userRepository = new UserRepository();
             LoadCurrentUserData();
 
@@ -90,6 +92,8 @@ namespace Cafe_Managment.ViewModel
 
             CurrentView = new HelloPage();
         }
+
+
 
         private void ExecuteCloseTabCommand(object obj)
         {

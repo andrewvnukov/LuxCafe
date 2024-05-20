@@ -116,7 +116,6 @@ namespace Cafe_Managment.ViewModel
         public ICommand CloseAppCommand { get; set; }
         public ICommand MaximizeCommand { get; set; }
         public ICommand MinimizeCommand { get; set; }
-        public ICommand OpenOrderPageCommand { get; set; }
 
         public ViewWindowVM()
         {
@@ -125,7 +124,7 @@ namespace Cafe_Managment.ViewModel
             CloseAppCommand = new RelayCommand(CloseApp);
             MaximizeCommand = new RelayCommand(MaxWindow);
             MinimizeCommand = new RelayCommand(MinWindow);
-            OpenOrderPageCommand = new RelayCommand(OpenOrderPage);
+            
 
             repositoryBase = new UserRepository();
 
@@ -162,24 +161,6 @@ namespace Cafe_Managment.ViewModel
             }
 
         }
-
-        public void OpenOrderPage(object obj)
-        {
-            // Проверяем, прошла ли аутентификация
-            if (_isAuthenticated)
-            {
-                // Убеждаемся, что текущий активный элемент освобожден
-                ActiveWindow = null;
-
-                // Создаем новый экземпляр Order
-                Order orderPage = new Order();
-
-                // Устанавливаем новый экземпляр Order в качестве содержимого ContentPresenter
-                ActiveWindow = orderPage;
-            }
-        }
-
-
 
         private void MinWindow(object obj)
         {

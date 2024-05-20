@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using Cafe_Managment.View;
+using System.Windows.Navigation;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -30,8 +31,29 @@ namespace Cafe_Managment.ViewModel
         string _emptyMessage;
         private bool _isOrderReady;
         private DispatcherTimer _timer;
+        private OrderVM _currentOrder;
+        private bool _isOrderVisible;
+        private bool _isCequesVisible;
 
         // Свойство для привязки в XAML
+        public bool IsChequesVisible
+        {
+            get { return _isCequesVisible; }
+            set { _isCequesVisible = value;
+            OnPropertyChanged(nameof(IsChequesVisible));}
+        }
+        public bool IsOrderVisible
+        {
+            get { return _isOrderVisible; }
+            set
+            {
+                if (_isOrderVisible != value)
+                {
+                    _isOrderVisible = value;
+                    OnPropertyChanged(nameof(IsOrderVisible));
+                }
+            }
+        }
         public bool IsOrderReady
         {
             get { return _isOrderReady; }
@@ -46,7 +68,12 @@ namespace Cafe_Managment.ViewModel
         }
         private TimeSpan _waitingTime;
 
-       
+        public OrderVM CurrentOrder
+        {
+            get { return _currentOrder; }
+            set { _currentOrder = value;
+            OnPropertyChanged(nameof(CurrentOrder));}
+        }
 
         public TimeSpan WaitingTime
         {
@@ -102,12 +129,16 @@ namespace Cafe_Managment.ViewModel
         public ICommand ChangeDishStatusCommand { get; set; }
         public ICommand ReloadCommand { get; set; }
         public ICommand CloseOrderCommand { get; set; }
+        public ICommand OpenOrderPageCommand { get; set; }
+
         //public ICommand OpenOrderPageCommand { get; set; }
 
 
 
         public KitchenVM()
         {
+            IsChequesVisible = true;
+            IsOrderVisible = false;
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += Timer_Tick; // Добавляем обработчик события таймера
@@ -117,6 +148,7 @@ namespace Cafe_Managment.ViewModel
 
             dishesRepository = new DishesRepository();
 
+            OpenOrderPageCommand = new RelayCommand(OpenOrderPage);
             ChangeDishStatusCommand = new RelayCommand(ExecuteChangeDishStatusCommand);
             ReloadCommand = new RelayCommand(ExecuteReloadCommand);
             CloseOrderCommand = new RelayCommand(ExecuteCloseOrderCommand);
@@ -124,6 +156,15 @@ namespace Cafe_Managment.ViewModel
 
             UpdateLists(1);
         }
+
+        private void OpenOrderPage(object obj)
+        {
+            CurrentOrder = new OrderVM();
+           
+            IsOrderVisible = !IsOrderVisible;
+            IsChequesVisible = !IsChequesVisible;
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             foreach (var cheque in Cheques)

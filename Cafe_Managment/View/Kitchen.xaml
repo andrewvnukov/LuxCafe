@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <vm1:DishStatusToEnabledConverter x:Key="DishStatusToEnabledConverter"/>
         <vm1:OrderActiveTooLongConverter x:Key="OrderActiveTooLongConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <vm:KitchenVM x:Key="KitchenVM"/>
     </UserControl.Resources>
 
@@ -23,8 +24,13 @@
                    Style="{DynamicResource Text_Headline2}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
-
+            
             <StackPanel>
+                <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}" Style="{StaticResource DefaultButton}"
+        Content="Назад"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"/>
+            <StackPanel Visibility="{Binding IsChequesVisible, Converter={StaticResource BoolToVis}}">
                 <TextBlock Text="Активные заказы" Style="{DynamicResource Text_Headline1}"/>
                 <Button Style="{DynamicResource GridInfoButton}"
                         HorizontalAlignment="Left"
@@ -84,7 +90,7 @@
                                         <TextBlock Text="Заказ №" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="25"/>
                                         <TextBlock Text="{Binding Id}" Style="{DynamicResource Text_Headline3}" Foreground="White" FontSize="25" Margin="0 0 180 0"/>
                                         <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="0 -3 0 0" Background="Transparent" BorderBrush="Transparent"
-                                            Command="{Binding DataContext.OpenOrderPageCommand, RelativeSource={RelativeSource AncestorType=Window}}">
+                                            Command="{Binding DataContext.OpenOrderPageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                             <lvc:PackIconMaterial Kind="PenPlus" Foreground="White"/>
                                         </Button>
                                         <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="20 -3 0 0" Background="Transparent" BorderBrush="Transparent"
@@ -186,6 +192,10 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+            </StackPanel>
+                <ContentControl Content="{Binding CurrentOrder}" 
+                                Visibility="{Binding IsOrderVisible,
+                                            Converter ={StaticResource BoolToVis}}"/>
             </StackPanel>
         </Grid>
     </ScrollViewer>
