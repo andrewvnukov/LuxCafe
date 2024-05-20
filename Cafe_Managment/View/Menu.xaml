@@ -16,19 +16,18 @@
     </UserControl.DataContext>
 
     <Grid>
-        <ScrollViewer x:Name="Viewer" >
-            <ScrollViewer.Resources>
-                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
-            </ScrollViewer.Resources>
+        <ScrollViewer x:Name="Viewer" 
+                      VerticalScrollBarVisibility="Hidden"
+                      >
 
         <Grid Height="auto"
-                  Margin="0 0 0 20">
+                  >
                 <TextBlock Text="Архив блюд" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
 
-                <StackPanel Margin="0 30 0 0">
+                <StackPanel Margin="10 20 10 20">
                     <Button Width="25" Style="{StaticResource GridInfoButton}"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
@@ -42,7 +41,7 @@
 
                     <!--ArchiveDataGrid-->
 
-                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 0 0 10" 
+                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 0 10 10" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -219,6 +218,8 @@
                               MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
                               AutoGenerateColumns="False"
+                              Margin="10 10 10 10" 
+
                         >
 
                         <DataGrid.Columns>
@@ -354,18 +355,15 @@
                             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                         </DataGrid.Resources>
                     </DataGrid>
-                    <StackPanel>
                         <TextBlock Text="Удалённые из архива блюда" 
                            Style="{DynamicResource Text_Headline2}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                                    Margin="0 15"/>
-                        <StackPanel>
 
                             <!--DeletedFromArchiveDataGrid-->
-                            <!--DeletedFromArchiveDataGrid-->
 
-                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 0 0 10" 
+                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 10 10 10" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -401,8 +399,6 @@
                                     <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomHorizontalScrollBarStyle}"/>
                                 </DataGrid.Resources>
                             </DataGrid>
-                        </StackPanel>
-                    </StackPanel>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

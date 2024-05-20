@@ -44,20 +44,20 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT Id, Password, Salt, IsDismissed FROM Employees WHERE Login = @Username"; // Проверьте порядок столбцов
+                    command.CommandText = "SELECT Id, Password, Salt, IsDismissed FROM Employees WHERE Login = @Username";
                     command.Parameters.AddWithValue("@Username", credential.UserName);
 
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            // Убедитесь, что все столбцы доступны перед их использованием
+                            
                             if (reader.FieldCount < 4)
                             {
-                                return -1; // Если столбцы отсутствуют, верните код ошибки
+                                return -1; 
                             }
 
-                            bool isDismissed = reader.GetBoolean(3); // Проверьте индекс
+                            bool isDismissed = reader.GetBoolean(3);
                             if (isDismissed)
                             {
                                 return 1; // 1 - сотрудник уволен

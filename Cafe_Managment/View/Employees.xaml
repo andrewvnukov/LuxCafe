@@ -51,7 +51,9 @@
                               SelectedItem="{Binding SelectedEmployeeItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="{Binding IsReadOnly}"
                               CanUserReorderColumns="False" 
-                              AutoGenerateColumns="False" SelectionChanged="MembersDataGrid_SelectionChanged_1"
+                              AutoGenerateColumns="False"
+                              SelectionChanged="MembersDataGrid_SelectionChanged_1"
+                              Margin="10 0 10 0" 
                               >
 
                         <DataGrid.Columns>
@@ -270,7 +272,7 @@
                     <!--DismissedEmployeesDataGrid-->
 
                     <DataGrid Grid.Row="6" x:Name="DismissedEmployeesDataGrid" 
-                              Margin="10 0 0 0" 
+                              Margin="10 10 10 0" 
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 

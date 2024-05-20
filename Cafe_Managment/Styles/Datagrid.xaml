@@ -437,7 +437,7 @@
 
     <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
         <Setter Property="Foreground" Value="#222528"/>
-        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Padding" Value="10"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>

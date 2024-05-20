@@ -102,7 +102,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand ChangeDishStatusCommand { get; set; }
         public ICommand ReloadCommand { get; set; }
         public ICommand CloseOrderCommand { get; set; }
-        public ICommand OpenOrderPageCommand { get; set; }
+        //public ICommand OpenOrderPageCommand { get; set; }
 
 
 
@@ -120,7 +120,7 @@ namespace Cafe_Managment.ViewModel
             ChangeDishStatusCommand = new RelayCommand(ExecuteChangeDishStatusCommand);
             ReloadCommand = new RelayCommand(ExecuteReloadCommand);
             CloseOrderCommand = new RelayCommand(ExecuteCloseOrderCommand);
-            OpenOrderPageCommand = new RelayCommand(ExecuteOpenOrderPageCommand);
+            //OpenOrderPageCommand = new RelayCommand(ExecuteOpenOrderPageCommand);
 
             UpdateLists(1);
         }
@@ -142,10 +142,11 @@ namespace Cafe_Managment.ViewModel
         }
 
 
-        private void ExecuteOpenOrderPageCommand(object obj)
-        {
-            
-        }
+        //private void ExecuteOpenOrderPageCommand(object obj)
+        //{
+        //    NavigationVM.Instance.CurrentView = new OrderVM();
+
+        //}
 
 
 

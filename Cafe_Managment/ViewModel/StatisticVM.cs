@@ -201,7 +201,6 @@ namespace Cafe_Managment.ViewModel
             Labels = new ObservableCollection<string>();
             TrendLabels = new ObservableCollection<string>();
 
-            // Вызываем LoadData после инициализации всех команд и коллекций
             LoadData();
         }
         private Notifier CreateNotifier()

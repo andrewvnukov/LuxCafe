@@ -15,6 +15,9 @@ namespace Cafe_Managment.ViewModel
 {
     class NavigationVM : ViewModelBase
     {
+        private static NavigationVM _instance;
+        public static NavigationVM Instance => _instance ?? (_instance = new NavigationVM());
+
         private IUserRepository userRepository;
         private bool _isViewVisible = true;
         private bool _isEnabled = true;

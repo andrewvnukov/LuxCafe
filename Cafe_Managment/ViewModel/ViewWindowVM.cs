@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,11 +26,13 @@ namespace Cafe_Managment.ViewModel
         UserRepository userRepository;
 
         UserRepository repositoryBase;
+        private bool _isAuthenticated = false;
 
         Login login;
         Navigation navigation;
         Loading loading = new Loading();
         public string Role { get; set; }
+
 
         private string _employeeFullName;
 
@@ -113,6 +116,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand CloseAppCommand { get; set; }
         public ICommand MaximizeCommand { get; set; }
         public ICommand MinimizeCommand { get; set; }
+        public ICommand OpenOrderPageCommand { get; set; }
 
         public ViewWindowVM()
         {
@@ -121,17 +125,11 @@ namespace Cafe_Managment.ViewModel
             CloseAppCommand = new RelayCommand(CloseApp);
             MaximizeCommand = new RelayCommand(MaxWindow);
             MinimizeCommand = new RelayCommand(MinWindow);
+            OpenOrderPageCommand = new RelayCommand(OpenOrderPage);
 
             repositoryBase = new UserRepository();
 
-            if (repositoryBase.GetByMac())
-            {
-                RememberedUserAsync();
-            }
-            else
-            {
-                AuthUser();
-            }
+            
             userRepository = new UserRepository();
             CurrentData = new EmpData
             {
@@ -148,9 +146,40 @@ namespace Cafe_Managment.ViewModel
             EmployeeFullName = UserData.Surname +" "+ UserData.Name + " " + UserData.Patronomic;
             Role = userRepository.GetRoleById(UserData.RoleId);
 
+            if (repositoryBase.GetByMac())
+            {
+                RememberedUserAsync();
+                _isAuthenticated = true; // Устанавливаем флаг аутентификации в true
+            }
+            else
+            {
+                _isAuthenticated = false; // Устанавливаем флаг аутентификации в false
+            }
+
+            if (!_isAuthenticated)
+            {
+                AuthUser(); // Вызываем AuthUser только если пользователь не аутентифицирован
+            }
+
         }
 
-       
+        public void OpenOrderPage(object obj)
+        {
+            // Проверяем, прошла ли аутентификация
+            if (_isAuthenticated)
+            {
+                // Убеждаемся, что текущий активный элемент освобожден
+                ActiveWindow = null;
+
+                // Создаем новый экземпляр Order
+                Order orderPage = new Order();
+
+                // Устанавливаем новый экземпляр Order в качестве содержимого ContentPresenter
+                ActiveWindow = orderPage;
+            }
+        }
+
+
 
         private void MinWindow(object obj)
         {
@@ -195,8 +224,6 @@ namespace Cafe_Managment.ViewModel
 
         private void AuthUser()
         {
-            
-
             login = new Login();
             ActiveWindow = login;
             ResizeMode = ResizeMode.CanMinimize;
@@ -213,11 +240,4 @@ namespace Cafe_Managment.ViewModel
             };
         }
     }
-
-
-
 }
-
-
-
-

@@ -148,9 +148,9 @@ namespace Cafe_Managment.ViewModel
                     case 0: // Успешная аутентификация
                         if (IsRemember)
                         {
-                            await Task.Run(userRepository.RememberCurrentUser); // Асинхронное запоминание
+                            await Task.Run(userRepository.RememberCurrentUser);
                         }
-                        IsViewVisible = false; // Закрыть окно входа
+                        IsViewVisible = false;
                         break;
 
                     case 2: // Неправильный логин
