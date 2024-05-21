@@ -27,6 +27,7 @@ namespace Cafe_Managment.Model
         public static string Address {  get; set; }
         public static string Title { get; set; }
         public static BitmapImage ProfileImage { get; set; }
+        public static int OrderId { get; set; }
         
     }
 }

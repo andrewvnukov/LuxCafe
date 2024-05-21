@@ -621,13 +621,11 @@ namespace Cafe_Managment.Repositories
             {
                 // Обработка ошибок MySQL
                 Debug.WriteLine($"Ошибка базы данных: {sqlEx.Message}");
-                MessageBox.Show($"Произошла ошибка в базе данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 // Общая обработка ошибок
                 Debug.WriteLine($"Произошла ошибка: {ex.Message}");
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -951,6 +949,55 @@ namespace Cafe_Managment.Repositories
                 {
                     connection.Close();
                 }
+            }
+        }
+
+        public int UpdateOrder(int Id, List<DishData> dishData, float totalPrice)
+
+        {
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    connection.Open();
+
+                    using (var command = new MySqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = "UPDATE Orders SET TotalPrice = TotalPrice + @AmountToAdd WHERE Id = @OrderId";
+                        command.Parameters.AddWithValue("@AmountToAdd", totalPrice);
+                        command.Parameters.AddWithValue("@OrderId", Id);
+
+                        command.ExecuteNonQuery();
+
+
+                        foreach (DishData dish in dishData)
+                        {
+                            command.CommandText = @"INSERT INTO orderdetails (DishId, OrderId, Quantity)
+                                       VALUES (@DishId, @OrderId, @Quantity)";
+
+                            command.Parameters.Clear(); // Удаление предыдущих параметров
+                            command.Parameters.AddWithValue("@DishId", dish.Id);
+                            command.Parameters.AddWithValue("@OrderId", Id);
+                            command.Parameters.AddWithValue("@Quantity", dish.Count);
+
+                            command.ExecuteNonQuery();
+                        }
+                        connection.Close();
+                        return 1;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine($"Database error: {ex.Message}");
+                return 2;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return 2;
+
             }
         }
     }

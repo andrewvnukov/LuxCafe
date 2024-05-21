@@ -13,6 +13,7 @@ namespace Cafe_Managment.Model
 {
     public interface IDishesRepository
     {
+        int UpdateOrder(int Id, List<DishData> dishData, float totalPrice);
         List<string> GetAllCategories();
         DataTable GetAllDishesFromArchive();
         DataTable GetAllDishesFromMenu();

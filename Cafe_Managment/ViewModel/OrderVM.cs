@@ -24,6 +24,7 @@ namespace Cafe_Managment.ViewModel
         object _selectedDish;
         int _spotNumber;
         int _guestCount;
+        int orderId;
         private List<int> _tableNumbers;
         List<Category> _categoryList;
         List<DishData> _dishList;
@@ -93,7 +94,7 @@ namespace Cafe_Managment.ViewModel
 
         public OrderVM() 
         {
-            _tableNumbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }; // Пример списка номеров столиков
+            _tableNumbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             _notifier = CreateNotifier();
 
@@ -120,7 +121,6 @@ namespace Cafe_Managment.ViewModel
             CategoryList.Add(new Category("Салаты", "/Images/Categories/Salad.png"));
             CategoryList.Add(new Category("Завтраки", "/Images/Categories/Breakfast.png"));
         }
-
         private Notifier CreateNotifier()
         {
             return new Notifier(cfg =>
@@ -148,18 +148,40 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteCreateOrderCommand(object obj)
         {
-            switch(dishesRepository.CreateNewOrder(tempL, SpotNumber, GuestCount, TotalPrice)){
-                case 0:
-                    _notifier.ShowSuccess("Заказ успешно оформлен!");
-                    SelectedDishes = new List<DishData>();
-                    tempL = new List<DishData>();
-                    SpotNumber = 0;
-                    GuestCount = 0;
-                    TotalPrice = 0;
-                    break;
-                case 1:
-                    _notifier.ShowError("Ошибка при оформлении заказа!");
-                    break;
+            if (UserData.OrderId != 0)
+            {
+                switch (dishesRepository.UpdateOrder(UserData.OrderId,tempL,TotalPrice))
+                {
+                    case 1:
+                        _notifier.ShowSuccess($"Заказ №{UserData.OrderId} успешно обновлен!");
+                        SelectedDishes = new List<DishData>();
+                        tempL = new List<DishData>();
+                        SpotNumber = 0;
+                        GuestCount = 0;
+                        TotalPrice = 0;
+                        UserData.OrderId = 0;
+                        break;
+                    case 2:
+                        _notifier.ShowError("Ошибка при обновлении заказа!");
+                        break;
+                }
+            }
+            else
+            {
+                switch (dishesRepository.CreateNewOrder(tempL, SpotNumber, GuestCount, TotalPrice))
+                {
+                    case 0:
+                        _notifier.ShowSuccess("Заказ успешно оформлен!");
+                        SelectedDishes = new List<DishData>();
+                        tempL = new List<DishData>();
+                        SpotNumber = 0;
+                        GuestCount = 0;
+                        TotalPrice = 0;
+                        break;
+                    case 1:
+                        _notifier.ShowError("Ошибка при оформлении заказа!");
+                        break;
+                }
             }
         }
 

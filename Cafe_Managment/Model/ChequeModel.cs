@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafe_Managment.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cafe_Managment.Model
 {
-    public class ChequeModel : INotifyPropertyChanged
+    public class ChequeModel : ViewModelBase
     {
 
         public int Id { get; set; }
@@ -41,11 +42,5 @@ namespace Cafe_Managment.Model
 
         public string TimerForegroundColor => WaitingTime.TotalMinutes < 10 ? "Red" : "White";
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

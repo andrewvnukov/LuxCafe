@@ -166,8 +166,9 @@ namespace Cafe_Managment.ViewModel
 
         private void OpenOrderPage(object obj)
         {
+            UserData.OrderId = temp[SelectedCheque].Id;
             CurrentOrder = new OrderVM();
-           
+
             IsOrderVisible = !IsOrderVisible;
             IsChequesVisible = !IsChequesVisible;
         }
@@ -188,14 +189,6 @@ namespace Cafe_Managment.ViewModel
                 //Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
             }
         }
-
-
-        //private void ExecuteOpenOrderPageCommand(object obj)
-        //{
-        //    NavigationVM.Instance.CurrentView = new OrderVM();
-
-        //}
-
 
 
         private void ExecuteCloseOrderCommand(object obj)

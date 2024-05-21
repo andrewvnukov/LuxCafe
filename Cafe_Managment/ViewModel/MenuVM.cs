@@ -244,7 +244,6 @@ namespace Cafe_Managment.ViewModel
             {
                 _canEditColumns = value;
                 OnPropertyChanged(nameof(CanEditColumns));
-                Debug.WriteLine($"CanEditColumns changed to: {value}"); // Отладочный вывод
             }
         }
 

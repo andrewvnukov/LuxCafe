@@ -223,17 +223,16 @@
                                         </Border.Background>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Title}" Style="{DynamicResource Default_Text}"
-                                                       FontSize="18" Foreground="White" Margin="5 0 -30 0"
-                                                       Width="135" TextWrapping="WrapWithOverflow"/>
+                                                       FontSize="18" Foreground="White" Margin="5 0 -20 0"
+                                                       Width="125" TextWrapping="WrapWithOverflow"/>
                                             <TextBlock Text="{Binding Price}" 
                                     Style="{DynamicResource Default_Text}" 
                                     FontSize="18"
                                     Foreground="White"
                                     VerticalAlignment="Center"
-                                    Width="60"
+                                    Width="50"
                                     TextWrapping="Wrap"/>
                                             <StackPanel Orientation="Horizontal"
-                                            IsEnabled="True"
                                                         >
                                                 <Button Width="25" Height="25"
                                                         Click="Button_Click_3" Style="{DynamicResource GridDeleteButton}"
