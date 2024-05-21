@@ -127,8 +127,21 @@ namespace Cafe_Managment.ViewModel
             
 
             repositoryBase = new UserRepository();
+            if (repositoryBase.GetByMac())
+            {
+                RememberedUserAsync();
+                _isAuthenticated = true; // Устанавливаем флаг аутентификации в true
+            }
+            else
+            {
+                _isAuthenticated = false; // Устанавливаем флаг аутентификации в false
+            }
 
-            
+            if (!_isAuthenticated)
+            {
+                AuthUser(); // Вызываем AuthUser только если пользователь не аутентифицирован
+            }
+
             userRepository = new UserRepository();
             CurrentData = new EmpData
             {
@@ -144,21 +157,6 @@ namespace Cafe_Managment.ViewModel
             };
             EmployeeFullName = UserData.Surname +" "+ UserData.Name + " " + UserData.Patronomic;
             Role = userRepository.GetRoleById(UserData.RoleId);
-
-            if (repositoryBase.GetByMac())
-            {
-                RememberedUserAsync();
-                _isAuthenticated = true; // Устанавливаем флаг аутентификации в true
-            }
-            else
-            {
-                _isAuthenticated = false; // Устанавливаем флаг аутентификации в false
-            }
-
-            if (!_isAuthenticated)
-            {
-                AuthUser(); // Вызываем AuthUser только если пользователь не аутентифицирован
-            }
 
         }
 

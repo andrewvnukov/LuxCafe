@@ -30,11 +30,11 @@ namespace Cafe_Managment.ViewModel
 
         private EmpData _currentData;
         private string _fullname;
-        private bool _isAdressReadOnly;
+        private bool _isAddressReadOnly;
         private bool _isEmailReadOnly;
         private bool _isNumberReadOnly;
 
-        public ICommand EditAdress { get; set; }
+        public ICommand EditAddress { get; set; }
         public ICommand EditEmail { get; set; }
         public ICommand EditNumber { get; set; }
         public ICommand EditPicture { get; set; }
@@ -75,11 +75,11 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        public bool IsAdressReadOnly
+        public bool IsAddressReadOnly
         {
-            get { return _isAdressReadOnly; }
-            set { _isAdressReadOnly = value;
-            OnPropertyChanged(nameof(IsAdressReadOnly));}
+            get { return _isAddressReadOnly; }
+            set { _isAddressReadOnly = value;
+            OnPropertyChanged(nameof(IsAddressReadOnly));}
         }
 
         public bool IsEmailReadOnly
@@ -119,7 +119,7 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             _notifier = CreateNotifier();
 
-            _isAdressReadOnly = true;
+            _isAddressReadOnly = true;
             _isEmailReadOnly=true;
             _isNumberReadOnly=true;
 
@@ -136,7 +136,7 @@ namespace Cafe_Managment.ViewModel
                 ProfileImage = UserData.ProfileImage,
             };
 
-            EditAdress = new RelayCommand(ExecuteEditAdress);
+            EditAddress = new RelayCommand(ExecuteEditAddress);
             EditEmail = new RelayCommand(ExecuteEditEmail); 
             EditNumber = new RelayCommand(ExecuteEditNumber);
             EditPicture = new RelayCommand(ExecuteEditPicture);
@@ -180,20 +180,33 @@ namespace Cafe_Managment.ViewModel
                 cfg.Dispatcher = Application.Current.Dispatcher;
             });
         }
-       
-        private void ExecuteEditAdress(object obj)
+
+        private bool IsValidAddress(string address)
         {
-            if (IsAdressReadOnly)
+            string pattern = @"^г\.\w+,\sул\.\w+,\sд\.\d+,\sкв\.\d+\.$";
+            return Regex.IsMatch(address, pattern);
+        }
+
+        private void ExecuteEditAddress(object obj)
+        {
+            if (IsAddressReadOnly)
             {
-                IsAdressReadOnly = !IsAdressReadOnly;
+                IsAddressReadOnly = !IsAddressReadOnly;
             }
             else
             {
-                userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
-                IsAdressReadOnly = !IsAdressReadOnly;
-                userRepository.GetById();
-                _notifier.ShowSuccess("Адрес успешно изменен!");
-
+                if (IsValidAddress(CurrentData.Address))
+                {
+                    userRepository.EditCurrentUser(nameof(EmpData.Address), CurrentData.Address);
+                    IsAddressReadOnly = !IsAddressReadOnly;
+                    userRepository.GetById();
+                    _notifier.ShowSuccess("Адрес успешно изменен!");
+                }
+                else
+                {
+                    _notifier.ShowError("Неверный формат адреса! Адрес должен иметь вид: г.Москва, ул.Западная, д.2, кв.69.");
+                    CurrentData.Address = string.Empty;
+                }
             }
         }
 

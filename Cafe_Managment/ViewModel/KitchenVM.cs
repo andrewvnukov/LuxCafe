@@ -35,7 +35,6 @@ namespace Cafe_Managment.ViewModel
         private bool _isOrderVisible;
         private bool _isCequesVisible;
 
-        // Свойство для привязки в XAML
         public bool IsChequesVisible
         {
             get { return _isCequesVisible; }
@@ -130,6 +129,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand ReloadCommand { get; set; }
         public ICommand CloseOrderCommand { get; set; }
         public ICommand OpenOrderPageCommand { get; set; }
+        public ICommand OrderToInvis { get; set; }
 
         //public ICommand OpenOrderPageCommand { get; set; }
 
@@ -152,9 +152,16 @@ namespace Cafe_Managment.ViewModel
             ChangeDishStatusCommand = new RelayCommand(ExecuteChangeDishStatusCommand);
             ReloadCommand = new RelayCommand(ExecuteReloadCommand);
             CloseOrderCommand = new RelayCommand(ExecuteCloseOrderCommand);
+            OrderToInvis = new RelayCommand(ExecuteOrderToInvis);
             //OpenOrderPageCommand = new RelayCommand(ExecuteOpenOrderPageCommand);
 
             UpdateLists(1);
+        }
+
+        private void ExecuteOrderToInvis(object obj)
+        {
+            IsOrderVisible = !IsOrderVisible;
+            IsChequesVisible = true;
         }
 
         private void OpenOrderPage(object obj)

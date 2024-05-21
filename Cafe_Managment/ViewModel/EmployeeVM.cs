@@ -272,7 +272,7 @@ namespace Cafe_Managment.ViewModel
             bool istrue = false;
             if (UserData.RoleId == 1 ||
                 UserData.RoleId == 2 ||
-                UserData.RoleId == 3 ||
+                UserData.RoleId == 3 || UserData.RoleId == 7 ||
                 UserData.RoleId == 4) istrue = true;
             return istrue;
         }

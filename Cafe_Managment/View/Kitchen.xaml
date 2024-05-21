@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="Cafe_Managment.View.Kitchen"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Cafe_Managment.View"
              xmlns:vm="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:lvc="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:vm1="clr-namespace:Cafe_Managment.Utilities"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:KitchenVM}"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -18,185 +18,201 @@
         <vm:KitchenVM x:Key="KitchenVM"/>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <Grid>
-            <TextBlock Text="{Binding EmptyMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    <Grid>
+        <TextBlock Text="{Binding EmptyMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    Style="{DynamicResource Text_Headline2}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
-            
-            <StackPanel>
-                <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}" Style="{StaticResource DefaultButton}"
-        Content="Назад"
-        VerticalAlignment="Top"
-        HorizontalAlignment="Left"/>
-            <StackPanel Visibility="{Binding IsChequesVisible, Converter={StaticResource BoolToVis}}">
-                <TextBlock Text="Активные заказы" Style="{DynamicResource Text_Headline1}"/>
-                <Button Style="{DynamicResource GridInfoButton}"
-                        HorizontalAlignment="Left"
-                        Margin="10"
-                        Command="{Binding ReloadCommand}">
-                    <lvc:PackIconMaterial Kind="Refresh" Foreground="{DynamicResource NormalTextColor1}"/>
-                </Button>
-                <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                     SelectedIndex="{Binding SelectedCheque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10"
-                 HorizontalAlignment="Left">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{Binding BorderBrush}"
-                                        BorderThickness="1"
-                                        SnapsToDevicePixels="True">
-                                            <ContentPresenter />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.Template>
-                        <ControlTemplate>
-                            <WrapPanel IsItemsHost="True" ItemWidth="auto" ItemHeight="auto"/>
-                        </ControlTemplate>
-                    </ListBox.Template>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border CornerRadius="10"
-                                    Width="400"
-                                    Height="auto"
-                                BorderBrush="{Binding BorderBrushColor}"
-                                BorderThickness="2"
-                                PreviewMouseDown="Border_PreviewMouseDown"
-                                    Margin="15 15 15 15">
-                                <Border.Background>
-                                    <SolidColorBrush Color="#6C8DBF"/>
-                                </Border.Background>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="45"/>
-                                        <RowDefinition Height="35"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
-                                    <Border BorderThickness="0 0 0 2" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="0"/>
-                                    <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="3"/>
-                                    <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="2"/>
 
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 5 0">
-                                        <TextBlock Text="Заказ №" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="25"/>
-                                        <TextBlock Text="{Binding Id}" Style="{DynamicResource Text_Headline3}" Foreground="White" FontSize="25" Margin="0 0 180 0"/>
-                                        <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="0 -3 0 0" Background="Transparent" BorderBrush="Transparent"
-                                            Command="{Binding DataContext.OpenOrderPageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                            <lvc:PackIconMaterial Kind="PenPlus" Foreground="White"/>
-                                        </Button>
-                                        <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="20 -3 0 0" Background="Transparent" BorderBrush="Transparent"
-                                                Command="{Binding DataContext.CloseOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}"
-                                                >
-                                            <lvc:PackIconMaterial Kind="Close" Foreground="Red"/>
-                                        </Button>
-                                    </StackPanel>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border BorderThickness="0 0 1 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Column="0"/>
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0 0 0">
-                                            <TextBlock Text="Кол-во гостей" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
-                                            <TextBlock Text="{Binding GuestNumber}" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0 5 0">
-                                            <TextBlock Text="Номер стола" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
-                                            <TextBlock Text="{Binding SpotNumber}" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
-                                        </StackPanel>
-                                    </Grid>
-                                    <ListBox ItemsSource="{Binding dishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" HorizontalAlignment="Center" Grid.Row="2">
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ListBoxItem">
-                                                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                                                                <ContentPresenter />
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
-                                        <ListBox.Template>
-                                            <ControlTemplate>
-                                                <WrapPanel IsItemsHost="True" ItemWidth="auto" Orientation="Vertical"/>
-                                            </ControlTemplate>
-                                        </ListBox.Template>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Border CornerRadius="5" BorderBrush="{DynamicResource AccientColor1}" BorderThickness="1" Height="Auto">
-                                                        <Border.Background>
-                                                            <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
-                                                        </Border.Background>
-                                                        <Grid Margin="5 1 5 1" Width="200">
-                                                            <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" Margin="0 0 20 0" MaxWidth="200"
-                                                                       Style="{DynamicResource Default_Text}" FontSize="19" Foreground="White"/>
-                                                        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource DefaultButton}"
+                    Content="Назад"
+                    VerticalAlignment="Top"
+                    Command="{Binding OrderToInvis}"
+                    HorizontalAlignment="Left"
+                    Grid.Row="0"/>
+
+            <StackPanel Grid.Row="1">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <StackPanel>
+                        <StackPanel Visibility="{Binding IsChequesVisible, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Text="Активные заказы" Style="{DynamicResource Text_Headline1}"/>
+                            <Button Style="{DynamicResource GridInfoButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="10"
+                                    Command="{Binding ReloadCommand}">
+                                <lvc:PackIconMaterial Kind="Refresh" Foreground="{DynamicResource NormalTextColor1}"/>
+                            </Button>
+                            <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     SelectedIndex="{Binding SelectedCheque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="10"
+                                     HorizontalAlignment="Left">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{Binding BorderBrush}"
+                                                            BorderThickness="1"
+                                                            SnapsToDevicePixels="True">
+                                                        <ContentPresenter />
                                                     </Border>
-                                                    <Button Margin="5" Click="Button_Click" IsEnabled="{Binding Status, Converter={StaticResource DishStatusToEnabledConverter}}">
-                                                        <Button.Template>
-                                                            <ControlTemplate>
-                                                                <Border Background="Transparent" Margin="0">
-                                                                    <lvc:PackIconMaterial x:Name="icon"/>
-                                                                </Border>
-                                                                <ControlTemplate.Triggers>
-                                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
-                                                                        <Setter TargetName="icon" Property="Kind" Value="Fire"/>
-                                                                        <Setter TargetName="icon" Property="Height" Value="20"/>
-                                                                        <Setter TargetName="icon" Property="Width" Value="20"/>
-                                                                        <Setter TargetName="icon" Property="Foreground">
-                                                                            <Setter.Value>
-                                                                                <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
-                                                                                    <GradientStop Offset="0" Color="Red"/>
-                                                                                    <GradientStop Offset="0.7" Color="Orange"/>
-                                                                                    <GradientStop Offset="1" Color="Orange"/>
-                                                                                </LinearGradientBrush>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="1">
-                                                                        <Setter TargetName="icon" Property="Kind" Value="Clock"/>
-                                                                        <Setter TargetName="icon" Property="Foreground" Value="SandyBrown"/>
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="2">
-                                                                        <Setter TargetName="icon" Property="Kind" Value="CheckBold"/>
-                                                                        <Setter TargetName="icon" Property="Foreground" Value="Green"/>
-                                                                    </DataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Button.Template>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <WrapPanel IsItemsHost="True" ItemWidth="auto" ItemHeight="auto"/>
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="10"
+                                                Width="400"
+                                                Height="auto"
+                                                BorderBrush="{Binding BorderBrushColor}"
+                                                BorderThickness="2"
+                                                PreviewMouseDown="Border_PreviewMouseDown"
+                                                Margin="15 15 15 15">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="#6C8DBF"/>
+                                            </Border.Background>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="45"/>
+                                                    <RowDefinition Height="35"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="25"/>
+                                                </Grid.RowDefinitions>
+                                                <Border BorderThickness="0 0 0 2" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="0"/>
+                                                <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="3"/>
+                                                <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="2"/>
+
+                                                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 5 0">
+                                                    <TextBlock Text="Заказ №" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="25"/>
+                                                    <TextBlock Text="{Binding Id}" Style="{DynamicResource Text_Headline3}" Foreground="White" FontSize="25" Margin="0 0 180 0"/>
+                                                    <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="0 -3 0 0" Background="Transparent" BorderBrush="Transparent"
+                                                            Command="{Binding DataContext.OpenOrderPageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                                                        <lvc:PackIconMaterial Kind="PenPlus" Foreground="White"/>
+                                                    </Button>
+                                                    <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="20 -3 0 0" Background="Transparent" BorderBrush="Transparent"
+                                                            Command="{Binding DataContext.CloseOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}">
+                                                        <lvc:PackIconMaterial Kind="Close" Foreground="Red"/>
                                                     </Button>
                                                 </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 5 0">
-                                        <TextBlock Text="Заказ должен быть готов через:" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="20"/>
-                                        <TextBlock Text="{Binding FormattedWaitingTime}" Style="{DynamicResource Default_Text}" Foreground="{Binding TimerForegroundColor}" FontSize="20" Margin="5 0 0 0"/>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-                <ContentControl Content="{Binding CurrentOrder}" 
-                                Visibility="{Binding IsOrderVisible,
-                                            Converter ={StaticResource BoolToVis}}"/>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border BorderThickness="0 0 1 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Column="0"/>
+                                                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0 0 0">
+                                                        <TextBlock Text="Кол-во гостей" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
+                                                        <TextBlock Text="{Binding GuestNumber}" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0 5 0">
+                                                        <TextBlock Text="Номер стола" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
+                                                        <TextBlock Text="{Binding SpotNumber}" Style="{DynamicResource Default_Text}" Foreground="White" Margin="5 0 5 0" FontSize="20"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                                <ListBox ItemsSource="{Binding dishes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" HorizontalAlignment="Center" Grid.Row="2">
+                                                    <ListBox.ItemContainerStyle>
+                                                        <Style TargetType="ListBoxItem">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                                                                            <ContentPresenter />
+                                                                        </Border>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </ListBox.ItemContainerStyle>
+                                                    <ListBox.Template>
+                                                        <ControlTemplate>
+                                                            <WrapPanel IsItemsHost="True" ItemWidth="auto" Orientation="Vertical"/>
+                                                        </ControlTemplate>
+                                                    </ListBox.Template>
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Border CornerRadius="5" BorderBrush="{DynamicResource AccientColor1}" BorderThickness="1" Height="Auto">
+                                                                    <Border.Background>
+                                                                        <SolidColorBrush Opacity="0.3" Color="{DynamicResource BorderGradientColor1}"/>
+                                                                    </Border.Background>
+                                                                    <Grid Margin="5 1 5 1" Width="200">
+                                                                        <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" Margin="0 0 20 0" MaxWidth="200"
+                                                                                   Style="{DynamicResource Default_Text}" FontSize="19" Foreground="White"/>
+                                                                    </Grid>
+                                                                </Border>
+                                                                <Button Margin="5" Click="Button_Click" IsEnabled="{Binding Status, Converter={StaticResource DishStatusToEnabledConverter}}">
+                                                                    <Button.Template>
+                                                                        <ControlTemplate>
+                                                                            <Border Background="Transparent" Margin="0">
+                                                                                <lvc:PackIconMaterial x:Name="icon"/>
+                                                                            </Border>
+                                                                            <ControlTemplate.Triggers>
+                                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                                                                    <Setter TargetName="icon" Property="Kind" Value="Fire"/>
+                                                                                    <Setter TargetName="icon" Property="Height" Value="20"/>
+                                                                                    <Setter TargetName="icon" Property="Width" Value="20"/>
+                                                                                    <Setter TargetName="icon" Property="Foreground">
+                                                                                        <Setter.Value>
+                                                                                            <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1">
+                                                                                                <GradientStop Offset="0" Color="Red"/>
+                                                                                                <GradientStop Offset="0.7" Color="Orange"/>
+                                                                                                <GradientStop Offset="1" Color="Orange"/>
+                                                                                            </LinearGradientBrush>
+                                                                                        </Setter.Value>
+                                                                                    </Setter>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="1">
+                                                                                    <Setter TargetName="icon" Property="Kind" Value="Clock"/>
+                                                                                    <Setter TargetName="icon" Property="Foreground" Value="SandyBrown"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding Status, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="2">
+                                                                                    <Setter TargetName="icon" Property="Kind" Value="CheckBold"/>
+                                                                                    <Setter TargetName="icon" Property="Foreground" Value="Green"/>
+                                                                                </DataTrigger>
+                                                                            </ControlTemplate.Triggers>
+                                                                        </ControlTemplate>
+                                                                    </Button.Template>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                                <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 5 0">
+                                                    <TextBlock Text="Заказ должен быть готов через:" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="20"/>
+                                                    <TextBlock Text="{Binding FormattedWaitingTime}" Style="{DynamicResource Default_Text}" Foreground="{Binding TimerForegroundColor}" FontSize="20" Margin="5 0 0 0"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <Grid>
+                                <ContentControl Content="{Binding CurrentOrder}"
+                                                Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </StackPanel>
+                </ScrollViewer>
             </StackPanel>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

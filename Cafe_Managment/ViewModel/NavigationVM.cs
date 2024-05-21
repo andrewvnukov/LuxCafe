@@ -109,7 +109,7 @@ namespace Cafe_Managment.ViewModel
         {
             bool CanGoBar = false;
             if (UserData.RoleId == 1 ||
-                UserData.RoleId == 2 ||
+                UserData.RoleId == 2 || UserData.RoleId == 7 ||
                 UserData.RoleId == 3) CanGoBar = true;
             return CanGoBar;
         }
@@ -118,7 +118,7 @@ namespace Cafe_Managment.ViewModel
         {
             bool CanGoStatistic = false;
             if(UserData.RoleId == 1 || 
-                UserData.RoleId == 2 ||
+                UserData.RoleId == 2 || UserData.RoleId == 7 ||
                 UserData.RoleId == 3) CanGoStatistic = true;
             return CanGoStatistic;
         }
@@ -127,7 +127,7 @@ namespace Cafe_Managment.ViewModel
         {
             bool CanGoMenu = false;
             if (UserData.RoleId == 1 ||
-                UserData.RoleId == 2 ||
+                UserData.RoleId == 2 || UserData.RoleId == 7 ||
                 UserData.RoleId == 3) CanGoMenu = true;
             return CanGoMenu;
         }
@@ -136,7 +136,7 @@ namespace Cafe_Managment.ViewModel
         {
             bool CanGoKitchen = false;
             if (UserData.RoleId == 1 ||
-                UserData.RoleId == 2  ||
+                UserData.RoleId == 2 || UserData.RoleId == 7 ||
                 UserData.RoleId == 3 ||
                 UserData.RoleId == 4) CanGoKitchen = true;
             return CanGoKitchen;
@@ -145,7 +145,7 @@ namespace Cafe_Managment.ViewModel
         private bool CanGoEmployee(object arg)
         {
             bool CanGoEmployee = false;
-            if (UserData.RoleId == 1 ||
+            if (UserData.RoleId == 1 || UserData.RoleId == 7 ||
                 UserData.RoleId == 2 ||
                 UserData.RoleId == 3) CanGoEmployee = true;
             return CanGoEmployee;
@@ -155,7 +155,7 @@ namespace Cafe_Managment.ViewModel
         {
             bool CanGoDish = false;
             if(UserData.RoleId == 1 ||
-                UserData.RoleId == 2 ||
+                UserData.RoleId == 2 || UserData.RoleId == 7 ||
                 UserData.RoleId == 3) CanGoDish=true;
             return CanGoDish;
         }
