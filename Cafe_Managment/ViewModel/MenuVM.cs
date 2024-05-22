@@ -252,21 +252,18 @@ namespace Cafe_Managment.ViewModel
         {
             CanEditColumns = false; // Переключаем состояние
 
-
             dishesRepository = new DishesRepository();
-            tempArchive = dishesRepository.GetAllDishesFromArchive();
+            //tempArchive = dishesRepository.GetAllDishesFromArchive();
 
             // Создаем копию перед модификацией
             tempArchive = dishesRepository.GetAllDishesFromArchive();
             Menu = tempArchive.Copy();
             Menu.Columns.Remove("Id");
 
-            //Menu = dishesRepository.GetAllDishesFromArchive();
             IsReadOnly = false;
 
             _notifier = CreateNotifier();
 
-            
             tempMenu = dishesRepository.GetAllDishesFromMenu();
             ActiveMenu = tempMenu.Copy();
             ActiveMenu.Columns.Remove("Id");
@@ -547,6 +544,8 @@ namespace Cafe_Managment.ViewModel
 
                 IsReadOnly = true;
                 OnPropertyChanged(nameof(tempArchive));
+                RefreshMenu();
+
                 _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно изменено!");
             }
 
@@ -566,7 +565,18 @@ namespace Cafe_Managment.ViewModel
                     CategoryId = SelectedCategory
                 };
                 dishesRepository.AddDishToArchive(NewDishAdd);
+
+                tempArchive = dishesRepository.GetAllDishesFromArchive();
+                DataTable dtArchive = tempArchive.Copy();
+                dtArchive.Columns.Remove("Id");
+                Menu = dtArchive.Copy();
+
+                IsReadOnly = true;
+                OnPropertyChanged(nameof(tempArchive));
                 window.Close();
+
+                _notifier.ShowSuccess($"Блюдо {NewDishAdd.Title.ToString()}\nуспешно добавлено в архив блюд!");
+
             }
             else
             {
@@ -674,9 +684,9 @@ namespace Cafe_Managment.ViewModel
         private void RefreshArchive()
         {
             tempArchive = dishesRepository.GetAllDishesFromArchive();
-            Menu = tempArchive.Copy();
-            Menu.Columns.Remove("Id");
-
+            DataTable dtArchive = tempArchive.Copy();
+            dtArchive.Columns.Remove("Id");
+            Menu = dtArchive.Copy();
         }
         private void RefreshDeletedDishes()
         {

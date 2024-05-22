@@ -927,8 +927,8 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = $@"INSERT INTO disharchive (CategoryId, Title, Description, Composition, CreatedAt) 
-                                         VALUES ({dishData.CategoryId + 1},@title,@description,@composition,NOW())";
+                    command.CommandText = $@"INSERT INTO disharchive (CategoryId, Title, Description, Composition, CreatedAt, UpdatedAt) 
+                                         VALUES ({dishData.CategoryId + 1},@title,@description,@composition,NOW(),NOW())";
                     command.Parameters.AddWithValue("@title", dishData.Title);
                     command.Parameters.AddWithValue("@description", dishData.Description);
                     command.Parameters.AddWithValue("@composition", dishData.Composition);

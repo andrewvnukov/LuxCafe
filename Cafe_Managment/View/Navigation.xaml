@@ -64,7 +64,7 @@
                                 HorizontalAlignment="Center">
 
                         <StackPanel Orientation="Horizontal"
-                                    Margin="15,0,0,30">
+                                    Margin="13.2,0,0,30">
                             <Button Width="40"
                                     Height="35"
                                     Style="{DynamicResource MenuButton}"

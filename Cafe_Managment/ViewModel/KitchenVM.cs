@@ -205,9 +205,6 @@ namespace Cafe_Managment.ViewModel
         }
 
 
-
-
-
         private void ExecuteCloseOrderCommand(object obj)
         {
             var selectedCheque = temp[SelectedCheque];
@@ -230,9 +227,6 @@ namespace Cafe_Managment.ViewModel
                 _notifier.ShowSuccess($"Заказ № {selectedCheque.Id} успешно выполнен и закрыт!");
             }
         }
-
-       
-
 
         private Notifier CreateNotifier()
         {

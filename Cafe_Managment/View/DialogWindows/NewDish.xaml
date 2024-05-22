@@ -55,7 +55,7 @@
                         <TextBox Tag="Состав блюда"
                                  Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{DynamicResource LoginTextBox}"
-                                 Margin="20"
+                                 Margin="20 0 0 18"
                                  Height="auto"
                                  TextWrapping="Wrap"/>
                         <ComboBox Margin="20"
@@ -71,7 +71,7 @@
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                     HorizontalAlignment="Center"
                     Padding="5"
-                    Content="Завершить"
+                    Content="Добавить"
                     Margin="10"/>
         </StackPanel>
     </Border>

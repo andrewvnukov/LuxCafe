@@ -18,6 +18,7 @@ using ToastNotifications.Messages;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -262,7 +263,8 @@ namespace Cafe_Managment.ViewModel
             var lineSeries = new LineSeries
             {
                 Title = SelectedDish.Title,
-                Values = new ChartValues<int>(trends.Select(t => t.Count))
+                Values = new ChartValues<int>(trends.Select(t => t.Count)),
+                
             };
 
             // Обновление данных в графике
