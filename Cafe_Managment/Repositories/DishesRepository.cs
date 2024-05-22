@@ -723,7 +723,7 @@ namespace Cafe_Managment.Repositories
                 using (var command1 = new MySqlCommand())
                 {
                     command1.Connection = connection1;
-                    command1.CommandText = @"SELECT Id, TotalPrice, GuestCount, Spot, CreatedAt
+                    command1.CommandText = @"SELECT Id, TotalPrice, GuestCount, Spot, CreatedAt, UpdatedAt
                                     FROM orders 
                                     WHERE BranchId = @BranchId AND IsReady = 0";
                     command1.Parameters.AddWithValue("@BranchId", UserData.BranchId);
@@ -790,6 +790,7 @@ namespace Cafe_Managment.Repositories
                                 GuestNumber = reader1.GetInt32(2),
                                 SpotNumber = reader1.GetInt32(3),
                                 CreatedAt = reader1.GetDateTime(4),
+                                UpdatedAt = reader1.IsDBNull(5) ? DateTime.MinValue : reader1.GetDateTime(5),
                                 dishes = dishTemp
                             });
                         }
@@ -964,8 +965,9 @@ namespace Cafe_Managment.Repositories
                     using (var command = new MySqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = "UPDATE Orders SET TotalPrice = TotalPrice + @AmountToAdd WHERE Id = @OrderId";
+                        command.CommandText = "UPDATE Orders SET TotalPrice = TotalPrice + @AmountToAdd, UpdatedAt = NOW() WHERE Id = @OrderId";
                         command.Parameters.AddWithValue("@AmountToAdd", totalPrice);
+                        command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
                         command.Parameters.AddWithValue("@OrderId", Id);
 
                         command.ExecuteNonQuery();

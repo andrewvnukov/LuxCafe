@@ -23,20 +23,14 @@
                    Style="{DynamicResource Text_Headline2}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"
-                    Style="{StaticResource DefaultButton}"
-                    Content="Назад"
-                    VerticalAlignment="Top"
-                    Command="{Binding OrderToInvis}"
-                    HorizontalAlignment="Left"
-                    Grid.Row="0"/>
+           
 
             <StackPanel Visibility="{Binding IsChequesVisible, Converter={StaticResource BoolToVis}}" Grid.Row="1">
                 <TextBlock Text="Активные заказы" Style="{DynamicResource Text_Headline1}"/>
@@ -46,10 +40,12 @@
                         Command="{Binding ReloadCommand}">
                     <lvc:PackIconMaterial Kind="Refresh" Foreground="{DynamicResource NormalTextColor1}"/>
                 </Button>
+                
                 <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="{Binding SelectedCheque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="10"
                          HorizontalAlignment="Left">
+                    
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Template">
@@ -200,8 +196,15 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
+
             <ContentControl Content="{Binding CurrentOrder}" Grid.Row="1" Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"/>
+            <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource DefaultButton}"
+                    Content="Назад"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding OrderToInvis}"
+                    HorizontalAlignment="Right"
+                    Grid.Row="0"/>
         </Grid>
-        </ScrollViewer>
     </Grid>
 </UserControl>

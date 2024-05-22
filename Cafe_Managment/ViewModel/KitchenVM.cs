@@ -158,11 +158,22 @@ namespace Cafe_Managment.ViewModel
             UpdateLists(1);
         }
 
-        private void ExecuteOrderToInvis(object obj)
+        public void ExecuteOrderToInvis(object obj)
         {
+            // Переключаем видимость заказов
             IsOrderVisible = !IsOrderVisible;
             IsChequesVisible = true;
+
+            // Останавливаем таймер перед обновлением
+
+            // Обновляем списки заказов
+            UpdateLists(1);
+
+            // Обновляем оставшееся время для заказов вручную
+
+            // Перезапускаем таймер
         }
+
 
         private void OpenOrderPage(object obj)
         {
@@ -177,18 +188,24 @@ namespace Cafe_Managment.ViewModel
         {
             foreach (var cheque in Cheques)
             {
-                // Вычисляем время, прошедшее с момента создания заказа
-                var elapsed = DateTime.Now - cheque.CreatedAt;
+                // Определяем время, с которого следует начинать отсчет
+                var startTime = cheque.UpdatedAt != null && cheque.UpdatedAt != DateTime.MinValue ? cheque.UpdatedAt : cheque.CreatedAt;
 
-                // Вычисляем оставшееся время (45 минут минус время, прошедшее с момента создания)
+                // Вычисляем время, прошедшее с указанного момента
+                var elapsed = DateTime.Now - startTime;
+
+                // Вычисляем оставшееся время (45 минут минус время, прошедшее с указанного момента)
                 var remaining = TimeSpan.FromMinutes(45) - elapsed;
 
                 // Если оставшееся время меньше нуля, устанавливаем его в ноль
-                cheque.WaitingTime = remaining < TimeSpan.Zero ? TimeSpan.Zero : remaining;
+                cheque.WaitingTime = (TimeSpan)(remaining < TimeSpan.Zero ? TimeSpan.Zero : remaining);
 
-                //Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
+                // Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
             }
         }
+
+
+
 
 
         private void ExecuteCloseOrderCommand(object obj)
@@ -214,10 +231,7 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        public bool IsOrderActiveForTooLong(ChequeModel cheque)
-        {
-            return (DateTime.Now - cheque.CreatedAt).TotalMinutes > 1;
-        }
+       
 
 
         private Notifier CreateNotifier()
@@ -278,9 +292,6 @@ namespace Cafe_Managment.ViewModel
                     break;
             }
         }
-
-
-
 
         private void SplitDishes()
         {
@@ -372,9 +383,6 @@ namespace Cafe_Managment.ViewModel
             // Обновляем списки
             UpdateLists(0);
         }
-
-
-
 
     }
 }

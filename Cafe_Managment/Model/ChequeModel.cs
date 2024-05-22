@@ -15,6 +15,7 @@ namespace Cafe_Managment.Model
         public int Id { get; set; }
         public List<DishData> dishes { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public float TotalPrice { get; set; }
         public int SpotNumber { get; set; }
         public int GuestNumber { get; set; }

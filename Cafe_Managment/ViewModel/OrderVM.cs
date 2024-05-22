@@ -153,7 +153,7 @@ namespace Cafe_Managment.ViewModel
                 switch (dishesRepository.UpdateOrder(UserData.OrderId,tempL,TotalPrice))
                 {
                     case 1:
-                        _notifier.ShowSuccess($"Заказ №{UserData.OrderId} успешно обновлен!");
+                        _notifier.ShowSuccess($"Блюда были успешно добавлены в заказ №{UserData.OrderId}!");
                         SelectedDishes = new List<DishData>();
                         tempL = new List<DishData>();
                         SpotNumber = 0;
