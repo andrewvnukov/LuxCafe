@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
     <!-- Default ComboBoxToggleButton style -->
     <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
@@ -149,4 +151,111 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <SolidColorBrush x:Key="PrimaryColorBrush" Color="#7896D6" />
+    <SolidColorBrush x:Key="SecondaryColorBrush" Color="#FF6C8DBF" />
+    <SolidColorBrush x:Key="AccentColorBrush" Color="#FFB3C5E5" />
+    <SolidColorBrush x:Key="TextColorBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BackgroundColorBrush" Color="#44435F" />
+    <SolidColorBrush x:Key="PlaceholderColorBrush" Color="#FFB3C5E5" />
+
+    <!-- Стиль для ComboBox -->
+    <Style TargetType="ComboBox" x:Key="DefaultComboBoxStyle">
+    <Setter Property="Foreground" Value="{StaticResource TextColorBrush}" />
+    <Setter Property="Background" Value="{StaticResource PrimaryColorBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource SecondaryColorBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="Height" Value="30" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ComboBox">
+                <Grid>
+                    <ToggleButton Name="ToggleButton"
+                                  IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"                                 
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  Padding="{TemplateBinding Padding}"
+                                  MinHeight="{TemplateBinding MinHeight}"
+                                  IsHitTestVisible="True"
+                                  >
+                            <ToggleButton.Content>
+                                <Path x:Name="Arrow" 
+                                      Margin="125 3 0 0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                      Fill="Black"/>
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <ContentPresenter x:Name="ContentSite"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              VerticalAlignment="Center"
+                                              Margin="5 -2 0 0"
+                                              HorizontalAlignment="Left" />
+
+                    <Popup Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                        <Grid Name="DropDown"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                              >
+                            <Border Background="{StaticResource BackgroundColorBrush}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    VerticalAlignment="Center">
+                                <ScrollViewer Margin="4"
+                                              SnapsToDevicePixels="True"
+                                              VerticalScrollBarVisibility="Hidden">
+                                    <StackPanel IsItemsHost="True"
+                                                KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
+
+
+
+
+    <!-- Стиль для ComboBoxItem -->
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="{StaticResource TextColorBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border Name="Border" Background="Transparent" CornerRadius="5">
+                        <ContentPresenter VerticalAlignment="Center" Margin="5"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource SecondaryColorBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource SecondaryColorBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
 </ResourceDictionary>

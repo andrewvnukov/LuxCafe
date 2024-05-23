@@ -30,13 +30,13 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Начало периода:" Margin="5" Style="{DynamicResource Text_Headline3}"
                                    Foreground="{DynamicResource AccientColor1}"/>
-                        <DatePicker x:Name="startDatePicker" Margin="5"  
+                        <DatePicker x:Name="startDatePicker" Margin="5" Background="#7896D6"
                             SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Конец периода:" Margin="5" Style="{DynamicResource Text_Headline3}"
                                    Foreground="{DynamicResource AccientColor1}"/>
-                        <DatePicker x:Name="endDatePicker" Margin="5" 
+                        <DatePicker x:Name="endDatePicker" Margin="5" Background="#7896D6"
                             SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <Button Content="Обновить" 
@@ -98,22 +98,22 @@
                            Margin="10"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                     
-                    <ComboBox ItemsSource="{Binding AllDishes}" DisplayMemberPath="Title" 
+                    <ComboBox ItemsSource="{Binding AllDishes}" DisplayMemberPath="Title" Style="{DynamicResource DefaultComboBoxStyle}"
                     SelectedItem="{Binding SelectedDish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               SelectedIndex="{Binding SelectedIndexInTrend,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               Width="150" Margin="5 0 0 10"/>
                 </StackPanel>
-
+    
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
 
                     <TextBlock Text="Начало периода:" Style="{DynamicResource Text_Headline3}" Margin="5"
                                Foreground="{DynamicResource AccientColor1}"/>
-                    <DatePicker SelectedDate="{Binding StartDate}" Width="150" Margin="5"/>
+                    <DatePicker SelectedDate="{Binding StartDate}" Width="150" Margin="5" Background="#7896D6" />
 
                     <TextBlock Text="Конец периода:" Style="{DynamicResource Text_Headline3}" Margin="5"
                                Foreground="{DynamicResource AccientColor1}"/>
-                    <DatePicker SelectedDate="{Binding EndDate}" Width="150" Margin="5"/>
+                    <DatePicker SelectedDate="{Binding EndDate}" Width="150" Margin="5" Background="#7896D6"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 15" >
@@ -133,7 +133,7 @@
                             <lvc:Axis Title="Количество заказов" FontSize="14" Foreground="#f1f1f1" />
                         </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.Series>
-                            <lvc:LineSeries Title="Заказано раз:" Values="{Binding TrendSeriesCollection[0].Values}" Fill="Transparent" Stroke="#505F99" StrokeThickness="3"/>
+                            <lvc:LineSeries Title="Заказано раз:" Values="{Binding TrendSeriesCollection[0].Values}" StrokeThickness="3"/>
                         </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                 </Border>
