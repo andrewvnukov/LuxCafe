@@ -17,7 +17,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <vm:KitchenVM x:Key="KitchenVM"/>
     </UserControl.Resources>
-
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
     <Grid>
         <TextBlock Text="{Binding EmptyMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    Style="{DynamicResource Text_Headline2}"
@@ -207,4 +207,5 @@
                     Grid.Row="0"/>
         </Grid>
     </Grid>
+    </ScrollViewer>
 </UserControl>

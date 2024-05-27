@@ -28,15 +28,15 @@
              Width="230"
              Height="30"
              HorizontalAlignment="Center"/>
-             
-            <ComboBox Margin="0,20,0,20"
+
+            <ComboBox Margin="0 20 0 20" Style="{DynamicResource RegistrationComboBoxStyle}"
                       Height="35"
                       FontSize="16"
                       ItemsSource="{Binding BranchTable}"
                       SelectedIndex="{Binding NewEmp.Branch}"
                       >
             </ComboBox>
-            <ComboBox Margin="0,20,0,20"
+            <ComboBox Margin="0 20 0 20" Style="{DynamicResource RegistrationComboBoxStyle}"
                       Height="35"
                       FontSize="16"
                       ItemsSource="{Binding RoleTable}"
