@@ -79,18 +79,30 @@
                     <TextBlock Text="Популярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                Style="{DynamicResource Text_Headline2}"
                                Margin="10"/>
-                    <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart" Margin="10 10" Series="{Binding PopularDishesSeriesCollection}">
+                    <Border Background="#6C8DBF" 
+                    CornerRadius="15"                   
+                    Padding="10"
+                    Margin="10">
+                        <lvc:PieChart Width="250" Height="250" Name="dishPopularityChart" Margin="10 10" Series="{Binding PopularDishesSeriesCollection}">
                         <!-- Определение серий для диаграммы популярности блюд -->
                     </lvc:PieChart>
+                    </Border>
+
                 </StackPanel>
 
                 <StackPanel Margin="10">
                     <TextBlock Text="Непопулярные блюда" HorizontalAlignment="Center" VerticalAlignment="Center"
                                Style="{DynamicResource Text_Headline2}"
                                Margin="10"/>
-                    <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
+                    <Border Background="#6C8DBF" 
+                    CornerRadius="15"                   
+                    Padding="10"
+                    Margin="10">
+                        <lvc:PieChart Width="250" Height="250" Name="dishUnpopularityChart" Margin="10" Series="{Binding UnpopularDishesSeriesCollection}">
                         <!-- Определение серий для диаграммы популярности блюд -->
                     </lvc:PieChart>
+                    </Border>
+
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="2">
@@ -123,7 +135,7 @@
                 <Border Background="#6C8DBF" 
                     CornerRadius="15"                   
                     Padding="10"
-                    Margin="10">
+                    Margin="15 0 20 20">
                     <lvc:CartesianChart Height="200" Margin="0 0 10 0" >
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis LabelsRotation="35" Labels="{Binding TrendLabels}" FontSize="13" Foreground="#f1f1f1"/>
