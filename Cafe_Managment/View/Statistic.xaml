@@ -130,10 +130,10 @@
                     </lvc:CartesianChart.AxisX>
 
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Количество заказов" FontSize="14" Foreground="#f1f1f1" />
+                            <lvc:Axis Title="Количество заказов" FontSize="14" Foreground="#f1f1f1"/>
                         </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.Series>
-                            <lvc:LineSeries Title="Заказано раз:" Values="{Binding TrendSeriesCollection[0].Values}" StrokeThickness="3"/>
+                            <lvc:LineSeries Title="Заказано раз:" Values="{Binding TrendSeriesCollection[0].Values}" Fill="#80505F99"  Stroke="#80505F99" StrokeThickness="3"/>
                         </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                 </Border>

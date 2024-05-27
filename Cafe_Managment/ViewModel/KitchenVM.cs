@@ -133,8 +133,6 @@ namespace Cafe_Managment.ViewModel
 
         //public ICommand OpenOrderPageCommand { get; set; }
 
-
-
         public KitchenVM()
         {
             IsChequesVisible = true;
@@ -163,15 +161,7 @@ namespace Cafe_Managment.ViewModel
             // Переключаем видимость заказов
             IsOrderVisible = !IsOrderVisible;
             IsChequesVisible = true;
-
-            // Останавливаем таймер перед обновлением
-
-            // Обновляем списки заказов
-            UpdateLists(1);
-
-            // Обновляем оставшееся время для заказов вручную
-
-            // Перезапускаем таймер
+            UpdateLists(1); 
         }
 
 
@@ -200,7 +190,7 @@ namespace Cafe_Managment.ViewModel
                 // Если оставшееся время меньше нуля, устанавливаем его в ноль
                 cheque.WaitingTime = (TimeSpan)(remaining < TimeSpan.Zero ? TimeSpan.Zero : remaining);
 
-                // Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
+                 //Debug.WriteLine($"Cheque Id: {cheque.Id}, WaitingTime: {cheque.WaitingTime}");
             }
         }
 
@@ -222,7 +212,8 @@ namespace Cafe_Managment.ViewModel
                 // Иначе, все блюда готовы, можно закрыть заказ
                 dishesRepository.IsOrderReady(selectedCheque);
                 Cheques = dishesRepository.GetActiveOrders();
-                _timer.Stop();
+                //ОСТАНАВЛИВАТЬ ТАЙМЕР???
+               //_timer.Stop();
                 UpdateLists(1);
                 _notifier.ShowSuccess($"Заказ № {selectedCheque.Id} успешно выполнен и закрыт!");
             }
