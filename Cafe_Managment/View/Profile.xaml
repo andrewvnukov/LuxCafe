@@ -27,7 +27,7 @@
                     <Image Grid.Column="0"
                        MaxHeight="350"
                        MaxWidth="350"
-                       Stretch="Uniform"
+                       Stretch="UniformToFill"
                        Margin="20 20 20 10"
                        Source="{Binding CurrentData.ProfileImage, Mode=OneWay}"
                        HorizontalAlignment="Center"

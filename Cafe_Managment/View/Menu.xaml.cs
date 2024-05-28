@@ -27,9 +27,5 @@ namespace Cafe_Managment.View
             DataContext = new MenuVM();
 
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

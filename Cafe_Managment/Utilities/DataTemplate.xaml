@@ -6,10 +6,6 @@
                     xmlns:dialogvm="clr-namespace:Cafe_Managment.ViewModel.DialogWindowsVM">
     
 
-    <DataTemplate DataType="{x:Type vm:DishVM}">
-        <view:Dishes/>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type vm:EmployeeVM}">
         <view:Employees/>
     </DataTemplate>

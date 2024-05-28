@@ -126,8 +126,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="5" Padding="5" 
+                            BorderThickness="1" 
+                            BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="Common">
+                                <VisualState Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                        To="LightGray"
+                                        Duration="0:0:0.5"/>
+                                        <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                                        To="LightGray"
+                                                        Duration="0:0:0.5"/>
+                                    </Storyboard>
+                                    
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -152,6 +170,21 @@
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="Common">
+                                <VisualState Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                To="LightGray"
+                Duration="0:0:0.5"/>
+                                        <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                To="LightGray"
+                                Duration="0:0:0.5"/>
+                                    </Storyboard>
+
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -177,7 +210,23 @@
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="Common">
+                                <VisualState Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                To="LightGray"
+                Duration="0:0:0.5"/>
+                                        <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                To="LightGray"
+                                Duration="0:0:0.5"/>
+                                    </Storyboard>
+
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -202,6 +251,21 @@
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="Common">
+                                <VisualState Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                To="LightGray"
+                Duration="0:0:0.5"/>
+                                        <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color"
+                                To="LightGray"
+                                Duration="0:0:0.5"/>
+                                    </Storyboard>
+
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

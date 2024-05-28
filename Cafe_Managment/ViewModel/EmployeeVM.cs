@@ -123,12 +123,18 @@ namespace Cafe_Managment.ViewModel
             DismissedEmployees = userRepository.GetDismissedEmployees();
             IsReadOnly = true;
 
-            HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteHireCommand);
-            FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteFireCommand);
+            HireCommand = new RelayCommand(ExecuteHireCommand, CanExecuteManageCommand);
+            FireCommand = new RelayCommand(ExecuteFireCommand, CanExecuteManageCommand);
             EditCommand = new RelayCommand(ExecuteEditCommand);
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
             EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
+        }
+
+        private bool CanExecuteManageCommand(object arg)
+        {
+            return (UserData.RoleId == 1 || UserData.RoleId == 2
+                    || UserData.RoleId == 7);
         }
 
         private void ExecuteEditPhotoCommand(object obj)

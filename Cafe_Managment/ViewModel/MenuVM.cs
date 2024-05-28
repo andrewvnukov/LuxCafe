@@ -275,7 +275,6 @@ namespace Cafe_Managment.ViewModel
 
             Categories = dishesRepository.GetAllCategories();
 
-            RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand);
 
 
             IsEnabled = false;
@@ -285,19 +284,19 @@ namespace Cafe_Managment.ViewModel
 
             //EditRowCommand = new RelayCommand(EditRow);
 
-            SaveRowCommand = new RelayCommand(ExecuteSaveRowCommand);
-            EditRowCommand = new RelayCommand(ExecuteEditRowCommand);
-            AddDishToArchiveCommand = new RelayCommand(ExecuteAddDishToArchiveCommand);
-            DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand);
-            TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand);
-
-            DeleteRowCommandMenu = new RelayCommand(ExecuteDeleteRowCommandMenu);
-            EditPriceCommandMenu = new RelayCommand(ExecuteEditPriceCommandMenu);
+            SaveRowCommand = new RelayCommand(ExecuteSaveRowCommand, CanAdministrate);
+            EditRowCommand = new RelayCommand(ExecuteEditRowCommand, CanAdministrate);
+            AddDishToArchiveCommand = new RelayCommand(ExecuteAddDishToArchiveCommand, CanAdministrate);
+            DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand, CanAdministrate);
+            TransferRowCommand = new RelayCommand(ExecuteTransferRowCommand, CanAdministrate);
+            RestoreDishCommand = new RelayCommand(ExecuteRestoreDishCommand, CanAdministrate);
+            DeleteRowCommandMenu = new RelayCommand(ExecuteDeleteRowCommandMenu, CanAdministrate);
+            EditPriceCommandMenu = new RelayCommand(ExecuteEditPriceCommandMenu, CanAdministrate);
 
             InfoCommandArchive = new RelayCommand(ExecuteInfoCommandArchive);
             InfoCommandMenu = new RelayCommand(ExecuteInfoCommandMenu);
 
-            SavePriceCommand = new RelayCommand(ExecuteSavePriceCommand);
+            SavePriceCommand = new RelayCommand(ExecuteSavePriceCommand, CanAdministrate);
             CloseWindowCommand = new RelayCommand(ExecuteCloseDialogCommand);
 
 
@@ -309,7 +308,11 @@ namespace Cafe_Managment.ViewModel
             ShowDishSuccessfullyDeletedCommandArchive = new RelayCommand(ExecuteShowDishSuccessfullyDeletedCommandArchive);
         }
 
-        
+        private bool CanAdministrate(object arg)
+        {
+            return (UserData.RoleId == 2);
+        }
+
         private Notifier CreateNotifier()
         {
             return new Notifier(cfg =>

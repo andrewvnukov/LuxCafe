@@ -33,7 +33,6 @@ namespace Cafe_Managment.Repositories
     {
         public int AuthenticateUser(NetworkCredential credential)
         {
-            int validUser = 2; // 2 - пользователь не найден
             MySqlConnection connection = null;
 
             try
@@ -56,17 +55,16 @@ namespace Cafe_Managment.Repositories
                             {
                                 return -1; 
                             }
-
                             bool isDismissed = reader.GetBoolean(3);
                             if (isDismissed)
                             {
                                 return 1; // 1 - сотрудник уволен
                             }
-
                             string storedPassword = reader.GetString(1); // Пароль из базы данных
                             string salt = reader.GetString(2); // Соль для пароля
 
                             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(credential.Password, storedPassword); // Проверка пароля
+
                             if (isPasswordValid)
                             {
                                 UserData.Id = reader.GetInt32(0); // Установить идентификатор

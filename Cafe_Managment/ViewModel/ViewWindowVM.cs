@@ -31,7 +31,15 @@ namespace Cafe_Managment.ViewModel
         Login login;
         Navigation navigation;
         Loading loading = new Loading();
-        public string Role { get; set; }
+
+        private string _role;
+        public string Role 
+        {
+            get { return _role; }
+            set { _role = value;
+                OnPropertyChanged(nameof(Role));
+            }
+        }
 
 
         private string _employeeFullName;
@@ -120,7 +128,7 @@ namespace Cafe_Managment.ViewModel
         public ViewWindowVM()
         {
 
-            
+            userRepository = new UserRepository();
             CloseAppCommand = new RelayCommand(CloseApp);
             MaximizeCommand = new RelayCommand(MaxWindow);
             MinimizeCommand = new RelayCommand(MinWindow);
@@ -142,21 +150,9 @@ namespace Cafe_Managment.ViewModel
                 AuthUser(); // Вызываем AuthUser только если пользователь не аутентифицирован
             }
 
-            userRepository = new UserRepository();
-            CurrentData = new EmpData
-            {
-                Name = UserData.Name,
-                Surname = UserData.Surname,
-                Patronomic = UserData.Patronomic,
-                Address = UserData.Address,
-                Email = UserData.Email,
-                BirthDay = UserData.BirthDay,
-                PhoneNumber = UserData.PhoneNumber,
-                CreatedAt = UserData.CreatedAt,
-                ProfileImage = UserData.ProfileImage
-            };
-            EmployeeFullName = UserData.Surname +" "+ UserData.Name + " " + UserData.Patronomic;
-            Role = userRepository.GetRoleById(UserData.RoleId);
+           
+            
+            
 
         }
 
@@ -185,6 +181,20 @@ namespace Cafe_Managment.ViewModel
             
             
             navigation = new Navigation();
+            CurrentData = new EmpData
+            {
+                Name = UserData.Name,
+                Surname = UserData.Surname,
+                Patronomic = UserData.Patronomic,
+                Address = UserData.Address,
+                Email = UserData.Email,
+                BirthDay = UserData.BirthDay,
+                PhoneNumber = UserData.PhoneNumber,
+                CreatedAt = UserData.CreatedAt,
+                ProfileImage = UserData.ProfileImage
+            };
+            EmployeeFullName = UserData.Surname + " " + UserData.Name + " " + UserData.Patronomic + " |";
+            Role = userRepository.GetRoleById(UserData.RoleId);
             ActiveWindow = navigation;
             ResizeMode = ResizeMode.CanResize;
             CanResize = true;

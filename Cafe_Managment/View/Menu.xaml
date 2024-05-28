@@ -69,7 +69,6 @@
                                         <StackPanel Orientation="Horizontal" Width="auto">
                                            
                                             <Button Style="{StaticResource GridRemoveButton}"
-                                                    Click="Button_Click"
                                                     Command="{Binding DataContext.SaveRowCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:MenuVM/>
@@ -379,12 +378,9 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" Width="29" Margin="4 0 0 0">
-                                                    <Button Style="{StaticResource GridEditButton}"  
+                                            <Button Style="{StaticResource GridEditButton}"  
                                                         Command="{Binding DataContext.RestoreDishCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
-                                                        <Button.DataContext>
-                                                            <vn:DeletedDataVM/>
-                                                        </Button.DataContext>
-                                                        <Icon:PackIconMaterial Kind="BackupRestore" Style="{StaticResource gridButtonIcon}"/>
+                                                <Icon:PackIconMaterial Kind="BackupRestore" Style="{StaticResource gridButtonIcon}"/>
                                                     </Button>
 
                                                 </StackPanel>

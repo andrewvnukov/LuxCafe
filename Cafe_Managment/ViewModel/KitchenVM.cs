@@ -194,7 +194,6 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-
         private void ExecuteCloseOrderCommand(object obj)
         {
             var selectedCheque = temp[SelectedCheque];
@@ -329,25 +328,39 @@ namespace Cafe_Managment.ViewModel
             switch (currentDish.Status)
             {
                 case 0:
-                    currentDish.Status += 1;
-                    dishesRepository.UpdateStatus(currentDish);
+                    if (UserData.RoleId == 5)
+                    {
+                        currentDish.Status += 1;
+                        dishesRepository.UpdateStatus(currentDish);
+                    }
+                    else
+                    {
+                        _notifier.ShowError("К сожалению ваша должность не позволяет вам это сделать");
+                    }
 
                     break;
 
                 case 1:
-                    currentDish.Status += 1;
-
-                    if (currentDish.Count > 1)
+                    if (UserData.RoleId == 6)
                     {
-                        currentDish.Count -= 1;
-                        currentDish.Status = 0;
+                        currentDish.Status += 1;
 
+                        if (currentDish.Count > 1)
+                        {
+                            currentDish.Count -= 1;
+                            currentDish.Status = 0;
+
+                        }
+                        else if (currentDish.Count == 1)
+                        {
+                            currentDish.Status = 2; // Устанавливаем статус "готово"
+                                                    // Обновляем статус блюда в базе данных
+                            dishesRepository.UpdateStatus(currentDish);
+                        }
                     }
-                    else if (currentDish.Count == 1)
+                    else
                     {
-                        currentDish.Status = 2; // Устанавливаем статус "готово"
-                                                // Обновляем статус блюда в базе данных
-                        dishesRepository.UpdateStatus(currentDish);
+                        _notifier.ShowError("К сожалению ваша должность не позволяет вам это сделать");
                     }
                     break;
 

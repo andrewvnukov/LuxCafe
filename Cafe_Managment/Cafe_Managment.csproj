@@ -179,7 +179,6 @@
     <Compile Include="Repositories\DishesRepository.cs" />
     <Compile Include="Repositories\StatisticsRepository.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
-    <Compile Include="ViewModel\DeletedDataVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\NewDishVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\UpdatePriceVM.cs" />
@@ -220,7 +219,6 @@
     <Compile Include="Utilities\ButtonControl.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
-    <Compile Include="ViewModel\DishVM.cs" />
     <Compile Include="ViewModel\EmployeeVM.cs" />
     <Compile Include="ViewModel\KitchenVM.cs" />
     <Compile Include="ViewModel\MenuVM.cs" />
@@ -228,9 +226,6 @@
     <Compile Include="ViewModel\OrderVM.cs" />
     <Compile Include="ViewModel\ProfileVM.cs" />
     <Compile Include="ViewModel\StatisticVM.cs" />
-    <Compile Include="View\Dishes.xaml.cs">
-      <DependentUpon>Dishes.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Employees.xaml.cs">
       <DependentUpon>Employees.xaml</DependentUpon>
     </Compile>
@@ -348,10 +343,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Utilities\DataTemplate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Dishes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

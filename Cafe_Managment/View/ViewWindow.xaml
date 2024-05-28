@@ -14,7 +14,8 @@
         Title="Staffee" 
         ResizeMode="{Binding ResizeMode}"
         Height="{Binding WindowHeight, Mode=TwoWay}" 
-        Width="{Binding WindowWidth, Mode=TwoWay}">
+        Width="{Binding WindowWidth, Mode=TwoWay}"
+        MaxHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}}">
 
     <Window.DataContext>
         <vm:ViewWindowVM/>
@@ -80,16 +81,10 @@
                                Foreground="#EEEEEE"
                                FontWeight="DemiBold"
                                FontSize="14"
-                               Margin="0 0 20 0"/>
-                    <!--<TextBlock Text="|" 
+                               Margin="0 0 5 0"/>
+
+                    <TextBlock Text="{Binding Role}" 
                                VerticalAlignment="Center"
-                               Margin="7 0 7 0"
-                               Foreground="#EEEEEE"
-                               FontWeight="DemiBold"
-                               FontSize="14"/>-->
-                    <TextBlock Text="{Binding Role, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                               VerticalAlignment="Center"
-                              
                                Foreground="#EEEEEE"
                                FontWeight="DemiBold"
                                FontSize="14"/>

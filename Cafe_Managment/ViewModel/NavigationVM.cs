@@ -50,25 +50,21 @@ namespace Cafe_Managment.ViewModel
             }
         }
 
-        public ICommand DishCommand { get; set; }
         public ICommand EmployeeCommand { get; set; }
         public ICommand KitchenCommand { get; set; }
         public ICommand MenuCommand { get; set; }
         public ICommand OrderCommand { get; set; }
         public ICommand ProfileCommand { get; set; }
         public ICommand StatisticCommand { get; set; }
-        public ICommand DeletedDataCommand { get; set; }
         public ICommand CloseTabCommand { get; set; }
         public ICommand ReturnCommand { get; set; }
 
-        private void Dish(object obj) => CurrentView = new DishVM();
         private void Employee(object obj) => CurrentView = new EmployeeVM();
         private void Kitchen(object obj) => CurrentView = new KitchenVM();
         private void Menu(object obj) => CurrentView = new MenuVM();
         private void Profile(object obj) => CurrentView = new ProfileVM();
         private void Order(object obj) => CurrentView = new OrderVM();
         private void Statistic(object obj) => CurrentView = new StatisticVM();
-        private void DeletedData(object obj) => CurrentView = new DeletedDataVM(); 
 
 
         public NavigationVM()
@@ -77,14 +73,12 @@ namespace Cafe_Managment.ViewModel
             userRepository = new UserRepository();
             LoadCurrentUserData();
 
-            DishCommand = new RelayCommand(Dish, CanGoDish);
             EmployeeCommand = new RelayCommand(Employee, CanGoEmployee);
-            KitchenCommand = new RelayCommand(Kitchen, CanGoKitchen);
-            MenuCommand = new RelayCommand(Menu, CanGoMenu);
-            OrderCommand = new RelayCommand(Order);
+            KitchenCommand = new RelayCommand(Kitchen);
+            MenuCommand = new RelayCommand(Menu);
+            OrderCommand = new RelayCommand(Order, CanGoOrder);
             ProfileCommand = new RelayCommand(Profile);
             StatisticCommand = new RelayCommand(Statistic, CanGoStatistic);
-            DeletedDataCommand = new RelayCommand(DeletedData);
 
             ReturnCommand = new RelayCommand(ExecuteReturnCommand);
             CloseTabCommand = new RelayCommand(ExecuteCloseTabCommand);
@@ -93,11 +87,15 @@ namespace Cafe_Managment.ViewModel
             CurrentView = new HelloPage();
         }
 
-
+        private bool CanGoOrder(object arg)
+        {
+            return (UserData.RoleId == 7 ||
+                UserData.RoleId == 6);
+        }
 
         private void ExecuteCloseTabCommand(object obj)
         {
-            IsMenuHidden = IsMenuHidden == false;
+            IsMenuHidden = !IsMenuHidden;
         }
 
         private void LoadCurrentUserData()
@@ -105,42 +103,14 @@ namespace Cafe_Managment.ViewModel
             userRepository.GetById();
         }
 
-        private bool CanGoBar(object arg)
-        {
-            bool CanGoBar = false;
-            if (UserData.RoleId == 1 ||
-                UserData.RoleId == 2 || UserData.RoleId == 7 ||
-                UserData.RoleId == 3) CanGoBar = true;
-            return CanGoBar;
-        }
-
         private bool CanGoStatistic(object arg)
         {
-            bool CanGoStatistic = false;
-            if(UserData.RoleId == 1 || 
+            return (UserData.RoleId == 1 ||
                 UserData.RoleId == 2 || UserData.RoleId == 7 ||
-                UserData.RoleId == 3) CanGoStatistic = true;
-            return CanGoStatistic;
+                UserData.RoleId == 3);
         }
 
-        private bool CanGoMenu(object arg)
-        {
-            bool CanGoMenu = false;
-            if (UserData.RoleId == 1 ||
-                UserData.RoleId == 2 || UserData.RoleId == 7 ||
-                UserData.RoleId == 3) CanGoMenu = true;
-            return CanGoMenu;
-        }
 
-        private bool CanGoKitchen(object arg)
-        {
-            bool CanGoKitchen = false;
-            if (UserData.RoleId == 1 ||
-                UserData.RoleId == 2 || UserData.RoleId == 7 ||
-                UserData.RoleId == 3 ||
-                UserData.RoleId == 4) CanGoKitchen = true;
-            return CanGoKitchen;
-        }
 
         private bool CanGoEmployee(object arg)
         {
@@ -151,16 +121,6 @@ namespace Cafe_Managment.ViewModel
             return CanGoEmployee;
         }
 
-        private bool CanGoDish(object arg)
-        {
-            bool CanGoDish = false;
-            if(UserData.RoleId == 1 ||
-                UserData.RoleId == 2 || UserData.RoleId == 7 ||
-                UserData.RoleId == 3) CanGoDish=true;
-            return CanGoDish;
-        }
-
-        
 
         private void ExecuteReturnCommand(object obj)
         {
