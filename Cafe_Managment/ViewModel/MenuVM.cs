@@ -250,7 +250,6 @@ namespace Cafe_Managment.ViewModel
        
         public MenuVM()
         {
-            CanEditColumns = false; // Переключаем состояние
 
             dishesRepository = new DishesRepository();
             //tempArchive = dishesRepository.GetAllDishesFromArchive();
@@ -310,7 +309,7 @@ namespace Cafe_Managment.ViewModel
 
         private bool CanAdministrate(object arg)
         {
-            return (UserData.RoleId == 2);
+            return (UserData.RoleId == 2 || UserData.RoleId == 7);
         }
 
         private Notifier CreateNotifier()
@@ -702,14 +701,16 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteEditRowCommand(object obj)
         {
-            Menu.AcceptChanges();
-            CanEditColumns = false; // Переключаем состояние
+            //Menu.AcceptChanges();
+            //CanEditColumns = false; // Переключаем состояние
 
-            OnPropertyChanged(nameof(CanEditColumns)); // Убедитесь, что этот вызов здесь
-            Debug.WriteLine("ToggleEditMode called."); // Проверка
-            tempArchive = Menu; // Сохранение текущего значения
-            Menu = null; // Сброс
-            Menu = tempArchive; 
+            //OnPropertyChanged(nameof(CanEditColumns)); // Убедитесь, что этот вызов здесь
+            //Debug.WriteLine("ToggleEditMode called."); // Проверка
+            //tempArchive = Menu; // Сохранение текущего значения
+            //Menu = null; // Сброс
+            //Menu = tempArchive; 
+            IsReadOnly = !IsReadOnly;
+
         }
 
         private void ExecuteInfoCommandArchive(object obj)

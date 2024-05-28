@@ -103,9 +103,9 @@ namespace Cafe_Managment.Repositories
                       d.Title AS 'Название',
                       d.Description AS 'Описание', 
                       d.Composition AS 'Состав',
-                      d.CreatedAt AS 'Дата добавления', 
-                      d.UpdatedAt AS 'Дата последнего обновления',
-                      d.DeletedAt AS 'Дата удаления' 
+                      d.CreatedAt AS 'ДатаДобавления', 
+                      d.UpdatedAt AS 'ДатаПоследнегоОбновления',
+                      d.DeletedAt AS 'ДатаУдаления' 
                 FROM deleted_dishes d
                 INNER JOIN categories c ON d.CategoryId = c.Id";
 
