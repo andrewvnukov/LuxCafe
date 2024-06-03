@@ -182,7 +182,6 @@ namespace Cafe_Managment.ViewModel
                 _notifier.ShowError("Некорректные данные.");
                 return;
             }
-
             int EmpId;
             if (!int.TryParse(dataRowView.Row[0].ToString(), out EmpId))
             {
@@ -230,7 +229,6 @@ namespace Cafe_Managment.ViewModel
             _notifier.ShowSuccess($"Данные сотрудника {fullName} успешно изменены!");
             IsReadOnly = true;
         }
-
 
         private void ExecuteEditCommand(object obj)
         {

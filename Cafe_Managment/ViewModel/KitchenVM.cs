@@ -328,20 +328,20 @@ namespace Cafe_Managment.ViewModel
             switch (currentDish.Status)
             {
                 case 0:
-                    if (UserData.RoleId == 5)
+                    if (UserData.RoleId == 5 || UserData.RoleId ==7)
                     {
                         currentDish.Status += 1;
                         dishesRepository.UpdateStatus(currentDish);
                     }
                     else
                     {
-                        _notifier.ShowError("К сожалению ваша должность не позволяет вам это сделать");
+                        _notifier.ShowError("Только повара могут отмечать факт готовности блюда!");
                     }
 
                     break;
 
                 case 1:
-                    if (UserData.RoleId == 6)
+                    if (UserData.RoleId == 6 || UserData.RoleId == 7)
                     {
                         currentDish.Status += 1;
 
@@ -360,7 +360,7 @@ namespace Cafe_Managment.ViewModel
                     }
                     else
                     {
-                        _notifier.ShowError("К сожалению ваша должность не позволяет вам это сделать");
+                        _notifier.ShowError("Только официанты могут отмечать факт выдачи блюда!");
                     }
                     break;
 

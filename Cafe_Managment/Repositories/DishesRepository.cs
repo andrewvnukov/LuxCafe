@@ -45,16 +45,16 @@ namespace Cafe_Managment.Repositories
                 {
                     connection.Open(); // Открытие соединения
                     command.Connection = connection;
-
+                    //ROW_NUMBER() OVER() AS '№'
                     command.CommandText = @"
-                SELECT ROW_NUMBER() OVER() AS '№',
+                SELECT
                       d.Id,
-                      c.Title AS 'Раздел',
-                      d.Title AS 'Название',
-                      d.Description AS 'Описание', 
-                      d.Composition AS 'Состав',
-                      d.CreatedAt AS 'ДатаДобавления', 
-                      d.UpdatedAt AS 'ДатаПоследнегоОбновления' 
+                      c.Title AS 'Category',
+                      d.Title AS 'Denomination',
+                      d.Description, 
+                      d.Composition,
+                      d.CreatedAt, 
+                      d.UpdatedAt
                 FROM disharchive d
                 INNER JOIN categories c ON d.CategoryId = c.Id";
 
@@ -95,17 +95,17 @@ namespace Cafe_Managment.Repositories
                 {
                     connection.Open(); // Открытие соединения
                     command.Connection = connection;
-
+                    //ROW_NUMBER() OVER() AS '№'
                     command.CommandText = @"
-                SELECT ROW_NUMBER() OVER() AS '№',
+                SELECT
                       d.Id,
-                      c.Title AS 'Раздел',
-                      d.Title AS 'Название',
-                      d.Description AS 'Описание', 
-                      d.Composition AS 'Состав',
-                      d.CreatedAt AS 'ДатаДобавления', 
-                      d.UpdatedAt AS 'ДатаПоследнегоОбновления',
-                      d.DeletedAt AS 'ДатаУдаления' 
+                      c.Title AS 'Category',
+                      d.Title AS 'Denomination',
+                      d.Description, 
+                      d.Composition,
+                      d.CreatedAt, 
+                      d.UpdatedAt,
+                      d.DeletedAt 
                 FROM deleted_dishes d
                 INNER JOIN categories c ON d.CategoryId = c.Id";
 
@@ -205,16 +205,16 @@ namespace Cafe_Managment.Repositories
                     command.Connection = connection;
 
                     // Команда SQL для получения данных
-                    command.CommandText = $@"
-                SELECT ROW_NUMBER() OVER() AS '№',
+                    command.CommandText =
+                        $@" SELECT 
                 am.Id,
-                c.Title AS 'Раздел', 
-                da.Title AS 'Название',
-                da.Description AS 'Описание', 
-                da.Composition AS 'Состав',
-                am.Price AS 'Стоимость',                                     
-                am.TransferedAt AS 'ДатаДобавления',
-                am.UpdatedAt AS 'ДатаОбновленияЦены'
+                c.Title AS 'Category',
+                da.Title AS 'Denomination',
+                da.Description, 
+                da.Composition,
+                am.Price,                                     
+                am.TransferedAt,
+                am.UpdatedAt
                 FROM activemenu am
                 INNER JOIN disharchive da ON am.DishId = da.Id
                 INNER JOIN categories c ON da.CategoryId = c.Id
@@ -965,7 +965,7 @@ namespace Cafe_Managment.Repositories
                     using (var command = new MySqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = "UPDATE Orders SET TotalPrice = TotalPrice + @AmountToAdd, UpdatedAt = NOW() WHERE Id = @OrderId";
+                        command.CommandText = "UPDATE orders SET TotalPrice = TotalPrice + @AmountToAdd, UpdatedAt = NOW() WHERE Id = @OrderId";
                         command.Parameters.AddWithValue("@AmountToAdd", totalPrice);
                         command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
                         command.Parameters.AddWithValue("@OrderId", Id);

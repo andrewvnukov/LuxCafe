@@ -43,7 +43,7 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT Id, Password, Salt, IsDismissed FROM Employees WHERE Login = @Username";
+                    command.CommandText = "SELECT Id, Password, Salt, IsDismissed FROM employees WHERE Login = @Username";
                     command.Parameters.AddWithValue("@Username", credential.UserName);
 
                     using (var reader = command.ExecuteReader())
@@ -113,24 +113,12 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = @"SELECT 
-                                    ROW_NUMBER() OVER() AS '№',
-                                    c.Address AS 'Филиал', 
-                                    r.Title AS 'Должность', 
-                                    e.Name AS 'Имя', 
-                                    e.Surname AS 'Фамилия', 
-                                    e.Patronomic AS 'Отчество', 
-                                    e.PhoneNumber AS 'НомерТелефона', 
-                                    e.Email AS 'Почта', 
-                                    DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения', 
-                                    e.Login AS 'Логин',
-                                    e.Address AS 'Адрес',
-                                    e.DeletedAt AS 'ДатаУвольнения',
-                                    e.CreatedAt AS 'ДатаНайма',
-                                    e.IsDismissed AS 'Уволен'
+                    //ROW_NUMBER() OVER() AS '№'
+                    command.CommandText =
+                        @"SELECT c.Address, r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.DeletedAt, e.CreatedAt, e.IsDismissed
                                 FROM dismissed_employees e 
-                                INNER JOIN Roles r ON e.RoleId = r.Id
-                                INNER JOIN Branches c ON e.BranchId = c.Id";
+                                INNER JOIN roles r ON e.RoleId = r.Id
+                                INNER JOIN branches c ON e.BranchId = c.Id";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                     adapter.Fill(dataTable); // Заполняем DataTable
@@ -272,21 +260,12 @@ namespace Cafe_Managment.Repositories
 
                 using (var command = new MySqlCommand())
                 {
+                    //ROW_NUMBER() OVER() AS '№'
                     command.Connection = connection;
-                    command.CommandText = @"SELECT ROW_NUMBER() OVER() AS '№',
-                                e.Id,
-                                c.Address AS 'Филиал', r.Title AS 'Должность', 
-                                e.Name AS 'Имя', e.Surname AS 'Фамилия', 
-                                e.Patronomic AS 'Отчество', e.PhoneNumber AS 'НомерТелефона', 
-                                e.Email AS 'Почта', DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'ДатаРождения',
-                                e.Login AS 'Логин',
-                                e.Address AS 'Адрес',
-                                e.UpdatedAt AS 'ДатаОбновления',
-                                e.CreatedAt AS 'ДатаНайма',
-                                e.ProfileImage
-                        FROM Employees e 
-                        INNER JOIN Roles r ON e.RoleId = r.Id
-                        INNER JOIN Branches c ON e.BranchId = c.Id";
+                    command.CommandText = @"SELECT e.Id, c.Address, r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.UpdatedAt, e.CreatedAt, e.ProfileImage
+                        FROM employees e 
+                        INNER JOIN roles r ON e.RoleId = r.Id
+                        INNER JOIN branches c ON e.BranchId = c.Id";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                     adapter.Fill(dataTable);
@@ -294,22 +273,22 @@ namespace Cafe_Managment.Repositories
                     // Удаление времени из даты рождения
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        DateTime birthDay = DateTime.Parse(row["ДатаРождения"].ToString());
-                        row["ДатаРождения"] = birthDay.ToShortDateString();
+                        DateTime birthDay = DateTime.Parse(row["BirthDay"].ToString());
+                        row["BirthDay"] = birthDay.ToShortDateString();
                     }
                 }
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show($"Ошибка базы данных: {ex.Message}");
+                Debug.WriteLine($"Ошибка базы данных: {ex.Message}");
             }
             catch (FormatException ex)
             {
-                MessageBox.Show($"Ошибка преобразования данных: {ex.Message}");
+                Debug.WriteLine($"Ошибка преобразования данных: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Произошла непредвиденная ошибка: {ex.Message}");
+                Debug.WriteLine($"Произошла непредвиденная ошибка: {ex.Message}");
             }
             finally
             {
@@ -336,7 +315,7 @@ namespace Cafe_Managment.Repositories
                 {
                     command.Connection = connection;
                     command.CommandText = "SELECT RoleId, BranchId, CreatedAt, Name, Surname, Patronomic, " +
-                        "PhoneNumber, Email, BirthDay, Address, ProfileImage FROM Employees WHERE Id = @userId";
+                        "PhoneNumber, Email, BirthDay, Address, ProfileImage FROM employees WHERE Id = @userId";
                     command.Parameters.AddWithValue("userId", UserData.Id);
 
                     using (var reader = command.ExecuteReader())
@@ -411,7 +390,7 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "INSERT IGNORE INTO AutorizedDevices VALUES (@Mac, @UserId)";
+                    command.CommandText = "INSERT IGNORE INTO autorizeddevices VALUES (@Mac, @UserId)";
                     command.Parameters.AddWithValue("@Mac", macAddress);
                     command.Parameters.AddWithValue("@UserId", UserData.Id);
 
@@ -497,7 +476,7 @@ namespace Cafe_Managment.Repositories
                     connection.Open();
 
                     command.Connection = connection;
-                    command.CommandText = "SELECT EmployeeId FROM AutorizedDevices WHERE DeviceMac=@Mac";
+                    command.CommandText = "SELECT EmployeeId FROM autorizeddevices WHERE DeviceMac=@Mac";
                     command.Parameters.AddWithValue("Mac", mac);
 
                     using (var reader = command.ExecuteReader())
@@ -585,7 +564,7 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT Title FROM Roles WHERE Id = @RoleId";
+                    command.CommandText = "SELECT Title FROM roles WHERE Id = @RoleId";
                     command.Parameters.AddWithValue("RoleId", roleId);
 
                     using (var reader = command.ExecuteReader())

@@ -17,20 +17,21 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <vm:KitchenVM x:Key="KitchenVM"/>
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-    <Grid>
+
+        <Grid>
         <TextBlock Text="{Binding EmptyMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    Style="{DynamicResource Text_Headline2}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
 
-        <Grid>
+            <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-           
+            
 
             <StackPanel Visibility="{Binding IsChequesVisible, Converter={StaticResource BoolToVis}}" Grid.Row="1">
                 <TextBlock Text="Активные заказы" Style="{DynamicResource Text_Headline1}"/>
@@ -40,12 +41,10 @@
                         Command="{Binding ReloadCommand}">
                     <lvc:PackIconMaterial Kind="Refresh" Foreground="{DynamicResource NormalTextColor1}"/>
                 </Button>
-                
                 <ListBox ItemsSource="{Binding Cheques, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                          SelectedIndex="{Binding SelectedCheque, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="10"
                          HorizontalAlignment="Left">
-                    
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Template">
@@ -64,8 +63,8 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.Template>
                         <ControlTemplate>
-                                <WrapPanel IsItemsHost="True" ItemWidth="auto" ItemHeight="auto"/>
-                            </ControlTemplate>
+                            <WrapPanel IsItemsHost="True" ItemWidth="auto" ItemHeight="auto"/>
+                        </ControlTemplate>
                     </ListBox.Template>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -79,7 +78,8 @@
                                 <Border.Background>
                                     <SolidColorBrush Color="#6C8DBF"/>
                                 </Border.Background>
-                                <Grid>
+                        
+                                    <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="45"/>
                                         <RowDefinition Height="35"/>
@@ -89,25 +89,20 @@
                                     <Border BorderThickness="0 0 0 2" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="0"/>
                                     <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="3"/>
                                     <Border BorderThickness="0 2 0 0" BorderBrush="#EEEEEE" Background="Transparent" Grid.Row="2"/>
-                                    <Grid Grid.Row="0" HorizontalAlignment="Center" Width="400">
-                                        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5">
-                                            <TextBlock Text="Заказ №" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="25"/>
-                                            <TextBlock Text="{Binding Id}" Style="{DynamicResource Text_Headline3}" Foreground="White" FontSize="25" Margin="0 0 20 0"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5">
-                                            <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="0 -3 0 0" Background="Transparent" BorderBrush="Transparent"
+
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 5 0">
+                                        <TextBlock Text="Заказ №" Style="{DynamicResource Default_Text}" Foreground="White" FontSize="25"/>
+                                        <TextBlock Text="{Binding Id}" Style="{DynamicResource Text_Headline3}" Foreground="White" FontSize="25" Margin="0 0 180 0"/>
+                                        <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="0 -3 0 0" Background="Transparent" BorderBrush="Transparent"
                                                 Command="{Binding DataContext.OpenOrderPageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                                <lvc:PackIconMaterial Kind="PenPlus" Foreground="White"/>
-                                            </Button>
-                                            <Button Style="{DynamicResource GridDeleteButton}"
-                                                HorizontalAlignment="Right" Margin="20 -3 0 0"
-                                                Background="Transparent" BorderBrush="Transparent"
+                                            <lvc:PackIconMaterial Kind="PenPlus" Foreground="White"/>
+                                        </Button>
+                                        <Button Style="{DynamicResource GridDeleteButton}" HorizontalAlignment="Right" Margin="20 -3 10 0" Background="Transparent" BorderBrush="Transparent"
                                                 Command="{Binding DataContext.CloseOrderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}">
-                                                <lvc:PackIconMaterial Kind="Close" Foreground="Red"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-                                        <Grid Grid.Row="1">
+                                            <lvc:PackIconMaterial Kind="Close" Foreground="Red"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <Grid Grid.Row="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*"/>
@@ -196,21 +191,24 @@
                                         <TextBlock Text="{Binding FormattedWaitingTime}" Style="{DynamicResource Default_Text}" Foreground="{Binding TimerForegroundColor}" FontSize="20" Margin="5 0 0 0"/>
                                     </StackPanel>
                                 </Grid>
+
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
 
-            <ContentControl Content="{Binding CurrentOrder}" Grid.Row="1" Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"/>
-            <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"
-                    Style="{StaticResource DefaultButton}"
-                    Content="Назад"
-                    VerticalAlignment="Bottom"
-                    Command="{Binding OrderToInvis}"
-                    HorizontalAlignment="Right"
-                    Grid.Row="0"/>
+
         </Grid>
-    </Grid>
     </ScrollViewer>
+        <ContentControl Content="{Binding CurrentOrder}" Grid.Row="1" Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"/>
+        <Button Visibility="{Binding IsOrderVisible, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource DefaultButton}"
+                    Content="назад"
+                    VerticalAlignment="Top"
+                    Command="{Binding OrderToInvis}"
+                    HorizontalAlignment="Left"
+                    Grid.Row="0"/>
+    </Grid>
+
 </UserControl>

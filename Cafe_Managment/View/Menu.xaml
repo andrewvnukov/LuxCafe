@@ -106,12 +106,12 @@
                             <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Раздел}" />
+                                        <TextBlock Text="{Binding Category}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Раздел, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -119,12 +119,12 @@
                             <DataGridTemplateColumn Header="Название" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Название}" />
+                                        <TextBlock Text="{Binding Denomination}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Название, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Denomination, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -133,14 +133,14 @@
                             <DataGridTemplateColumn Header="Описание" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Описание}" 
+                                        <TextBlock Text="{Binding Description}" 
                                                    MaxWidth="300"
                                                     TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  MaxWidth="300"
                                                     TextWrapping="Wrap"/>
                                     </DataTemplate>
@@ -150,12 +150,12 @@
                             <DataGridTemplateColumn Header="Состав" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Состав}" />
+                                        <TextBlock Text="{Binding Composition}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Состав, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -164,12 +164,12 @@
                             <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаДобавления}" />
+                                        <TextBlock Text="{Binding CreatedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаДобавления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -177,12 +177,12 @@
                             <DataGridTemplateColumn Header="Дата последнего обновления" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаПоследнегоОбновления}" />
+                                        <TextBlock Text="{Binding UpdatedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаПоследнегоОбновления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding UpdatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -260,12 +260,12 @@
                             <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Раздел}" />
+                                        <TextBlock Text="{Binding Category}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Раздел, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -273,12 +273,12 @@
                             <DataGridTemplateColumn Header="Название" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Название}" />
+                                        <TextBlock Text="{Binding Denomination}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Название, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Denomination, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -287,14 +287,14 @@
                             <DataGridTemplateColumn Header="Описание" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Описание}" 
+                                        <TextBlock Text="{Binding Description}" 
                                                    MaxWidth="300"
                                                    TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -302,12 +302,12 @@
                             <DataGridTemplateColumn Header="Состав" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Состав}" />
+                                        <TextBlock Text="{Binding Composition}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Состав, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -316,12 +316,12 @@
                             <DataGridTemplateColumn Header="Цена" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Стоимость}" />
+                                        <TextBlock Text="{Binding Price}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Стоимость, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -330,12 +330,12 @@
                             <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаДобавления}" />
+                                        <TextBlock Text="{Binding CreatedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаДобавления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -343,12 +343,12 @@
                             <DataGridTemplateColumn Header="Дата обновления цены" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаОбновленияЦены}" />
+                                        <TextBlock Text="{Binding UpdatedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаОбновленияЦены, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding UpdatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -402,12 +402,12 @@
                             <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Раздел}" />
+                                        <TextBlock Text="{Binding Category}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Раздел, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -415,12 +415,12 @@
                             <DataGridTemplateColumn Header="Название" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Название}" />
+                                        <TextBlock Text="{Binding Denomination}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Название, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Denomination, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -429,14 +429,14 @@
                             <DataGridTemplateColumn Header="Описание" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Описание}" 
+                                        <TextBlock Text="{Binding Composition}" 
                                                    MaxWidth="300"
                                                    TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Описание, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -444,12 +444,12 @@
                             <DataGridTemplateColumn Header="Состав" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Состав}" />
+                                        <TextBlock Text="{Binding Composition}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Состав, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        <TextBox Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
          IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
@@ -458,12 +458,12 @@
                             <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаДобавления}" />
+                                        <TextBlock Text="{Binding CreatedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаДобавления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -471,12 +471,12 @@
                             <DataGridTemplateColumn Header="Дата последнего обновления" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаПоследнегоОбновления}" />
+                                        <TextBlock Text="{Binding UpdatedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаПоследнегоОбновления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding UpdatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -484,12 +484,12 @@
                             <DataGridTemplateColumn Header="Дата удаления" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ДатаУдаления}" />
+                                        <TextBlock Text="{Binding DeletedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding ДатаУдаления, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding DeletedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>

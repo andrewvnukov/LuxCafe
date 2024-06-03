@@ -48,7 +48,7 @@ namespace Cafe_Managment.Repositories
                                         e.Address AS 'Адрес' 
                                 FROM dismissed_employees e 
                                 INNER JOIN Roles r ON e.RoleId = r.Id
-                                INNER JOIN Branches c ON e.BranchId = c.Id";
+                                INNER JOIN branches c ON e.BranchId = c.Id";
 
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 adapter.Fill(dataTable);
