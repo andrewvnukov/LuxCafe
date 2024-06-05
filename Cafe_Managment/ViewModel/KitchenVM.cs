@@ -117,6 +117,7 @@ namespace Cafe_Managment.ViewModel
         }
 
         private DateTime _creationTime;
+        private DispatcherTimer _otherTimer;
 
         public DateTime CreationTime
         {
@@ -142,6 +143,10 @@ namespace Cafe_Managment.ViewModel
             _timer.Tick += Timer_Tick; // Добавляем обработчик события таймера
             _timer.Start();
 
+            _otherTimer = new DispatcherTimer();
+            _otherTimer.Interval = TimeSpan.FromSeconds(7);
+            _otherTimer.Tick += OtherTimer_Tick; // Подписываемся на событие Tick
+            _otherTimer.Start();
             _notifier = CreateNotifier();
 
             dishesRepository = new DishesRepository();
@@ -156,6 +161,11 @@ namespace Cafe_Managment.ViewModel
             UpdateLists(1);
         }
 
+        private void OtherTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateLists(1);
+        }
+
         public void ExecuteOrderToInvis(object obj)
         {
             // Переключаем видимость заказов
@@ -167,11 +177,24 @@ namespace Cafe_Managment.ViewModel
 
         private void OpenOrderPage(object obj)
         {
-            UserData.OrderId = temp[SelectedCheque].Id;
-            CurrentOrder = new OrderVM();
+            // Проверяем, является ли пользователь поваром или администратором
+            bool isWaiterOrAdmin = UserData.RoleId == 6
+                || UserData.RoleId == 7
+                ;
 
-            IsOrderVisible = !IsOrderVisible;
-            IsChequesVisible = !IsChequesVisible;
+            if (isWaiterOrAdmin)
+            {
+                UserData.OrderId = temp[SelectedCheque].Id;
+                CurrentOrder = new OrderVM();
+
+                IsOrderVisible = !IsOrderVisible;
+                IsChequesVisible = !IsChequesVisible;
+            }
+            else
+            {
+                // Если пользователь не является поваром или администратором, выдаем сообщение об ошибке
+                _notifier.ShowError("Только официанты могут добавлять блюда в заказ.");
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -201,18 +224,26 @@ namespace Cafe_Managment.ViewModel
             // Проверяем, есть ли не готовые блюда
             bool hasUnreadyDishes = selectedCheque.dishes.Any(d => d.Status != 2);
 
+            // Проверяем, является ли пользователь поваром
+            bool isWaiter = UserData.RoleId == 6
+                || UserData.RoleId == 7
+                ;
+
             if (hasUnreadyDishes)
             {
                 // Если есть не готовые блюда, выдаем сообщение и не закрываем заказ
                 _notifier.ShowError($"Нельзя закрыть заказ № {selectedCheque.Id}, пока не все блюда готовы и выданы!");
+            }
+            else if (!isWaiter)
+            {
+                // Если пользователь не является поваром, выдаем сообщение об ошибке
+                _notifier.ShowError("Только официанты могут закрывать заказ.");
             }
             else
             {
                 // Иначе, все блюда готовы, можно закрыть заказ
                 dishesRepository.IsOrderReady(selectedCheque);
                 Cheques = dishesRepository.GetActiveOrders();
-                //ОСТАНАВЛИВАТЬ ТАЙМЕР???
-               //_timer.Stop();
                 UpdateLists(1);
                 _notifier.ShowSuccess($"Заказ № {selectedCheque.Id} успешно выполнен и закрыт!");
             }
@@ -223,7 +254,7 @@ namespace Cafe_Managment.ViewModel
             return new Notifier(cfg =>
             {
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromSeconds(10),
                     MaximumNotificationCount.FromCount(5));
 
                 cfg.PositionProvider = new PrimaryScreenPositionProvider(
@@ -251,7 +282,7 @@ namespace Cafe_Managment.ViewModel
                     Cheques = new ObservableCollection<ChequeModel>(temp);
                     if (Cheques.Count == 0)
                     {
-                        EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет!";
+                        EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет.";
                     }
                     else
                     {
@@ -267,7 +298,7 @@ namespace Cafe_Managment.ViewModel
 
                     if (Cheques.Count == 0)
                     {
-                        EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет!";
+                        EmptyMessage = "Благодарим за работу!\nОднако заказов пока что нет.";
                     }
                     else
                     {
@@ -328,14 +359,17 @@ namespace Cafe_Managment.ViewModel
             switch (currentDish.Status)
             {
                 case 0:
-                    if (UserData.RoleId == 5 || UserData.RoleId ==7)
+                    if (UserData.RoleId == 5 || UserData.RoleId == 7)
                     {
                         currentDish.Status += 1;
                         dishesRepository.UpdateStatus(currentDish);
+                        UpdateLists(0);
+                        _notifier.ShowInformation($"Блюдо {currentDish.Title} из заказа №{temp[SelectedCheque].Id} готово к выдаче!");
+
                     }
                     else
                     {
-                        _notifier.ShowError("Только повара могут отмечать факт готовности блюда!");
+                        _notifier.ShowError("Только повара могут отмечать факт готовности блюда.");
                     }
 
                     break;
@@ -356,11 +390,12 @@ namespace Cafe_Managment.ViewModel
                             currentDish.Status = 2; // Устанавливаем статус "готово"
                                                     // Обновляем статус блюда в базе данных
                             dishesRepository.UpdateStatus(currentDish);
+                            UpdateLists(0);
                         }
                     }
                     else
                     {
-                        _notifier.ShowError("Только официанты могут отмечать факт выдачи блюда!");
+                        _notifier.ShowError("Только официанты могут отмечать факт выдачи блюда.");
                     }
                     break;
 

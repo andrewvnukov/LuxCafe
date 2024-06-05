@@ -33,6 +33,7 @@ namespace Cafe_Managment.Repositories
 {
     internal class DishesRepository : RepositoryBase, IDishesRepository
     {
+
         public DataTable GetAllDishesFromArchive()
         {
             DataTable dataTable = new DataTable();
@@ -66,13 +67,13 @@ namespace Cafe_Managment.Repositories
             {
                 // Логирование или вывод сообщений при ошибках MySQL
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
+                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 // Ловим все другие возможные исключения
                 Console.WriteLine($"General Error: {ex.Message}");
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
+                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -116,12 +117,12 @@ namespace Cafe_Managment.Repositories
             catch (MySqlException sqlEx)
             {
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
+                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"General Error: {ex.Message}");
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
+                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -172,12 +173,12 @@ namespace Cafe_Managment.Repositories
             catch (MySqlException sqlEx)
             {
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
+                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"General Error: {ex.Message}");
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
+                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -228,13 +229,13 @@ namespace Cafe_Managment.Repositories
             {
                 // Обработка ошибок MySQL
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
+                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 // Обработка общих ошибок
                 Console.WriteLine($"General Error: {ex.Message}");
-                MessageBox.Show($"Произошла ошибка: {ex.Message}");
+                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -641,9 +642,10 @@ namespace Cafe_Managment.Repositories
 
         public int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice)
         {
+
             long insertedId = -1; // Инициализация переменной для хранения ID нового заказа
             MySqlConnection connection = null;
-
+          
             try
             {
                 connection = GetConnection();
@@ -655,13 +657,15 @@ namespace Cafe_Managment.Repositories
 
                     // Использование параметров для защиты от SQL-инъекций
                     command.CommandText = @"INSERT INTO orders (EmployeeId, BranchId, TotalPrice, GuestCount, Spot, CreatedAt)
-                                    VALUES (@EmployeeId, @BranchId, @TotalPrice, @GuestCount, @Spot, NOW())";
+                                    VALUES (@EmployeeId, @BranchId, @TotalPrice, @GuestCount, @Spot, @CreatedAt)";
 
                     command.Parameters.AddWithValue("@EmployeeId", UserData.Id);
                     command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
                     command.Parameters.AddWithValue("@TotalPrice", totalPrice);
                     command.Parameters.AddWithValue("@GuestCount", guestCount);
                     command.Parameters.AddWithValue("@Spot", spot);
+                    command.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+
 
                     command.ExecuteNonQuery();
                     insertedId = command.LastInsertedId; // Получение ID нового заказа
@@ -913,7 +917,12 @@ namespace Cafe_Managment.Repositories
                     }
                 }
             }
+            if (connection != null && connection.State == ConnectionState.Open)
+            {
+                connection.Close();
+            }
             return categories;
+            
         }
 
         public void AddDishToArchive(DishData dishData)
@@ -953,8 +962,7 @@ namespace Cafe_Managment.Repositories
             }
         }
 
-        public int UpdateOrder(int Id, List<DishData> dishData, float totalPrice)
-
+        public int UpdateOrder(int Id, List<DishData> dishData, float totalPrice, int guestCount, int spotNumber)
         {
             try
             {
@@ -965,10 +973,18 @@ namespace Cafe_Managment.Repositories
                     using (var command = new MySqlCommand())
                     {
                         command.Connection = connection;
-                        command.CommandText = "UPDATE orders SET TotalPrice = TotalPrice + @AmountToAdd, UpdatedAt = NOW() WHERE Id = @OrderId";
+                        command.CommandText = @"
+                    UPDATE orders 
+                    SET TotalPrice = TotalPrice + @AmountToAdd, 
+                        UpdatedAt = @UpdatedAt, 
+                        GuestCount = @GuestCount, 
+                        Spot = @SpotNumber
+                    WHERE Id = @OrderId";
                         command.Parameters.AddWithValue("@AmountToAdd", totalPrice);
                         command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
                         command.Parameters.AddWithValue("@OrderId", Id);
+                        command.Parameters.AddWithValue("@GuestCount", guestCount);
+                        command.Parameters.AddWithValue("@SpotNumber", spotNumber);
 
                         command.ExecuteNonQuery();
 

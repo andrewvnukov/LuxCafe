@@ -115,7 +115,7 @@ namespace Cafe_Managment.Repositories
                     command.Connection = connection;
                     //ROW_NUMBER() OVER() AS '№'
                     command.CommandText =
-                        @"SELECT c.Address, r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.DeletedAt, e.CreatedAt, e.IsDismissed
+                        @"SELECT c.Address AS 'Branch', r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.DeletedAt, e.CreatedAt, e.IsDismissed
                                 FROM dismissed_employees e 
                                 INNER JOIN roles r ON e.RoleId = r.Id
                                 INNER JOIN branches c ON e.BranchId = c.Id";
@@ -262,7 +262,7 @@ namespace Cafe_Managment.Repositories
                 {
                     //ROW_NUMBER() OVER() AS '№'
                     command.Connection = connection;
-                    command.CommandText = @"SELECT e.Id, c.Address, r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.UpdatedAt, e.CreatedAt, e.ProfileImage
+                    command.CommandText = @"SELECT e.Id, c.Address AS 'Branch', r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.UpdatedAt, e.CreatedAt, e.ProfileImage
                         FROM employees e 
                         INNER JOIN roles r ON e.RoleId = r.Id
                         INNER JOIN branches c ON e.BranchId = c.Id";

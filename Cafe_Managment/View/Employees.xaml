@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vn="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:local="clr-namespace:Cafe_Managment.View"
+             xmlns:local="clr-namespace:Cafe_Managment.View" xmlns:utilities="clr-namespace:Cafe_Managment.Utilities"
              d:DataContext="{d:DesignInstance Type=vn:EmployeeVM}"
 
              mc:Ignorable="d" 
@@ -14,7 +14,7 @@
         <CollectionViewSource x:Key="MyCollectionViewSource" Source="{Binding Employees}"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
+        <utilities:IndexConverter x:Key="IndexConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -40,29 +40,31 @@
                     </Button>
 
                     <DataGrid Grid.Row="6" x:Name="MembersDataGrid"
-                              
-                              RowStyle="{DynamicResource DataGridRowStyle1}"                            
-                              ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
-                              CellStyle="{DynamicResource DataGridCellStyle1}" 
-                              Style="{DynamicResource DataGridStyle1}"
-                              ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedItem="{Binding SelectedEmployeeItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              IsReadOnly="{Binding IsReadOnly}"
-                              CanUserReorderColumns="False" 
-                              AutoGenerateColumns="False"
-                              SelectionChanged="MembersDataGrid_SelectionChanged_1"
-                              Margin="10 0 10 0" 
-                              >
+                      RowStyle="{DynamicResource DataGridRowStyle1}"
+                      ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                      CellStyle="{DynamicResource DataGridCellStyle1}"
+                      Style="{DynamicResource DataGridStyle1}"
+                      ItemsSource="{Binding Employees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedIndex="{Binding SelectedEmployee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedEmployeeItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsReadOnly="{Binding IsReadOnly}"
+                      CanUserReorderColumns="False"
+                      MaxHeight="420"
+                      VerticalScrollBarVisibility="Hidden"
+                      AutoGenerateColumns="False"
+                      Margin="10 0 10 0">
 
                         <DataGrid.Columns>
+                            
+                            <DataGridTextColumn Header="№" Binding="{Binding Path=Index}" IsReadOnly="True" Width="30"/>
 
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" Width="auto" Margin="4 0 0 0">
-                                            <Button Style="{StaticResource GridEditButton}"  
-                                                        Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                            <Button Style="{StaticResource GridEditButton}"
+                                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>
@@ -70,40 +72,40 @@
                                             </Button>
 
                                             <Button Style="{StaticResource GridRemoveButton}"
-                                                    Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="CheckOutline" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
                                             <Button Style="{StaticResource GridInfoButton}"
-                                                    Command="{Binding DataContext.EditPhotoCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                                Command="{Binding DataContext.EditPhotoCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}">
                                                 <Button.DataContext>
                                                     <vn:EmployeeVM/>
                                                 </Button.DataContext>
                                                 <Icon:PackIconMaterial Kind="Camera" Style="{StaticResource gridButtonIcon}"/>
                                             </Button>
-
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
-
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Филиал"  IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Филиал" SortMemberPath="Address" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Address}" />
+                                        <TextBlock Text="{Binding Branch}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding Branch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Должность" IsReadOnly="true">
+                            <DataGridTemplateColumn Header="Должность" SortMemberPath="Title" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Title}" />
@@ -111,15 +113,12 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-        />
+                                        <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                           
-
-                            <DataGridTemplateColumn Header="Фамилия" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Фамилия" SortMemberPath="Surname" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Surname}" />
@@ -127,13 +126,12 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-         />
+                                        <TextBox Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Имя" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Имя" SortMemberPath="Name" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}" />
@@ -141,13 +139,12 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-         />
+                                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Отчество" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Отчество" SortMemberPath="Patronomic" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Patronomic}" />
@@ -160,7 +157,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата рождения" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата рождения" SortMemberPath="BirthDay" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding BirthDay}" />
@@ -173,7 +170,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Номер телефона" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Номер телефона" SortMemberPath="PhoneNumber" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding PhoneNumber}" />
@@ -186,7 +183,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Почта" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Почта" SortMemberPath="Email" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Email}" />
@@ -199,7 +196,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Адрес" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Адрес" SortMemberPath="Address" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Address}" />
@@ -212,7 +209,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата найма" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата найма" SortMemberPath="CreatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding CreatedAt}" />
@@ -225,7 +222,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата обновления данных" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата обновления данных" SortMemberPath="UpdatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding UpdatedAt}" />
@@ -284,21 +281,22 @@
 
                         <DataGrid.Columns>
 
+                            <DataGridTextColumn Header="№" Binding="{Binding Path=Index}" IsReadOnly="True"  />
 
-                            <DataGridTemplateColumn Header="Филиал"  IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Филиал" SortMemberPath="Branch"  IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Address}" />
+                                        <TextBlock Text="{Binding Branch}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding Branch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Должность" IsReadOnly="true">
+                            <DataGridTemplateColumn Header="Должность" SortMemberPath="Title" IsReadOnly="true">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Title}" />
@@ -312,7 +310,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Фамилия" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Фамилия" SortMemberPath="Surname" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Surname}" />
@@ -326,7 +324,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Имя" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Имя" SortMemberPath="Name" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}" />
@@ -340,7 +338,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Отчество" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Отчество" SortMemberPath="Patronomic" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Patronomic}" />
@@ -353,7 +351,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата рождения" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата рождения" SortMemberPath="BirthDay" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding BirthDay}" />
@@ -366,7 +364,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Номер телефона" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Номер телефона" SortMemberPath="PhoneNumber" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding PhoneNumber}" />
@@ -379,7 +377,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Почта" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Почта" SortMemberPath="Email" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Email}" />
@@ -392,7 +390,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Адрес" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Адрес" SortMemberPath="Address" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Address}" />
@@ -405,7 +403,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата найма" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата найма" SortMemberPath="CreatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding CreatedAt}" />
@@ -418,7 +416,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата увольнения" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата увольнения" SortMemberPath="DeletedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding DeletedAt}" />

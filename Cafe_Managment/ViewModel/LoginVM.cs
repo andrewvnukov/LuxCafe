@@ -132,7 +132,7 @@ namespace Cafe_Managment.ViewModel
                 // Сначала проверим, не уволен ли пользователь
                 var dismissedData = await Task.Run(() => userRepository.GetDismissedEmployees());
                 var isDismissed = dismissedData?.AsEnumerable()
-                                   .Any(row => row.Field<string>("Логин") == Username) ?? false;
+                                   .Any(row => row.Field<string>("Login") == Username) ?? false;
 
                 if (isDismissed)
                 {

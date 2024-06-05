@@ -62,6 +62,7 @@ namespace Cafe_Managment.ViewModel
                 if (_dismissedEmployees != value) // Проверяем, изменилось ли значение
                 {
                     _dismissedEmployees = value;
+                    AddIndexColumnToDisEmp(_dismissedEmployees); // Добавляем индексы без вызова сеттера
                     OnPropertyChanged(nameof(DismissedEmployees)); // Уведомляем об изменении
                 }
             }
@@ -98,7 +99,22 @@ namespace Cafe_Managment.ViewModel
                 if (_employees != value) // Проверяем, изменилось ли значение
                 {
                     _employees = value;
+                    AddIndexColumnToEmp(_employees); // Добавляем индексы без вызова сеттера
                     OnPropertyChanged(nameof(Employees)); // Уведомляем об изменении
+                }
+            }
+        }
+        private int _index;
+
+        public int Index
+        {
+            get => _index;
+            set
+            {
+                if (_index != value) // Проверяем, изменилось ли значение
+                {
+                    _index = value;
+                    OnPropertyChanged(nameof(Index)); // Уведомляем об изменении
                 }
             }
         }
@@ -111,7 +127,7 @@ namespace Cafe_Managment.ViewModel
 
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
-            Employees.Columns.Remove("Id");
+            //Employees.Columns.Remove("Id");
 
             tempdel = userRepository.GetDismissedEmployees();
             DismissedEmployees = tempdel.Copy();
@@ -129,6 +145,43 @@ namespace Cafe_Managment.ViewModel
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
             EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
+        }
+
+        public DataTable AddIndexColumnToEmp(DataTable table)
+        {
+            // Проверяем, есть ли уже столбец индекса
+            if (!table.Columns.Contains("Index"))
+            {
+                // Добавляем новый столбец
+                DataColumn indexColumn = new DataColumn("Index", typeof(int));
+                table.Columns.Add(indexColumn);
+            }
+
+            // Заполняем столбец индексами
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                table.Rows[i]["Index"] = i + 1;
+            }
+
+            return table;
+        }
+        public DataTable AddIndexColumnToDisEmp(DataTable table)
+        {
+            // Проверяем, есть ли уже столбец индекса
+            if (!table.Columns.Contains("Index"))
+            {
+                // Добавляем новый столбец
+                DataColumn indexColumn = new DataColumn("Index", typeof(int));
+                table.Columns.Add(indexColumn);
+            }
+
+            // Заполняем столбец индексами
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                table.Rows[i]["Index"] = i + 1;
+            }
+
+            return table;
         }
 
         private bool CanExecuteManageCommand(object arg)
@@ -151,7 +204,7 @@ namespace Cafe_Managment.ViewModel
             return new Notifier(cfg =>
             {
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromSeconds(40),
                     MaximumNotificationCount.FromCount(5));
 
                 cfg.PositionProvider = new PrimaryScreenPositionProvider(
@@ -188,7 +241,7 @@ namespace Cafe_Managment.ViewModel
                 _notifier.ShowError("Некорректный идентификатор сотрудника.");
                 return;
             }
-            EmpId = int.Parse(temp.Rows[int.Parse(dataRowView.Row[0].ToString()) - 1][1].ToString());
+            EmpId = int.Parse(dataRowView.Row[0].ToString());
             // Создаем новый объект с данными сотрудника
             EmpData newdata = new EmpData
             {
@@ -249,7 +302,8 @@ namespace Cafe_Managment.ViewModel
         {
             DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
 
-            int tempId = int.Parse(temp.Rows[SelectedEmployee][1].ToString());
+            int tempId = int.Parse(dataRowView.Row[0].ToString());
+
             string fullName = $"{dataRowView.Row[4].ToString()} {dataRowView.Row[3].ToString()} {dataRowView.Row[5].ToString()}";
 
             if (MessageBoxResult.Yes== MessageBox.Show($"Вы уверены что хотите уволить сотрудника\nПод номером {temp.Rows[SelectedEmployee][0].ToString()}?",
@@ -297,17 +351,19 @@ namespace Cafe_Managment.ViewModel
         {
             temp = userRepository.GetByAll();
             Employees = temp.Copy();
-            Employees.Columns.Remove("Id");
+            //Employees.Columns.Remove("Id");
 
             temp = userRepository.GetByAll();
             DataTable dtEmp = temp.Copy();
-            dtEmp.Columns.Remove("Id");
+            //dtEmp.Columns.Remove("Id");
             Employees = dtEmp.Copy();
+            AddIndexColumnToEmp(Employees);
 
             tempdel = userRepository.GetDismissedEmployees();
             DataTable dtEmpdel = tempdel.Copy();
             DismissedEmployees = dtEmp.Copy();
             DismissedEmployees = userRepository.GetDismissedEmployees();
+            AddIndexColumnToDisEmp(DismissedEmployees);
         }
 
     }

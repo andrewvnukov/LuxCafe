@@ -6,14 +6,17 @@
              xmlns:vn="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Cafe_Managment.View"
-             xmlns:viewmodel="clr-namespace:Cafe_Managment.ViewModel" 
+             xmlns:viewmodel="clr-namespace:Cafe_Managment.ViewModel" xmlns:local1="clr-namespace:Cafe_Managment.Utilities"
              d:DataContext="{d:DesignInstance Type=vn:MenuVM}"
 
     mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <vn:MenuVM/>
-    </UserControl.DataContext>
+    
+    
+    <UserControl.Resources>
+        <local1:IndexConverter x:Key="IndexConverter"/>
+    </UserControl.Resources>
+
 
     <Grid>
         <ScrollViewer x:Name="Viewer" 
@@ -59,7 +62,7 @@
 
                         <DataGrid.Columns>
 
-                            <DataGridTextColumn Header="№" Binding="{Binding №}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="№" Binding="{Binding Path=Index}" IsReadOnly="True"  />
 
                             <DataGridTemplateColumn Header="Действия" Width="auto">
                                 
@@ -103,7 +106,7 @@
 
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Раздел" SortMemberPath="Category" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Category}" />
@@ -116,7 +119,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Название" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Название" SortMemberPath="Denomination" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Denomination}" />
@@ -130,7 +133,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Описание" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Описание" SortMemberPath="Description" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Description}" 
@@ -147,7 +150,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Состав" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Состав" SortMemberPath="Composition" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Composition}" />
@@ -161,7 +164,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата добавления" SortMemberPath="CreatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding CreatedAt}" />
@@ -174,7 +177,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата последнего обновления" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата последнего обновления" SortMemberPath="UpdatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding UpdatedAt}" />
@@ -222,12 +225,12 @@
                               VerticalScrollBarVisibility="Hidden"
                               AutoGenerateColumns="False"
                               Margin="10 10 10 10" 
-
                         >
 
                         <DataGrid.Columns>
 
-                            <DataGridTextColumn Header="№" Binding="{Binding №}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="№" Binding="{Binding Path=Index}" IsReadOnly="True"  />
+
 
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -257,7 +260,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Раздел" SortMemberPath="Category" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Category}" />
@@ -270,7 +273,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Название" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Название" SortMemberPath="Denomination" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Denomination}" />
@@ -284,7 +287,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Описание" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Описание" SortMemberPath="Description" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Description}" 
@@ -299,7 +302,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Состав" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Состав" SortMemberPath="Composition" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Composition}" />
@@ -313,7 +316,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Цена" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Цена" SortMemberPath="Price" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Price}" />
@@ -327,20 +330,20 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата добавления" SortMemberPath="TransferedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding CreatedAt}" />
+                                        <TextBlock Text="{Binding TransferedAt}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Text="{Binding TransferedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата обновления цены" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата обновления цены" SortMemberPath="UpdatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding UpdatedAt}" />
@@ -382,7 +385,7 @@
                               >
                         <DataGrid.Columns>
 
-                            <DataGridTextColumn Header="№" Binding="{Binding №}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="№" Binding="{Binding Path=Index}" IsReadOnly="True"  />
 
                             <DataGridTemplateColumn Header="Действия" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -399,7 +402,7 @@
 
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Раздел"  IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Раздел" SortMemberPath="Category" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Category}" />
@@ -412,7 +415,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Название" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Название" SortMemberPath="Denomination" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Denomination}" />
@@ -426,7 +429,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Описание" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Описание" SortMemberPath="Composition" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Composition}" 
@@ -441,7 +444,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Состав" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Состав" SortMemberPath="Composition" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Composition}" />
@@ -455,7 +458,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата добавления" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата добавления" SortMemberPath="CreatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding CreatedAt}" />
@@ -468,7 +471,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
 
-                            <DataGridTemplateColumn Header="Дата последнего обновления" IsReadOnly="True">
+                            <DataGridTemplateColumn Header="Дата последнего обновления" SortMemberPath="UpdatedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding UpdatedAt}" />
@@ -480,8 +483,8 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
-                            
-                            <DataGridTemplateColumn Header="Дата удаления" IsReadOnly="True">
+
+                            <DataGridTemplateColumn Header="Дата удаления" SortMemberPath="DeletedAt" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding DeletedAt}" />

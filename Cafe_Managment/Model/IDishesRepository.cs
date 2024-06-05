@@ -13,7 +13,8 @@ namespace Cafe_Managment.Model
 {
     public interface IDishesRepository
     {
-        int UpdateOrder(int Id, List<DishData> dishData, float totalPrice);
+        int UpdateOrder(int Id, List<DishData> dishData, float totalPrice, int guestCount, int spotNumber);
+        int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice);
         List<string> GetAllCategories();
         DataTable GetAllDishesFromArchive();
         DataTable GetAllDishesFromMenu();
@@ -22,7 +23,6 @@ namespace Cafe_Managment.Model
         void TransferDishToActiveMenu(DishData dish);
         List<DishData> GetDishListByCategory(int CatId);
         ObservableCollection<ChequeModel> GetActiveOrders();
-        int CreateNewOrder(List<DishData> dishList, int spot, int guestCount, float totalPrice);
         void UpdateStatus(DishData dish);
         void IsOrderReady(ChequeModel cheque);
         DataTable RestoreDeletedDish(DishData dish);

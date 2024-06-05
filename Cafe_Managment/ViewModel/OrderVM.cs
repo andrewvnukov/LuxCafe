@@ -94,7 +94,7 @@ namespace Cafe_Managment.ViewModel
 
         public OrderVM() 
         {
-            _tableNumbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            _tableNumbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             _notifier = CreateNotifier();
 
@@ -111,6 +111,7 @@ namespace Cafe_Managment.ViewModel
             CategoryList = new List<Category>();
             SelectedDishes = new List<DishData>();
             tempL = new List<DishData>();
+            
 
             CategoryList.Add(new Category("Напитки", "/Images/Categories/Drinks.png"));
             CategoryList.Add(new Category("Закуски", "/Images/Categories/Snacks.png"));
@@ -143,14 +144,14 @@ namespace Cafe_Managment.ViewModel
 
         private bool CanExecuteCreateOrderCommand(object arg)
         {
-            return (GuestCount >0 && SpotNumber >0);
+            return GuestCount > 0 && SpotNumber > 0 && SelectedDishes != null && SelectedDishes.Count > 0;
         }
 
         private void ExecuteCreateOrderCommand(object obj)
         {
             if (UserData.OrderId != 0)
             {
-                switch (dishesRepository.UpdateOrder(UserData.OrderId,tempL,TotalPrice))
+                switch (dishesRepository.UpdateOrder(UserData.OrderId, tempL, TotalPrice, GuestCount, SpotNumber))
                 {
                     case 1:
                         _notifier.ShowSuccess($"Блюда были успешно добавлены в заказ №{UserData.OrderId}!");
@@ -215,10 +216,10 @@ namespace Cafe_Managment.ViewModel
             float parsedPrice = (float)Math.Round(float.Parse(temp.Price), 1);
 
             // Проверка на количество блюд в корзине
-            if (tempL.Count >= 10)
+            if (tempL.Count >= 15)
             {
                 // Отправить уведомление о превышении лимита
-                _notifier.ShowWarning($"Превышен лимит на количество добавленных блюд (10 блюд максимум).");
+                _notifier.ShowWarning($"Превышен лимит на количество добавленных блюд.");
                 return;
             }
 
@@ -247,7 +248,7 @@ namespace Cafe_Managment.ViewModel
                 tempL.Add(new DishData
                 {
                     Id = temp.Id,
-                    Price = parsedPrice.ToString("F1"), // Ensure Price has one decimal place
+                    Price = parsedPrice.ToString("F1"),
                     Title = temp.Title,
                     Count = 1,
                 });
