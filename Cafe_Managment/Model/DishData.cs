@@ -12,6 +12,7 @@ namespace Cafe_Managment.Model
 {
     public class DishData
     {
+
         public int Id { get; set; }
         public int CategoryId { get; set; }
         public string Title { get; set; }

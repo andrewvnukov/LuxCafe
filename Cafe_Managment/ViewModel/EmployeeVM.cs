@@ -146,6 +146,25 @@ namespace Cafe_Managment.ViewModel
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
             EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
         }
+        private Notifier CreateNotifier()
+        {
+            return new Notifier(cfg =>
+            {
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    TimeSpan.FromSeconds(40),
+                    MaximumNotificationCount.FromCount(5));
+
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.BottomRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.DisplayOptions.TopMost = true;
+                cfg.DisplayOptions.Width = 300;
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+        }
 
         public DataTable AddIndexColumnToEmp(DataTable table)
         {
@@ -194,30 +213,21 @@ namespace Cafe_Managment.ViewModel
         {
             DataRowView dataRowView = SelectedEmployeeItem as DataRowView;
             byte[] bitmapArray = dataRowView.Row[13] as byte[];
+
+            // Проверяем, есть ли фотография
+            if (bitmapArray == null || bitmapArray.Length == 0)
+            {
+                // Показываем уведомление
+                _notifier.ShowError("У данного сотрудника отсутствует фотография.");
+                return;
+            }
+
             BitmapImage bitmapImage = userRepository.ConvertByteArrayToBitmapImage(bitmapArray);
             PhotoEdit photoEdit = new PhotoEdit(bitmapImage);
             photoEdit.Show();
         }
 
-        private Notifier CreateNotifier()
-        {
-            return new Notifier(cfg =>
-            {
-                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    TimeSpan.FromSeconds(40),
-                    MaximumNotificationCount.FromCount(5));
-
-                cfg.PositionProvider = new PrimaryScreenPositionProvider(
-                    corner: Corner.BottomRight,
-                    offsetX: 10,
-                    offsetY: 10);
-
-                cfg.DisplayOptions.TopMost = true;
-                cfg.DisplayOptions.Width = 300;
-
-                cfg.Dispatcher = Application.Current.Dispatcher;
-            });
-        }
+        
 
         private void ExecuteSaveCommand(object obj)
         {

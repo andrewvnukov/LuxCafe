@@ -34,6 +34,8 @@ namespace Cafe_Managment.ViewModel
         private OrderVM _currentOrder;
         private bool _isOrderVisible;
         private bool _isCequesVisible;
+        private System.Timers.Timer _dishStatusCheckTimer;
+        private System.Timers.Timer statusCheckTimer;
 
         public bool IsChequesVisible
         {
@@ -136,6 +138,8 @@ namespace Cafe_Managment.ViewModel
 
         public KitchenVM()
         {
+            _notifier = CreateNotifier();
+
             IsChequesVisible = true;
             IsOrderVisible = false;
             _timer = new DispatcherTimer();
@@ -147,7 +151,13 @@ namespace Cafe_Managment.ViewModel
             _otherTimer.Interval = TimeSpan.FromSeconds(7);
             _otherTimer.Tick += OtherTimer_Tick; // Подписываемся на событие Tick
             _otherTimer.Start();
-            _notifier = CreateNotifier();
+
+            StartDishStatusCheckTimer();
+
+            statusCheckTimer = new System.Timers.Timer(5000); // Интервал 5 секунд
+            statusCheckTimer.Elapsed += OnStatusCheckTimerElapsed;
+            statusCheckTimer.AutoReset = true;
+            statusCheckTimer.Enabled = true;
 
             dishesRepository = new DishesRepository();
 
@@ -159,6 +169,92 @@ namespace Cafe_Managment.ViewModel
             //OpenOrderPageCommand = new RelayCommand(ExecuteOpenOrderPageCommand);
 
             UpdateLists(1);
+        }
+        public void StartDishStatusCheckTimer()
+        {
+            _dishStatusCheckTimer = new System.Timers.Timer();
+            _dishStatusCheckTimer.Interval = 7000; // Интервал в миллисекундах (например, 5 секунд)
+            _dishStatusCheckTimer.Elapsed += OnDishStatusCheckTimerElapsed;
+            _dishStatusCheckTimer.AutoReset = true;
+            _dishStatusCheckTimer.Enabled = true;
+        }
+       
+        private void CheckDishStatusUpdates()
+        {
+            // Получаем обновленные заказы
+            var updatedOrders = dishesRepository.GetActiveOrders();
+
+            // Перебираем каждый заказ
+            foreach (var order in updatedOrders)
+            {
+                // Перебираем каждое блюдо в заказе
+                foreach (var updatedDish in order.dishes)
+                {
+                    // Находим текущий заказ в локальном списке
+                    var currentOrder = temp.FirstOrDefault(o => o.Id == order.Id);
+                    if (currentOrder != null)
+                    {
+                        // Находим текущее блюдо в локальном заказе
+                        var currentDish = currentOrder.dishes.FirstOrDefault(d => d.Id == updatedDish.Id);
+                        if (currentDish != null && currentDish.Status != updatedDish.Status)
+                        {
+                            // Проверка статуса и роли пользователя
+                            if (updatedDish.Status == 1 && UserData.RoleId == 7 || UserData.RoleId == 6)
+                            {
+                                _notifier.ShowInformation($"Блюдо {updatedDish.Title} из заказа №{order.Id} готово к выдаче!");
+                            }
+
+                            // Для отладки: выводим информацию о блюде и его статусе
+                            //Debug.WriteLine($"Dish: {updatedDish.Title}, Old Status: {currentDish.Status}, New Status: {updatedDish.Status}");
+
+                            // Обновляем статус блюда в локальном кэше
+                            currentDish.Status = updatedDish.Status;
+                        }
+                    }
+                }
+            }
+
+            // Обновляем списки, чтобы отобразить изменения в UI
+            UpdateLists(0);
+        }
+
+        private void CheckOrderAndDishStatus()
+        {
+            var updatedOrders = dishesRepository.GetActiveOrders();
+
+            foreach (var order in updatedOrders)
+            {
+                // Проверяем, изменился ли статус заказа на "готово"
+                var currentOrder = temp.FirstOrDefault(o => o.Id == order.Id);
+                if (currentOrder != null)
+                {
+                    bool orderWasReady = currentOrder.dishes.All(d => d.Status == 2);
+                    bool orderIsNowReady = order.dishes.All(d => d.Status == 2);
+
+                    // Если заказ стал готовым
+                    if (!orderWasReady && orderIsNowReady)
+                    {
+                        _notifier.ShowSuccess($"Все блюда в заказе № {order.Id} готовы и выданы!");
+                    }
+                    // Если все блюда в заказе готовы и выданы
+                    else if (!orderWasReady && orderIsNowReady)
+                    {
+                        _notifier.ShowSuccess($"Все блюда в заказе № {order.Id} готовы и выданы!");
+                    }
+                } 
+            }
+
+            // Обновляем списки, чтобы отобразить актуальную информацию
+            UpdateLists(0);
+        }
+
+        private void OnDishStatusCheckTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            CheckDishStatusUpdates();
+        }
+        private void OnStatusCheckTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            CheckOrderAndDishStatus();
         }
 
         private void OtherTimer_Tick(object sender, EventArgs e)
@@ -254,7 +350,7 @@ namespace Cafe_Managment.ViewModel
             return new Notifier(cfg =>
             {
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    TimeSpan.FromSeconds(10),
+                    TimeSpan.FromSeconds(12),
                     MaximumNotificationCount.FromCount(5));
 
                 cfg.PositionProvider = new PrimaryScreenPositionProvider(
@@ -364,7 +460,7 @@ namespace Cafe_Managment.ViewModel
                         currentDish.Status += 1;
                         dishesRepository.UpdateStatus(currentDish);
                         UpdateLists(0);
-                        _notifier.ShowInformation($"Блюдо {currentDish.Title} из заказа №{temp[SelectedCheque].Id} готово к выдаче!");
+                        //_notifier.ShowInformation($"Блюдо {currentDish.Title} из заказа №{temp[SelectedCheque].Id} готово к выдаче!");
 
                     }
                     else

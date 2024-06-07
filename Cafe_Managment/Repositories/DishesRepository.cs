@@ -678,15 +678,18 @@ namespace Cafe_Managment.Repositories
 
                     foreach (DishData dish in dishList)
                     {
-                        command.CommandText = @"INSERT INTO orderdetails (DishId, OrderId, Quantity)
-                                       VALUES (@DishId, @OrderId, @Quantity)";
+                        for (int i = 0; i < dish.Count; i++)
+                        {
+                            command.CommandText = @"INSERT INTO orderdetails (DishId, OrderId, Quantity)
+                                    VALUES (@DishId, @OrderId, @Quantity)";
 
-                        command.Parameters.Clear(); // Удаление предыдущих параметров
-                        command.Parameters.AddWithValue("@DishId", dish.Id);
-                        command.Parameters.AddWithValue("@OrderId", insertedId);
-                        command.Parameters.AddWithValue("@Quantity", dish.Count);
+                            command.Parameters.Clear(); // Удаление предыдущих параметров
+                            command.Parameters.AddWithValue("@DishId", dish.Id);
+                            command.Parameters.AddWithValue("@OrderId", insertedId);
+                            command.Parameters.AddWithValue("@Quantity", 1); // Установка количества на 1
 
-                        command.ExecuteNonQuery();
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
 
