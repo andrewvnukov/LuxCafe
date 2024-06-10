@@ -154,7 +154,7 @@ namespace Cafe_Managment.ViewModel
 
             StartDishStatusCheckTimer();
 
-            statusCheckTimer = new System.Timers.Timer(5000); // Интервал 5 секунд
+            statusCheckTimer = new System.Timers.Timer(2000); 
             statusCheckTimer.Elapsed += OnStatusCheckTimerElapsed;
             statusCheckTimer.AutoReset = true;
             statusCheckTimer.Enabled = true;
@@ -173,7 +173,7 @@ namespace Cafe_Managment.ViewModel
         public void StartDishStatusCheckTimer()
         {
             _dishStatusCheckTimer = new System.Timers.Timer();
-            _dishStatusCheckTimer.Interval = 7000; // Интервал в миллисекундах (например, 5 секунд)
+            _dishStatusCheckTimer.Interval = 2000; 
             _dishStatusCheckTimer.Elapsed += OnDishStatusCheckTimerElapsed;
             _dishStatusCheckTimer.AutoReset = true;
             _dishStatusCheckTimer.Enabled = true;
