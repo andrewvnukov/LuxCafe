@@ -55,10 +55,10 @@
                         <TextBox Tag="Состав блюда"
                                  Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{DynamicResource LoginTextBox}"
-                                 Margin="20 0 0 18"
+                                 Margin="20 17 0 24"
                                  Height="auto"
                                  TextWrapping="Wrap"/>
-                        <ComboBox Margin="20"
+                        <ComboBox Margin="63,20,48.6,20" Style="{DynamicResource RegistrationComboBoxStyle}"
                                   SelectedIndex="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   ItemsSource="{Binding Categories, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>

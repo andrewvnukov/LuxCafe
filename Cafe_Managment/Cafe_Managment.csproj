@@ -488,9 +488,6 @@
     <Resource Include="Images\Back.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\EmptyImage.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Deleted.png" />
   </ItemGroup>
   <ItemGroup>
@@ -540,6 +537,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\EmptyImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -229,17 +229,17 @@
 </Style>
 
     <Style TargetType="ComboBox" x:Key="RegistrationComboBoxStyle">
-    <Setter Property="Foreground" Value="LightGray" />
-    <Setter Property="Background" Value="{DynamicResource SecondaryColor1}" />
-    <Setter Property="BorderBrush" Value="{StaticResource SecondaryColorBrush}" />
-    <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="FontSize" Value="14" />
-    <Setter Property="Height" Value="30" />
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="ComboBox" >
-                <Grid>
-                    <ToggleButton Name="ToggleButton"
+        <Setter Property="Foreground" Value="{StaticResource TextColorBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SecondaryColor1}" />
+        <Setter Property="BorderBrush" Value="LightGray" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox" >
+                    <Grid>
+                        <ToggleButton Name="ToggleButton"
                                   IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                   Background="{TemplateBinding Background}"
                                   BorderBrush="{TemplateBinding BorderBrush}"                                 
@@ -247,6 +247,7 @@
                                   Padding="{TemplateBinding Padding}"
                                   MinHeight="{TemplateBinding MinHeight}"
                                   IsHitTestVisible="True"
+                                    
                                   >
                             <ToggleButton.Content>
                                 <Path x:Name="Arrow" 
@@ -266,38 +267,35 @@
                                               Margin="5 -2 0 0"
                                               HorizontalAlignment="Left" />
 
-                    <Popup Name="Popup"
+                        <Popup Name="Popup"
                            Placement="Bottom"
                            IsOpen="{TemplateBinding IsDropDownOpen}"
                            AllowsTransparency="True"
                            Focusable="False"
                            PopupAnimation="Slide">
-                        <Grid Name="DropDown"
+                            <Grid Name="DropDown"
                               MinWidth="{TemplateBinding ActualWidth}"
                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
                               >
-                            <Border Background="{StaticResource BackgroundColorBrush}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                <Border Background="{StaticResource BackgroundColorBrush}"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
                                     CornerRadius="5"
                                     VerticalAlignment="Center">
-                                <ScrollViewer Margin="4"
+                                    <ScrollViewer Margin="4"
                                               SnapsToDevicePixels="True"
                                               VerticalScrollBarVisibility="Hidden">
-                                    <StackPanel IsItemsHost="True"
+                                        <StackPanel IsItemsHost="True"
                                                 KeyboardNavigation.DirectionalNavigation="Contained" />
-                                </ScrollViewer>
-                            </Border>
-                        </Grid>
-                    </Popup>
-                </Grid>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
-
-
-
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!-- Стиль для ComboBoxItem -->
     <Style TargetType="ComboBoxItem">

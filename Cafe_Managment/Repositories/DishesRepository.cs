@@ -67,13 +67,11 @@ namespace Cafe_Managment.Repositories
             {
                 // Логирование или вывод сообщений при ошибках MySQL
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 // Ловим все другие возможные исключения
                 Console.WriteLine($"General Error: {ex.Message}");
-                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -117,12 +115,10 @@ namespace Cafe_Managment.Repositories
             catch (MySqlException sqlEx)
             {
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"General Error: {ex.Message}");
-                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -173,12 +169,10 @@ namespace Cafe_Managment.Repositories
             catch (MySqlException sqlEx)
             {
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"General Error: {ex.Message}");
-                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -229,13 +223,11 @@ namespace Cafe_Managment.Repositories
             {
                 // Обработка ошибок MySQL
                 Console.WriteLine($"MySQL Error: {sqlEx.Message}");
-                //MessageBox.Show($"Ошибка базы данных: {sqlEx.Message}");
             }
             catch (Exception ex)
             {
                 // Обработка общих ошибок
                 Console.WriteLine($"General Error: {ex.Message}");
-                //MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
@@ -861,7 +853,6 @@ namespace Cafe_Managment.Repositories
             }
         }
 
-       
 
         public void IsOrderReady(ChequeModel cheque)
         {

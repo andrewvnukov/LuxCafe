@@ -61,10 +61,10 @@
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Доход" FontSize="14" Foreground="#f1f1f1" />
+                            <lvc:Axis Title="Выручка" FontSize="14" Foreground="#f1f1f1" />
                         </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.Series>
-                            <lvc:ColumnSeries Title="Доход" Values="{Binding IncomeSeriesCollection[0].Values}" Fill="#505F99"/>
+                            <lvc:ColumnSeries Title="Выручка:" Values="{Binding IncomeSeriesCollection[0].Values}" Fill="#505F99"/>
                         </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                 </Border>
@@ -137,15 +137,18 @@
                     Padding="10"
                     Margin="15 0 20 20">
                     <lvc:CartesianChart Height="200" Margin="0 0 10 0" >
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis LabelsRotation="35" Labels="{Binding TrendLabels}" FontSize="13" Foreground="#f1f1f1"/>
-                    </lvc:CartesianChart.AxisX>
-
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis LabelsRotation="35" Labels="{Binding TrendLabels}" FontSize="13" Foreground="#f1f1f1">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator Step="1"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis Title="Количество заказов" FontSize="14" Foreground="#f1f1f1"/>
                         </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.Series>
-                            <lvc:LineSeries Title="Заказано раз:" Values="{Binding TrendSeriesCollection[0].Values}" Fill="#80505F99"  Stroke="#80505F99" StrokeThickness="3"/>
+                            <lvc:LineSeries Title="Количество заказов:" Values="{Binding TrendSeriesCollection[0].Values}" Fill="#80505F99"  Stroke="#80505F99" StrokeThickness="3"/>
                         </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                 </Border>

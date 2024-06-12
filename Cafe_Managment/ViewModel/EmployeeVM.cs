@@ -40,6 +40,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand SaveCommand { get; set; }
         public ICommand InfoCommand { get; set; }
         public ICommand EditPhotoCommand { get; set; }
+        public ICommand EmpRefresh { get; set; }
 
         public bool IsReadOnly
         {
@@ -145,7 +146,14 @@ namespace Cafe_Managment.ViewModel
             SaveCommand = new RelayCommand(ExecuteSaveCommand);
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
             EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
+            EmpRefresh = new RelayCommand(ExecuteEmpRefresh);
         }
+
+        private void ExecuteEmpRefresh(object obj)
+        {
+            RefreshAll();
+        }
+
         private Notifier CreateNotifier()
         {
             return new Notifier(cfg =>
@@ -226,8 +234,6 @@ namespace Cafe_Managment.ViewModel
             PhotoEdit photoEdit = new PhotoEdit(bitmapImage);
             photoEdit.Show();
         }
-
-        
 
         private void ExecuteSaveCommand(object obj)
         {

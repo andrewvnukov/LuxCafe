@@ -7,7 +7,6 @@
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Cafe_Managment.View" xmlns:utilities="clr-namespace:Cafe_Managment.Utilities"
              d:DataContext="{d:DesignInstance Type=vn:EmployeeVM}"
-
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -18,9 +17,10 @@
     </UserControl.Resources>
 
     <Grid>
-        <ScrollViewer x:Name="Viewer" 
-                      VerticalScrollBarVisibility="Hidden"
-                      >
+        <ScrollViewer x:Name="Viewer" >
+            <ScrollViewer.Resources>
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
+            </ScrollViewer.Resources>
 
             <Grid Height="auto">
                 <TextBlock Text="Cотрудники" 
@@ -28,16 +28,28 @@
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
                 <StackPanel Margin="10 20 10 20" >
+                    
+                    <StackPanel Orientation="Horizontal">
 
-                    <!--Members Datagrid -->
-                    <Button Width="25"
+                        <!--Members Datagrid -->
+                        <Button Width="25"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Margin="10 10 0 10"
                             Style="{StaticResource GridInfoButton}" 
                             Command="{Binding InfoCommand}">
-                        <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
-                    </Button>
+                            <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                        
+                        <Button Width="25"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="10 10 0 10"
+                            Style="{StaticResource GridInfoButton}" 
+                            Command="{Binding EmpRefresh}">
+                            <Icon:PackIconMaterial Kind="TableRefresh" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
 
                     <DataGrid Grid.Row="6" x:Name="MembersDataGrid"
                       RowStyle="{DynamicResource DataGridRowStyle1}"
@@ -52,7 +64,7 @@
                       MaxHeight="420"
                       VerticalScrollBarVisibility="Hidden"
                       AutoGenerateColumns="False"
-                      Margin="10 0 10 0">
+                      Margin="10 0 0 0">
 
                         <DataGrid.Columns>
                             
@@ -266,7 +278,7 @@
                     <!--DismissedEmployeesDataGrid-->
 
                     <DataGrid Grid.Row="6" x:Name="DismissedEmployeesDataGrid" 
-                              Margin="10 10 10 0" 
+                              Margin="10 10 0 0" 
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
                               CellStyle="{DynamicResource DataGridCellStyle1}" 

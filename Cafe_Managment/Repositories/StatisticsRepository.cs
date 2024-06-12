@@ -93,15 +93,23 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = @"
-                SELECT DATE(CreatedAt) as Date, SUM(TotalPrice) as Profit
-                FROM orders
-                WHERE CreatedAt >= @startDate AND CreatedAt <= @endDate
-                GROUP BY DATE(CreatedAt)";
+                    command.CommandText = $@"
+                    SELECT 
+                        DATE(CreatedAt) AS Date, 
+                        SUM(TotalPrice) AS Profit
+                    FROM 
+                        orders
+                    WHERE 
+                        CreatedAt >= @startDate 
+                        AND CreatedAt <= @endDate
+                        AND BranchId = @BranchId
+                    GROUP BY 
+                        DATE(CreatedAt)";
+
 
                     command.Parameters.AddWithValue("@startDate", startDate);
                     command.Parameters.AddWithValue("@endDate", endDate);
-
+                    command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -154,7 +162,7 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = @"
+                    command.CommandText = $@"
                 SELECT 
                     da.Title AS dish_name,
                     SUM(od.Quantity) AS total_quantity
@@ -162,11 +170,14 @@ namespace Cafe_Managment.Repositories
                     orderdetails od
                     JOIN activemenu am ON od.DishId = am.Id
                     JOIN disharchive da ON am.DishId = da.Id
+                WHERE 
+                    am.BranchId = @BranchId
                 GROUP BY 
                     da.Title
                 ORDER BY 
                     total_quantity DESC
-                LIMIT 5"; // Возвращаем 5 самых популярных блюд
+                LIMIT 5";
+                    command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -220,19 +231,22 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = @"
-                SELECT 
-                    da.Title AS dish_name,
-                    SUM(od.Quantity) AS total_quantity
-                FROM 
-                    orderdetails od
-                    JOIN activemenu am ON od.DishId = am.Id
-                    JOIN disharchive da ON am.DishId = da.Id
-                GROUP BY 
-                    da.Title
-                ORDER BY 
-                    total_quantity ASC
-                LIMIT 5"; // Возвращаем 5 самых непопулярных блюд
+                    command.CommandText = $@"
+                    SELECT 
+                        da.Title AS dish_name,
+                        SUM(od.Quantity) AS total_quantity
+                    FROM 
+                        orderdetails od
+                        JOIN activemenu am ON od.DishId = am.Id
+                        JOIN disharchive da ON am.DishId = da.Id
+                    WHERE 
+                        am.BranchId = @BranchId
+                    GROUP BY 
+                        da.Title
+                    ORDER BY 
+                        total_quantity ASC
+                    LIMIT 5";
+                    command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -286,16 +300,18 @@ namespace Cafe_Managment.Repositories
                     command.Connection = connection;
 
                     // SQL-запрос для получения суммарного количества порций блюда по дням в заданном периоде
-                    command.CommandText = @"
-                SELECT DATE(orders.CreatedAt) AS OrderDate, SUM(orderdetails.Quantity) AS TotalQuantity
-                FROM orderdetails
-                JOIN orders ON orderdetails.OrderId = orders.Id
-                WHERE orderdetails.DishId = @DishId
-                  AND orders.CreatedAt BETWEEN @StartDate AND @EndDate
-                GROUP BY OrderDate
-                ORDER BY OrderDate";
+                    command.CommandText = $@"
+                    SELECT DATE(orders.CreatedAt) AS OrderDate, SUM(orderdetails.Quantity) AS TotalQuantity
+                    FROM orderdetails
+                    JOIN orders ON orderdetails.OrderId = orders.Id
+                    WHERE orderdetails.DishId = @DishId
+                      AND orders.CreatedAt BETWEEN @StartDate AND @EndDate
+                      AND orders.BranchId = @BranchId
+                    GROUP BY OrderDate
+                    ORDER BY OrderDate";
 
                     command.Parameters.AddWithValue("@DishId", dishId);
+                    command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
                     command.Parameters.AddWithValue("@StartDate", startDate);
                     command.Parameters.AddWithValue("@EndDate", endDate);
 
@@ -347,7 +363,7 @@ namespace Cafe_Managment.Repositories
                 using (var command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = @"SELECT
+                    command.CommandText = $@"SELECT
                                       am.Id,
                                       da.Title AS Title,
                                       da.Description,
@@ -356,7 +372,8 @@ namespace Cafe_Managment.Repositories
                                       am.TransferedAt AS CreatedAt
                                     FROM activemenu am
                                     INNER JOIN disharchive da ON am.DishId = da.Id
-                                    INNER JOIN categories c ON da.CategoryId = c.Id";
+                                    INNER JOIN categories c ON da.CategoryId = c.Id
+                                    WHERE am.BranchId = {UserData.BranchId}";
 
                     using (var reader = command.ExecuteReader())
                     {

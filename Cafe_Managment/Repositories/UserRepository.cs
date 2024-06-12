@@ -241,7 +241,7 @@ namespace Cafe_Managment.Repositories
             {
                 if (connection != null && connection.State == ConnectionState.Open)
                 {
-                    connection.Close(); // Закрыть соединение
+                    connection.Close(); 
                 }
             }
         }
@@ -260,12 +260,12 @@ namespace Cafe_Managment.Repositories
 
                 using (var command = new MySqlCommand())
                 {
-                    //ROW_NUMBER() OVER() AS '№'
                     command.Connection = connection;
-                    command.CommandText = @"SELECT e.Id, c.Address AS 'Branch', r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.UpdatedAt, e.CreatedAt, e.ProfileImage
+                    command.CommandText = $@"SELECT e.Id, c.Address AS 'Branch', r.Title, e.Name, e.Surname, e.Patronomic, e.PhoneNumber, e.Email, DATE_FORMAT(e.BirthDay, '%d-%m-%Y') AS 'BirthDay', e.Login, e.Address, e.UpdatedAt, e.CreatedAt, e.ProfileImage
                         FROM employees e 
                         INNER JOIN roles r ON e.RoleId = r.Id
-                        INNER JOIN branches c ON e.BranchId = c.Id";
+                        INNER JOIN branches c ON e.BranchId = c.Id
+                        WHERE e.BranchId = { UserData.BranchId}";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                     adapter.Fill(dataTable);
@@ -341,7 +341,7 @@ namespace Cafe_Managment.Repositories
 
                             if (reader.IsDBNull(reader.GetOrdinal("ProfileImage")))
                             {
-                                UserData.ProfileImage = new BitmapImage(new Uri("/Images/EmptyImage.jpg", UriKind.Relative));
+                                UserData.ProfileImage = new BitmapImage(new Uri("/Images/EmptyImage.png", UriKind.Relative));
                             }
                             else
                             {
@@ -749,8 +749,11 @@ namespace Cafe_Managment.Repositories
                 connection = GetConnection();
                 connection.Open();
 
-                using (var command = new MySqlCommand("SELECT address FROM branches", connection))
+                using (var command = new MySqlCommand("SELECT address FROM branches WHERE BranchId = @BranchId", connection))
                 {
+                    // Использование параметра для фильтрации по BranchId
+                    command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
+
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -772,7 +775,7 @@ namespace Cafe_Managment.Repositories
             {
                 if (connection != null && connection.State == ConnectionState.Open)
                 {
-                    connection.Close(); // Гарантируем закрытие соединения
+                    connection.Close();
                 }
             }
 

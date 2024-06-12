@@ -65,14 +65,14 @@
          Width="auto"
          HorizontalAlignment="Center"
          Tag="Имя"
-         Text="{Binding CurrentData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+         Text="{Binding CurrentData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
                     Margin="10,10,0,10">
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
                         Width="auto"
                         HorizontalAlignment="Center"
-                        Tag="Отчество"
+                        Tag="Отчество" IsReadOnly="True"
                         Text="{Binding CurrentData.Patronomic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
@@ -80,7 +80,7 @@
                     <TextBox Style="{DynamicResource Textbox_Outer1}"
                                  Width="auto"
                                  HorizontalAlignment="Center"
-                                 Tag="Дата рождения"
+                                 Tag="Дата рождения" IsReadOnly="True"
                                  Text="{Binding CurrentData.BirthDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
@@ -88,7 +88,7 @@
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
                                  Width="auto"
                                  HorizontalAlignment="Center"
-                                 Tag="Должность"
+                                 Tag="Должность" IsReadOnly="True"
                                  Text="{Binding Role, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
@@ -96,7 +96,7 @@
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
                                  Width="auto"
                                  HorizontalAlignment="Center"
-                                 Tag="Филиал"
+                                 Tag="Филиал" IsReadOnly="True"
                                  Text="{Binding Branch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"
@@ -104,7 +104,7 @@
                         <TextBox Style="{DynamicResource Textbox_Outer1}"
                                  Width="auto"
                                  HorizontalAlignment="Center"
-                                 Tag="Дата найма"
+                                 Tag="Дата найма" IsReadOnly="True"
                                  Text="{Binding CurrentData.CreatedAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     

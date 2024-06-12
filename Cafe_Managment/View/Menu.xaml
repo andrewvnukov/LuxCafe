@@ -19,9 +19,10 @@
 
 
     <Grid>
-        <ScrollViewer x:Name="Viewer" 
-                      VerticalScrollBarVisibility="Hidden"
-                      >
+        <ScrollViewer x:Name="Viewer" >
+            <ScrollViewer.Resources>
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource CustomVerticalScrollBarStyle}"/>
+            </ScrollViewer.Resources>
 
         <Grid Height="auto"
                   >
@@ -30,21 +31,34 @@
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"/>
 
-                <StackPanel Margin="10 20 10 20">
-                    <Button Width="25" Style="{StaticResource GridInfoButton}"
+                <StackPanel Margin="10 20 10 20" >
+                    <StackPanel Orientation="Horizontal" >
+
+                        <Button Width="25" Style="{StaticResource GridInfoButton}"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left"
                             Margin="10"
                        Command="{Binding DataContext.InfoCommandArchive, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
-                        <Button.DataContext>
-                            <vn:MenuVM/>
-                        </Button.DataContext>
-                        <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
-                    </Button>
+                            <Button.DataContext>
+                                <vn:MenuVM/>
+                            </Button.DataContext>
+                            <Icon:PackIconMaterial Kind="InformationOutline" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
 
+                        <Button Width="25" Style="{StaticResource GridInfoButton}"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            Margin="10"
+                       Command="{Binding DataContext.RefreshDB, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
+                            <Button.DataContext>
+                                <vn:MenuVM/>
+                            </Button.DataContext>
+                            <Icon:PackIconMaterial Kind="TableRefresh" Style="{StaticResource gridButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
                     <!--ArchiveDataGrid-->
 
-                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 0 10 10" 
+                    <DataGrid Grid.Row="6" x:Name="ArchiveDataGrid" Margin="10 0 0 10" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 
@@ -224,7 +238,7 @@
                               MaxHeight="420"
                               VerticalScrollBarVisibility="Hidden"
                               AutoGenerateColumns="False"
-                              Margin="10 10 10 10" 
+                              Margin="10 10 0 10" 
                         >
 
                         <DataGrid.Columns>
@@ -369,7 +383,7 @@
 
                             <!--DeletedFromArchiveDataGrid-->
 
-                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 10 10 10" 
+                            <DataGrid Grid.Row="6" x:Name="DeletedFromArchiveDataGrid" Margin="10 10 0 10" 
                               
                               RowStyle="{DynamicResource DataGridRowStyle1}"                            
                               ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" 

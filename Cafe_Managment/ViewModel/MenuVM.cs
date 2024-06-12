@@ -67,6 +67,7 @@ namespace Cafe_Managment.ViewModel
         public ICommand CloseWindowCommand { get; set; }
         public ICommand SavePriceCommand { get; set; }
         public ICommand RestoreDishCommand { get; set; }
+        public ICommand RefreshDB { get; set; }
 
        
         public int SelectedCategory
@@ -330,6 +331,12 @@ namespace Cafe_Managment.ViewModel
             ShowDataSuccessfullyUpdatedCommand = new RelayCommand(ExecuteShowDataSuccessfullyUpdatedCommand);
             ShowDishSuccessfullyTransferedCommand = new RelayCommand(ExecuteShowDishSuccessfullyTransferedCommand);
             ShowPriceSuccessfullyUpdatedCommand = new RelayCommand(ExecuteShowPriceSuccessfullyUpdatedCommand);
+            RefreshDB = new RelayCommand(ExecuteRefreshDB);
+        }
+
+        private void ExecuteRefreshDB(object obj)
+        {
+            RefreshArchive();
         }
 
         public DataTable AddIndexColumnToAm(DataTable table)
