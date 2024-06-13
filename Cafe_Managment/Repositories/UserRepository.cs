@@ -749,11 +749,8 @@ namespace Cafe_Managment.Repositories
                 connection = GetConnection();
                 connection.Open();
 
-                using (var command = new MySqlCommand("SELECT address FROM branches WHERE BranchId = @BranchId", connection))
+                using (var command = new MySqlCommand("SELECT address FROM branches", connection))
                 {
-                    // Использование параметра для фильтрации по BranchId
-                    command.Parameters.AddWithValue("@BranchId", UserData.BranchId);
-
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())

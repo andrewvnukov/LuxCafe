@@ -6,7 +6,9 @@
              xmlns:vn="clr-namespace:Cafe_Managment.ViewModel"
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Cafe_Managment.View"
-             xmlns:viewmodel="clr-namespace:Cafe_Managment.ViewModel" xmlns:local1="clr-namespace:Cafe_Managment.Utilities"
+             xmlns:viewmodel="clr-namespace:Cafe_Managment.ViewModel"
+             xmlns:local1="clr-namespace:Cafe_Managment.Utilities"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=vn:MenuVM}"
 
     mc:Ignorable="d" 
@@ -142,7 +144,11 @@
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Denomination, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                     IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                            <i:Interaction.Behaviors>
+                                                <local1:TextBoxInputValidationBehavior RegexPattern='^[\w\s\.,\-\""]+$' />
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -150,16 +156,17 @@
                             <DataGridTemplateColumn Header="Описание" SortMemberPath="Description" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Description}" 
-                                                   MaxWidth="300"
-                                                    TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Description}" MaxWidth="300" TextWrapping="Wrap"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 MaxWidth="300"
-                                                    TextWrapping="Wrap"/>
+                                        <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     MaxWidth="300" TextWrapping="Wrap">
+                                            <i:Interaction.Behaviors>
+                                                <local1:TextBoxInputValidationBehavior RegexPattern='^[\w\s\.,\-\""]+$'/>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -173,7 +180,11 @@
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Composition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-         IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                     IsReadOnly="{Binding DataContext.CanEditColumns, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                            <i:Interaction.Behaviors>
+                                                <local1:TextBoxInputValidationBehavior RegexPattern='^[\w\s\.,\-\""]+$'/>
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>

@@ -449,7 +449,7 @@ namespace Cafe_Managment.ViewModel
                 Id = int.Parse(dataRowView.Row[0].ToString())
             };
 
-            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
+            _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено из архива блюд!");
         }
         private void ExecuteShowDishSuccessfullyTransferedCommand(object obj)
         {
@@ -475,14 +475,14 @@ namespace Cafe_Managment.ViewModel
 
         private void ExecuteShowPriceSuccessfullyUpdatedCommand(object obj)
         {
-            DataRowView dataRowView = SelectedItemMenu as DataRowView;
+            //DataRowView dataRowView = SelectedItemMenu as DataRowView;
 
-            DishData data = new DishData
-            {
-                Id = int.Parse(dataRowView.Row[0].ToString()),
-            };
+            //DishData data = new DishData
+            //{
+            //    Id = int.Parse(dataRowView.Row[0].ToString())
+            //};
 
-            _notifier.ShowSuccess($"Цена блюда {dataRowView.Row[2].ToString()}\nуспешно изменена!");  
+            _notifier.ShowSuccess($"Цена блюда успешно изменена!");  
         }
        
         private void ExecuteRestoreDishCommand(object obj)
@@ -549,7 +549,7 @@ namespace Cafe_Managment.ViewModel
                 // Обновляем интерфейс, если необходимо
                 RefreshMenu();
 
-                _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено!");
+                _notifier.ShowSuccess($"Блюдо {dataRowView.Row[2].ToString()}\nуспешно удалено из активного меню!");
 
             }
         }
@@ -582,7 +582,7 @@ namespace Cafe_Managment.ViewModel
                         ActiveMenu = dtMenu.Copy();
 
                         updatePrice.Close(); // Закрываем окно
-                        ExecuteShowPriceSuccessfullyUpdatedCommand(null); // Показать уведомление о смене цены
+                        ExecuteShowPriceSuccessfullyUpdatedCommand(dataRowView); // Показать уведомление о смене цены
 
                     }
                     catch (Exception ex)

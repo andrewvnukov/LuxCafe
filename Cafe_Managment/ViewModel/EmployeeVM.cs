@@ -276,10 +276,10 @@ namespace Cafe_Managment.ViewModel
             var columnNames = dataTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList();
 
             // Пример вывода названий столбцов
-            foreach (var columnName in columnNames)
-            {
-                Debug.WriteLine($"Столбец: {columnName}");
-            }
+            //foreach (var columnName in columnNames)
+            //{
+            //    Debug.WriteLine($"Столбец: {columnName}");
+            //}
 
             userRepository.UpdateEmployee(newdata); // Обновление данных сотрудника
 

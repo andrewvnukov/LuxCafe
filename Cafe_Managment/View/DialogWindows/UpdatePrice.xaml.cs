@@ -31,20 +31,23 @@ namespace Cafe_Managment.View.DialogWindows
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
+            TextBox textBox = (TextBox)sender;
+
             // Проверяем, является ли вводимый символ числом или точкой
-            if (!char.IsDigit(e.Text, 0) && e.Text != ".")
+            if (!char.IsDigit(e.Text, 0) && e.Text != "." && e.Text != ",")
             {
                 e.Handled = true; // Если не является числом или точкой, отменяем ввод
             }
-            else
+            else if (e.Text == "." || e.Text == ",")
             {
-                // Если введена точка, проверяем, есть ли уже точка в текстовом поле
-                if (e.Text == "." && ((TextBox)sender).Text.Contains("."))
-                {
-                    e.Handled = true; // Если точка уже есть, отменяем ввод
-                }
+                // Если введена точка, показываем сообщение об ошибке
+                MessageBox.Show("Можно вводить только целые числа.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                e.Handled = true; // Отменяем ввод точки
             }
         }
+
+        
+
         public string GetInput()
         {
             return newPrice.Text;

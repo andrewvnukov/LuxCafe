@@ -208,6 +208,7 @@
     <Compile Include="Repositories\DishesRepository.cs" />
     <Compile Include="Repositories\StatisticsRepository.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
+    <Compile Include="Utilities\TextBoxInputValidationBehavior.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\NewDishVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\UpdatePriceVM.cs" />

@@ -27,6 +27,7 @@
             MouseLeftButtonDown="Grid_MouseLeftButtonDown">
         <StackPanel Orientation="Vertical"
                     Margin="0 20 0 0">
+            
             <TextBlock Text="Обновление цены"
                        Style="{DynamicResource Text_Headline2}"/>
             <TextBox Style="{DynamicResource LoginTextBox}"
@@ -37,7 +38,7 @@
                      Tag="Новая цена"/>
             <Button Style="{DynamicResource DefaultButton}"
                     Command="{Binding SavePriceCommand}"
-                    Content="Добавить"
+                    Content="Сохранить"
                     VerticalAlignment="Bottom"
                     Margin="20"
                     Width="125"
