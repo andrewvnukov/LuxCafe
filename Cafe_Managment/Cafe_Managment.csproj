@@ -209,6 +209,7 @@
     <Compile Include="Repositories\StatisticsRepository.cs" />
     <Compile Include="Utilities\RelayCommandForType.cs" />
     <Compile Include="Utilities\TextBoxInputValidationBehavior.cs" />
+    <Compile Include="ViewModel\DialogWindowsVM\NewBranchVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\NewDishVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\RegistrationVM.cs" />
     <Compile Include="ViewModel\DialogWindowsVM\UpdatePriceVM.cs" />
@@ -216,6 +217,9 @@
     <Compile Include="ViewModel\LoadingVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\ViewWindowVM.cs" />
+    <Compile Include="View\DialogWindows\NewBranch.xaml.cs">
+      <DependentUpon>NewBranch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DialogWindows\NewDish.xaml.cs">
       <DependentUpon>NewDish.xaml</DependentUpon>
     </Compile>
@@ -309,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\NewBranch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

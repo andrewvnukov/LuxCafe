@@ -18,6 +18,7 @@ using ToastNotifications.Position;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using Cafe_Managment.View.DialogWindows;
 
 namespace Cafe_Managment.ViewModel
 {
@@ -25,8 +26,13 @@ namespace Cafe_Managment.ViewModel
     {
         UserRepository userRepository;
         private Notifier _notifier;
+        public NewBranch newBranch;
+        private Window currentWindow; // Свойство для хранения ссылки на текущее окно
+
         private string _previousPhoneNumber;
         private string _previousEmail;
+        private string _newBranch;
+        private bool _isViewVisible;
 
         private EmpData _currentData;
         private string _fullname;
@@ -39,13 +45,17 @@ namespace Cafe_Managment.ViewModel
         public ICommand EditNumber { get; set; }
         public ICommand EditPicture { get; set; }
         public ICommand FormatNumber { get; set; }
-
+       
+        public ICommand SaveBranchCommand { get; set; }
+        public ICommand CloseWindowCommand { get; set; }
+        public ICommand ShowAddBranchCommand { get; set; }
 
 
         public string Role {get; set;}
         public string Branch { get; set;}
 
         private string _phoneNumber;
+
 
         public string PhoneNumber
         {
@@ -59,7 +69,24 @@ namespace Cafe_Managment.ViewModel
                 }
             }
         }
-
+        public string NewBranch
+        {
+            get { return _newBranch; }
+            set
+            {
+                _newBranch = value;
+                OnPropertyChanged(nameof(NewBranch));
+            }
+        }
+        public bool IsViewVisible
+        {
+            get { return _isViewVisible; }
+            set
+            {
+                _isViewVisible = value;
+                OnPropertyChanged(nameof(IsViewVisible));
+            }
+        }
         private string _email;
 
         public string Email
@@ -106,7 +133,16 @@ namespace Cafe_Managment.ViewModel
             set { _currentData = value; OnPropertyChanged(nameof(CurrentData)); }
         }
 
-
+        private string newBranchName;
+        public string NewBranchName
+        {
+            get { return newBranchName; }
+            set
+            {
+                newBranchName = value;
+                OnPropertyChanged(nameof(NewBranchName));
+            }
+        }
 
         public string Fullname
         {
@@ -122,6 +158,7 @@ namespace Cafe_Managment.ViewModel
             _isAddressReadOnly = true;
             _isEmailReadOnly=true;
             _isNumberReadOnly=true;
+            IsViewVisible = true;
 
             CurrentData = new EmpData
             {
@@ -141,7 +178,10 @@ namespace Cafe_Managment.ViewModel
             EditNumber = new RelayCommand(ExecuteEditNumber);
             EditPicture = new RelayCommand(ExecuteEditPicture);
             FormatNumber = new RelayCommand(ExecuteFormatNumber);
-            
+            SaveBranchCommand = new RelayCommand(ExecuteSaveBranchCommand, CanExecuteSaveBranchCommand);
+            CloseWindowCommand = new RelayCommand(ExecuteCloseDialogCommand);
+            ShowAddBranchCommand = new RelayCommand(ExecuteShowAddBranchCommand, CanAdministrate);
+
             Role = userRepository.GetRoleById(UserData.RoleId);
             Branch = userRepository.GetBranchById(UserData.BranchId);
             Fullname = $"{UserData.Surname} {UserData.Name} {UserData.Patronomic}";
@@ -150,7 +190,44 @@ namespace Cafe_Managment.ViewModel
             _previousPhoneNumber = CurrentData.PhoneNumber;
 
             _previousEmail = CurrentData.Email;
+ 
+        }
 
+        private void ExecuteShowAddBranchCommand(object obj)
+        {
+            var newBranchWindow = new NewBranch();
+            newBranchWindow.DataContext = this;
+            currentWindow = newBranchWindow; 
+            newBranchWindow.ShowDialog();
+        }
+
+        private void ExecuteCloseDialogCommand(object obj)
+        {
+            NewBranch = "";
+            IsViewVisible = false;
+            //ExecuteShowDishSuccessfullyTransferedCommand(null);
+        }
+        private bool CanAdministrate(object arg)
+        {
+            return (UserData.RoleId == 2 || UserData.RoleId == 7);
+        }
+        private void ExecuteSaveBranchCommand(object obj)
+        {
+            try
+            {
+                userRepository.AddBranch(NewBranchName);
+                _notifier.ShowSuccess($"Филиал '{NewBranchName}' успешно добавлен.");
+                currentWindow.Close(); // Закрываем окно после добавления филиала
+
+            }
+            catch (Exception ex)
+            {
+                _notifier.ShowError(ex.Message);
+            }
+        }
+        private bool CanExecuteSaveBranchCommand(object arg)
+        {
+            return !string.IsNullOrWhiteSpace(NewBranchName);
         }
 
         public void ExecuteFormatNumber(object parameter)
@@ -183,7 +260,7 @@ namespace Cafe_Managment.ViewModel
 
         private bool IsValidAddress(string address)
         {
-            string pattern = @"^г\.\w+,\sул\.\w+,\sд\.\d+,\sкв\.\d+\.$";
+            string pattern = @"^[\w\s,.-]*$";
             return Regex.IsMatch(address, pattern);
         }
 
@@ -204,7 +281,7 @@ namespace Cafe_Managment.ViewModel
                 }
                 else
                 {
-                    _notifier.ShowError("Неверный формат адреса! Адрес должен иметь вид: г.Москва, ул.Западная, д.2, кв.69.");
+                    _notifier.ShowError("Неверный формат адреса! Адрес не должен включать в себя специальные символы.");
                     CurrentData.Address = string.Empty;
                 }
             }

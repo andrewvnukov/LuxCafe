@@ -9,34 +9,33 @@ using System.Windows.Input;
 
 namespace Cafe_Managment.ViewModel.DialogWindowsVM
 {
-    internal class UpdatePriceVM : ViewModelBase
+    class NewBranchVM : ViewModelBase
     {
         private bool _isViewVisible;
 
         public bool IsViewVisible
         {
             get { return _isViewVisible; }
-            set { _isViewVisible = value; 
-            OnPropertyChanged(nameof(IsViewVisible));}
+            set
+            {
+                _isViewVisible = value;
+                OnPropertyChanged(nameof(IsViewVisible));
+            }
         }
 
         public ICommand SaveChanges { get; set; }
 
-        public UpdatePriceVM()
+        public NewBranchVM()
         {
             _isViewVisible = true;
 
-            SaveChanges = new RelayCommand(ExecuteSaveChanges, CanExecuteSaveChanges);
-        }
-
-        private bool CanExecuteSaveChanges(object arg)
-        {
-            throw new NotImplementedException();
+            SaveChanges = new RelayCommand(ExecuteSaveChanges);
         }
 
         private void ExecuteSaveChanges(object obj)
         {
             IsViewVisible = false;
         }
+
     }
 }

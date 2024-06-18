@@ -30,7 +30,6 @@ namespace Cafe_Managment.ViewModel
         private bool _isReadOnly;
         private object _selectedEmployeeItem;
 
-
         DataTable temp = new DataTable();
         DataTable tempdel = new DataTable();
     
@@ -41,7 +40,9 @@ namespace Cafe_Managment.ViewModel
         public ICommand InfoCommand { get; set; }
         public ICommand EditPhotoCommand { get; set; }
         public ICommand EmpRefresh { get; set; }
+       
 
+       
         public bool IsReadOnly
         {
             get { return _isReadOnly; }
@@ -147,8 +148,9 @@ namespace Cafe_Managment.ViewModel
             InfoCommand = new RelayCommand(ExecuteInfoCommand);
             EditPhotoCommand = new RelayCommand(ExecuteEditPhotoCommand);
             EmpRefresh = new RelayCommand(ExecuteEmpRefresh);
+ 
         }
-
+        
         private void ExecuteEmpRefresh(object obj)
         {
             RefreshAll();

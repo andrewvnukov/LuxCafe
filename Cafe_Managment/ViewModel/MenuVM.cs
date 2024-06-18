@@ -520,7 +520,6 @@ namespace Cafe_Managment.ViewModel
         {
             NewPrice = "";
             IsViewVisible = false;
-            ExecuteShowDishSuccessfullyTransferedCommand(null);
         }
 
         private void ExecuteDeleteRowCommandMenu(object obj)

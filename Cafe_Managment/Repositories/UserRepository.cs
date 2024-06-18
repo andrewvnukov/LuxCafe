@@ -929,6 +929,37 @@ namespace Cafe_Managment.Repositories
                 }
             }
         }
+        public void AddBranch(string branchName)
+        {
+            MySqlConnection connection = null;
+
+            try
+            {
+                connection = GetConnection();
+                connection.Open();
+
+                using (var command = new MySqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = @"INSERT INTO branches (Address, CreatedAt) VALUES (@Address, @CreatedAt)";
+                    command.Parameters.AddWithValue("@Address", branchName);
+                    command.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception($"Ошибка при добавлении филиала: {ex.Message}", ex);
+            }
+            finally
+            {
+                if (connection != null && connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
 
     }
 }
